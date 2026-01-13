@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Mafijos žaidimo organizavimo paslaugos Vilniuje. Žaidimo ir renginio organizavimas, atributikos nuoma. Profesionalūs vedėjai ir visa reikalinga įranga. Paskaičiuokite kainą per kelias minutes.">
+    <meta name="keywords" content="mafija paslaugos, mafija kaina, renginių organizavimas, atributikos nuoma, mafija įmonėms, mafija žaidimas kaina">
+    
+    <title>Paslaugos - Mafija žaidimo organizavimas Vilniuje</title>
+    
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-wrapper">
+                <a href="index.html" class="logo">MAFIJA</a>
+                
+                <button class="mobile-menu-toggle" aria-label="Menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                
+                <ul class="nav-menu">
+                    <li><a href="index.html">Pagrindinis</a></li>
+                    <li><a href="paslaugos.html" class="active">Paslaugos</a></li>
+                    <li><a href="galerija.html">Galerija</a></li>
+                    <li><a href="apie-mus.html">Apie mus</a></li>
+                    <li><a href="kontaktai.html">Kontaktai</a></li>
+                </ul>
+                
+                <div class="language-switcher">
+                    <button class="lang-btn active" data-lang="lt">LT</button>
+                    <button class="lang-btn" data-lang="ru">RU</button>
+                    <button class="lang-btn" data-lang="en">EN</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" style="height: 50vh; min-height: 400px;">
+        <div class="hero-overlay"></div>
+        <div class="container">
+            <div class="hero-content">
+                <h1>Paslaugos</h1>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Grid -->
+    <section style="padding: 6rem 0;">
+        <div class="container">
+            <div class="services-grid">
+                <!-- Service 1: Žaidimo organizavimas -->
+                <div class="service-card" id="zaidimo-organizavimas">
+                    <div class="service-image">
+                        <img src="images/services/service-1.jpg" alt="Žaidimo organizavimas">
+                    </div>
+                    <div class="service-content">
+                        <h2>Žaidimo organizavimas</h2>
+                        <p>2 arba 3 valandų programa su atvykimu į renginių vietą. Tinka grupėms ir neturėtinėms patirtėms.</p>
+                        <a href="#calculator" class="btn btn-outline">Plačiau</a>
+                    </div>
+                </div>
+
+                <!-- Service 2: Renginio organizavimas -->
+                <div class="service-card" id="renginio-organizavimas">
+                    <div class="service-image">
+                        <img src="images/services/service-2.jpg" alt="Renginio organizavimas">
+                    </div>
+                    <div class="service-content">
+                        <h2>Renginio organizavimas</h2>
+                        <p>Tinkamos vietos paieška ir rezervacija. Programos eigas planavimas ir renginio koordinavimas vietoje.</p>
+                        <a href="#calculator" class="btn btn-outline">Plačiau</a>
+                    </div>
+                </div>
+
+                <!-- Service 3: Atributikos nuoma -->
+                <div class="service-card" id="atributikos-nuoma">
+                    <div class="service-image">
+                        <img src="images/services/service-3.jpg" alt="Atributikos nuoma">
+                    </div>
+                    <div class="service-content">
+                        <h2>Atributikos nuoma</h2>
+                        <p>Kaukės, revolveriai, vaidmenų kortelės ir kitas atributas inventoriaus.</p>
+                        <a href="#calculator" class="btn btn-outline">Plačiau</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Calculator Section -->
+    <section class="calculator" id="calculator">
+        <div class="container">
+            <h2>Kainų skaičiuoklė</h2>
+            <p style="text-align: center; margin-bottom: 2rem;">Paskaičiuokite savo renginio kainą per kelias minutes</p>
+            
+            <form class="calculator-form" id="calculator-form">
+                <!-- Пакет -->
+                <div class="form-group">
+                    <label for="package">Pasirinkite paketą *</label>
+                    <select id="package" required>
+                        <option value="">-- Pasirinkite --</option>
+                        <option value="zaidimo">Žaidimo organizavimas</option>
+                        <option value="renginio">Renginio organizavimas</option>
+                        <option value="atributika">Atributikos nuoma</option>
+                    </select>
+                </div>
+                
+                <!-- Дата -->
+                <div class="form-group">
+                    <label>Pasirinkite datą *</label>
+                    <div class="calendar-container">
+                        <div id="calendar"></div>
+                    </div>
+                </div>
+                
+                <!-- Количество гостей -->
+                <div class="form-group">
+                    <label for="guests">Svečių skaičius</label>
+                    <input type="number" id="guests" min="1" max="60" placeholder="Pvz., 25">
+                    <small>Žaidimo organizavimui: 9-60 svečių</small>
+                </div>
+                
+                <!-- Локация -->
+                <div class="form-group">
+                    <label>Lokacija *</label>
+                    <div style="display: flex; gap: 2rem; margin-top: 0.5rem;">
+                        <label style="display: flex; align-items: center; gap: 0.5rem;">
+                            <input type="radio" name="location" value="vilnius" checked>
+                            Vilnius
+                        </label>
+                        <label style="display: flex; align-items: center; gap: 0.5rem;">
+                            <input type="radio" name="location" value="outside">
+                            Už Vilniaus ribų
+                        </label>
+                    </div>
+                </div>
+                
+                <!-- Расстояние -->
+                <div class="form-group location-distance">
+                    <label for="distance">Atstumas nuo Vilniaus</label>
+                    <select id="distance">
+                        <option value="0">-- Pasirinkite --</option>
+                        <option value="50">50 km (+20€)</option>
+                        <option value="100">100 km (+40€)</option>
+                        <option value="150">150 km (+60€)</option>
+                        <option value="200">200 km (+80€)</option>
+                        <option value="250">250 km (+100€)</option>
+                        <option value="300">300 km (+120€)</option>
+                        <option value="350">350 km (+140€)</option>
+                    </select>
+                </div>
+                
+                <!-- Дополнительные услуги -->
+                <div class="form-group">
+                    <label>Papildomos paslaugos</label>
+                    <div class="checkbox-group" id="additional-services">
+                        <!-- Динамически добавляется через JS -->
+                    </div>
+                </div>
+                
+                <!-- Кнопка расчета -->
+                <div style="text-align: center; margin-top: 2rem;">
+                    <button type="button" id="calculate-btn" class="btn btn-primary">Paskaičiuoti</button>
+                </div>
+            </form>
+            
+            <!-- Результат -->
+            <div class="calculator-result">
+                <h3>Jūsų renginio kaina:</h3>
+                <div class="total-price">0€</div>
+                <div class="price-breakdown"></div>
+                <div class="calculator-buttons">
+                    <button type="button" id="reserve-btn" class="btn btn-primary btn-reserve">
+                        Rezervuoti
+                        <span class="tooltip">Užklausa su duomenimis apie jūsų renginį bus išsiųsta el. paštu mafiainlt@gmail.com, su jumis susisieksime artimiausiu metu, kad patvirtintume detales ir rezervaciją</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 3rem;">
+                <div class="footer-section">
+                    <h4>Paslaugos</h4>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="margin-bottom: 0.5rem;"><a href="paslaugos.html">Žaidimo organizavimas</a></li>
+                        <li style="margin-bottom: 0.5rem;"><a href="paslaugos.html">Renginio organizavimas</a></li>
+                        <li style="margin-bottom: 0.5rem;"><a href="paslaugos.html">Atributikos nuoma</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Galerija</h4>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="margin-bottom: 0.5rem;"><a href="galerija.html">Renginių nuotraukos</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Kontaktai</h4>
+                    <p style="margin-bottom: 0.5rem;"><strong>Aleksandras:</strong><br>0 65 257 838</p>
+                    <p style="margin-bottom: 0.5rem;"><strong>Oleg:</strong><br>0 67 168 072</p>
+                    <p><strong>Paštas:</strong><br>mafiainlt@gmail.com</p>
+                </div>
+            </div>
+            
+            <div class="footer-bottom" style="text-align: center; margin-top: 3rem; padding-top: 2rem; border-top: 1px solid #e0e0e0;">
+                <p>&copy; 2025 MafiaLT ®</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/main.js"></script>
+    <script src="js/blocked-dates.js"></script>
+    <script src="js/calendar.js"></script>
+    <script src="js/calculator.js"></script>
+</body>
+</html>
