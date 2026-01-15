@@ -45,14 +45,15 @@ function transitionToStep(currentStepId, nextStepId, progressStep) {
     currentStep.classList.add('exit-left');
     currentStep.classList.remove('active');
     
-    // Enter next step after delay
+    // Prepare next step
+    nextStep.style.display = 'block';
+    nextStep.style.opacity = '0';
+    nextStep.style.transform = 'translateX(100%)';
+    
+    // Enter next step after current exits
     setTimeout(() => {
-        nextStep.style.display = 'block';
-        
-        setTimeout(() => {
-            nextStep.classList.add('active');
-            updateProgressBar(progressStep);
-        }, 50);
+        nextStep.classList.add('active');
+        updateProgressBar(progressStep);
     }, 500);
 }
 
