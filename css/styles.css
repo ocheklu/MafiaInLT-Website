@@ -1157,3 +1157,23 @@ section h2 {
         padding: 2rem 0;
     }
 }
+
+
+/* Service detail animations */
+.fade-in-left, .fade-in-right {
+    opacity: 0;
+    transition: all 0.8s ease;
+}
+
+.fade-in-left {
+    transform: translateX(-50px);
+}
+
+.fade-in-right {
+    transform: translateX(50px);
+}
+
+.fade-in-left.visible, .fade-in-right.visible {
+    opacity: 1;
+    transform: translateX(0);
+}
