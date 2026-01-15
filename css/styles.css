@@ -232,6 +232,10 @@ img {
     background-color: rgba(0, 0, 0, 0.2);
 }
 
+.hero-services .hero-overlay {
+    background-color: rgba(0, 0, 0, 0);
+}
+
 .hero-content {
     position: relative;
     z-index: 1;
@@ -243,6 +247,10 @@ img {
 .hero h1 {
     font-size: 3rem;
     margin-bottom: 1.5rem;
+}
+
+.hero-services h1 {
+    font-size: 4rem;
 }
 
 .hero p {
@@ -1086,16 +1094,15 @@ section h2 {
     }
     
     .hero h1 {
-        font-size: 2rem;
+    font-size: 2rem;
     }
 
     .hero-content {
-        margin-top: 0 !important;
-        padding: 1rem !important;
+    padding: 1rem !important;
     }
-    
+
     .hero p {
-        font-size: 0.9rem;
+    font-size: 1rem;
     }
     
     .services-grid {

@@ -57,47 +57,107 @@
     </section>
 
     <!-- Services Grid -->
-    <section style="padding: 6rem 0;">
-        <div class="container">
-            <div class="services-grid">
-                <!-- Service 1: Žaidimo organizavimas -->
-                <div class="service-card" id="zaidimo-organizavimas">
-                    <div class="service-image">
-                        <img src="images/services/service-1.jpg" alt="Žaidimo organizavimas">
-                    </div>
-                    <div class="service-content">
-                        <h2>Žaidimo organizavimas</h2>
-                        <p>2 arba 3 valandų programa su atvykimu į renginių vietą. Tinka grupėms ir neturėtinėms patirtėms.</p>
-                        <a href="#calculator" class="btn btn-outline">Plačiau</a>
-                    </div>
+<section style="padding: 6rem 0;">
+    <div class="container">
+        <div class="services-grid">
+            <!-- Service 1: Žaidimo organizavimas -->
+            <div class="service-card service-expandable" id="zaidimo-organizavimas">
+                <div class="service-image">
+                    <img src="images/services/service-1.jpg" alt="Žaidimo organizavimas">
                 </div>
-
-                <!-- Service 2: Renginio organizavimas -->
-                <div class="service-card" id="renginio-organizavimas">
-                    <div class="service-image">
-                        <img src="images/services/service-2.jpg" alt="Renginio organizavimas">
+                <div class="service-content">
+                    <h2>Žaidimo organizavimas</h2>
+                    <p>2 arba 3 valandų programa su atvykimu į renginių vietą. Tinka grupėms ir neturintiems patirties.</p>
+                    
+                    <div class="service-details" style="display: none; margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid #e0e0e0;">
+                        <p style="margin-bottom: 1rem;"><strong>3 valandų programa – 600 eur</strong> (nuo 9 iki 30 svečių)</p>
+                        <p style="margin-bottom: 1.5rem;"><strong>2 valandų programa – 400 eur</strong> (nuo 9 iki 20 svečių)</p>
+                        
+                        <p style="margin-bottom: 0.5rem; font-weight: 600;">Įskaičiuota:</p>
+                        <ul style="margin-bottom: 1rem; padding-left: 1.5rem;">
+                            <li>Trys / dvi mafijos sesijos</li>
+                            <li>Vedėjo paslaugos</li>
+                            <li>Atributika</li>
+                            <li>Apvalus stalas</li>
+                            <li>Svečių vardų kortelės</li>
+                        </ul>
+                        
+                        <p style="margin-bottom: 0.5rem; font-weight: 600;">Neįskaičiuota:</p>
+                        <ul style="padding-left: 1.5rem;">
+                            <li>Vietos paieška ir rezervacija</li>
+                            <li>Stalo dekoravimas gėlėmis</li>
+                        </ul>
                     </div>
-                    <div class="service-content">
-                        <h2>Renginio organizavimas</h2>
-                        <p>Tinkamos vietos paieška ir rezervacija. Programos eigas planavimas ir renginio koordinavimas vietoje.</p>
-                        <a href="#calculator" class="btn btn-outline">Plačiau</a>
-                    </div>
+                    
+                    <button class="btn btn-outline service-toggle" style="margin-top: 1rem;">Plačiau</button>
                 </div>
+            </div>
 
-                <!-- Service 3: Atributikos nuoma -->
-                <div class="service-card" id="atributikos-nuoma">
-                    <div class="service-image">
-                        <img src="images/services/service-3.jpg" alt="Atributikos nuoma">
+            <!-- Service 2: Renginio organizavimas -->
+            <div class="service-card service-expandable" id="renginio-organizavimas">
+                <div class="service-image">
+                    <img src="images/services/service-2.jpg" alt="Renginio organizavimas">
+                </div>
+                <div class="service-content">
+                    <h2>Renginio organizavimas</h2>
+                    <p>Tinkamos vietos paieška ir rezervacija, programos eigos planavimas ir koordinavimas vietoje.</p>
+                    
+                    <div class="service-details" style="display: none; margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid #e0e0e0;">
+                        <p style="margin-bottom: 1rem;"><strong>3 valandų programa – 1200 eur</strong> (nuo 9 iki 30 svečių)</p>
+                        <p style="margin-bottom: 1.5rem;"><strong>2 valandų programa – 1000 eur</strong> (nuo 9 iki 20 svečių)</p>
+                        
+                        <p style="margin-bottom: 0.5rem; font-weight: 600;">Įskaičiuota:</p>
+                        <ul style="padding-left: 1.5rem;">
+                            <li>Vietos paieška ir rezervacija</li>
+                            <li>Programos planavimas ir renginio koordinavimas vietoje</li>
+                            <li>Stalo dekoravimas gėlėmis</li>
+                            <li>Trys / dvi mafijos sesijos</li>
+                            <li>Vedėjo paslaugos</li>
+                            <li>Atributika</li>
+                            <li>Apvalus stalas</li>
+                            <li>Svečių vardų kortelės</li>
+                        </ul>
                     </div>
-                    <div class="service-content">
-                        <h2>Atributikos nuoma</h2>
-                        <p>Kaukės, revolveriai, vaidmenų kortelės ir kitas atributas inventoriaus.</p>
-                        <a href="#calculator" class="btn btn-outline">Plačiau</a>
+                    
+                    <button class="btn btn-outline service-toggle" style="margin-top: 1rem;">Plačiau</button>
+                </div>
+            </div>
+
+            <!-- Service 3: Atributikos nuoma -->
+            <div class="service-card service-expandable" id="atributikos-nuoma">
+                <div class="service-image">
+                    <img src="images/services/service-3.jpg" alt="Atributikos nuoma">
+                </div>
+                <div class="service-content">
+                    <h2>Atributikos nuoma</h2>
+                    <p>Kaukės, revolveriai, vaidmenų kortelės ir kitas autorinis inventorius.</p>
+                    
+                    <div class="service-details" style="display: none; margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid #e0e0e0;">
+                        <p style="margin-bottom: 1.5rem;"><strong>Kaina už parą – 100 eur</strong></p>
+                        
+                        <p style="margin-bottom: 0.5rem; font-weight: 600;">Įskaičiuota:</p>
+                        <ul style="margin-bottom: 1rem; padding-left: 1.5rem;">
+                            <li>Kaukės | 10 vnt</li>
+                            <li>Revolveriai | 10 vnt</li>
+                            <li>Vokai | 10 vnt</li>
+                            <li>Vaidmenų kortelės | 10 vnt</li>
+                            <li>Šablonai vedėjui | 3 vnt</li>
+                            <li>Pagrindas rašymui</li>
+                            <li>Rašiklis</li>
+                        </ul>
+                        
+                        <p style="margin-bottom: 0.5rem; font-weight: 600;">Neįskaičiuota:</p>
+                        <ul style="padding-left: 1.5rem;">
+                            <li>Pristatymas ir atsiėmimas</li>
+                        </ul>
                     </div>
+                    
+                    <button class="btn btn-outline service-toggle" style="margin-top: 1rem;">Plačiau</button>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
     <!-- Calculator Section -->
     <section class="calculator" id="calculator">
