@@ -13,6 +13,27 @@ const calculatorState = {
     additionalServices: []
 };
 
+// Update progress bar
+function updateProgressBar(currentStep) {
+    const steps = document.querySelectorAll('.progress-step');
+    const progressLine = document.querySelector('.progress-line');
+    
+    steps.forEach((step, index) => {
+        if (index < currentStep - 1) {
+            step.classList.add('completed');
+            step.classList.remove('active');
+        } else if (index === currentStep - 1) {
+            step.classList.add('active');
+            step.classList.remove('completed');
+        } else {
+            step.classList.remove('active', 'completed');
+        }
+    });
+    
+    const progress = ((currentStep - 1) / (steps.length - 1)) * 100;
+    progressLine.style.width = progress + '%';
+}
+
 const prices = {
     zaidimo: {
         1: 600,
@@ -50,10 +71,12 @@ document.querySelectorAll('.service-option').forEach(option => {
         calculatorState.service = this.dataset.service;
         
         // Show calendar
-        document.getElementById('step-calendar').style.display = 'block';
-        
-        // Hide other steps
-        document.getElementById('step-tables').style.display = 'none';
+document.getElementById('step-calendar').style.display = 'block';
+updateProgressBar(2);
+setTimeout(() => initCalculatorCalendar(), 100);
+
+// Hide other steps
+document.getElementById('step-tables').style.display = 'none';
         document.getElementById('step-days').style.display = 'none';
         document.getElementById('step-location').style.display = 'none';
         document.getElementById('step-services').style.display = 'none';
@@ -76,12 +99,14 @@ document.querySelectorAll('.table-option').forEach(option => {
         calculatorState.tables = parseInt(this.dataset.tables);
         
         // Show next step based on service
-        if (calculatorState.service === 'zaidimo') {
-            document.getElementById('step-location').style.display = 'block';
-        } else {
-            // For renginio, skip to services
-            showServicesStep();
-        }
+if (calculatorState.service === 'zaidimo') {
+    document.getElementById('step-location').style.display = 'block';
+    updateProgressBar(4);
+} else {
+    // For renginio, skip to services
+    updateProgressBar(4);
+    showServicesStep();
+}
     });
 });
 
@@ -97,6 +122,7 @@ document.querySelectorAll('input[name="location"]').forEach(radio => {
         calculatorState.location = this.value;
         
         // Show services step
+        updateProgressBar(4);
         showServicesStep();
     });
 });
@@ -109,9 +135,10 @@ document.querySelector('#distance-select select')?.addEventListener('change', fu
 // Days selection
 document.getElementById('days-select')?.addEventListener('change', function() {
     calculatorState.days = parseInt(this.value);
-    
-    // For atributika, show calculate button directly
-    document.getElementById('calculate-btn').style.display = 'inline-block';
+
+// For atributika, show calculate button directly
+updateProgressBar(4);
+document.getElementById('calculate-btn').style.display = 'inline-block';
 });
 
 function showServicesStep() {
@@ -187,6 +214,7 @@ function showServicesStep() {
     
     document.getElementById('step-services').style.display = 'block';
     document.getElementById('calculate-btn').style.display = 'inline-block';
+    updateProgressBar(4);
     
     // Add event listeners to checkboxes
     document.querySelectorAll('.additional-service').forEach(checkbox => {
@@ -271,6 +299,7 @@ function showSummary(totalPrice) {
     document.getElementById('total-price').textContent = totalPrice;
     document.getElementById('result-summary').style.display = 'block';
     document.getElementById('calculate-btn').style.display = 'none';
+    updateProgressBar(5);
     
     // Smooth scroll to result
     document.getElementById('result-summary').scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -297,3 +326,47 @@ document.getElementById('reserve-btn')?.addEventListener('click', function() {
     // Here you would send the data to Formspree or your email service
     alert('Ačiū! Jūsų užklausa išsiųsta. Susisieksime su jumis artimiausiu metu.');
 });
+
+// Initialize calendar when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    // Calendar will be initialized when service is selected
+});
+
+// Initialize calculator calendar
+function initCalculatorCalendar() {
+    const calendarDiv = document.getElementById('calculator-calendar');
+    if (!calendarDiv || typeof initCalendar === 'undefined') return;
+    
+    // Initialize the calendar
+    initCalendar('calculator-calendar');
+    
+    // Listen for date clicks
+    calendarDiv.addEventListener('click', function(e) {
+        const dayCell = e.target.closest('.calendar-day:not(.disabled)');
+        if (dayCell && !dayCell.classList.contains('disabled')) {
+            const date = dayCell.dataset.date;
+            if (date) {
+                calculatorState.dateStart = date;
+                
+                // Highlight selected date
+                document.querySelectorAll('.calendar-day').forEach(cell => {
+                    cell.style.background = '';
+                    cell.style.color = '';
+                });
+                dayCell.style.background = '#000';
+                dayCell.style.color = '#fff';
+                
+                // Show next step based on service
+                setTimeout(() => {
+                    if (calculatorState.service === 'atributika') {
+                        document.getElementById('step-days').style.display = 'block';
+                        updateProgressBar(3);
+                    } else {
+                        document.getElementById('step-tables').style.display = 'block';
+                        updateProgressBar(3);
+                    }
+                }, 300);
+            }
+        }
+    });
+}
