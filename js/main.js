@@ -164,3 +164,25 @@ document.addEventListener('DOMContentLoaded', function() {
 window.getCurrentLanguage = function() {
     return currentLanguage;
 };
+
+// ===========================
+// SERVICE CARDS TOGGLE
+// ===========================
+
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.service-toggle').forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            const card = this.closest('.service-card');
+            const details = card.querySelector('.service-details');
+            
+            if (details.style.display === 'none') {
+                details.style.display = 'block';
+                this.textContent = 'Suskleisti';
+            } else {
+                details.style.display = 'none';
+                this.textContent = 'Plačiau';
+            }
+        });
+    });
+});
