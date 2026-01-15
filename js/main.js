@@ -173,10 +173,11 @@ window.getCurrentLanguage = function() {
 
 document.addEventListener('DOMContentLoaded', function() {
     // Flip cards on click
+document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('.service-flip-card').forEach(card => {
         card.addEventListener('click', function(e) {
-            // Don't flip if clicking on back button
-            if (e.target.closest('.flip-back-btn')) {
+            // Don't flip if clicking on back button or link
+            if (e.target.closest('.flip-back-btn') || e.target.closest('a')) {
                 return;
             }
             
@@ -184,6 +185,16 @@ document.addEventListener('DOMContentLoaded', function() {
             this.classList.toggle('flipped');
         });
     });
+    
+    // Back buttons
+    document.querySelectorAll('.flip-back-btn').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const card = this.closest('.service-flip-card');
+            card.classList.remove('flipped');
+        });
+    });
+});
     
     // Back buttons
     document.querySelectorAll('.flip-back-btn').forEach(btn => {

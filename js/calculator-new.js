@@ -34,6 +34,28 @@ function updateProgressBar(currentStep) {
     progressLine.style.width = progress + '%';
 }
 
+// Transition between steps with animation
+function transitionToStep(currentStepId, nextStepId, progressStep) {
+    const currentStep = document.getElementById(currentStepId);
+    const nextStep = document.getElementById(nextStepId);
+    
+    if (!currentStep || !nextStep) return;
+    
+    // Exit current step
+    currentStep.classList.add('exit-left');
+    currentStep.classList.remove('active');
+    
+    // Enter next step after delay
+    setTimeout(() => {
+        nextStep.style.display = 'block';
+        
+        setTimeout(() => {
+            nextStep.classList.add('active');
+            updateProgressBar(progressStep);
+        }, 50);
+    }, 500);
+}
+
 const prices = {
     zaidimo: {
         1: 600,
@@ -69,19 +91,10 @@ document.querySelectorAll('.service-option').forEach(option => {
         this.querySelector('div').style.background = '#f8f8f8';
         
         calculatorState.service = this.dataset.service;
-        
-        // Show calendar
-document.getElementById('step-calendar').style.display = 'block';
-updateProgressBar(2);
-setTimeout(() => initCalculatorCalendar(), 100);
 
-// Hide other steps
-document.getElementById('step-tables').style.display = 'none';
-        document.getElementById('step-days').style.display = 'none';
-        document.getElementById('step-location').style.display = 'none';
-        document.getElementById('step-services').style.display = 'none';
-        document.getElementById('calculate-btn').style.display = 'none';
-        document.getElementById('result-summary').style.display = 'none';
+// Animate step transition
+transitionToStep('step-service', 'step-calendar', 2);
+setTimeout(() => initCalculatorCalendar(), 600);
     });
 });
 
@@ -98,14 +111,13 @@ document.querySelectorAll('.table-option').forEach(option => {
         
         calculatorState.tables = parseInt(this.dataset.tables);
         
-        // Show next step based on service
+        // Transition to next step
 if (calculatorState.service === 'zaidimo') {
-    document.getElementById('step-location').style.display = 'block';
-    updateProgressBar(4);
+    transitionToStep('step-tables', 'step-location', 4);
 } else {
     // For renginio, skip to services
-    updateProgressBar(4);
-    showServicesStep();
+    transitionToStep('step-tables', 'step-services', 4);
+    setTimeout(() => showServicesStep(), 600);
 }
     });
 });
@@ -121,9 +133,9 @@ document.querySelectorAll('input[name="location"]').forEach(radio => {
         }
         calculatorState.location = this.value;
         
-        // Show services step
-        updateProgressBar(4);
-        showServicesStep();
+        // Transition to services step
+        transitionToStep('step-location', 'step-services', 4);
+        setTimeout(() => showServicesStep(), 600);
     });
 });
 
@@ -136,9 +148,12 @@ document.querySelector('#distance-select select')?.addEventListener('change', fu
 document.getElementById('days-select')?.addEventListener('change', function() {
     calculatorState.days = parseInt(this.value);
 
-// For atributika, show calculate button directly
-updateProgressBar(4);
-document.getElementById('calculate-btn').style.display = 'inline-block';
+// For atributika, transition to result
+document.getElementById('step-days').classList.add('exit-left');
+document.getElementById('step-days').classList.remove('active');
+setTimeout(() => {
+    document.getElementById('calculate-btn').style.display = 'inline-block';
+}, 500);
 });
 
 function showServicesStep() {
@@ -212,9 +227,8 @@ function showServicesStep() {
         servicesList.appendChild(serviceDiv);
     });
     
-    document.getElementById('step-services').style.display = 'block';
+    // Services step is already shown by transitionToStep
     document.getElementById('calculate-btn').style.display = 'inline-block';
-    updateProgressBar(4);
     
     // Add event listeners to checkboxes
     document.querySelectorAll('.additional-service').forEach(checkbox => {
@@ -297,12 +311,21 @@ function showSummary(totalPrice) {
     summaryCard.innerHTML = summaryHTML;
     
     document.getElementById('total-price').textContent = totalPrice;
-    document.getElementById('result-summary').style.display = 'block';
-    document.getElementById('calculate-btn').style.display = 'none';
-    updateProgressBar(5);
     
-    // Smooth scroll to result
-    document.getElementById('result-summary').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    // Hide all steps and show result with animation
+    const activeStep = document.querySelector('.calculator-step.active');
+    if (activeStep) {
+        activeStep.classList.add('exit-left');
+        activeStep.classList.remove('active');
+    }
+    
+    document.getElementById('calculate-btn').style.display = 'none';
+    
+    setTimeout(() => {
+        document.getElementById('result-summary').style.display = 'block';
+        updateProgressBar(5);
+        document.getElementById('result-summary').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 500);
 }
 
 // Reserve button tooltip
@@ -348,15 +371,11 @@ function initCalculatorCalendar() {
         const day = String(date.getDate()).padStart(2, '0');
         calculatorState.dateStart = `${year}-${month}-${day}`;
         
-        // Show next step based on service
-        setTimeout(() => {
-            if (calculatorState.service === 'atributika') {
-                document.getElementById('step-days').style.display = 'block';
-                updateProgressBar(3);
-            } else {
-                document.getElementById('step-tables').style.display = 'block';
-                updateProgressBar(3);
-            }
-        }, 300);
+        // Transition to next step
+        if (calculatorState.service === 'atributika') {
+            transitionToStep('step-calendar', 'step-days', 3);
+        } else {
+            transitionToStep('step-calendar', 'step-tables', 3);
+        }
     });
 }

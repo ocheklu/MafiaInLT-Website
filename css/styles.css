@@ -1114,18 +1114,6 @@ section h2 {
     gap: 2rem !important;
 }
 
-.service-flip-card {
-    height: 450px;
-}
-
-.service-flip-front img {
-    height: 60%;
-}
-
-section [style*="grid-template-columns: 1fr 1fr"] {
-    grid-template-columns: 1fr !important;
-}
-
     section [style*="grid-template-columns: 1fr 1fr"] {
     grid-template-columns: 1fr !important;
 }
@@ -1177,7 +1165,7 @@ section [style*="grid-template-columns: 1fr 1fr"] {
 /* Flip Cards - Desktop */
 .service-flip-card {
     perspective: 1000px;
-    height: 600px;
+    height: 480px;
     cursor: pointer;
 }
 
@@ -1214,19 +1202,29 @@ section [style*="grid-template-columns: 1fr 1fr"] {
     object-fit: cover;
 }
 
+.service-flip-front-content::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: #f8f8f8;
+}
+
 .service-flip-front-content {
-    padding: 2rem 1.5rem;
+    padding: 1.5rem;
     text-align: center;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    background: linear-gradient(to bottom, transparent, rgba(0,0,0,0.8) 30%, rgba(0,0,0,0.95));
+    background: linear-gradient(to bottom, transparent, rgba(0,0,0,0.85) 20%, rgba(0,0,0,0.98));
     color: white;
     position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
-    height: 45%;
+    height: 38%;
 }
 
 .service-flip-front h3 {
@@ -1287,62 +1285,7 @@ section [style*="grid-template-columns: 1fr 1fr"] {
     margin-top: 1rem;
 }
 
-/* Mobile Carousel */
-@media (max-width: 768px) {
-    .service-flip-card {
-        perspective: none;
-        height: auto;
-    }
-    
-    .service-flip-inner {
-        transform: none !important;
-    }
-    
-    .service-flip-front, .service-flip-back {
-        position: static;
-        transform: none !important;
-        backface-visibility: visible;
-    }
-    
-    .services-carousel {
-        position: relative;
-        overflow: hidden;
-        padding-bottom: 3rem;
-    }
-    
-    .services-carousel-inner {
-        display: flex;
-        transition: transform 0.4s ease;
-        touch-action: pan-y;
-    }
-    
-    .service-carousel-item {
-        min-width: 100%;
-        padding: 0 1rem;
-    }
-    
-    .carousel-dots {
-        display: flex;
-        justify-content: center;
-        gap: 0.5rem;
-        margin-top: 1.5rem;
-    }
-    
-    .carousel-dot {
-        width: 10px;
-        height: 10px;
-        border-radius: 50%;
-        background: #ddd;
-        cursor: pointer;
-        transition: all 0.3s ease;
-    }
-    
-    .carousel-dot.active {
-        background: #000;
-        width: 30px;
-        border-radius: 5px;
-    }
-}
+
 
 
 /* Progress Bar */
@@ -1420,4 +1363,37 @@ section [style*="grid-template-columns: 1fr 1fr"] {
     background: #2d6a4f;
     z-index: 0;
     transition: width 0.6s ease;
+}
+
+/* Calculator Steps Animations */
+.calculator-steps-container {
+    position: relative;
+    min-height: 400px;
+    overflow: hidden;
+}
+
+.calculator-step {
+    position: absolute;
+    width: 100%;
+    opacity: 0;
+    transform: translateX(100%);
+    transition: all 0.5s ease;
+    text-align: center;
+}
+
+.calculator-step.active {
+    opacity: 1;
+    transform: translateX(0);
+    position: relative;
+}
+
+.calculator-step.exit-left {
+    opacity: 0;
+    transform: translateX(-100%);
+}
+
+.calculator-step h3,
+.calculator-step label,
+.calculator-step p {
+    text-align: center;
 }
