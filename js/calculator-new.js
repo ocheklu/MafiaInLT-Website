@@ -333,40 +333,30 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // Initialize calculator calendar
+let calculatorCalendar = null;
+
 function initCalculatorCalendar() {
-    const calendarDiv = document.getElementById('calculator-calendar');
-    if (!calendarDiv || typeof initCalendar === 'undefined') return;
+    if (typeof Calendar === 'undefined') {
+        console.error('Calendar class not found');
+        return;
+    }
     
-    // Initialize the calendar
-    initCalendar('calculator-calendar');
-    
-    // Listen for date clicks
-    calendarDiv.addEventListener('click', function(e) {
-        const dayCell = e.target.closest('.calendar-day:not(.disabled)');
-        if (dayCell && !dayCell.classList.contains('disabled')) {
-            const date = dayCell.dataset.date;
-            if (date) {
-                calculatorState.dateStart = date;
-                
-                // Highlight selected date
-                document.querySelectorAll('.calendar-day').forEach(cell => {
-                    cell.style.background = '';
-                    cell.style.color = '';
-                });
-                dayCell.style.background = '#000';
-                dayCell.style.color = '#fff';
-                
-                // Show next step based on service
-                setTimeout(() => {
-                    if (calculatorState.service === 'atributika') {
-                        document.getElementById('step-days').style.display = 'block';
-                        updateProgressBar(3);
-                    } else {
-                        document.getElementById('step-tables').style.display = 'block';
-                        updateProgressBar(3);
-                    }
-                }, 300);
+    calculatorCalendar = new Calendar('calculator-calendar', function(date) {
+        // Callback when date is selected
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        calculatorState.dateStart = `${year}-${month}-${day}`;
+        
+        // Show next step based on service
+        setTimeout(() => {
+            if (calculatorState.service === 'atributika') {
+                document.getElementById('step-days').style.display = 'block';
+                updateProgressBar(3);
+            } else {
+                document.getElementById('step-tables').style.display = 'block';
+                updateProgressBar(3);
             }
-        }
+        }, 300);
     });
 }

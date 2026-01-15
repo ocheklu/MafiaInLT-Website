@@ -1110,7 +1110,16 @@ section h2 {
     }
 
     .services-desktop {
-    display: none !important;
+    grid-template-columns: 1fr !important;
+    gap: 2rem !important;
+}
+
+.service-flip-card {
+    height: 450px;
+}
+
+.service-flip-front img {
+    height: 60%;
 }
 
 section [style*="grid-template-columns: 1fr 1fr"] {
@@ -1168,7 +1177,7 @@ section [style*="grid-template-columns: 1fr 1fr"] {
 /* Flip Cards - Desktop */
 .service-flip-card {
     perspective: 1000px;
-    height: 500px;
+    height: 600px;
     cursor: pointer;
 }
 
@@ -1206,18 +1215,18 @@ section [style*="grid-template-columns: 1fr 1fr"] {
 }
 
 .service-flip-front-content {
-    padding: 1.5rem;
+    padding: 2rem 1.5rem;
     text-align: center;
-    flex: 1;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    background: linear-gradient(to bottom, rgba(0,0,0,0.7), rgba(0,0,0,0.9));
+    background: linear-gradient(to bottom, transparent, rgba(0,0,0,0.8) 30%, rgba(0,0,0,0.95));
     color: white;
     position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
+    height: 45%;
 }
 
 .service-flip-front h3 {
@@ -1232,16 +1241,16 @@ section [style*="grid-template-columns: 1fr 1fr"] {
 }
 
 .service-flip-front .hint {
-    font-size: 0.85rem;
-    opacity: 0.8;
-    margin-top: 0.5rem;
+    font-size: 0.95rem;
+    opacity: 0.9;
+    margin-top: 0.8rem;
 }
 
 .service-flip-back {
     background: white;
     transform: rotateY(180deg);
     padding: 2rem;
-    overflow-y: auto;
+    overflow-y: hidden;
     box-shadow: 0 5px 20px rgba(0,0,0,0.15);
 }
 
