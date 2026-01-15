@@ -56,97 +56,103 @@
         </div>
     </section>
 
-    <!-- Services Details -->
+   <!-- Services Cards -->
 <section style="padding: 6rem 0;">
     <div class="container">
-        <!-- Service 1: Žaidimo organizavimas -->
-        <div class="service-detail-section" id="zaidimo-organizavimas" style="display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; margin-bottom: 6rem; padding: 3rem 0; border-bottom: 1px solid #e0e0e0;">
-            <div class="service-detail-content fade-in-left">
-                <h2 style="margin-bottom: 1.5rem;">Žaidimo organizavimas</h2>
-                
-                <p style="margin-bottom: 1rem;"><strong>3 valandų programa – 600 eur</strong> (nuo 9 iki 30 svečių)</p>
-                <p style="margin-bottom: 1.5rem;"><strong>2 valandų programa – 400 eur</strong> (nuo 9 iki 20 svečių)</p>
-                
-                <p style="margin-bottom: 0.5rem; font-weight: 600; color: #2d6a4f;">Įskaičiuota:</p>
-                <ul style="margin-bottom: 1rem; padding-left: 1.5rem; line-height: 1.8;">
-                    <li>Trys / dvi mafijos sesijos</li>
-                    <li>Vedėjo paslaugos</li>
-                    <li>Atributika</li>
-                    <li>Apvalus stalas</li>
-                    <li>Svečių vardų kortelės</li>
-                </ul>
-                
-                <p style="margin-bottom: 0.5rem; font-weight: 600; color: #c44536;">Neįskaičiuota:</p>
-                <ul style="padding-left: 1.5rem; line-height: 1.8; margin-bottom: 2rem;">
-                    <li>Vietos paieška ir rezervacija</li>
-                    <li>Stalo dekoravimas gėlėmis</li>
-                </ul>
-                
-                <a href="#calculator" class="btn btn-primary">Rezervuoti</a>
-            </div>
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; max-width: 1200px; margin: 0 auto;">
             
-            <div>
-                <img src="images/services/service-1.jpg" alt="Žaidimo organizavimas" style="width: 100%; border-radius: 10px; box-shadow: 0 5px 20px rgba(0,0,0,0.1);">
+            <!-- Card 1: Žaidimo organizavimas -->
+            <div class="service-hover-card">
+                <img src="images/services/service-1.jpg" alt="Žaidimo organizavimas" class="service-bg">
+                <div class="service-overlay"></div>
+                <div class="service-hover-content">
+                    <h3 class="service-title">Žaidimo organizavimas</h3>
+                    <div class="service-details-hover">
+                        <p style="margin-bottom: 1rem; font-size: 0.95rem; line-height: 1.6;">Nuo 400 eur iki 1200 eur | populiariausias paketas</p>
+                        <p style="margin-bottom: 1.5rem; font-weight: 600;">3 valandų programa – 600 eur (1 stalas, iki 30 svečių)</p>
+                        
+                        <p style="font-size: 0.9rem; margin-bottom: 0.5rem; font-weight: 600;">Įskaičiuota:</p>
+                        <ul style="font-size: 0.85rem; margin-bottom: 1rem; padding-left: 1.2rem; line-height: 1.5;">
+                            <li>Trys / dvi mafijos sesijos</li>
+                            <li>Vedėjo(-ų) paslaugos</li>
+                            <li>Atributika</li>
+                            <li>Apvalus stalas(-ai)</li>
+                            <li>Svečių vardų kortelės</li>
+                        </ul>
+                        
+                        <p style="font-size: 0.9rem; margin-bottom: 0.5rem; font-weight: 600;">Neįskaičiuota:</p>
+                        <ul style="font-size: 0.85rem; padding-left: 1.2rem; line-height: 1.5; margin-bottom: 1.5rem;">
+                            <li>Vietos paieška ir rezervacija</li>
+                            <li>Stalo dekoravimas gėlėmis</li>
+                        </ul>
+                        
+                        <a href="#calculator" class="btn btn-outline" style="font-size: 0.9rem; padding: 0.6rem 1.5rem;">Rezervuoti</a>
+                    </div>
+                </div>
             </div>
-        </div>
 
-        <!-- Service 2: Renginio organizavimas -->
-        <div class="service-detail-section" id="renginio-organizavimas" style="display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; margin-bottom: 6rem; padding: 3rem 0; border-bottom: 1px solid #e0e0e0;">
-            <div>
-                <img src="images/services/service-2.jpg" alt="Renginio organizavimas" style="width: 100%; border-radius: 10px; box-shadow: 0 5px 20px rgba(0,0,0,0.1);">
+            <!-- Card 2: Renginio organizavimas -->
+            <div class="service-hover-card">
+                <img src="images/services/service-2.jpg" alt="Renginio organizavimas" class="service-bg">
+                <div class="service-overlay"></div>
+                <div class="service-hover-content">
+                    <h3 class="service-title">Renginio organizavimas</h3>
+                    <div class="service-details-hover">
+                        <p style="margin-bottom: 1.5rem; font-size: 0.95rem;">Nuo 1200 eur iki 4000 eur</p>
+                        
+                        <p style="font-size: 0.9rem; margin-bottom: 0.5rem; font-weight: 600;">Įskaičiuota:</p>
+                        <ul style="font-size: 0.85rem; margin-bottom: 1rem; padding-left: 1.2rem; line-height: 1.5;">
+                            <li>Vietos paieška ir rezervacija</li>
+                            <li>Programos planavimas ir koordinavimas</li>
+                            <li>Stalo dekoravimas</li>
+                            <li>Trys / dvi mafijos sesijos</li>
+                            <li>Vedėjo(-ų) paslaugos</li>
+                            <li>Atributika</li>
+                            <li>Apvalus stalas(-ai)</li>
+                            <li>Svečių vardų kortelės</li>
+                        </ul>
+                        
+                        <p style="font-size: 0.9rem; margin-bottom: 0.5rem; font-weight: 600;">Pasirinktinai:</p>
+                        <ul style="font-size: 0.85rem; padding-left: 1.2rem; line-height: 1.5; margin-bottom: 1.5rem;">
+                            <li>Erdvės dekoravimas</li>
+                            <li>Foto/video paslaugos</li>
+                        </ul>
+                        
+                        <a href="#calculator" class="btn btn-outline" style="font-size: 0.9rem; padding: 0.6rem 1.5rem;">Rezervuoti</a>
+                    </div>
+                </div>
             </div>
-            
-            <div class="service-detail-content fade-in-right">
-                <h2 style="margin-bottom: 1.5rem;">Renginio organizavimas</h2>
-                
-                <p style="margin-bottom: 1rem;"><strong>3 valandų programa – 1200 eur</strong> (nuo 9 iki 30 svečių)</p>
-                <p style="margin-bottom: 1.5rem;"><strong>3 valandų programa – 2400 eur</strong> (nuo 20 iki 60 svečių)</p>
-                
-                <p style="margin-bottom: 0.5rem; font-weight: 600; color: #2d6a4f;">Įskaičiuota:</p>
-                <ul style="padding-left: 1.5rem; line-height: 1.8; margin-bottom: 2rem;">
-                    <li>Vietos paieška ir rezervacija</li>
-                    <li>Programos planavimas ir renginio koordinavimas vietoje</li>
-                    <li>Stalo dekoravimas gėlėmis</li>
-                    <li>Trys / dvi mafijos sesijos</li>
-                    <li>Vedėjo paslaugos</li>
-                    <li>Atributika</li>
-                    <li>Apvalus stalas</li>
-                    <li>Svečių vardų kortelės</li>
-                </ul>
-                
-                <a href="#calculator" class="btn btn-primary">Rezervuoti</a>
-            </div>
-        </div>
 
-        <!-- Service 3: Atributikos nuoma -->
-        <div class="service-detail-section" id="atributikos-nuoma" style="display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; padding: 3rem 0;">
-            <div class="service-detail-content fade-in-left">
-                <h2 style="margin-bottom: 1.5rem;">Atributikos nuoma</h2>
-                
-                <p style="margin-bottom: 1.5rem;"><strong>Kaina už parą – 150 eur</strong></p>
-                
-                <p style="margin-bottom: 0.5rem; font-weight: 600; color: #2d6a4f;">Įskaičiuota:</p>
-                <ul style="margin-bottom: 1rem; padding-left: 1.5rem; line-height: 1.8;">
-                    <li>Kaukės | 10 vnt</li>
-                    <li>Revolveriai | 10 vnt</li>
-                    <li>Vokai | 10 vnt</li>
-                    <li>Vaidmenų kortelės | 10 vnt</li>
-                    <li>Šablonai vedėjui | 3 vnt</li>
-                    <li>Pagrindas rašymui</li>
-                    <li>Rašiklis</li>
-                </ul>
-                
-                <p style="margin-bottom: 0.5rem; font-weight: 600; color: #c44536;">Neįskaičiuota:</p>
-                <ul style="padding-left: 1.5rem; line-height: 1.8; margin-bottom: 2rem;">
-                    <li>Pristatymas ir atsiėmimas</li>
-                </ul>
-                
-                <a href="#calculator" class="btn btn-primary">Rezervuoti</a>
+            <!-- Card 3: Atributikos nuoma -->
+            <div class="service-hover-card">
+                <img src="images/services/service-3.jpg" alt="Atributikos nuoma" class="service-bg">
+                <div class="service-overlay"></div>
+                <div class="service-hover-content">
+                    <h3 class="service-title">Atributikos nuoma</h3>
+                    <div class="service-details-hover">
+                        <p style="margin-bottom: 1.5rem; font-weight: 600;">150 eur | už parą</p>
+                        
+                        <p style="font-size: 0.9rem; margin-bottom: 0.5rem; font-weight: 600;">Įskaičiuota:</p>
+                        <ul style="font-size: 0.85rem; margin-bottom: 1rem; padding-left: 1.2rem; line-height: 1.5;">
+                            <li>Kaukės | 10 vnt</li>
+                            <li>Revolveriai | 10 vnt</li>
+                            <li>Vokai | 10 vnt</li>
+                            <li>Vaidmenų kortelės | 10 vnt</li>
+                            <li>Šablonai vedėjui | 3 vnt</li>
+                            <li>Pagrindas rašymui</li>
+                            <li>Rašiklis</li>
+                        </ul>
+                        
+                        <p style="font-size: 0.9rem; margin-bottom: 0.5rem; font-weight: 600;">Neįskaičiuota:</p>
+                        <ul style="font-size: 0.85rem; padding-left: 1.2rem; line-height: 1.5; margin-bottom: 1.5rem;">
+                            <li>Pristatymas ir atsiėmimas</li>
+                        </ul>
+                        
+                        <a href="#calculator" class="btn btn-outline" style="font-size: 0.9rem; padding: 0.6rem 1.5rem;">Rezervuoti</a>
+                    </div>
+                </div>
             </div>
             
-            <div>
-                <img src="images/services/service-3.jpg" alt="Atributikos nuoma" style="width: 100%; border-radius: 10px; box-shadow: 0 5px 20px rgba(0,0,0,0.1);">
-            </div>
         </div>
     </div>
 </section>
