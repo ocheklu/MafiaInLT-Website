@@ -97,13 +97,13 @@ img {
 }
 
 .btn-primary.btn-hero {
-    background-color: #fff;
-    color: #000;
+    background-color: transparent;
+    color: #fff;
     border-color: #fff;
 }
 
 .btn-primary.btn-hero:hover {
-    background-color: transparent;
+    background-color: rgba(255, 255, 255, 0.2);
     color: #fff;
     border-color: #fff;
 }
