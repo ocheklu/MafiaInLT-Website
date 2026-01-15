@@ -39,7 +39,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 h1 { font-size: 2.5rem; }
-h2 { font-size: 2rem; }
+h2 { font-size: 2.5rem; }
 h3 { font-size: 1.5rem; }
 
 p { margin-bottom: 1rem; }
@@ -94,6 +94,18 @@ img {
 .btn-outline:hover {
     background-color: var(--primary-color);
     color: var(--bg-color);
+}
+
+.btn-primary.btn-hero {
+    background-color: #fff;
+    color: #000;
+    border-color: #fff;
+}
+
+.btn-primary.btn-hero:hover {
+    background-color: transparent;
+    color: #fff;
+    border-color: #fff;
 }
 
 /* ===========================
@@ -217,7 +229,7 @@ img {
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(0, 0, 0, 0.6);
+    background-color: rgba(0, 0, 0, 0.2);
 }
 
 .hero-content {
@@ -225,6 +237,7 @@ img {
     z-index: 1;
     max-width: 1100px;
     padding: 2rem;
+    margin-top: -7rem;
 }
 
 .hero h1 {
@@ -257,7 +270,7 @@ section h2 {
 .services-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    max-width: 900px;
+    max-width: 1200px;
     margin-left: auto;
     margin-right: auto;
     gap: 2rem;
@@ -269,6 +282,8 @@ section h2 {
     border-radius: 10px;
     overflow: hidden;
     transition: var(--transition);
+    display: flex;
+    flex-direction: column;
 }
 
 .service-card:hover {
@@ -292,6 +307,10 @@ section h2 {
 .service-content {
     padding: 1.5rem;
     text-align: center;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .service-content h3 {
