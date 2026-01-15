@@ -165,15 +165,12 @@ window.getCurrentLanguage = function() {
     return currentLanguage;
 };
 
-
-
 // ===========================
 // FLIP CARDS
 // ===========================
 
 document.addEventListener('DOMContentLoaded', function() {
     // Flip cards on click
-document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('.service-flip-card').forEach(card => {
         card.addEventListener('click', function(e) {
             // Don't flip if clicking on back button or link
@@ -195,74 +192,3 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
-    
-    // Back buttons
-    document.querySelectorAll('.flip-back-btn').forEach(btn => {
-        btn.addEventListener('click', function(e) {
-            e.stopPropagation();
-            const card = this.closest('.service-flip-card');
-            card.classList.remove('flipped');
-        });
-    });
-});
-
-// ===========================
-// MOBILE CAROUSEL
-// ===========================
-
-let currentSlide = 0;
-const carouselInner = document.getElementById('carousel-inner');
-const dots = document.querySelectorAll('.carousel-dot');
-
-if (carouselInner) {
-    let startX = 0;
-    let currentX = 0;
-    let isDragging = false;
-
-    // Touch events
-    carouselInner.addEventListener('touchstart', function(e) {
-        startX = e.touches[0].clientX;
-        isDragging = true;
-    });
-
-    carouselInner.addEventListener('touchmove', function(e) {
-        if (!isDragging) return;
-        currentX = e.touches[0].clientX;
-    });
-
-    carouselInner.addEventListener('touchend', function() {
-        if (!isDragging) return;
-        isDragging = false;
-        
-        const diff = startX - currentX;
-        
-        if (Math.abs(diff) > 50) {
-            if (diff > 0 && currentSlide < 2) {
-                currentSlide++;
-            } else if (diff < 0 && currentSlide > 0) {
-                currentSlide--;
-            }
-            updateCarousel();
-        }
-    });
-
-    // Dot navigation
-    dots.forEach(dot => {
-        dot.addEventListener('click', function() {
-            currentSlide = parseInt(this.dataset.slide);
-            updateCarousel();
-        });
-    });
-
-    function updateCarousel() {
-        carouselInner.style.transform = `translateX(-${currentSlide * 100}%)`;
-        
-        dots.forEach((dot, index) => {
-            if (index === currentSlide) {
-                dot.classList.add('active');
-            } else {
-                dot.classList.remove('active');
-            }
-        });
-    }
-}

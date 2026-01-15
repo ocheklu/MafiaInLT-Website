@@ -1205,15 +1205,16 @@ section h2 {
 .service-flip-front-content::before {
     content: '';
     position: absolute;
-    top: 0;
+    top: -2px;
     left: 0;
     right: 0;
     height: 2px;
     background: #f8f8f8;
+    z-index: 2;
 }
 
 .service-flip-front-content {
-    padding: 1.5rem;
+    padding: 2rem 1.5rem 1.5rem 1.5rem;
     text-align: center;
     display: flex;
     flex-direction: column;
@@ -1224,7 +1225,7 @@ section h2 {
     bottom: 0;
     left: 0;
     right: 0;
-    height: 38%;
+    height: 36%;
 }
 
 .service-flip-front h3 {
@@ -1248,14 +1249,29 @@ section h2 {
     background: white;
     transform: rotateY(180deg);
     padding: 2rem;
-    overflow-y: hidden;
+    overflow-y: auto;
     box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+    display: flex;
+    flex-direction: column;
 }
 
 .service-flip-back h3 {
     margin: 0 0 1rem 0;
     font-size: 1.3rem;
     text-align: center;
+    flex-shrink: 0;
+}
+
+.service-flip-back > p,
+.service-flip-back > ul {
+    text-align: center;
+    flex-shrink: 0;
+}
+
+.service-flip-back .btn {
+    width: 100%;
+    margin-top: auto;
+    flex-shrink: 0;
 }
 
 .flip-back-btn {

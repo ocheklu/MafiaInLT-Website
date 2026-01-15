@@ -81,14 +81,14 @@ const additionalServicesPrices = {
 document.querySelectorAll('.service-option').forEach(option => {
     option.addEventListener('click', function() {
         // Remove active class from all
-        document.querySelectorAll('.service-option > div').forEach(div => {
-            div.style.borderColor = '#e0e0e0';
-            div.style.background = 'white';
+        document.querySelectorAll('.service-option').forEach(opt => {
+            opt.style.borderColor = '#e0e0e0';
+            opt.style.background = 'white';
         });
         
         // Add active to clicked
-        this.querySelector('div').style.borderColor = '#000';
-        this.querySelector('div').style.background = '#f8f8f8';
+        this.style.borderColor = '#000';
+        this.style.background = '#f8f8f8';
         
         calculatorState.service = this.dataset.service;
 
