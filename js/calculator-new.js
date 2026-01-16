@@ -45,13 +45,17 @@ function transitionToStep(currentStepId, nextStepId, progressStep) {
     currentStep.classList.add('exit-left');
     currentStep.classList.remove('active');
     
-    // Prepare next step
-    nextStep.style.display = 'block';
-    nextStep.style.opacity = '0';
-    nextStep.style.transform = 'translateX(100%)';
-    
-    // Enter next step after current exits
     setTimeout(() => {
+        currentStep.style.display = 'none';
+        
+        // Show and animate next step
+        nextStep.style.display = 'block';
+        nextStep.classList.remove('exit-left');
+        
+        // Force reflow
+        nextStep.offsetHeight;
+        
+        // Add active class to trigger CSS animation
         nextStep.classList.add('active');
         updateProgressBar(progressStep);
     }, 500);

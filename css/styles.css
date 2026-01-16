@@ -1165,7 +1165,7 @@ section h2 {
 /* Flip Cards - Desktop */
 .service-flip-card {
     perspective: 1000px;
-    height: 480px;
+    height: 510px;
     cursor: pointer;
 }
 
@@ -1218,14 +1218,15 @@ section h2 {
     text-align: center;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-end;
     background: linear-gradient(to bottom, transparent, rgba(0,0,0,0.85) 20%, rgba(0,0,0,0.98));
     color: white;
     position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
-    height: 60%;
+    height: 40%;
+    z-index: 10;
 }
 
 .service-flip-front h3 {
@@ -1243,6 +1244,23 @@ section h2 {
     font-size: 0.95rem;
     opacity: 0.9;
     margin-top: 0.8rem;
+}
+
+.service-flip-front .hint::after {
+    content: ' →';
+    display: inline-block;
+    animation: slideRight 1.5s ease-in-out infinite;
+}
+
+@keyframes slideRight {
+    0%, 100% { 
+        transform: translateX(0); 
+        opacity: 1; 
+    }
+    50% { 
+        transform: translateX(10px); 
+        opacity: 0.5; 
+    }
 }
 
 .service-flip-back {
@@ -1393,7 +1411,7 @@ section h2 {
     width: 100%;
     opacity: 0;
     transform: translateX(100%);
-    transition: all 0.5s ease;
+    transition: opacity 0.5s ease, transform 0.5s ease;
     text-align: center;
 }
 
