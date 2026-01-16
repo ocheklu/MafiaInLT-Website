@@ -1165,7 +1165,7 @@ section h2 {
 /* Flip Cards - Desktop */
 .service-flip-card {
     perspective: 1000px;
-    height: 520px;
+    height: 540px;
     cursor: pointer;
 }
 
@@ -1219,7 +1219,7 @@ section h2 {
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
-    background: linear-gradient(to bottom, transparent, rgba(0,0,0,0.85) 20%, rgba(0,0,0,0.98));
+    background: linear-gradient(to bottom, rgba(0,0,0,0.7), rgba(0,0,0,0.85) 20%, rgba(0,0,0,0.98));
     color: white;
     position: absolute;
     bottom: 0;
