@@ -1165,7 +1165,7 @@ section h2 {
 /* Flip Cards - Desktop */
 .service-flip-card {
     perspective: 1000px;
-    height: 510px;
+    height: 520px;
     cursor: pointer;
 }
 
@@ -1416,9 +1416,9 @@ section h2 {
 }
 
 .calculator-step.active {
-    display: block;
-    opacity: 1;
-    transform: translateX(0);
+    display: block !important;
+    opacity: 1 !important;
+    transform: translateX(0) !important;
 }
 
 .calculator-step.exit-left {
