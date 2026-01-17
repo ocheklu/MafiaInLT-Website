@@ -233,27 +233,25 @@ document.querySelectorAll('.table-option').forEach(option => {
         
         calculatorState.tables = newTables;
         
-        // Transition to next step
-        if (calculatorState.service === 'zaidimo') {
-            transitionToStep('step-tables', 'step-location', 4);
-        } else {
-            // For renginio, go to services
-            transitionToStep('step-tables', 'step-services', 5);
-            setTimeout(() => showServicesStep(), 600);
-        }
+        // Transition to next step (both zaidimo and renginio go to location)
+        transitionToStep('step-tables', 'step-location', 4);
     });
 });
 
-// Location selection (radio buttons)
-document.querySelectorAll('input[name="location"]').forEach(radio => {
-    radio.addEventListener('change', function() {
-        console.log('Location change:', {
+// Location selection (click on wrapper divs)
+document.querySelector('#step-location .location-options').querySelectorAll('.service-option').forEach(option => {
+    option.addEventListener('click', function() {
+        const radio = this.querySelector('input[name="location"]');
+        const newLocation = radio.value;
+        
+        console.log('Location click:', {
             old: calculatorState.location,
-            new: this.value,
+            new: newLocation,
             currentStep: calculatorState.currentStep
         });
         
-        const newLocation = this.value;
+        // Check the radio
+        radio.checked = true;
         
         // Reset if location changed and already made progress
         if (calculatorState.currentStep > 4 && calculatorState.location !== newLocation) {
@@ -262,7 +260,7 @@ document.querySelectorAll('input[name="location"]').forEach(radio => {
         
         calculatorState.location = newLocation;
         
-        if (this.value === 'outside') {
+        if (newLocation === 'outside') {
             // Show distance options, don't transition yet
             document.getElementById('distance-options').style.display = 'block';
         } else {
