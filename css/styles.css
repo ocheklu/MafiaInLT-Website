@@ -1417,13 +1417,13 @@ section h2 {
     left: 0;
     top: 50%;
     transform: translate(-50%, -50%);
-    width: 16px;
-    height: 16px;
+    width: 8px;
+    height: 8px;
     background-color: #2d6a4f;
     border-radius: 50%;
     transition: left 0.5s ease;
-    z-index: 3;
-    box-shadow: 0 2px 8px rgba(45, 106, 79, 0.4);
+    z-index: 1;
+    box-shadow: 0 2px 4px rgba(45, 106, 79, 0.6);
 }
 
 /* Calculator Steps Animations */

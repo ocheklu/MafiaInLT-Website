@@ -15,29 +15,6 @@ const calculatorState = {
     completedSteps: [1]
 };
 
-// Map step numbers to step IDs dynamically
-function getStepId(stepNumber) {
-    const stepMap = {
-        1: 'step-service',
-        2: 'step-calendar',
-        3: calculatorState.service === 'atributika' ? null : 'step-tables',
-        4: calculatorState.service === 'zaidimo' ? 'step-location' : 'step-services',
-        5: 'step-services',
-        6: 'step-summary'
-    };
-    
-    // For atributika: 1→2→6
-    if (calculatorState.service === 'atributika') {
-        if (stepNumber === 3) return 'step-summary';
-        if (stepNumber > 3) return null;
-    }
-    
-    // For zaidimo: 1→2→3→4→4.1(if needed)→5→6
-    // For renginio: 1→2→3→5→6
-    
-    return stepMap[stepNumber];
-}
-
 // Update progress bar with bullet animation
 function updateProgressBar(currentStep) {
     const steps = document.querySelectorAll('.progress-step');
@@ -109,15 +86,26 @@ function goToStep(stepNumber) {
         return;
     }
     
-    const targetStepId = getStepId(stepNumber);
+    // Map step numbers to IDs based on service type
+    let targetStepId;
+    if (stepNumber === 1) targetStepId = 'step-service';
+    else if (stepNumber === 2) targetStepId = 'step-calendar';
+    else if (stepNumber === 3) {
+        if (calculatorState.service === 'atributika') return; // Skip for atributika
+        targetStepId = 'step-tables';
+    }
+    else if (stepNumber === 4) {
+        if (calculatorState.service === 'zaidimo') targetStepId = 'step-location';
+        else return; // Skip for renginio/atributika
+    }
+    else if (stepNumber === 5) targetStepId = 'step-services';
+    else if (stepNumber === 6) targetStepId = 'step-summary';
+    
     const currentStepId = document.querySelector('.calculator-step.active')?.id;
     
     if (!targetStepId || !currentStepId || targetStepId === currentStepId) {
         return;
     }
-    
-    // Don't reset if just navigating back without changes
-    // Reset will happen when user makes a new selection
     
     // Hide current step
     const currentStep = document.getElementById(currentStepId);
@@ -483,6 +471,9 @@ function showSummary(totalPrice) {
     summaryCard.innerHTML = summaryHTML;
     
     document.getElementById('total-price').textContent = totalPrice;
+    
+    // Hide next button on summary step
+    document.getElementById('next-to-summary-btn').style.display = 'none';
     
     // Transition to summary step
     transitionToStep('step-services', 'step-summary', 6);
