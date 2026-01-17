@@ -188,12 +188,10 @@ const additionalServicesPrices = {
 // Service selection
 document.querySelectorAll('.service-option').forEach(option => {
     option.addEventListener('click', function() {
-        // Check if same service - if so, just continue
         const newService = this.dataset.service;
-        const serviceChanged = calculatorState.service !== newService;
         
-        if (serviceChanged) {
-            // Reset all steps after step 1
+        // Reset if service changed and already made progress
+        if (calculatorState.service !== null && calculatorState.service !== newService) {
             resetStepsAfter(1);
         }
         
@@ -219,10 +217,9 @@ document.querySelectorAll('.service-option').forEach(option => {
 document.querySelectorAll('.table-option').forEach(option => {
     option.addEventListener('click', function() {
         const newTables = parseInt(this.dataset.tables);
-        const tablesChanged = calculatorState.tables !== newTables;
         
-        if (tablesChanged) {
-            // Reset all steps after step 3
+        // Reset if tables changed and already made progress
+        if (calculatorState.tables !== null && calculatorState.tables !== newTables) {
             resetStepsAfter(3);
         }
         
@@ -251,9 +248,11 @@ document.querySelectorAll('.table-option').forEach(option => {
 document.querySelectorAll('input[name="location"]').forEach(radio => {
     radio.addEventListener('change', function() {
         const newLocation = this.value;
-        const locationChanged = calculatorState.location !== newLocation;
         
-        if (locationChanged) {
+        // Reset if location changed and already made progress
+        // Note: default is 'vilnius', so check if we had a previous choice
+        const hadPreviousChoice = calculatorState.currentStep > 4;
+        if (hadPreviousChoice && calculatorState.location !== newLocation) {
             resetStepsAfter(4);
         }
         
@@ -277,9 +276,9 @@ document.querySelectorAll('input[name="location"]').forEach(radio => {
 document.querySelectorAll('.distance-option').forEach(option => {
     option.addEventListener('click', function() {
         const newDistance = parseInt(this.dataset.distance);
-        const distanceChanged = calculatorState.distance !== newDistance;
         
-        if (distanceChanged) {
+        // Reset only if distance was already chosen AND it's different
+        if (calculatorState.currentStep > 4 && calculatorState.distance !== newDistance) {
             resetStepsAfter(4);
         }
         
@@ -390,6 +389,9 @@ function showServicesStep() {
     // Add event listeners to checkboxes
     document.querySelectorAll('.additional-service').forEach(checkbox => {
         checkbox.addEventListener('change', function() {
+            // Save old state before change
+            const oldServicesCount = calculatorState.additionalServices.length;
+            
             if (this.checked) {
                 calculatorState.additionalServices.push({
                     name: this.dataset.service,
@@ -399,6 +401,12 @@ function showServicesStep() {
                 calculatorState.additionalServices = calculatorState.additionalServices.filter(
                     s => s.name !== this.dataset.service
                 );
+            }
+            
+            // Reset step 6 if services changed and we were already there
+            const newServicesCount = calculatorState.additionalServices.length;
+            if (calculatorState.currentStep > 5 && oldServicesCount !== newServicesCount) {
+                resetStepsAfter(5);
             }
         });
     });
