@@ -247,12 +247,16 @@ document.querySelectorAll('.table-option').forEach(option => {
 // Location selection (radio buttons)
 document.querySelectorAll('input[name="location"]').forEach(radio => {
     radio.addEventListener('change', function() {
+        console.log('Location change:', {
+            old: calculatorState.location,
+            new: this.value,
+            currentStep: calculatorState.currentStep
+        });
+        
         const newLocation = this.value;
         
         // Reset if location changed and already made progress
-        // Note: default is 'vilnius', so check if we had a previous choice
-        const hadPreviousChoice = calculatorState.currentStep > 4;
-        if (hadPreviousChoice && calculatorState.location !== newLocation) {
+        if (calculatorState.currentStep > 4 && calculatorState.location !== newLocation) {
             resetStepsAfter(4);
         }
         
