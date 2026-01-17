@@ -1,0 +1,569 @@
+// ===========================
+// CALCULATOR V2 - IMPROVED FLOW
+// ===========================
+
+const calculatorState = {
+    service: null,
+    dateStart: null,
+    dateEnd: null,
+    tables: null,
+    days: null,
+    location: 'vilnius',
+    distance: 0,
+    additionalServices: [],
+    currentStep: 1,
+    completedSteps: [1]
+};
+
+// Map step numbers to step IDs dynamically
+function getStepId(stepNumber) {
+    const stepMap = {
+        1: 'step-service',
+        2: 'step-calendar',
+        3: calculatorState.service === 'atributika' ? null : 'step-tables',
+        4: calculatorState.service === 'zaidimo' ? 'step-location' : 'step-services',
+        5: 'step-services',
+        6: 'step-summary'
+    };
+    
+    // For atributika: 1→2→6
+    if (calculatorState.service === 'atributika') {
+        if (stepNumber === 3) return 'step-summary';
+        if (stepNumber > 3) return null;
+    }
+    
+    // For zaidimo: 1→2→3→4→4.1(if needed)→5→6
+    // For renginio: 1→2→3→5→6
+    
+    return stepMap[stepNumber];
+}
+
+// Update progress bar with bullet animation
+function updateProgressBar(currentStep) {
+    const steps = document.querySelectorAll('.progress-step');
+    const progressLine = document.querySelector('.progress-line');
+    const progressBullet = document.querySelector('.progress-bullet');
+    
+    steps.forEach((step, index) => {
+        const stepNum = index + 1;
+        if (stepNum < currentStep) {
+            step.classList.add('completed');
+            step.classList.remove('active');
+        } else if (stepNum === currentStep) {
+            step.classList.add('active');
+            step.classList.remove('completed');
+        } else {
+            step.classList.remove('active', 'completed');
+        }
+    });
+    
+    const progress = ((currentStep - 1) / (steps.length - 1)) * 100;
+    progressLine.style.width = progress + '%';
+    
+    // Animate bullet
+    if (progressBullet) {
+        progressBullet.style.left = progress + '%';
+    }
+}
+
+// Reset all steps after given step number
+function resetStepsAfter(stepNumber) {
+    // Clear data based on step
+    if (stepNumber < 2) {
+        calculatorState.dateStart = null;
+        calculatorState.dateEnd = null;
+        calculatorState.tables = null;
+        calculatorState.days = null;
+        calculatorState.location = 'vilnius';
+        calculatorState.distance = 0;
+        calculatorState.additionalServices = [];
+    }
+    if (stepNumber < 3) {
+        calculatorState.tables = null;
+        calculatorState.days = null;
+        calculatorState.location = 'vilnius';
+        calculatorState.distance = 0;
+        calculatorState.additionalServices = [];
+    }
+    if (stepNumber < 4) {
+        calculatorState.location = 'vilnius';
+        calculatorState.distance = 0;
+        calculatorState.additionalServices = [];
+    }
+    if (stepNumber < 5) {
+        calculatorState.additionalServices = [];
+    }
+    
+    // Update completed steps
+    calculatorState.completedSteps = calculatorState.completedSteps.filter(s => s <= stepNumber);
+    calculatorState.currentStep = stepNumber;
+    
+    // Update progress bar visual
+    updateProgressBar(stepNumber);
+}
+
+// Go to specific step by clicking on progress bar
+function goToStep(stepNumber) {
+    // Can only go to completed steps or current step
+    if (!calculatorState.completedSteps.includes(stepNumber)) {
+        return;
+    }
+    
+    const targetStepId = getStepId(stepNumber);
+    const currentStepId = document.querySelector('.calculator-step.active')?.id;
+    
+    if (!targetStepId || !currentStepId || targetStepId === currentStepId) {
+        return;
+    }
+    
+    // Don't reset if just navigating back without changes
+    // Reset will happen when user makes a new selection
+    
+    // Hide current step
+    const currentStep = document.getElementById(currentStepId);
+    currentStep.classList.remove('active');
+    currentStep.style.display = 'none';
+    
+    // Show target step
+    const targetStep = document.getElementById(targetStepId);
+    targetStep.style.display = 'block';
+    targetStep.classList.add('active');
+    
+    calculatorState.currentStep = stepNumber;
+    updateProgressBar(stepNumber);
+    
+    // Re-initialize calendar if going back to step 2
+    if (stepNumber === 2 && targetStepId === 'step-calendar') {
+        setTimeout(() => initCalculatorCalendar(), 100);
+    }
+    
+    // Re-show services if going to step 5
+    if (stepNumber === 5 && targetStepId === 'step-services') {
+        setTimeout(() => showServicesStep(), 100);
+    }
+}
+
+// Transition between steps with animation
+function transitionToStep(currentStepId, nextStepId, progressStep) {
+    const currentStep = document.getElementById(currentStepId);
+    const nextStep = document.getElementById(nextStepId);
+    
+    if (!currentStep || !nextStep) return;
+    
+    // Mark step as completed
+    if (!calculatorState.completedSteps.includes(progressStep)) {
+        calculatorState.completedSteps.push(progressStep);
+    }
+    calculatorState.currentStep = progressStep;
+    
+    // Exit current step
+    currentStep.classList.add('exit-left');
+    currentStep.classList.remove('active');
+    
+    setTimeout(() => {
+        currentStep.style.display = 'none';
+        
+        // Show and animate next step
+        nextStep.style.display = 'block';
+        nextStep.classList.remove('exit-left');
+        
+        // Force reflow
+        nextStep.offsetHeight;
+        
+        // Add active class to trigger CSS animation
+        nextStep.classList.add('active');
+        updateProgressBar(progressStep);
+    }, 500);
+}
+
+const prices = {
+    zaidimo: {
+        1: 600,
+        2: 1200
+    },
+    renginio: {
+        1: 1200,
+        2: 2200
+    },
+    atributika: 150
+};
+
+const additionalServicesPrices = {
+    'Stalo dekoravimas': 200,
+    'Stalų dekoravimas': 400,
+    'Vietos paieška ir rezervacija': 50,
+    'Erdvės dekoravimas': 400,
+    'Foto paslaugos (3 val.)': 600,
+    'Video paslaugos (3 val.)': 600
+};
+
+// Service selection
+document.querySelectorAll('.service-option').forEach(option => {
+    option.addEventListener('click', function() {
+        // Check if same service - if so, just continue
+        const newService = this.dataset.service;
+        const serviceChanged = calculatorState.service !== newService;
+        
+        if (serviceChanged) {
+            // Reset all steps after step 1
+            resetStepsAfter(1);
+        }
+        
+        // Remove active class from all
+        document.querySelectorAll('.service-option').forEach(opt => {
+            opt.style.borderColor = '#e0e0e0';
+            opt.style.background = 'white';
+        });
+        
+        // Add active to clicked
+        this.style.borderColor = '#000';
+        this.style.background = '#f8f8f8';
+        
+        calculatorState.service = newService;
+        
+        // Animate step transition
+        transitionToStep('step-service', 'step-calendar', 2);
+        setTimeout(() => initCalculatorCalendar(), 600);
+    });
+});
+
+// Table selection
+document.querySelectorAll('.table-option').forEach(option => {
+    option.addEventListener('click', function() {
+        const newTables = parseInt(this.dataset.tables);
+        const tablesChanged = calculatorState.tables !== newTables;
+        
+        if (tablesChanged) {
+            // Reset all steps after step 3
+            resetStepsAfter(3);
+        }
+        
+        document.querySelectorAll('.table-option > div').forEach(div => {
+            div.style.borderColor = '#e0e0e0';
+            div.style.background = 'white';
+        });
+        
+        this.querySelector('div').style.borderColor = '#000';
+        this.querySelector('div').style.background = '#f8f8f8';
+        
+        calculatorState.tables = newTables;
+        
+        // Transition to next step
+        if (calculatorState.service === 'zaidimo') {
+            transitionToStep('step-tables', 'step-location', 4);
+        } else {
+            // For renginio, go to services
+            transitionToStep('step-tables', 'step-services', 5);
+            setTimeout(() => showServicesStep(), 600);
+        }
+    });
+});
+
+// Location selection (radio buttons)
+document.querySelectorAll('input[name="location"]').forEach(radio => {
+    radio.addEventListener('change', function() {
+        const newLocation = this.value;
+        const locationChanged = calculatorState.location !== newLocation;
+        
+        if (locationChanged) {
+            resetStepsAfter(4);
+        }
+        
+        calculatorState.location = newLocation;
+        
+        if (this.value === 'outside') {
+            // Show distance options, don't transition yet
+            document.getElementById('distance-options').style.display = 'block';
+        } else {
+            // Vilnius selected - transition to services
+            document.getElementById('distance-options').style.display = 'none';
+            calculatorState.distance = 0;
+            
+            transitionToStep('step-location', 'step-services', 5);
+            setTimeout(() => showServicesStep(), 600);
+        }
+    });
+});
+
+// Distance selection (buttons instead of dropdown)
+document.querySelectorAll('.distance-option').forEach(option => {
+    option.addEventListener('click', function() {
+        const newDistance = parseInt(this.dataset.distance);
+        const distanceChanged = calculatorState.distance !== newDistance;
+        
+        if (distanceChanged) {
+            resetStepsAfter(4);
+        }
+        
+        // Remove active from all
+        document.querySelectorAll('.distance-option').forEach(opt => {
+            opt.style.borderColor = '#e0e0e0';
+            opt.style.background = 'white';
+        });
+        
+        // Add active to clicked
+        this.style.borderColor = '#000';
+        this.style.background = '#f8f8f8';
+        
+        calculatorState.distance = newDistance;
+        
+        // Transition to services
+        transitionToStep('step-location', 'step-services', 5);
+        setTimeout(() => showServicesStep(), 600);
+    });
+});
+
+// Days selection (for atributika)
+document.getElementById('days-select')?.addEventListener('change', function() {
+    calculatorState.days = parseInt(this.value);
+});
+
+function showServicesStep() {
+    const servicesList = document.getElementById('services-list');
+    servicesList.innerHTML = '';
+    
+    let services = [];
+    
+    if (calculatorState.service === 'zaidimo') {
+        if (calculatorState.tables === 1) {
+            services = [
+                { name: '3 mafijos sesijos', included: true },
+                { name: 'Vedėjo paslaugos', included: true },
+                { name: 'Atributika', included: true },
+                { name: 'Apvalus stalas su staltiese', included: true },
+                { name: 'Svečių vardų kortelės', included: true },
+                { name: 'Stalo dekoravimas', price: 200 },
+                { name: 'Vietos paieška ir rezervacija', price: 50 }
+            ];
+        } else {
+            services = [
+                { name: '6 mafijos sesijos', included: true },
+                { name: 'Vedėjų paslaugos', included: true },
+                { name: 'Atributika', included: true },
+                { name: 'Apvalus stalai su staltiese', included: true },
+                { name: 'Svečių vardų kortelės', included: true },
+                { name: 'Stalų dekoravimas', price: 400 },
+                { name: 'Vietos paieška ir rezervacija', price: 50 }
+            ];
+        }
+    } else if (calculatorState.service === 'renginio') {
+        const commonServices = [
+            { name: 'Vietos paieška ir rezervacija', included: true },
+            { name: 'Programos planavimas', included: true },
+            { name: 'Renginio koordinavimas vietoje', included: true },
+            { name: 'Stalo dekoravimas', included: true },
+            { name: calculatorState.tables === 1 ? '3 mafijos sesijos' : '6 mafijos sesijos', included: true },
+            { name: 'Vedėjo paslaugos', included: true },
+            { name: 'Atributika', included: true },
+            { name: calculatorState.tables === 1 ? 'Apvalus stalas su staltiese' : 'Apvalus stalai su staltiese', included: true },
+            { name: 'Svečių vardų kortelės', included: true },
+            { name: 'Erdvės dekoravimas', price: 400 },
+            { name: 'Foto paslaugos (3 val.)', price: 600 },
+            { name: 'Video paslaugos (3 val.)', price: 600 }
+        ];
+        services = commonServices;
+    } else if (calculatorState.service === 'atributika') {
+        services = [
+            { name: 'Kaukės', included: true },
+            { name: 'Revolveriai', included: true },
+            { name: 'Vaidmenų kortelės', included: true },
+            { name: 'Foto paslaugos (3 val.)', price: 600 },
+            { name: 'Video paslaugos (3 val.)', price: 600 }
+        ];
+    }
+    
+    services.forEach(service => {
+        const serviceDiv = document.createElement('div');
+        serviceDiv.style.cssText = 'padding: 1rem; border: 2px solid #e0e0e0; border-radius: 10px; display: flex; justify-content: space-between; align-items: center;';
+        
+        if (service.included) {
+            serviceDiv.innerHTML = `
+                <label style="display: flex; align-items: center; flex: 1; opacity: 0.7;">
+                    <span style="color: #2d6a4f; margin-right: 1rem; font-size: 1.2rem;">✓</span>
+                    <span>${service.name}</span>
+                </label>
+            `;
+        } else {
+            serviceDiv.innerHTML = `
+                <label style="display: flex; align-items: center; flex: 1; cursor: pointer;">
+                    <input type="checkbox" class="additional-service" data-service="${service.name}" data-price="${service.price}" style="margin-right: 1rem;">
+                    <span>${service.name}</span>
+                </label>
+                <span style="font-weight: 600;">+${service.price} €</span>
+            `;
+        }
+        
+        servicesList.appendChild(serviceDiv);
+    });
+    
+    // Show next button
+    document.getElementById('next-to-summary-btn').style.display = 'inline-block';
+    
+    // Add event listeners to checkboxes
+    document.querySelectorAll('.additional-service').forEach(checkbox => {
+        checkbox.addEventListener('change', function() {
+            if (this.checked) {
+                calculatorState.additionalServices.push({
+                    name: this.dataset.service,
+                    price: parseInt(this.dataset.price)
+                });
+            } else {
+                calculatorState.additionalServices = calculatorState.additionalServices.filter(
+                    s => s.name !== this.dataset.service
+                );
+            }
+        });
+    });
+}
+
+// Next to summary button
+document.getElementById('next-to-summary-btn')?.addEventListener('click', function() {
+    let basePrice = 0;
+    
+    if (calculatorState.service === 'atributika') {
+        basePrice = prices.atributika * calculatorState.days;
+    } else {
+        basePrice = prices[calculatorState.service][calculatorState.tables];
+        basePrice += calculatorState.distance;
+    }
+    
+    const additionalPrice = calculatorState.additionalServices.reduce((sum, service) => sum + service.price, 0);
+    const totalPrice = basePrice + additionalPrice;
+    
+    // Show summary
+    showSummary(totalPrice);
+});
+
+function showSummary(totalPrice) {
+    const summaryCard = document.getElementById('summary-card');
+    let summaryHTML = '<div style="font-size: 0.95rem; line-height: 1.8;">';
+    
+    // Service type
+    const serviceNames = {
+        'zaidimo': 'Žaidimo organizavimas',
+        'renginio': 'Renginio organizavimas',
+        'atributika': 'Atributikos nuoma'
+    };
+    summaryHTML += `<p><strong>Paslauga:</strong> ${serviceNames[calculatorState.service]}</p>`;
+    
+    // Date
+    if (calculatorState.dateStart) {
+        summaryHTML += `<p><strong>Data:</strong> ${calculatorState.dateStart}</p>`;
+    }
+    if (calculatorState.dateEnd && calculatorState.service === 'atributika') {
+        summaryHTML += `<p><strong>Pabaigos data:</strong> ${calculatorState.dateEnd}</p>`;
+    }
+    
+    // Tables or days
+    if (calculatorState.tables) {
+        summaryHTML += `<p><strong>Stalų kiekis:</strong> ${calculatorState.tables}</p>`;
+    }
+    if (calculatorState.days) {
+        summaryHTML += `<p><strong>Parų kiekis:</strong> ${calculatorState.days}</p>`;
+    }
+    
+    // Location
+    if (calculatorState.service !== 'atributika') {
+        summaryHTML += `<p><strong>Lokacija:</strong> ${calculatorState.location === 'vilnius' ? 'Vilnius' : 'Už Vilniaus ribų'}</p>`;
+        if (calculatorState.distance > 0) {
+            summaryHTML += `<p><strong>Atstumas:</strong> +${calculatorState.distance} €</p>`;
+        }
+    }
+    
+    // Additional services
+    if (calculatorState.additionalServices.length > 0) {
+        summaryHTML += '<p><strong>Papildomos paslaugos:</strong></p><ul style="margin-left: 1.5rem;">';
+        calculatorState.additionalServices.forEach(service => {
+            summaryHTML += `<li>${service.name} (+${service.price} €)</li>`;
+        });
+        summaryHTML += '</ul>';
+    }
+    
+    summaryHTML += '</div>';
+    summaryCard.innerHTML = summaryHTML;
+    
+    document.getElementById('total-price').textContent = totalPrice;
+    
+    // Transition to summary step
+    transitionToStep('step-services', 'step-summary', 6);
+}
+
+// Reserve button tooltip
+document.getElementById('reserve-btn')?.addEventListener('mouseenter', function() {
+    this.parentElement.querySelector('.tooltip').style.display = 'block';
+});
+document.getElementById('reserve-btn')?.addEventListener('mouseleave', function() {
+    this.parentElement.querySelector('.tooltip').style.display = 'none';
+});
+
+// Reserve button click
+document.getElementById('reserve-btn')?.addEventListener('click', function() {
+    const email = document.getElementById('client-email').value;
+    
+    if (!email || !email.includes('@')) {
+        alert('Prašome įvesti galiojantį el. pašto adresą');
+        document.getElementById('client-email').focus();
+        return;
+    }
+    
+    // Here you would send the data to Formspree or your email service
+    alert('Ačiū! Jūsų užklausa išsiųsta. Susisieksime su jumis artimiausiu metu.');
+});
+
+// Initialize calendar when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    // Calendar will be initialized when service is selected
+});
+
+// Initialize calculator calendar
+let calculatorCalendar = null;
+
+function initCalculatorCalendar() {
+    if (typeof Calendar === 'undefined') {
+        console.error('Calendar class not found');
+        return;
+    }
+    
+    const isAtributika = calculatorState.service === 'atributika';
+    
+    calculatorCalendar = new Calendar('calculator-calendar', function(date) {
+        // Callback when date is selected
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        
+        if (isAtributika && !calculatorState.dateStart) {
+            // First date selected for atributika
+            calculatorState.dateStart = `${year}-${month}-${day}`;
+            alert('Pasirinkite pabaigos datą');
+        } else if (isAtributika && calculatorState.dateStart && !calculatorState.dateEnd) {
+            // Second date selected for atributika
+            calculatorState.dateEnd = `${year}-${month}-${day}`;
+            
+            // Calculate days
+            const start = new Date(calculatorState.dateStart);
+            const end = new Date(calculatorState.dateEnd);
+            const diffTime = Math.abs(end - start);
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
+            calculatorState.days = diffDays;
+            
+            // Go directly to services step (step 5)
+            transitionToStep('step-calendar', 'step-services', 5);
+            setTimeout(() => showServicesStep(), 600);
+        } else {
+            // Single date for zaidimo/renginio
+            calculatorState.dateStart = `${year}-${month}-${day}`;
+            transitionToStep('step-calendar', 'step-tables', 3);
+        }
+    });
+}
+
+// Make progress steps clickable
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.progress-step').forEach(step => {
+        step.addEventListener('click', function() {
+            const stepNumber = parseInt(this.dataset.step);
+            goToStep(stepNumber);
+        });
+    });
+});
