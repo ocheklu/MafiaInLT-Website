@@ -73,7 +73,6 @@ function resetStepsAfter(stepNumber) {
     
     // Update completed steps
     calculatorState.completedSteps = calculatorState.completedSteps.filter(s => s <= stepNumber);
-    calculatorState.currentStep = stepNumber;
     
     // Update progress bar visual
     updateProgressBar(stepNumber);
@@ -95,8 +94,8 @@ function goToStep(stepNumber) {
         targetStepId = 'step-tables';
     }
     else if (stepNumber === 4) {
-        if (calculatorState.service === 'zaidimo') targetStepId = 'step-location';
-        else return; // Skip for renginio/atributika
+        if (calculatorState.service === 'atributika') return; // Skip for atributika
+        targetStepId = 'step-location'; // For both zaidimo and renginio
     }
     else if (stepNumber === 5) targetStepId = 'step-services';
     else if (stepNumber === 6) targetStepId = 'step-summary';
@@ -186,7 +185,7 @@ const additionalServicesPrices = {
 };
 
 // Service selection
-document.querySelectorAll('.service-option').forEach(option => {
+document.querySelector('#step-service').querySelectorAll('.service-option').forEach(option => {
     option.addEventListener('click', function() {
         const newService = this.dataset.service;
         
