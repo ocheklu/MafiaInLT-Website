@@ -372,9 +372,12 @@ function showServicesStep() {
                 </label>
             `;
         } else {
+            // Check if service already selected
+            const isSelected = calculatorState.additionalServices.some(s => s.name === service.name);
+            
             serviceDiv.innerHTML = `
                 <label style="display: flex; align-items: center; flex: 1; cursor: pointer;">
-                    <input type="checkbox" class="additional-service" data-service="${service.name}" data-price="${service.price}" style="margin-right: 1rem;">
+                    <input type="checkbox" class="additional-service" data-service="${service.name}" data-price="${service.price}" style="margin-right: 1rem;" ${isSelected ? 'checked' : ''}>
                     <span>${service.name}</span>
                 </label>
                 <span style="font-weight: 600;">+${service.price} €</span>
