@@ -1165,7 +1165,7 @@ section h2 {
 /* Flip Cards - Desktop */
 .service-flip-card {
     perspective: 1000px;
-    height: 540px;
+    height: 550px;
     cursor: pointer;
 }
 
@@ -1348,6 +1348,21 @@ section h2 {
     align-items: center;
     position: relative;
     z-index: 1;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.progress-step:hover .progress-circle {
+    transform: scale(1.1);
+}
+
+.progress-step.completed {
+    cursor: pointer;
+}
+
+.progress-step:not(.completed):not(.active) {
+    cursor: not-allowed;
+    opacity: 0.5;
 }
 
 .progress-circle {

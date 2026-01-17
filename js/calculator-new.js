@@ -10,7 +10,9 @@ const calculatorState = {
     days: null,
     location: 'vilnius',
     distance: 0,
-    additionalServices: []
+    additionalServices: [],
+    currentStep: 1,
+    completedSteps: [1]
 };
 
 // Update progress bar
@@ -34,12 +36,85 @@ function updateProgressBar(currentStep) {
     progressLine.style.width = progress + '%';
 }
 
+// Reset all steps after given step number
+function resetStepsAfter(stepNumber) {
+    // Clear data based on step
+    if (stepNumber < 2) {
+        calculatorState.dateStart = null;
+        calculatorState.dateEnd = null;
+    }
+    if (stepNumber < 3) {
+        calculatorState.tables = null;
+        calculatorState.days = null;
+    }
+    if (stepNumber < 4) {
+        calculatorState.location = 'vilnius';
+        calculatorState.distance = 0;
+    }
+    if (stepNumber < 5) {
+        calculatorState.additionalServices = [];
+    }
+    
+    // Update completed steps
+    calculatorState.completedSteps = calculatorState.completedSteps.filter(s => s <= stepNumber);
+    calculatorState.currentStep = stepNumber;
+    
+    // Update progress bar visual
+    updateProgressBar(stepNumber);
+}
+
+// Go to specific step by clicking on progress bar
+function goToStep(stepNumber) {
+    // Can only go to completed steps
+    if (!calculatorState.completedSteps.includes(stepNumber)) {
+        return;
+    }
+    
+    // Reset all steps after this one
+    resetStepsAfter(stepNumber);
+    
+    // Map step number to step ID
+    const stepMap = {
+        1: 'step-service',
+        2: 'step-calendar',
+        3: calculatorState.service === 'atributika' ? 'step-days' : 'step-tables',
+        4: calculatorState.service === 'zaidimo' ? 'step-location' : 'step-services',
+        5: 'step-services'
+    };
+    
+    const targetStepId = stepMap[stepNumber];
+    const currentStepId = document.querySelector('.calculator-step.active')?.id;
+    
+    if (!targetStepId || !currentStepId || targetStepId === currentStepId) {
+        return;
+    }
+    
+    // Hide current step
+    const currentStep = document.getElementById(currentStepId);
+    currentStep.classList.remove('active');
+    currentStep.style.display = 'none';
+    
+    // Show target step
+    const targetStep = document.getElementById(targetStepId);
+    targetStep.style.display = 'block';
+    targetStep.classList.add('active');
+    
+    calculatorState.currentStep = stepNumber;
+    updateProgressBar(stepNumber);
+}
+
 // Transition between steps with animation
 function transitionToStep(currentStepId, nextStepId, progressStep) {
     const currentStep = document.getElementById(currentStepId);
     const nextStep = document.getElementById(nextStepId);
     
     if (!currentStep || !nextStep) return;
+    
+    // Mark step as completed
+    if (!calculatorState.completedSteps.includes(progressStep)) {
+        calculatorState.completedSteps.push(progressStep);
+    }
+    calculatorState.currentStep = progressStep;
     
     // Exit current step
     currentStep.classList.add('exit-left');
@@ -130,23 +205,29 @@ if (calculatorState.service === 'zaidimo') {
 // Location selection
 document.querySelectorAll('input[name="location"]').forEach(radio => {
     radio.addEventListener('change', function() {
-        if (this.value === 'outside') {
-            document.getElementById('distance-select').style.display = 'block';
-        } else {
-            document.getElementById('distance-select').style.display = 'none';
-            calculatorState.distance = 0;
-        }
         calculatorState.location = this.value;
         
-        // Transition to services step
-        transitionToStep('step-location', 'step-services', 4);
-        setTimeout(() => showServicesStep(), 600);
+        if (this.value === 'outside') {
+            // Show distance selector, DON'T transition yet
+            document.getElementById('distance-select').style.display = 'block';
+        } else {
+            // Vilnius selected - hide distance and transition immediately
+            document.getElementById('distance-select').style.display = 'none';
+            calculatorState.distance = 0;
+            
+            transitionToStep('step-location', 'step-services', 4);
+            setTimeout(() => showServicesStep(), 600);
+        }
     });
 });
 
 // Distance selection
 document.querySelector('#distance-select select')?.addEventListener('change', function() {
     calculatorState.distance = parseInt(this.value);
+    
+    // After distance is selected, transition to services
+    transitionToStep('step-location', 'step-services', 4);
+    setTimeout(() => showServicesStep(), 600);
 });
 
 // Days selection
@@ -384,3 +465,13 @@ function initCalculatorCalendar() {
         }
     });
 }
+
+// Make progress steps clickable
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.progress-step').forEach(step => {
+        step.addEventListener('click', function() {
+            const stepNumber = parseInt(this.dataset.step);
+            goToStep(stepNumber);
+        });
+    });
+});
