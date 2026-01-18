@@ -152,6 +152,11 @@ class Calendar {
                 this.selectedDateStart = date;
                 this.selectedDateEnd = null;
                 this.render();
+                
+                // Call callback for first date too
+                if (this.onDateSelect) {
+                    this.onDateSelect(date);
+                }
             } else {
                 // Second date
                 this.selectedDateEnd = date;
