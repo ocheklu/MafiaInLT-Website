@@ -374,6 +374,7 @@ function showServicesStep() {
         } else {
             // Check if service already selected
             const isSelected = calculatorState.additionalServices.some(s => s.name === service.name);
+            console.log('Service:', service.name, 'isSelected:', isSelected, 'additionalServices:', calculatorState.additionalServices);
             
             serviceDiv.innerHTML = `
                 <label style="display: flex; align-items: center; flex: 1; cursor: pointer;">
