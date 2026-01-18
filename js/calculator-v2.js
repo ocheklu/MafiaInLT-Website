@@ -558,9 +558,10 @@ function initCalculatorCalendar() {
             newDate
         });
         
-        if (isAtributika && !calculatorState.dateStart) {
-            // First date selected for atributika
+        if (isAtributika && (!calculatorState.dateStart || (calculatorState.dateStart && calculatorState.dateEnd))) {
+            // First date selected for atributika (or resetting range)
             calculatorState.dateStart = newDate;
+            calculatorState.dateEnd = null; // Reset end date
             
             // Show tooltip under calendar
             let tooltip = document.getElementById('calendar-tooltip');
