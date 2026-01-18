@@ -1331,10 +1331,12 @@ section h2 {
 
 .progress-bar-container {
     background: white;
-    padding: 2rem;
-    border-radius: 16px;
+    padding: 2.5rem 2rem;
+    border-radius: 32px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
     margin-bottom: 3rem;
+    display: flex;
+    align-items: center;
 }
 
 .progress-bar {
@@ -1345,15 +1347,14 @@ section h2 {
     padding: 0 2rem;
 }
 
-.progress-bar::before {
-    content: '';
+.progress-line {
     position: absolute;
     top: 20px;
-    left: 2rem;
-    right: 2rem;
+    left: calc(2rem + 20px);
     height: 3px;
-    background: #e0e0e0;
-    z-index: 0;
+    background: #000;
+    z-index: 1;
+    transition: width 0.5s ease;
 }
 
 .progress-step {
@@ -1425,6 +1426,10 @@ section h2 {
     color: #999;
     transition: all 0.3s ease;
     text-align: center;
+    min-height: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .progress-step.active .progress-label {
