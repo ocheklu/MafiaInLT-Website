@@ -505,11 +505,17 @@ function showSummary(totalPrice) {
 // Reserve button tooltip
 document.getElementById('reserve-btn')?.addEventListener('mouseenter', function() {
     const tooltip = this.parentElement.querySelector('.tooltip');
-    if (tooltip) tooltip.style.display = 'block';
+    if (tooltip) {
+        tooltip.style.visibility = 'visible';
+        tooltip.style.opacity = '1';
+    }
 });
 document.getElementById('reserve-btn')?.addEventListener('mouseleave', function() {
     const tooltip = this.parentElement.querySelector('.tooltip');
-    if (tooltip) tooltip.style.display = 'none';
+    if (tooltip) {
+        tooltip.style.visibility = 'hidden';
+        tooltip.style.opacity = '0';
+    }
 });
 
 // Reserve button click
