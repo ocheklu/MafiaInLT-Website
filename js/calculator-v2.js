@@ -551,6 +551,12 @@ function initCalculatorCalendar() {
         const day = String(date.getDate()).padStart(2, '0');
         
         const newDate = `${year}-${month}-${day}`;
+        console.log('Date selected:', {
+            isAtributika,
+            dateStart: calculatorState.dateStart,
+            dateEnd: calculatorState.dateEnd,
+            newDate
+        });
         
         if (isAtributika && !calculatorState.dateStart) {
             // First date selected for atributika

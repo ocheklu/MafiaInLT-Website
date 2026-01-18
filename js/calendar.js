@@ -114,6 +114,8 @@ class Calendar {
                 } else if (dateString > startStr && dateString < endStr) {
                     dayElement.classList.add('in-range');
                 }
+                // Allow clicking to reset range
+                dayElement.addEventListener('click', () => this.selectDate(currentDayDate));
             }
             // Range mode: check if start date selected
             else if (this.isRangeMode && this.selectedDateStart && !this.selectedDateEnd) {
@@ -121,6 +123,8 @@ class Calendar {
                 if (dateString === startStr) {
                     dayElement.classList.add('selected');
                 }
+                // Allow clicking to select second date
+                dayElement.addEventListener('click', () => this.selectDate(currentDayDate));
             }
             // Дата доступна для выбора
             else {
