@@ -525,8 +525,23 @@ document.getElementById('reserve-btn')?.addEventListener('click', function() {
     const email = document.getElementById('client-email').value;
     
     if (!email || !email.includes('@')) {
-        alert('Prašome įvesti galiojantį el. pašto adresą');
+        // Show error tooltip under email input
+        let errorTooltip = document.getElementById('email-error-tooltip');
+        if (!errorTooltip) {
+            errorTooltip = document.createElement('div');
+            errorTooltip.id = 'email-error-tooltip';
+            errorTooltip.style.cssText = 'margin-top: 0.5rem; padding: 0.6rem 1rem; background: #000; color: #d4af37; border: 2px solid #d4af37; border-radius: 6px; text-align: center; font-size: 0.9rem; animation: fadeIn 0.3s ease;';
+            errorTooltip.textContent = 'Prašome įvesti galiojantį el. pašto adresą';
+            document.getElementById('client-email').parentElement.appendChild(errorTooltip);
+        }
+        errorTooltip.style.display = 'block';
         document.getElementById('client-email').focus();
+        
+        // Hide after 3 seconds
+        setTimeout(() => {
+            errorTooltip.style.display = 'none';
+        }, 3000);
+        
         return;
     }
     
