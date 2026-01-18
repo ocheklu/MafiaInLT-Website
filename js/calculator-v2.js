@@ -542,6 +542,8 @@ function initCalculatorCalendar() {
     
     const isAtributika = calculatorState.service === 'atributika';
     
+    const calendarOptions = isAtributika ? { rangeMode: true } : {};
+    
     calculatorCalendar = new Calendar('calculator-calendar', function(date) {
         // Callback when date is selected
         const year = date.getFullYear();
@@ -559,7 +561,7 @@ function initCalculatorCalendar() {
             if (!tooltip) {
                 tooltip = document.createElement('div');
                 tooltip.id = 'calendar-tooltip';
-                tooltip.style.cssText = 'margin-top: 1rem; padding: 1rem; background: #2d6a4f; color: white; border-radius: 8px; text-align: center; animation: fadeIn 0.3s ease;';
+                tooltip.style.cssText = 'margin-top: 0.8rem; padding: 0.6rem 1rem; background: #000; color: #d4af37; border: 2px solid #d4af37; border-radius: 6px; text-align: center; font-size: 0.9rem; animation: fadeIn 0.3s ease;';
                 tooltip.textContent = 'Pasirinkite pabaigos datą';
                 document.getElementById('calculator-calendar').parentElement.appendChild(tooltip);
             }
@@ -599,14 +601,22 @@ function initCalculatorCalendar() {
             calculatorState.dateStart = newDate;
             transitionToStep('step-calendar', 'step-tables', 3);
         }
-    });
+    }, calendarOptions);
     
     // Restore previously selected date if exists
     if (calculatorState.dateStart) {
         const [year, month, day] = calculatorState.dateStart.split('-');
-        calculatorState.currentMonth = parseInt(month) - 1;
-        calculatorState.currentYear = parseInt(year);
-        calculatorCalendar.selectedDate = new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
+        
+        if (isAtributika && calculatorState.dateEnd) {
+            // Restore both dates for atributika
+            const [year2, month2, day2] = calculatorState.dateEnd.split('-');
+            calculatorCalendar.selectedDateStart = new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
+            calculatorCalendar.selectedDateEnd = new Date(parseInt(year2), parseInt(month2) - 1, parseInt(day2));
+        } else {
+            // Restore single date for zaidimo/renginio
+            calculatorCalendar.selectedDate = new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
+        }
+        
         calculatorCalendar.render();
     }
 }

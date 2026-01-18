@@ -3,13 +3,18 @@
 // ===========================
 
 class Calendar {
-    constructor(containerId, onDateSelect) {
+    constructor(containerId, onDateSelect, options = {}) {
         this.container = document.getElementById(containerId);
         if (!this.container) return;
         
         this.currentDate = new Date();
         this.selectedDate = null;
         this.onDateSelect = onDateSelect;
+        
+        // Range mode for selecting two dates
+        this.isRangeMode = options.rangeMode || false;
+        this.selectedDateStart = null;
+        this.selectedDateEnd = null;
         
         this.monthNames = [
             'Sausis', 'Vasaris', 'Kovas', 'Balandis', 'Gegužė', 'Birželis',
@@ -99,6 +104,24 @@ class Calendar {
             else if (this.selectedDate && this.formatDate(this.selectedDate) === dateString) {
                 dayElement.classList.add('selected');
             }
+            // Range mode: check if date is in range
+            else if (this.isRangeMode && this.selectedDateStart && this.selectedDateEnd) {
+                const startStr = this.formatDate(this.selectedDateStart);
+                const endStr = this.formatDate(this.selectedDateEnd);
+                
+                if (dateString === startStr || dateString === endStr) {
+                    dayElement.classList.add('selected');
+                } else if (dateString > startStr && dateString < endStr) {
+                    dayElement.classList.add('in-range');
+                }
+            }
+            // Range mode: check if start date selected
+            else if (this.isRangeMode && this.selectedDateStart && !this.selectedDateEnd) {
+                const startStr = this.formatDate(this.selectedDateStart);
+                if (dateString === startStr) {
+                    dayElement.classList.add('selected');
+                }
+            }
             // Дата доступна для выбора
             else {
                 dayElement.addEventListener('click', () => this.selectDate(currentDayDate));
@@ -118,11 +141,30 @@ class Calendar {
     }
     
     selectDate(date) {
-        this.selectedDate = date;
-        this.render();
-        
-        if (this.onDateSelect) {
-            this.onDateSelect(date);
+        if (this.isRangeMode) {
+            // Range mode: select start and end dates
+            if (!this.selectedDateStart || (this.selectedDateStart && this.selectedDateEnd)) {
+                // First date or reset
+                this.selectedDateStart = date;
+                this.selectedDateEnd = null;
+                this.render();
+            } else {
+                // Second date
+                this.selectedDateEnd = date;
+                this.render();
+                
+                if (this.onDateSelect) {
+                    this.onDateSelect(date);
+                }
+            }
+        } else {
+            // Single date mode
+            this.selectedDate = date;
+            this.render();
+            
+            if (this.onDateSelect) {
+                this.onDateSelect(date);
+            }
         }
     }
     

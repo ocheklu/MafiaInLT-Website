@@ -544,6 +544,11 @@ section h2 {
     color: var(--bg-color);
 }
 
+.calendar-day.in-range {
+    background-color: #e8f5e9;
+    color: #2d6a4f;
+}
+
 .calendar-day.blocked {
     background-color: #ffebee;
     color: #c62828;
