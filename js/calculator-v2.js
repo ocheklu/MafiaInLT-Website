@@ -352,9 +352,19 @@ function showServicesStep() {
         services = commonServices;
     } else if (calculatorState.service === 'atributika') {
         services = [
-            { name: 'Kaukės', included: true },
-            { name: 'Revolveriai', included: true },
-            { name: 'Vaidmenų kortelės', included: true },
+            { name: 'Kaukės | 10 vnt', included: true },
+            { name: 'Revolveriai | 10 vnt', included: true },
+            { name: 'Vokai | 10 vnt', included: true },
+            { name: 'Vaidmenų kortelės | 10 vnt', included: true },
+            { name: 'Šablonai vedėjui | 3 vnt', included: true },
+            { name: 'Pagrindas rašymui', included: true },
+            { name: 'Rašiklis', included: true },
+            { name: 'Papildomos kaukės | 10 vnt', price: 40 },
+            { name: 'Papildomi revolveriai | 10 vnt', price: 40 },
+            { name: 'Papildomi vokai | 10 vnt', price: 20 },
+            { name: 'Papildomos vaidmenų kortelės', price: 20 },
+            { name: 'Papildomas rinkinys vedėjui', price: 20 },
+
             { name: 'Foto paslaugos (3 val.)', price: 600 },
             { name: 'Video paslaugos (3 val.)', price: 600 }
         ];
@@ -543,7 +553,17 @@ function initCalculatorCalendar() {
         if (isAtributika && !calculatorState.dateStart) {
             // First date selected for atributika
             calculatorState.dateStart = newDate;
-            alert('Pasirinkite pabaigos datą');
+            
+            // Show tooltip under calendar
+            let tooltip = document.getElementById('calendar-tooltip');
+            if (!tooltip) {
+                tooltip = document.createElement('div');
+                tooltip.id = 'calendar-tooltip';
+                tooltip.style.cssText = 'margin-top: 1rem; padding: 1rem; background: #2d6a4f; color: white; border-radius: 8px; text-align: center; animation: fadeIn 0.3s ease;';
+                tooltip.textContent = 'Pasirinkite pabaigos datą';
+                document.getElementById('calculator-calendar').parentElement.appendChild(tooltip);
+            }
+            tooltip.style.display = 'block';
         } else if (isAtributika && calculatorState.dateStart && !calculatorState.dateEnd) {
             // Second date selected for atributika
             
@@ -558,8 +578,8 @@ function initCalculatorCalendar() {
             const start = new Date(calculatorState.dateStart);
             const end = new Date(calculatorState.dateEnd);
             const diffTime = Math.abs(end - start);
-            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
-            calculatorState.days = diffDays;
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            calculatorState.days = diffDays === 0 ? 1 : diffDays;
             
             // Go directly to services step (step 5)
             transitionToStep('step-calendar', 'step-services', 5);
@@ -576,6 +596,15 @@ function initCalculatorCalendar() {
             transitionToStep('step-calendar', 'step-tables', 3);
         }
     });
+    
+    // Restore previously selected date if exists
+    if (calculatorState.dateStart) {
+        const [year, month, day] = calculatorState.dateStart.split('-');
+        calculatorState.currentMonth = parseInt(month) - 1;
+        calculatorState.currentYear = parseInt(year);
+        calculatorCalendar.selectedDate = new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
+        calculatorCalendar.render();
+    }
 }
 
 // Make progress steps clickable
