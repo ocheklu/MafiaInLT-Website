@@ -253,7 +253,7 @@ document.querySelector('#step-location .location-options').querySelectorAll('.se
         radio.checked = true;
         
         // Reset if location changed and already made progress
-        if (calculatorState.currentStep > 4 && calculatorState.location !== newLocation) {
+        if (calculatorState.completedSteps.some(s => s > 4) && calculatorState.location !== newLocation) {
             resetStepsAfter(4);
         }
         
@@ -279,7 +279,7 @@ document.querySelectorAll('.distance-option').forEach(option => {
         const newDistance = parseInt(this.dataset.distance);
         
         // Reset only if distance was already chosen AND it's different
-        if (calculatorState.currentStep > 4 && calculatorState.distance !== newDistance) {
+        if (calculatorState.completedSteps.some(s => s > 4) && calculatorState.distance !== newDistance) {
             resetStepsAfter(4);
         }
         
@@ -410,7 +410,7 @@ function showServicesStep() {
             
             // Reset step 6 if services changed and we were already there
             const newServicesCount = calculatorState.additionalServices.length;
-            if (calculatorState.currentStep > 5 && oldServicesCount !== newServicesCount) {
+            if (calculatorState.completedSteps.some(s => s > 5) && oldServicesCount !== newServicesCount) {
                 resetStepsAfter(5);
             }
         });
@@ -494,10 +494,12 @@ function showSummary(totalPrice) {
 
 // Reserve button tooltip
 document.getElementById('reserve-btn')?.addEventListener('mouseenter', function() {
-    this.parentElement.querySelector('.tooltip').style.display = 'block';
+    const tooltip = this.parentElement.querySelector('.tooltip');
+    if (tooltip) tooltip.style.display = 'block';
 });
 document.getElementById('reserve-btn')?.addEventListener('mouseleave', function() {
-    this.parentElement.querySelector('.tooltip').style.display = 'none';
+    const tooltip = this.parentElement.querySelector('.tooltip');
+    if (tooltip) tooltip.style.display = 'none';
 });
 
 // Reserve button click
@@ -536,13 +538,21 @@ function initCalculatorCalendar() {
         const month = String(date.getMonth() + 1).padStart(2, '0');
         const day = String(date.getDate()).padStart(2, '0');
         
+        const newDate = `${year}-${month}-${day}`;
+        
         if (isAtributika && !calculatorState.dateStart) {
             // First date selected for atributika
-            calculatorState.dateStart = `${year}-${month}-${day}`;
+            calculatorState.dateStart = newDate;
             alert('Pasirinkite pabaigos datą');
         } else if (isAtributika && calculatorState.dateStart && !calculatorState.dateEnd) {
             // Second date selected for atributika
-            calculatorState.dateEnd = `${year}-${month}-${day}`;
+            
+            // Reset if date changed and already made progress
+            if (calculatorState.dateEnd !== null && calculatorState.dateEnd !== newDate) {
+                resetStepsAfter(2);
+            }
+            
+            calculatorState.dateEnd = newDate;
             
             // Calculate days
             const start = new Date(calculatorState.dateStart);
@@ -556,7 +566,13 @@ function initCalculatorCalendar() {
             setTimeout(() => showServicesStep(), 600);
         } else {
             // Single date for zaidimo/renginio
-            calculatorState.dateStart = `${year}-${month}-${day}`;
+            
+            // Reset if date changed and already made progress
+            if (calculatorState.dateStart !== null && calculatorState.dateStart !== newDate) {
+                resetStepsAfter(2);
+            }
+            
+            calculatorState.dateStart = newDate;
             transitionToStep('step-calendar', 'step-tables', 3);
         }
     });
