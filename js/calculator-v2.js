@@ -362,7 +362,7 @@ function showServicesStep() {
             { name: 'Papildomos kaukės | 10 vnt', price: 40 },
             { name: 'Papildomi revolveriai | 10 vnt', price: 40 },
             { name: 'Papildomi vokai | 10 vnt', price: 20 },
-            { name: 'Papildomos vaidmenų kortelės', price: 20 },
+            { name: 'Papildomos vaidmenų kortelės | 10 vnt', price: 20 },
             { name: 'Papildomas rinkinys vedėjui', price: 20 },
 
             { name: 'Foto paslaugos (3 val.)', price: 600 },
@@ -566,6 +566,10 @@ function initCalculatorCalendar() {
             tooltip.style.display = 'block';
         } else if (isAtributika && calculatorState.dateStart && !calculatorState.dateEnd) {
             // Second date selected for atributika
+            
+            // Hide tooltip
+            const tooltip = document.getElementById('calendar-tooltip');
+            if (tooltip) tooltip.style.display = 'none';
             
             // Reset if date changed and already made progress
             if (calculatorState.dateEnd !== null && calculatorState.dateEnd !== newDate) {
