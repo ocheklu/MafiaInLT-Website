@@ -506,6 +506,7 @@ function showSummary(totalPrice) {
 document.getElementById('reserve-btn')?.addEventListener('mouseenter', function() {
     const tooltip = this.parentElement.querySelector('.tooltip');
     if (tooltip) {
+        tooltip.style.display = 'block';
         tooltip.style.visibility = 'visible';
         tooltip.style.opacity = '1';
     }
@@ -513,6 +514,7 @@ document.getElementById('reserve-btn')?.addEventListener('mouseenter', function(
 document.getElementById('reserve-btn')?.addEventListener('mouseleave', function() {
     const tooltip = this.parentElement.querySelector('.tooltip');
     if (tooltip) {
+        tooltip.style.display = 'none';
         tooltip.style.visibility = 'hidden';
         tooltip.style.opacity = '0';
     }
