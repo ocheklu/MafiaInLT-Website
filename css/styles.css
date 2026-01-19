@@ -1361,7 +1361,7 @@ section h2 {
 .progress-line {
     position: absolute;
     top: 20px;
-    left: calc(2rem + 20px);
+    left: 2rem;
     height: 3px;
     background: #000;
     z-index: 1;
