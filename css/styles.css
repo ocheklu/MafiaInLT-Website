@@ -1500,8 +1500,8 @@ section h2 {
     display: flex;
     align-items: center;
     padding: 1.2rem 2rem;
-    margin-left: 3.5rem;
-    max-width: 400px;
+    margin-left: 4.5rem;
+    max-width: 300px;
     border: 2px solid #d0d0d0;
     border-radius: 50px;
     background: white;
@@ -1523,9 +1523,9 @@ section h2 {
 /* Circle indicator on the left */
 .choice-indicator {
     position: absolute;
-    left: -2.5rem;
-    width: 50px;
-    height: 50px;
+    left: -3rem;
+    width: 60px;
+    height: 60px;
     border: 2px solid #999;
     border-radius: 50%;
     background: white;
