@@ -194,15 +194,13 @@ document.querySelector('#step-service').querySelectorAll('.service-option').forE
             resetStepsAfter(1);
         }
         
-        // Remove active class from all
-        document.querySelectorAll('.service-option').forEach(opt => {
-            opt.style.borderColor = '#e0e0e0';
-            opt.style.background = 'white';
+        // Remove selected class from all
+        document.querySelectorAll('#step-service .service-option').forEach(opt => {
+            opt.classList.remove('selected');
         });
         
-        // Add active to clicked
-        this.style.borderColor = '#000';
-        this.style.background = '#f8f8f8';
+        // Add selected to clicked
+        this.classList.add('selected');
         
         calculatorState.service = newService;
         
@@ -222,13 +220,11 @@ document.querySelectorAll('.table-option').forEach(option => {
             resetStepsAfter(3);
         }
         
-        document.querySelectorAll('.table-option > div').forEach(div => {
-            div.style.borderColor = '#e0e0e0';
-            div.style.background = 'white';
+        document.querySelectorAll('.table-option').forEach(opt => {
+            opt.classList.remove('selected');
         });
         
-        this.querySelector('div').style.borderColor = '#000';
-        this.querySelector('div').style.background = '#f8f8f8';
+        this.classList.add('selected');
         
         calculatorState.tables = newTables;
         
@@ -259,6 +255,12 @@ document.querySelector('#step-location .location-options').querySelectorAll('.se
         
         calculatorState.location = newLocation;
         
+        // Update selected class
+        document.querySelectorAll('#step-location .location-options .service-option').forEach(opt => {
+            opt.classList.remove('selected');
+        });
+        this.classList.add('selected');
+        
         if (newLocation === 'outside') {
             // Show distance options, don't transition yet
             document.getElementById('distance-options').style.display = 'block';
@@ -283,15 +285,13 @@ document.querySelectorAll('.distance-option').forEach(option => {
             resetStepsAfter(4);
         }
         
-        // Remove active from all
+        // Remove selected class from all
         document.querySelectorAll('.distance-option').forEach(opt => {
-            opt.style.borderColor = '#e0e0e0';
-            opt.style.background = 'white';
+            opt.classList.remove('selected');
         });
         
-        // Add active to clicked
-        this.style.borderColor = '#000';
-        this.style.background = '#f8f8f8';
+        // Add selected to clicked
+        this.classList.add('selected');
         
         calculatorState.distance = newDistance;
         
