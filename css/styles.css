@@ -1500,7 +1500,7 @@ section h2 {
     display: flex;
     align-items: center;
     padding: 1.2rem 2rem;
-    padding-left: 4rem;
+    margin-left: 2.5rem;
     border: 2px solid #d0d0d0;
     border-radius: 50px;
     background: white;
@@ -1522,9 +1522,9 @@ section h2 {
 /* Circle indicator on the left */
 .choice-indicator {
     position: absolute;
-    left: 1rem;
-    width: 32px;
-    height: 32px;
+    left: -1.25rem;
+    width: 40px;
+    height: 40px;
     border: 2px solid #999;
     border-radius: 50%;
     background: white;
@@ -1535,6 +1535,7 @@ section h2 {
     font-size: 16px;
     font-weight: 700;
     color: white;
+    z-index: 2;
 }
 
 .choice-card:hover .choice-indicator {
