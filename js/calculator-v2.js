@@ -683,3 +683,8 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
+
+// Initialize progress bar on page load
+document.addEventListener('DOMContentLoaded', function() {
+    updateProgressBar(calculatorState.currentStep);
+});
