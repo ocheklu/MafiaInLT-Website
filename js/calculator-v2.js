@@ -142,6 +142,16 @@ function goToStep(stepNumber) {
     calculatorState.currentStep = stepNumber;
     updateProgressBar(stepNumber);
     
+    // Hide/show "Toliau" button based on step
+    const nextButton = document.getElementById('next-to-summary-btn');
+    if (nextButton) {
+        if (stepNumber === 5) {
+            nextButton.style.display = 'inline-block';
+        } else {
+            nextButton.style.display = 'none';
+        }
+    }
+    
     // Re-initialize calendar if going back to step 2
     if (stepNumber === 2 && targetStepId === 'step-calendar') {
         setTimeout(() => initCalculatorCalendar(), 100);
@@ -401,27 +411,32 @@ function showServicesStep() {
     
     services.forEach(service => {
         const serviceDiv = document.createElement('div');
-        serviceDiv.style.cssText = 'padding: 1rem; border: 2px solid #e0e0e0; border-radius: 10px; display: flex; justify-content: space-between; align-items: center;';
+        serviceDiv.className = 'service-item choice-card';
         
         if (service.included) {
             serviceDiv.innerHTML = `
-                <label style="display: flex; align-items: center; flex: 1; opacity: 0.7;">
-                    <span style="color: #2d6a4f; margin-right: 1rem; font-size: 1.2rem;">✓</span>
-                    <span>${service.name}</span>
-                </label>
+                <div class="service-indicator included">✓</div>
+                <div class="service-content">
+                    <span class="service-name">${service.name}</span>
+                </div>
             `;
         } else {
             // Check if service already selected
             const isSelected = calculatorState.additionalServices.some(s => s.name === service.name);
-            console.log('Service:', service.name, 'isSelected:', isSelected, 'additionalServices:', calculatorState.additionalServices);
             
             serviceDiv.innerHTML = `
-                <label style="display: flex; align-items: center; flex: 1; cursor: pointer;">
-                    <input type="checkbox" class="additional-service" data-service="${service.name}" data-price="${service.price}" style="margin-right: 1rem;" ${isSelected ? 'checked' : ''}>
-                    <span>${service.name}</span>
-                </label>
-                <span style="font-weight: 600;">+${service.price} €</span>
+                <div class="service-indicator checkbox-indicator">
+                    <input type="checkbox" class="additional-service" data-service="${service.name}" data-price="${service.price}" ${isSelected ? 'checked' : ''}>
+                </div>
+                <div class="service-content">
+                    <span class="service-name">${service.name}</span>
+                    <span class="service-price">+${service.price} €</span>
+                </div>
             `;
+            
+            if (isSelected) {
+                serviceDiv.classList.add('selected');
+            }
         }
         
         servicesList.appendChild(serviceDiv);

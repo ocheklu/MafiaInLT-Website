@@ -1357,13 +1357,15 @@ section h2 {
 /* Progress Bar */
 
 .progress-bar-container {
+    max-width: 800px;
+    margin: 0 auto 3rem auto;
     background: white;
-    padding: 2.5rem 2rem;
+    padding: 2.5rem 4rem;
     border-radius: 50px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-    margin-bottom: 3rem;
     display: flex;
     align-items: center;
+    justify-content: center;
 }
 
 .progress-bar {
@@ -1371,6 +1373,7 @@ section h2 {
     justify-content: space-between;
     position: relative;
     width: 100%;
+    max-width: 700px;
 }
 
 .progress-line-bg {
@@ -1409,7 +1412,7 @@ section h2 {
 }
 
 .progress-step:not(.completed):not(.active) {
-    cursor: not-allowed;
+    cursor: pointer;
 }
 
 .progress-circle {
@@ -1537,12 +1540,88 @@ section h2 {
 .choice-card:hover {
     border-color: #D4D4D4;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
-    transform: translateX(4px);
+    transform: translateX(10px);
 }
 
 .choice-card.selected {
     border-color: #000000;
     background: #FAFAFA;
+}
+
+/* ===========================
+   SERVICE ITEMS - Additional Services Styling
+   =========================== */
+
+.service-item {
+    margin-left: 0 !important;
+    padding-left: 1.5rem !important;
+    cursor: default;
+}
+
+.service-item.choice-card:hover {
+    transform: none;
+}
+
+.service-item .service-indicator {
+    position: absolute;
+    left: 1rem;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: 600;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+
+.service-item .service-indicator.included {
+    color: #2d6a4f;
+    background: transparent;
+    border: none;
+}
+
+.service-item .service-indicator.checkbox-indicator {
+    position: relative;
+    background: transparent;
+    border: none;
+}
+
+.service-item .service-indicator input[type="checkbox"] {
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    margin: 0;
+}
+
+.service-content {
+    flex: 1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.service-name {
+    font-size: 1rem;
+    font-weight: 400;
+    color: #1A1A1A;
+}
+
+.service-price {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #000;
+    margin-left: 1rem;
+}
+
+/* Included services styling */
+.service-item:has(.included) {
+    opacity: 0.7;
+}
+
+.service-item:has(.included):hover {
+    opacity: 0.7;
 }
 
 /* Circle indicator */
