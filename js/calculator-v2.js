@@ -34,34 +34,24 @@ function updateProgressBar(currentStep) {
         }
     });
     
-    // Calculate distance between centers of circles
-    if (currentStep === 1) {
-        progressLine.style.width = '0%';
-    } else {
-        const progressBar = document.querySelector('.progress-bar');
-        const firstStep = steps[0];
-        const currentStepElement = steps[currentStep - 1];
+    // Calculate width of progress line from center to center
+    const progressBar = document.querySelector('.progress-bar');
+    const firstStep = steps[0];
+    const targetStep = steps[currentStep - 1];
+    
+    if (progressBar && firstStep && targetStep) {
+        const firstRect = firstStep.getBoundingClientRect();
+        const targetRect = targetStep.getBoundingClientRect();
+        const barRect = progressBar.getBoundingClientRect();
         
-        if (progressBar && firstStep && currentStepElement) {
-            const barRect = progressBar.getBoundingClientRect();
-            const firstRect = firstStep.getBoundingClientRect();
-            const currentRect = currentStepElement.getBoundingClientRect();
-            
-            // Distance from center of first circle to center of current circle
-            const firstCenter = firstRect.left + firstRect.width / 2;
-            const currentCenter = currentRect.left + currentRect.width / 2;
-            const barLeft = barRect.left;
-            
-            const distance = currentCenter - firstCenter;
-            const barWidth = barRect.width;
-            const progressPercent = (distance / barWidth) * 100;
-            
-            progressLine.style.width = progressPercent + '%';
-        } else {
-            // Fallback to old calculation
-            const progress = ((currentStep - 1) / (steps.length - 1)) * 100;
-            progressLine.style.width = progress + '%';
-        }
+        // Calculate centers
+        const firstCenter = firstRect.left + (firstRect.width / 2) - barRect.left;
+        const targetCenter = targetRect.left + (targetRect.width / 2) - barRect.left;
+        
+        // Width from first center to target center
+        const lineWidth = targetCenter - firstCenter;
+        progressLine.style.width = lineWidth + 'px';
+        progressLine.style.left = firstCenter + 'px';
     }
     
     // Animate bullet

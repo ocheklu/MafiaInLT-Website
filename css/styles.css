@@ -1324,7 +1324,34 @@ section h2 {
     margin-top: 1rem;
 }
 
+/* Calculator Container - Luxury Glossy Style */
+.calculator-container {
+    max-width: 800px;
+    margin: 0 auto;
+    background: linear-gradient(145deg, #FFFFFF 0%, #FAFAFA 100%);
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    border-radius: 32px;
+    padding: 3.5rem;
+    box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.08),
+        0 2px 8px rgba(0, 0, 0, 0.04),
+        inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    position: relative;
+    overflow: hidden;
+}
 
+/* Subtle glossy overlay */
+.calculator-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 50%;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.4) 0%, transparent 100%);
+    pointer-events: none;
+    border-radius: 32px 32px 0 0;
+}
 
 
 /* Progress Bar */
@@ -1332,7 +1359,7 @@ section h2 {
 .progress-bar-container {
     background: white;
     padding: 2.5rem 2rem;
-    border-radius: 32px;
+    border-radius: 50px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
     margin-bottom: 3rem;
     display: flex;
@@ -1361,11 +1388,10 @@ section h2 {
 .progress-line {
     position: absolute;
     top: 20px;
-    left: 2rem;
     height: 3px;
     background: #000;
     z-index: 1;
-    transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1), left 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .progress-step {
@@ -1491,28 +1517,6 @@ section h2 {
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* ===========================
-   CHOICE CARDS - LUXURY MINIMAL STYLE
-   =========================== */
-
-/* Container for all choice cards */
-.choices-container {
-    max-width: 520px;
-    margin: 0 auto;
-    padding: 2rem 2.5rem;
-    background: linear-gradient(135deg, #FAFAFA 0%, #FFFFFF 100%);
-    border: 1px solid #F0F0F0;
-    border-radius: 32px;
-    box-shadow: 0 2px 16px rgba(0, 0, 0, 0.03);
-    display: flex;
-    flex-direction: column;
-    gap: 1.2rem;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.choices-container:hover {
-    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.05);
-}
 
 /* ===========================
    CHOICE CARDS - LUXURY MINIMAL STYLE
