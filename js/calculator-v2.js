@@ -143,6 +143,12 @@ function transitionToStep(currentStepId, nextStepId, progressStep) {
     }
     calculatorState.currentStep = progressStep;
     
+    // Hide "Toliau" button on all steps except step 5
+    const nextButton = document.getElementById('next-to-summary-btn');
+    if (nextButton && progressStep !== 5) {
+        nextButton.style.display = 'none';
+    }
+    
     // Exit current step
     currentStep.classList.add('exit-left');
     currentStep.classList.remove('active');
