@@ -19,6 +19,7 @@ const calculatorState = {
 function updateProgressBar(currentStep) {
     const steps = document.querySelectorAll('.progress-step');
     const progressLine = document.querySelector('.progress-line');
+    const progressLineBg = document.querySelector('.progress-line-bg');
     const progressBullet = document.querySelector('.progress-bullet');
     
     steps.forEach((step, index) => {
@@ -52,6 +53,16 @@ function updateProgressBar(currentStep) {
         const lineWidth = targetCenter - firstCenter;
         progressLine.style.width = lineWidth + 'px';
         progressLine.style.left = firstCenter + 'px';
+        
+        // Position background line from first to last step
+        if (progressLineBg) {
+            const lastStep = steps[steps.length - 1];
+            const lastRect = lastStep.getBoundingClientRect();
+            const lastCenter = lastRect.left + (lastRect.width / 2) - barRect.left;
+            
+            progressLineBg.style.left = firstCenter + 'px';
+            progressLineBg.style.width = (lastCenter - firstCenter) + 'px';
+        }
     }
     
     // Animate bullet

@@ -1374,12 +1374,9 @@ section h2 {
     width: 100%;
 }
 
-.progress-bar::before {
-    content: '';
+.progress-line-bg {
     position: absolute;
     top: 20px;
-    left: calc(2rem + 20px);
-    right: calc(2rem + 20px);
     height: 3px;
     background: #e0e0e0;
     z-index: 0;
