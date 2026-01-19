@@ -1492,7 +1492,7 @@ section h2 {
 }
 
 /* ===========================
-   CHOICE CARDS - UNIFIED SELECTION STYLE
+   CHOICE CARDS - LUXURY MINIMAL STYLE
    =========================== */
 
 .choice-card {
@@ -1500,114 +1500,142 @@ section h2 {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 0.8rem 1.6rem;
-    margin-left: 5.5rem;
-    max-width: 400px;
-    border: 2px solid #d0d0d0;
-    border-radius: 50px;
-    background: white;
+    padding: 1rem 2rem;
+    margin-left: 4.5rem;
+    max-width: 450px;
+    border: 1px solid #E8E8E8;
+    border-radius: 60px;
+    background: #FFFFFF;
     cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 0 0 rgba(0, 0, 0, 0);
 }
 
 .choice-card:hover {
-    border-color: #999;
+    border-color: #D4D4D4;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+    transform: translateX(4px);
 }
 
 .choice-card.selected {
-    border-color: #000;
-    background: white;
+    border-color: #000000;
+    background: #FAFAFA;
 }
 
-/* Circle indicator on the left */
+/* Circle indicator */
 .choice-indicator {
     position: absolute;
-    left: -3.5rem;
-    width: 50px;
-    height: 50px;
-    border: 2px solid #999;
+    left: -3.2rem;
+    width: 44px;
+    height: 44px;
+    border: 1.5px solid #D4D4D4;
     border-radius: 50%;
-    background: white;
+    background: #FFFFFF;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 16px;
-    font-weight: 700;
+    font-size: 15px;
+    font-weight: 300;
     z-index: 2;
     overflow: hidden;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* Animated fill background */
 .choice-indicator::before {
     content: '';
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: conic-gradient(from 0deg, #000 0%, #000 0%, transparent 0%);
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: #000000;
     border-radius: 50%;
-    transition: all 0.4s ease;
+    transform: translate(-50%, -50%);
+    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
     z-index: 0;
 }
 
+/* Checkmark */
 .choice-indicator::after {
     content: '✓';
-    color: rgba(255, 255, 255, 0);
+    color: transparent;
     position: relative;
     z-index: 1;
-    transition: all 0.3s ease;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    opacity: 0;
+    transform: scale(0.8);
 }
 
-/* Hover state */
+/* Hover animation */
 .choice-card:hover .choice-indicator {
-    border-color: #666;
+    border-color: #999999;
+    transform: scale(1.05);
 }
 
 .choice-card:hover .choice-indicator::before {
-    background: conic-gradient(from 0deg, #000 0%, #000 100%, transparent 100%);
+    width: 100%;
+    height: 100%;
 }
 
 .choice-card:hover .choice-indicator::after {
-    color: rgba(255, 255, 255, 0.5);
+    color: rgba(255, 255, 255, 0.6);
+    opacity: 1;
+    transform: scale(1);
 }
 
 /* Selected state */
 .choice-card.selected .choice-indicator {
-    border-color: #000;
-    background: #000;
+    border-color: #000000;
+    background: #000000;
+    transform: scale(1);
 }
 
 .choice-card.selected .choice-indicator::before {
-    background: #000;
+    width: 100%;
+    height: 100%;
 }
 
 .choice-card.selected .choice-indicator::after {
-    color: white;
+    color: #FFFFFF;
+    opacity: 1;
+    transform: scale(1);
 }
 
 /* Content wrapper */
 .choice-content {
     flex: 1;
+    text-align: center;
 }
 
 /* Text styling */
 .choice-card h4 {
     margin: 0;
-    font-size: 1rem;
-    font-weight: 600;
-    color: #000;
+    font-size: 0.95rem;
+    font-weight: 400;
+    color: #1A1A1A;
+    letter-spacing: 0.3px;
+    transition: all 0.3s ease;
+}
+
+.choice-card:hover h4 {
+    color: #000000;
+    letter-spacing: 0.5px;
 }
 
 .choice-card p {
-    margin: 0.25rem 0 0 0;
-    font-size: 0.85rem;
-    color: #666;
+    margin: 0.3rem 0 0 0;
+    font-size: 0.8rem;
+    font-weight: 300;
+    color: #999999;
+    letter-spacing: 0.2px;
 }
 
-/* Special styling for location options with labels */
+/* Special styling for location options */
 .choice-card label {
     display: flex;
     align-items: center;
+    justify-content: center;
     cursor: pointer;
     margin: 0;
     flex: 1;
