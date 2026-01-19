@@ -415,7 +415,7 @@ function showServicesStep() {
         
         if (service.included) {
             serviceDiv.innerHTML = `
-                <div class="service-indicator included">✓</div>
+                <div class="choice-indicator service-included">✓</div>
                 <div class="service-content">
                     <span class="service-name">${service.name}</span>
                 </div>
@@ -425,7 +425,7 @@ function showServicesStep() {
             const isSelected = calculatorState.additionalServices.some(s => s.name === service.name);
             
             serviceDiv.innerHTML = `
-                <div class="service-indicator checkbox-indicator">
+                <div class="choice-indicator service-checkbox">
                     <input type="checkbox" class="additional-service" data-service="${service.name}" data-price="${service.price}" ${isSelected ? 'checked' : ''}>
                 </div>
                 <div class="service-content">

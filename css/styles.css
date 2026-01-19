@@ -313,13 +313,11 @@ section h2 {
 }
 
 .service-content {
-    padding: 1.5rem;
-    text-align: center;
     flex: 1;
     display: flex;
-    flex-direction: column;
+    align-items: center;
     justify-content: space-between;
-}
+    gap: 1rem;
 
 .service-content h3 {
     margin-bottom: 1rem;
@@ -1373,7 +1371,6 @@ section h2 {
     justify-content: space-between;
     position: relative;
     width: 100%;
-    max-width: 800px;
 }
 
 .progress-line-bg {
@@ -1628,10 +1625,9 @@ section h2 {
 }
 
 .service-price {
-    font-size: 0.95rem;
-    font-weight: 600;
-    color: #000;
-    margin-left: 1rem;
+    font-size: 0.85rem;
+    font-weight: 400;
+    color: #999999;
 }
 
 /* Included services styling */
