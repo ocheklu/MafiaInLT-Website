@@ -64,11 +64,6 @@ function updateProgressBar(currentStep) {
             progressLineBg.style.width = (lastCenter - firstCenter) + 'px';
         }
     }
-    
-    // Animate bullet
-    if (progressBullet) {
-        progressBullet.style.left = progress + '%';
-    }
 }
 
 // Reset all steps after given step number
