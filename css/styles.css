@@ -318,6 +318,7 @@ section h2 {
     align-items: center;
     justify-content: space-between;
     gap: 1rem;
+}
 
 .service-content h3 {
     margin-bottom: 1rem;
