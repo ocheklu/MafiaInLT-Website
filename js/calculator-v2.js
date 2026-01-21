@@ -415,7 +415,7 @@ function showServicesStep() {
         
         if (service.included) {
             serviceDiv.innerHTML = `
-                <div class="choice-indicator service-included">✓</div>
+                <div class="choice-indicator service-included"></div>
                 <div class="service-content">
                     <span class="service-name">${service.name}</span>
                 </div>
