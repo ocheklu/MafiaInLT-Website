@@ -1549,6 +1549,11 @@ section h2 {
     padding: 0.7rem 1.6rem;
 }
 
+.service-item .choice-indicator {
+    width: 36px;
+    height: 36px;
+}
+
 .service-item:hover {
     margin-left: 5.5rem;
     padding-left: 1.6rem;
@@ -1581,6 +1586,11 @@ section h2 {
     transform: translate(-50%, -50%);
     opacity: 1;
     z-index: 1;
+}
+
+/* Hover анимация для автоматических услуг (как selected в шаге 1) */
+.service-item:hover .service-included {
+    transform: scale(1.05);
 }
 
 .service-item .service-checkbox {
@@ -1654,13 +1664,13 @@ section h2 {
 }
 
 /* Included services styling */
+
 .service-item:has(.service-included) {
-    opacity: 0.7;
+    border-color: #000000;
 }
 
-.service-item:has(.service-included):hover {
-    opacity: 0.7;
-    margin-left: 4.5rem;
+.service-item:hover .service-included {
+    transform: scale(1.05);
 }
 
 /* Circle indicator */
