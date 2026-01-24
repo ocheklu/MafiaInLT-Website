@@ -1347,6 +1347,13 @@ section h2 {
 
 /* Progress Bar */
 
+.progress-bar-wrapper {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
 .progress-bar-container {
     width: 100%;
     max-width: 800px;
