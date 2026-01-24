@@ -1676,6 +1676,7 @@ section h2 {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 0;
 }
 
 .service-name {
@@ -1700,6 +1701,8 @@ section h2 {
 .service-item:has(.service-checkbox) {
     padding: 0.5rem 1.6rem !important;
     line-height: 1.2;
+    min-height: 48px;
+    max-height: 48px;
 }
 
 #services-list {
