@@ -1355,9 +1355,11 @@ section h2 {
 }
 
 .progress-bar-container {
-    width: 100%;
-    max-width: 800px;
-    margin: 0 auto 3rem auto;
+    width: calc(100% + 40px);
+    max-width: 840px;
+    margin: 0 -20px 3rem -20px;
+    margin-left: auto;
+    margin-right: auto;
     background: white;
     padding: 2.5rem 2rem;
     border-radius: 50px;
@@ -1703,6 +1705,16 @@ section h2 {
     line-height: 1.2;
     min-height: 48px;
     max-height: 48px;
+    cursor: pointer;
+}
+
+.service-item:has(.service-checkbox) .service-checkbox {
+    pointer-events: none;
+}
+
+.service-item:has(.service-checkbox) .service-checkbox input[type="checkbox"] {
+    pointer-events: auto;
+    cursor: pointer;
 }
 
 #services-list {

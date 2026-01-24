@@ -440,6 +440,16 @@ function showServicesStep() {
         }
         
         servicesList.appendChild(serviceDiv);
+
+        // Сделать весь контейнер кликабельным для дополнительных услуг
+        if (!service.included) {
+            serviceDiv.addEventListener('click', function(e) {
+                if (e.target.tagName !== 'INPUT') {
+                    const checkbox = this.querySelector('input[type="checkbox"]');
+                    checkbox.click();
+                }
+            });
+        }
     });
     
     // Show next button
