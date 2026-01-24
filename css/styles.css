@@ -1588,18 +1588,16 @@ section h2 {
 }
 
 .service-item:has(.service-included):hover {
-    border-color: #D4D4D4;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
 }
 
 .service-item:hover .service-included {
     border-color: #FFFFFF;
-    box-shadow: 0 0 0 2px #000000;
     transform: scale(1.05);
 }
 
 .service-item:hover .service-included::after {
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%) !important;
 }
 
 .service-item .service-checkbox {
@@ -1696,7 +1694,8 @@ section h2 {
 }
 
 .service-item:has(.service-checkbox) {
-    padding: 0.6rem 1.6rem;
+    min-height: 48px;
+    padding: 0.5rem 1.6rem;
 }
 
 /* Circle indicator */
