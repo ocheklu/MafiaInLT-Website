@@ -1592,10 +1592,6 @@ section h2 {
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
 }
 
-.service-item:hover .service-included {
-    transform: scale(1.05);
-}
-
 .service-item:hover .service-included::after {
     transform: translate(-50%, -50%) !important;
 }
@@ -1695,10 +1691,14 @@ section h2 {
 }
 
 .service-item:has(.service-checkbox) {
-    padding: 0.6rem 1.6rem !important;
+    padding: 0.5rem 1.6rem !important;
+    line-height: 1.2;
 }
 
 #services-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
     max-width: 600px;
     margin: 0 auto;
 }
@@ -1764,6 +1764,12 @@ section h2 {
     color: rgba(255, 255, 255, 1);
     opacity: 1;
     transform: scale(1);
+}
+
+.service-item:hover .service-included {
+    border-color: #000000 !important;
+    box-shadow: none !important;
+    transform: scale(1.05);
 }
 
 /* Selected state */
