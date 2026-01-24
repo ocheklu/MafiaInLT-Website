@@ -1348,6 +1348,7 @@ section h2 {
 /* Progress Bar */
 
 .progress-bar-container {
+    background: red;
     width: 100%;
     max-width: 800px;
     margin: 0 auto 3rem auto;
