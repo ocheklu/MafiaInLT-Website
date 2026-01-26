@@ -461,15 +461,26 @@ function showServicesStep() {
             // Save old state before change
             const oldServicesCount = calculatorState.additionalServices.length;
             
+            // Get parent service-item element
+            const serviceItem = this.closest('.service-item');
+            
             if (this.checked) {
                 calculatorState.additionalServices.push({
                     name: this.dataset.service,
                     price: parseInt(this.dataset.price)
                 });
+                // Добавляем класс selected
+                if (serviceItem) {
+                    serviceItem.classList.add('selected');
+                }
             } else {
                 calculatorState.additionalServices = calculatorState.additionalServices.filter(
                     s => s.name !== this.dataset.service
                 );
+                // Убираем класс selected
+                if (serviceItem) {
+                    serviceItem.classList.remove('selected');
+                }
             }
             
             // Reset step 6 if services changed and we were already there
