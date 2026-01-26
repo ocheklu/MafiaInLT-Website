@@ -3,6 +3,25 @@
    =========================== */
 
 /* Dark Theme Base */
+
+/* Dark Navbar Override */
+.dark-theme .navbar {
+    background: #0a0a0a;
+}
+
+.dark-theme .nav-menu a {
+    color: #e0e0e0;
+}
+
+.dark-theme .nav-menu a:hover,
+.dark-theme .nav-menu a.active {
+    color: #ffffff;
+}
+
+.dark-theme .navbar .logo img {
+    height: 60px;
+}
+
 .dark-theme {
     background: #0a0a0a;
     color: #e0e0e0;
