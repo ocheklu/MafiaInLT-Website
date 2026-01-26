@@ -1,0 +1,167 @@
+/* ===========================
+   ABOUT PAGE - LIGHT & COMPACT
+   =========================== */
+
+/* Hero - Compact */
+.about-hero-light {
+    padding: 4rem 0 3rem 0;
+    background: #fff;
+    text-align: center;
+}
+
+.about-hero-light h1 {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    font-weight: 400;
+    color: #1a1a1a;
+}
+
+.about-hero-light p {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: #666;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+/* Team - Clean Layout */
+.about-team-light {
+    padding: 3rem 0;
+    background: #f8f8f8;
+}
+
+.team-item {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 3rem;
+    align-items: center;
+    margin-bottom: 3rem;
+    opacity: 0;
+    animation: fadeIn 0.8s ease forwards;
+}
+
+.team-item:nth-child(1) {
+    animation-delay: 0.2s;
+}
+
+.team-item:nth-child(2) {
+    animation-delay: 0.4s;
+}
+
+.team-item.reverse {
+    grid-template-columns: 1fr 300px;
+}
+
+.team-item.reverse .team-info {
+    order: 1;
+}
+
+.team-item.reverse .team-photo {
+    order: 2;
+}
+
+.team-photo {
+    width: 100%;
+    height: 350px;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.5s ease;
+}
+
+.team-photo:hover {
+    transform: scale(1.03);
+}
+
+.team-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.team-info h2 {
+    font-size: 1.8rem;
+    margin-bottom: 0.5rem;
+    font-weight: 400;
+    color: #1a1a1a;
+}
+
+.team-role {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #999;
+    margin-bottom: 1rem;
+}
+
+.team-info p:not(.team-role) {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: #666;
+}
+
+/* Format - Compact */
+.about-format-light {
+    padding: 3rem 0;
+    background: #fff;
+    text-align: center;
+}
+
+.about-format-light h2 {
+    font-size: 1.6rem;
+    margin-bottom: 1rem;
+    font-weight: 400;
+    color: #1a1a1a;
+}
+
+.about-format-light p {
+    font-size: 0.95rem;
+    line-height: 1.8;
+    color: #666;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+    }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+    .about-hero-light {
+        padding: 3rem 0 2rem 0;
+    }
+    
+    .about-hero-light h1 {
+        font-size: 1.5rem;
+    }
+    
+    .team-item,
+    .team-item.reverse {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+    }
+    
+    .team-item.reverse .team-info {
+        order: 2;
+    }
+    
+    .team-item.reverse .team-photo {
+        order: 1;
+    }
+    
+    .team-photo {
+        height: 300px;
+    }
+    
+    .team-info h2 {
+        font-size: 1.5rem;
+    }
+    
+    .about-format-light h2 {
+        font-size: 1.4rem;
+    }
+}
