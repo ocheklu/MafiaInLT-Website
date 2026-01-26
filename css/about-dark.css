@@ -1,0 +1,402 @@
+/* ===========================
+   ABOUT PAGE - DARK THEME WITH SCROLL REVEAL
+   =========================== */
+
+/* Dark Theme Base */
+.dark-theme {
+    background: #0a0a0a;
+    color: #e0e0e0;
+}
+
+/* Dark Hero */
+.dark-hero {
+    padding: 8rem 0 6rem 0;
+    background: linear-gradient(180deg, #0a0a0a 0%, #1a1a1a 100%);
+    text-align: center;
+}
+
+.dark-hero-content {
+    max-width: 800px;
+    margin: 0 auto;
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeInUp 1s ease 0.3s forwards;
+}
+
+.dark-hero h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+    font-weight: 300;
+    letter-spacing: 1px;
+    color: #ffffff;
+}
+
+.dark-hero p {
+    font-size: 1.1rem;
+    line-height: 1.9;
+    color: #b0b0b0;
+}
+
+/* Team Scroll Reveal Section */
+.team-scroll-section {
+    padding: 6rem 0;
+    background: #0a0a0a;
+}
+
+.container-fluid {
+    max-width: 100%;
+    padding: 0;
+}
+
+.team-reveal-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 70vh;
+    opacity: 0;
+    transition: opacity 1s ease;
+}
+
+.team-reveal-row.visible {
+    opacity: 1;
+}
+
+.team-reveal-text,
+.team-reveal-photo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4rem;
+    transition: transform 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Initial state - text hidden left */
+.team-reveal-row .team-reveal-text {
+    transform: translateX(-100%);
+}
+
+/* Initial state - photo hidden right */
+.team-reveal-row .team-reveal-photo {
+    transform: translateX(100%);
+}
+
+/* Visible state */
+.team-reveal-row.visible .team-reveal-text,
+.team-reveal-row.visible .team-reveal-photo {
+    transform: translateX(0);
+}
+
+/* Reverse layout for Oleg */
+.team-reveal-row.reverse {
+    grid-template-columns: 1fr 1fr;
+}
+
+.team-reveal-row.reverse .team-reveal-photo {
+    transform: translateX(-100%);
+    order: 1;
+}
+
+.team-reveal-row.reverse .team-reveal-text {
+    transform: translateX(100%);
+    order: 2;
+}
+
+.team-reveal-row.reverse.visible .team-reveal-photo,
+.team-reveal-row.reverse.visible .team-reveal-text {
+    transform: translateX(0);
+}
+
+.team-reveal-text {
+    background: #1a1a1a;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+}
+
+.team-reveal-text h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    font-weight: 300;
+    color: #ffffff;
+}
+
+.team-reveal-role {
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #888;
+    margin-bottom: 2rem;
+}
+
+.team-reveal-text p:not(.team-reveal-role) {
+    font-size: 1.1rem;
+    line-height: 1.9;
+    color: #b0b0b0;
+    margin-bottom: 2.5rem;
+}
+
+.team-cta-btn {
+    display: inline-block;
+    padding: 0.9rem 2.5rem;
+    background: transparent;
+    border: 1.5px solid #ffffff;
+    border-radius: 50px;
+    color: #ffffff;
+    font-size: 0.95rem;
+    text-decoration: none;
+    transition: all 0.4s ease;
+    letter-spacing: 1px;
+}
+
+.team-cta-btn:hover {
+    background: #ffffff;
+    color: #0a0a0a;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(255,255,255,0.2);
+}
+
+.team-reveal-photo {
+    background: #0a0a0a;
+    overflow: hidden;
+    padding: 0;
+}
+
+.team-reveal-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(20%);
+    transition: all 0.8s ease;
+}
+
+.team-reveal-row:hover .team-reveal-photo img {
+    filter: grayscale(0%);
+    transform: scale(1.05);
+}
+
+/* Format Section */
+.dark-format-section {
+    padding: 6rem 0;
+    background: #1a1a1a;
+}
+
+.dark-format-card {
+    position: relative;
+    max-width: 1200px;
+    margin: 0 auto;
+    height: 400px;
+    border-radius: 0;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(50px);
+    transition: opacity 1s ease, transform 1s ease;
+}
+
+.dark-format-card.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.dark-format-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('../images/about/format-bg.jpg') center/cover no-repeat;
+    transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.dark-format-card:hover .dark-format-bg {
+    transform: scale(1.08);
+}
+
+.dark-format-content {
+    position: relative;
+    z-index: 1;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 4rem;
+    text-align: center;
+    background: rgba(0,0,0,0.7);
+    transition: background 0.6s ease;
+}
+
+.dark-format-card:hover .dark-format-content {
+    background: rgba(0,0,0,0.5);
+}
+
+.dark-format-content h2 {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    font-weight: 300;
+    color: #ffffff;
+}
+
+.dark-format-content p {
+    font-size: 1.2rem;
+    line-height: 2;
+    max-width: 700px;
+    color: #e0e0e0;
+}
+
+/* Dark Sections */
+.dark-section {
+    background: #0a0a0a;
+    padding: 6rem 0;
+}
+
+.dark-section h2 {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    font-weight: 300;
+    color: #ffffff;
+}
+
+.section-subtitle {
+    text-align: center;
+    margin-bottom: 4rem;
+    color: #888;
+    font-size: 1.05rem;
+}
+
+/* Dark Cards */
+.dark-card {
+    background: #1a1a1a !important;
+    border: 1px solid #2a2a2a !important;
+    transition: all 0.4s ease !important;
+}
+
+.dark-card:hover {
+    background: #222 !important;
+    border-color: #3a3a3a !important;
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+}
+
+.dark-card h4,
+.dark-card .review-text {
+    color: #e0e0e0 !important;
+}
+
+.dark-card .location {
+    color: #888 !important;
+}
+
+.dark-card .review-rating {
+    color: #ffd700 !important;
+}
+
+/* Footer */
+.dark-footer {
+    background: #000 !important;
+    color: #888 !important;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Mobile Responsive */
+@media (max-width: 968px) {
+    .team-reveal-row,
+    .team-reveal-row.reverse {
+        grid-template-columns: 1fr;
+        min-height: auto;
+    }
+    
+    .team-reveal-text,
+    .team-reveal-photo {
+        padding: 3rem 2rem;
+    }
+    
+    .team-reveal-row .team-reveal-text,
+    .team-reveal-row .team-reveal-photo,
+    .team-reveal-row.reverse .team-reveal-text,
+    .team-reveal-row.reverse .team-reveal-photo {
+        transform: translateY(50px);
+    }
+    
+    .team-reveal-row.visible .team-reveal-text,
+    .team-reveal-row.visible .team-reveal-photo,
+    .team-reveal-row.reverse.visible .team-reveal-text,
+    .team-reveal-row.reverse.visible .team-reveal-photo {
+        transform: translateY(0);
+    }
+    
+    .team-reveal-row.reverse .team-reveal-photo {
+        order: 1;
+    }
+    
+    .team-reveal-row.reverse .team-reveal-text {
+        order: 2;
+    }
+}
+
+@media (max-width: 768px) {
+    .dark-hero {
+        padding: 5rem 0 4rem 0;
+    }
+    
+    .dark-hero h1 {
+        font-size: 2rem;
+    }
+    
+    .dark-hero p {
+        font-size: 1rem;
+    }
+    
+    .team-reveal-text h2 {
+        font-size: 2rem;
+    }
+    
+    .team-reveal-text p:not(.team-reveal-role) {
+        font-size: 1rem;
+    }
+    
+    .dark-format-card {
+        height: 350px;
+    }
+    
+    .dark-format-content h2 {
+        font-size: 2rem;
+    }
+    
+    .dark-format-content p {
+        font-size: 1.05rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .dark-hero h1 {
+        font-size: 1.6rem;
+    }
+    
+    .team-reveal-text,
+    .team-reveal-photo {
+        padding: 2rem 1.5rem;
+    }
+    
+    .team-reveal-text h2 {
+        font-size: 1.7rem;
+    }
+    
+    .dark-format-card {
+        height: 300px;
+    }
+    
+    .dark-format-content {
+        padding: 2rem;
+    }
+    
+    .dark-format-content h2 {
+        font-size: 1.6rem;
+    }
+}

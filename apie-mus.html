@@ -3,23 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Apie Mafija klubą Vilniuje. Susipažinkite su mūsų komanda, istorija ir patirtimi organizuojant mafijos žaidimus.">
-    <title>Apie mus - Mafija žaidimo organizavimas</title>
+    <meta name="description" content="Psichodraminės improvizacijos klubas Vilniuje. Mafijos žaidimo organizavimas gimtadieniams, įmonių renginiams. Profesionalūs vedėjai Oleg Čeklu ir Aleksandr Kanajev.">
+    <meta name="keywords" content="mafija žaidimas, mafija, žaidimas gimtadieniui, dovana vyrui, dovana žmonai, mafija vilnius, mafija žaidimas vilnius, mafija renginio organizavimas, mafija patalpos, mafija kur žaisti, renginių organizavimas, psichodrama, improvizacijos klubas">
+    
+    <!-- Schema.org Organization -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Mafija Vilnius - Psichodraminės improvizacijos klubas",
+      "description": "Įkurtas 2015 metais. Per šį laikotarpį organizavome 116 atvirų žaidimų ir ne mažiau 400 privačių renginių.",
+      "url": "https://mafiainlt.com",
+      "foundingDate": "2015",
+      "founder": {
+        "@type": "Person",
+        "name": "Oleg Čeklu"
+      },
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Vilnius",
+        "addressCountry": "LT"
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "5",
+        "reviewCount": "9"
+      }
+    }
+    </script>
+    
+    <title>Apie mus - Mafija žaidimas Vilniuje | Psichodraminės improvizacijos klubas</title>
     
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Alata&display=swap" rel="stylesheet">
     
 <link rel="stylesheet" href="css/styles.css">
-<link rel="stylesheet" href="css/about-v3.css">
+<link rel="stylesheet" href="css/about-dark.css">
 </head>
-<body>
+<body class="dark-theme">
     <!-- Navigation -->
     <nav class="navbar">
         <div class="container">
             <div class="nav-wrapper">
                 <a href="index.html" class="logo">
-                    <img src="images/logo.png" alt="Mafija" style="height: 80px;">
+                    <img src="images/logo.png" alt="Mafija Vilnius - Psichodraminės improvizacijos klubas">
                 </a>
                 
                 <button class="mobile-menu-toggle" aria-label="Menu">
@@ -45,70 +73,53 @@
         </div>
     </nav>
 
-    <!-- Hero Section - Compact -->
-    <section class="about-hero-compact">
+    <!-- Hero Section -->
+    <section class="dark-hero">
         <div class="container">
-            <div class="hero-text-center">
+            <div class="dark-hero-content">
                 <h1>Psichodraminės improvizacijos klubas</h1>
                 <p>Įkurtas 2015 metais. Per šį laikotarpį organizavome 116 atvirų žaidimų ir ne mažiau 400 privačių renginių.</p>
             </div>
         </div>
     </section>
 
-    <!-- Team Cards -->
-    <section class="team-cards-section">
-        <div class="container">
-            <div class="team-cards-wrapper">
-                <!-- Card 1: Oleg -->
-                <div class="team-reveal-card" data-person="oleg">
-                    <div class="team-card-image">
-                        <img src="images/team/oleg.jpg" alt="Oleg Čeklu">
-                    </div>
-                    <div class="team-card-overlay">
-                        <h3>Oleg Čeklu</h3>
-                        <p class="team-card-role">Klubo įkūrėjas</p>
-                    </div>
-                </div>
-                
-                <!-- Card 2: Aleksandr -->
-                <div class="team-reveal-card" data-person="aleksandr">
-                    <div class="team-card-image">
-                        <img src="images/team/aleksandr.jpg" alt="Aleksandr Kanajev">
-                    </div>
-                    <div class="team-card-overlay">
-                        <h3>Aleksandr Kanajev</h3>
-                        <p class="team-card-role">Klubo koordinatorius</p>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Hidden Details -->
-            <div class="team-details" id="details-oleg">
-                <div class="team-details-content">
-                    <button class="close-details">✕</button>
-                    <h2>Oleg Čeklu</h2>
-                    <p class="details-role">Klubo įkūrėjas</p>
-                    <p>Psichodramos praktikas ir kurybinis prodiuseris, klubo įkūrėjas. Olego „Mafijos" žaidimo vedimo stilius orientuotas į žmogaus intuicijos galimybių atskleidimą.</p>
-                </div>
-            </div>
-            
-            <div class="team-details" id="details-aleksandr">
-                <div class="team-details-content">
-                    <button class="close-details">✕</button>
+    <!-- Team Scroll Reveal -->
+    <section class="team-scroll-section">
+        <div class="container-fluid">
+            <!-- Aleksandr - Text Left, Photo Right -->
+            <div class="team-reveal-row" data-reveal="aleksandr">
+                <div class="team-reveal-text">
                     <h2>Aleksandr Kanajev</h2>
-                    <p class="details-role">Klubo koordinatorius</p>
+                    <p class="team-reveal-role">Klubo koordinatorius</p>
                     <p>Teatro ir kino aktorius, atliekantis koordinatoriaus ir vedėjo vaidmenis klube. Veda „Mafijos" žaidimą, orientuotą į vaidybą ir logiką.</p>
+                    <a href="kontaktai.html" class="team-cta-btn">Kontaktai</a>
+                </div>
+                <div class="team-reveal-photo">
+                    <img src="images/team/aleksandr.jpg" alt="Aleksandr Kanajev - Mafijos žaidimo vedėjas Vilniuje">
+                </div>
+            </div>
+            
+            <!-- Oleg - Photo Left, Text Right -->
+            <div class="team-reveal-row reverse" data-reveal="oleg">
+                <div class="team-reveal-photo">
+                    <img src="images/team/oleg.jpg" alt="Oleg Čeklu - Psichodraminės improvizacijos klubo įkūrėjas">
+                </div>
+                <div class="team-reveal-text">
+                    <h2>Oleg Čeklu</h2>
+                    <p class="team-reveal-role">Klubo įkūrėjas</p>
+                    <p>Psichodramos praktikas ir kurybinis prodiuseris, klubo įkūrėjas. Olego „Mafijos" žaidimo vedimo stilius orientuotas į žmogaus intuicijos galimybių atskleidimą.</p>
+                    <a href="kontaktai.html" class="team-cta-btn">Kontaktai</a>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Format Card -->
-    <section class="format-card-section">
+    <!-- Format Section -->
+    <section class="dark-format-section">
         <div class="container">
-            <div class="format-card">
-                <div class="format-card-bg"></div>
-                <div class="format-card-content">
+            <div class="dark-format-card">
+                <div class="dark-format-bg"></div>
+                <div class="dark-format-content">
                     <h2>Klubo formatas</h2>
                     <p>Tinka grupėms be patirties. Skirtas pasipildyti emociškai ir sukurti erdvę bendram ryšiui. Dizainas, muzika, taisyklės ir personažai yra autentiški.</p>
                 </div>
@@ -117,119 +128,223 @@
     </section>
 
     <!-- Clients Section -->
-    <section class="clients-section">
+    <section class="clients-section dark-section">
         <div class="container">
-            <h2 style="text-align: center;">Mūsų klientai</h2>
-            <p style="text-align: center; margin-bottom: 3rem;">Pasitikėję mumis įmonės ir organizacijos</p>
+            <h2>Mūsų klientai</h2>
+            <p class="section-subtitle">Pasitikėję mumis įmonės ir organizacijos</p>
             
             <div class="clients-grid">
-                <div class="client-logo">
-                    <img src="images/clients/client-logo-1.png" alt="Kliento logotipas 1">
-                </div>
-                <div class="client-logo">
-                    <img src="images/clients/client-logo-2.png" alt="Kliento logotipas 2">
-                </div>
-                <div class="client-logo">
-                    <img src="images/clients/client-logo-3.png" alt="Kliento logotipas 3">
-                </div>
-                <div class="client-logo">
-                    <img src="images/clients/client-logo-4.png" alt="Kliento logotipas 4">
-                </div>
-                <div class="client-logo">
-                    <img src="images/clients/client-logo-5.png" alt="Kliento logotipas 5">
-                </div>
-                <div class="client-logo">
-                    <img src="images/clients/client-logo-6.png" alt="Kliento logotipas 6">
-                </div>
-                <div class="client-logo">
-                    <img src="images/clients/client-logo-7.png" alt="Kliento logotipas 7">
-                </div>
-                <div class="client-logo">
-                    <img src="images/clients/client-logo-8.png" alt="Kliento logotipas 8">
-                </div>
-                <div class="client-logo">
-                    <img src="images/clients/client-logo-9.png" alt="Kliento logotipas 9">
-                </div>
-                <div class="client-logo">
-                    <img src="images/clients/client-logo-10.png" alt="Kliento logotipas 10">
-                </div>
-                <div class="client-logo">
-                    <img src="images/clients/client-logo-11.png" alt="Kliento logotipas 11">
-                </div>
-                <div class="client-logo">
-                    <img src="images/clients/client-logo-12.png" alt="Kliento logotipas 12">
-                </div>
+                <div class="client-logo"><img src="images/clients/client-logo-1.png" alt="Mafijos žaidimo klientas"></div>
+                <div class="client-logo"><img src="images/clients/client-logo-2.png" alt="Renginių organizavimo klientas"></div>
+                <div class="client-logo"><img src="images/clients/client-logo-3.png" alt="Įmonių renginių klientas"></div>
+                <div class="client-logo"><img src="images/clients/client-logo-4.png" alt="Team building klientas"></div>
+                <div class="client-logo"><img src="images/clients/client-logo-5.png" alt="Gimtadienio renginio klientas"></div>
+                <div class="client-logo"><img src="images/clients/client-logo-6.png" alt="Korporatyvinio renginio klientas"></div>
+                <div class="client-logo"><img src="images/clients/client-logo-7.png" alt="Privataus renginio klientas"></div>
+                <div class="client-logo"><img src="images/clients/client-logo-8.png" alt="Verslo renginio klientas"></div>
+                <div class="client-logo"><img src="images/clients/client-logo-9.png" alt="Šventės organizavimo klientas"></div>
+                <div class="client-logo"><img src="images/clients/client-logo-10.png" alt="Mafijos turnyro klientas"></div>
+                <div class="client-logo"><img src="images/clients/client-logo-11.png" alt="Atvirų žaidimų klientas"></div>
+                <div class="client-logo"><img src="images/clients/client-logo-12.png" alt="Privačių seansų klientas"></div>
             </div>
         </div>
     </section>
 
-    <!-- Reviews Section -->
-    <section class="reviews-section">
+    <!-- Reviews Section - ALL 9 REVIEWS -->
+    <section class="reviews-section dark-section">
         <div class="container">
-            <h2 style="text-align: center;">Atsiliepimai</h2>
-            <p style="text-align: center; margin-bottom: 3rem;">Ką sako mūsų klientai</p>
+            <h2>Atsiliepimai</h2>
+            <p class="section-subtitle">Ką sako mūsų klientai</p>
             
             <div class="reviews-grid">
-                <!-- Review cards remain unchanged from original -->
-                <div class="review-card">
+                <!-- Review 1 -->
+                <div class="review-card dark-card" itemscope itemtype="https://schema.org/Review">
                     <div class="review-header">
                         <div class="review-photo">
-                            <img src="images/reviews/review-1.jpg" alt="Vardas Pavardė">
+                            <img src="images/reviews/review-1.jpg" alt="Mafijos žaidimo atsiliepimas">
                         </div>
                         <div class="review-author">
-                            <h4>Vardas Pavardė</h4>
+                            <h4 itemprop="author">Vardas Pavardė</h4>
                             <p class="location">Vilnius</p>
                         </div>
                     </div>
-                    <div class="review-rating">★★★★★</div>
-                    <p class="review-text">Puikus renginys! Profesionalus vedimas, įtrauki atmosfera. Svečiai liko labai patenkinti. Tikrai rekomenduoju!</p>
+                    <div class="review-rating" itemprop="reviewRating" itemscope itemtype="https://schema.org/Rating">
+                        <meta itemprop="ratingValue" content="5">
+                        <meta itemprop="bestRating" content="5">
+                        ★★★★★
+                    </div>
+                    <p class="review-text" itemprop="reviewBody">Puikus renginys! Profesionalus vedimas, įtrauki atmosfera. Svečiai liko labai patenkinti. Tikrai rekomenduoju!</p>
                 </div>
                 
-                <div class="review-card">
+                <!-- Review 2 -->
+                <div class="review-card dark-card" itemscope itemtype="https://schema.org/Review">
                     <div class="review-header">
                         <div class="review-photo">
-                            <img src="images/reviews/review-2.jpg" alt="Vardas Pavardė">
+                            <img src="images/reviews/review-2.jpg" alt="Team building atsiliepimas">
                         </div>
                         <div class="review-author">
-                            <h4>Vardas Pavardė</h4>
+                            <h4 itemprop="author">Vardas Pavardė</h4>
                             <p class="location">Kaunas</p>
                         </div>
                     </div>
-                    <div class="review-rating">★★★★★</div>
-                    <p class="review-text">Organizavome įmonės team building'ą su mafija žaidimu. Viskas buvo puikiai suorganizuota, komanda profesionali. Ačiū!</p>
+                    <div class="review-rating" itemprop="reviewRating" itemscope itemtype="https://schema.org/Rating">
+                        <meta itemprop="ratingValue" content="5">
+                        <meta itemprop="bestRating" content="5">
+                        ★★★★★
+                    </div>
+                    <p class="review-text" itemprop="reviewBody">Organizavome įmonės team building'ą su mafija žaidimu. Viskas buvo puikiai suorganizuota, komanda profesionali. Ačiū!</p>
                 </div>
                 
-                <div class="review-card">
+                <!-- Review 3 -->
+                <div class="review-card dark-card" itemscope itemtype="https://schema.org/Review">
                     <div class="review-header">
                         <div class="review-photo">
-                            <img src="images/reviews/review-3.jpg" alt="Vardas Pavardė">
+                            <img src="images/reviews/review-3.jpg" alt="Gimtadienio renginio atsiliepimas">
                         </div>
                         <div class="review-author">
-                            <h4>Vardas Pavardė</h4>
+                            <h4 itemprop="author">Vardas Pavardė</h4>
                             <p class="location">Vilnius</p>
                         </div>
                     </div>
-                    <div class="review-rating">★★★★★</div>
-                    <p class="review-text">Minėjome gimtadienį su mafija žaidimu. Labai patiko visiems! Oleg - puikus vedėjas, žaidimas buvo labai įdomus ir dinamiškas.</p>
+                    <div class="review-rating" itemprop="reviewRating" itemscope itemtype="https://schema.org/Rating">
+                        <meta itemprop="ratingValue" content="5">
+                        <meta itemprop="bestRating" content="5">
+                        ★★★★★
+                    </div>
+                    <p class="review-text" itemprop="reviewBody">Minėjome gimtadienį su mafija žaidimu. Labai patiko visiems! Oleg - puikus vedėjas, žaidimas buvo labai įdomus ir dinamiškas.</p>
+                </div>
+                
+                <!-- Review 4 -->
+                <div class="review-card dark-card" itemscope itemtype="https://schema.org/Review">
+                    <div class="review-header">
+                        <div class="review-photo">
+                            <img src="images/reviews/review-4.jpg" alt="Renginio organizavimo atsiliepimas">
+                        </div>
+                        <div class="review-author">
+                            <h4 itemprop="author">Vardas Pavardė</h4>
+                            <p class="location">Klaipėda</p>
+                        </div>
+                    </div>
+                    <div class="review-rating" itemprop="reviewRating" itemscope itemtype="https://schema.org/Rating">
+                        <meta itemprop="ratingValue" content="5">
+                        <meta itemprop="bestRating" content="5">
+                        ★★★★★
+                    </div>
+                    <p class="review-text" itemprop="reviewBody">Nepamirštamas vakaras! Puiki organizacija, gera atmosfera. Būtinai užsakysime dar kartą!</p>
+                </div>
+                
+                <!-- Review 5 -->
+                <div class="review-card dark-card" itemscope itemtype="https://schema.org/Review">
+                    <div class="review-header">
+                        <div class="review-photo">
+                            <img src="images/reviews/review-5.jpg" alt="Profesionalaus vedimo atsiliepimas">
+                        </div>
+                        <div class="review-author">
+                            <h4 itemprop="author">Vardas Pavardė</h4>
+                            <p class="location">Vilnius</p>
+                        </div>
+                    </div>
+                    <div class="review-rating" itemprop="reviewRating" itemscope itemtype="https://schema.org/Rating">
+                        <meta itemprop="ratingValue" content="5">
+                        <meta itemprop="bestRating" content="5">
+                        ★★★★★
+                    </div>
+                    <p class="review-text" itemprop="reviewBody">Labai profesionalu! Vedėjas mokėjo įtraukti visus dalyvius, žaidimas buvo dinamiškas ir įdomus. Rekomenduoju!</p>
+                </div>
+                
+                <!-- Review 6 -->
+                <div class="review-card dark-card" itemscope itemtype="https://schema.org/Review">
+                    <div class="review-header">
+                        <div class="review-photo">
+                            <img src="images/reviews/review-6.jpg" alt="Pilno renginio organizavimo atsiliepimas">
+                        </div>
+                        <div class="review-author">
+                            <h4 itemprop="author">Vardas Pavardė</h4>
+                            <p class="location">Šiauliai</p>
+                        </div>
+                    </div>
+                    <div class="review-rating" itemprop="reviewRating" itemscope itemtype="https://schema.org/Rating">
+                        <meta itemprop="ratingValue" content="5">
+                        <meta itemprop="bestRating" content="5">
+                        ★★★★★
+                    </div>
+                    <p class="review-text" itemprop="reviewBody">Užsakėme pilną renginio organizavimą. Viskas buvo idealu - nuo vietos paieškos iki žaidimo vedimo. Ačiū komandai!</p>
+                </div>
+                
+                <!-- Review 7 -->
+                <div class="review-card dark-card" itemscope itemtype="https://schema.org/Review">
+                    <div class="review-header">
+                        <div class="review-photo">
+                            <img src="images/reviews/review-7.jpg" alt="Įmonės renginio atsiliepimas">
+                        </div>
+                        <div class="review-author">
+                            <h4 itemprop="author">Vardas Pavardė</h4>
+                            <p class="location">Vilnius</p>
+                        </div>
+                    </div>
+                    <div class="review-rating" itemprop="reviewRating" itemscope itemtype="https://schema.org/Rating">
+                        <meta itemprop="ratingValue" content="5">
+                        <meta itemprop="bestRating" content="5">
+                        ★★★★★
+                    </div>
+                    <p class="review-text" itemprop="reviewBody">Geriausia pramoga įmonės renginiui! Kolegos liko sužavėti, jau planuojame kitą kartą.</p>
+                </div>
+                
+                <!-- Review 8 -->
+                <div class="review-card dark-card" itemscope itemtype="https://schema.org/Review">
+                    <div class="review-header">
+                        <div class="review-photo">
+                            <img src="images/reviews/review-8.jpg" alt="Aleksandr ir Oleg atsiliepimas">
+                        </div>
+                        <div class="review-author">
+                            <h4 itemprop="author">Vardas Pavardė</h4>
+                            <p class="location">Panevėžys</p>
+                        </div>
+                    </div>
+                    <div class="review-rating" itemprop="reviewRating" itemscope itemtype="https://schema.org/Rating">
+                        <meta itemprop="ratingValue" content="5">
+                        <meta itemprop="bestRating" content="5">
+                        ★★★★★
+                    </div>
+                    <p class="review-text" itemprop="reviewBody">Puiki patirtis! Aleksandras ir Oleg - profesionalai savo srityje. Labai rekomenduoju visiems!</p>
+                </div>
+                
+                <!-- Review 9 -->
+                <div class="review-card dark-card" itemscope itemtype="https://schema.org/Review">
+                    <div class="review-header">
+                        <div class="review-photo">
+                            <img src="images/reviews/review-9.jpg" alt="Aukščiausio lygio atsiliepimas">
+                        </div>
+                        <div class="review-author">
+                            <h4 itemprop="author">Vardas Pavardė</h4>
+                            <p class="location">Vilnius</p>
+                        </div>
+                    </div>
+                    <div class="review-rating" itemprop="reviewRating" itemscope itemtype="https://schema.org/Rating">
+                        <meta itemprop="ratingValue" content="5">
+                        <meta itemprop="bestRating" content="5">
+                        ★★★★★
+                    </div>
+                    <p class="review-text" itemprop="reviewBody">Viskas buvo aukščiausio lygio! Nuo komunikacijos iki paties žaidimo - viskas profesionalu. 10/10!</p>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="footer">
+    <footer class="footer dark-footer">
         <div class="container" style="text-align: center; padding: 3rem 0;">
             <div style="display: flex; justify-content: center; gap: 3rem; margin-bottom: 2rem; font-size: 1.1rem;">
                 <a href="https://facebook.com" style="color: inherit; text-decoration: none;">Facebook</a>
                 <a href="https://instagram.com" style="color: inherit; text-decoration: none;">Instagram</a>
                 <a href="mailto:info@mafiainlt.com" style="color: inherit; text-decoration: none;">Email</a>
             </div>
-            <p style="color: #666; margin-bottom: 0.5rem;">Aleksandr: 0 65 257 838 | Oleg: 0 67 168 072</p>
-            <p style="margin-top: 2rem; padding-top: 2rem; border-top: 1px solid #e0e0e0;">&copy; 2026 MafiaInLT ®</p>
+            <p style="color: #999; margin-bottom: 0.5rem;">Aleksandr: 0 65 257 838 | Oleg: 0 67 168 072</p>
+            <p style="margin-top: 2rem; padding-top: 2rem; border-top: 1px solid #333;">&copy; 2026 MafiaInLT ®</p>
         </div>
     </footer>
 
     <script src="js/main.js"></script>
-    <script src="js/about-reveal.js"></script>
+    <script src="js/about-scroll-reveal.js"></script>
 </body>
 </html>
