@@ -586,7 +586,7 @@ document.getElementById('reserve-btn')?.addEventListener('mouseleave', function(
 });
 
 // Reserve button click
-document.getElementById('reserve-btn')?.addEventListener('click', function() {
+document.getElementById('reserve-btn')?.addEventListener('click', async function() {
     const email = document.getElementById('client-email').value;
     
     if (!email || !email.includes('@')) {
@@ -610,8 +610,39 @@ document.getElementById('reserve-btn')?.addEventListener('click', function() {
         return;
     }
     
-    // Here you would send the data to Formspree or your email service
-    alert('Ačiū! Jūsų užklausa išsiųsta. Susisieksime su jumis artimiausiu metu.');
+    // Prepare data
+    const formData = {
+        email: email,
+        service: calculatorState.service,
+        dateStart: calculatorState.dateStart,
+        dateEnd: calculatorState.dateEnd,
+        tables: calculatorState.tables,
+        days: calculatorState.days,
+        location: calculatorState.location,
+        distance: calculatorState.distance,
+        additionalServices: calculatorState.additionalServices,
+        totalPrice: document.getElementById('total-price').textContent
+    };
+    
+    // Send to Formspree
+    try {
+        const response = await fetch('https://formspree.io/f/mwvvkyok', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(formData)
+        });
+        
+        if (response.ok) {
+            alert('Ačiū! Jūsų užklausa išsiųsta. Susisieksime su jumis artimiausiu metu.');
+        } else {
+            alert('Klaida siunčiant užklausą. Prašome bandyti dar kartą.');
+        }
+    } catch (error) {
+        alert('Klaida siunčiant užklausą. Prašome bandyti dar kartą.');
+        console.error('Formspree error:', error);
+    }
 });
 
 // Initialize calendar when page loads
