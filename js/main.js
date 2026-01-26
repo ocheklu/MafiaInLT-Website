@@ -174,7 +174,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('.service-flip-card').forEach(card => {
         card.addEventListener('click', function(e) {
             // Don't flip if clicking on back button or link
-            if (e.target.closest('.flip-back-btn') || e.target.closest('a')) {
+            if (e.target.closest('.flip-back-btn') || e.target.closest('a') || e.target.closest('.btn')) {
                 return;
             }
             

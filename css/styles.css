@@ -1583,7 +1583,7 @@ section h2 {
 /* Calculator Steps Animations */
 .calculator-steps-container {
     position: relative;
-    min-height: 400px;
+    min-height: 0;
 }
 
 .calculator-step {
