@@ -13,7 +13,7 @@
 }
 
 .about-section.light-gray {
-    background: #f5f5dc;
+    background: #f9f6f0;
 }
 
 .about-container {
@@ -198,10 +198,10 @@
     .cards-stack {
     width: 100%;
     height: 400px;
-    margin: 0 auto;
+    margin: 0 auto 0 -15%;
     justify-content: center;
+    transform: translateY(-30%);
     align-items: flex-start;
-    padding-top: 2rem;
 }
     
     .game-card {
