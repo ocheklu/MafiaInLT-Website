@@ -19,7 +19,7 @@
     display: grid;
     grid-template-columns: 450px 1fr;
     gap: 5rem;
-    align-items: center;
+    align-items: start;
 }
 
 /* Photo Card - Fixed Size */
@@ -29,8 +29,8 @@
 }
 
 .about-image {
-    width: 600px;
-    height: 500px;
+    width: 550px;
+    height: 550px;
     border-radius: 20px;
     overflow: hidden;
 }
