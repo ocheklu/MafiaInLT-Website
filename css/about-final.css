@@ -17,9 +17,15 @@
     margin: 0 auto;
     padding: 0 2rem;
     display: grid;
-    grid-template-columns: 450px 1fr;
-    gap: 5rem;
+    grid-template-columns: 450px auto;
+    gap: 3rem;
     align-items: start;
+}
+
+.about-content {
+    max-width: 500px;
+    opacity: 0;
+    animation: fadeIn 0.8s ease 0.4s forwards;
 }
 
 /* Photo Card - Fixed Size */
@@ -29,8 +35,8 @@
 }
 
 .about-image {
-    width: 550px;
-    height: 550px;
+    width: 450px;
+    height: 450px;
     border-radius: 20px;
     overflow: hidden;
 }
@@ -84,7 +90,7 @@
     color: #000;
     text-decoration: none;
     border-radius: 50px;
-    font-size: 0.9rem;
+    font-size: 1.2rem;
     transition: all 0.3s ease;
 }
 
