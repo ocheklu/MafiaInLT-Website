@@ -130,16 +130,15 @@
     width: 100%;
     height: auto;
     border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
 }
 
 .card-1 {
-    right: 160px;
+    right: 200px;
     z-index: 3;
 }
 
 .card-2 {
-    right: 80px;
+    right: 100px;
     z-index: 2;
 }
 
@@ -174,9 +173,36 @@
         margin: 0 auto;
     }
     
+    .about-content {
+        text-align: center;
+    }
+    
     .about-content h1,
     .about-content h2 {
         font-size: 2.3rem;
+    }
+    
+    .about-btn {
+        margin: 0 auto;
+    }
+    
+    .cards-stack {
+        width: 100%;
+        height: 400px;
+        margin: 0 auto;
+        justify-content: center;
+    }
+    
+    .game-card {
+        width: 200px;
+    }
+    
+    .card-1 {
+        right: 120px;
+    }
+    
+    .card-2 {
+        right: 60px;
     }
 }
 
