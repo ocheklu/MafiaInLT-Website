@@ -67,6 +67,9 @@
     font-weight: 550;
     color: #1a1a1a;
     line-height: 1.2;
+    text-align: left;
+    margin-left: 0;
+    padding-left: 0;
 }
 
 .about-role {
@@ -78,7 +81,7 @@
 }
 
 .about-content p:not(.about-role) {
-    font-size: 1rem;
+    font-size: 1.2rem;
     line-height: 1.7;
     color: #000;
     margin-bottom: 2rem;
