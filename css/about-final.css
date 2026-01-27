@@ -19,11 +19,12 @@
     display: grid;
     grid-template-columns: 450px auto;
     gap: 3rem;
-    align-items: start;
+    align-items: center;
 }
 
 .about-content {
-    max-width: 500px;
+    text-align: left;
+    max-width: 600px;
     opacity: 0;
     animation: fadeIn 0.8s ease 0.4s forwards;
 }
@@ -62,6 +63,7 @@
 .about-content h2 {
     font-size: 3rem;
     margin-bottom: 1rem;
+    margin-left: 0;
     font-weight: 550;
     color: #1a1a1a;
     line-height: 1.2;
@@ -76,7 +78,7 @@
 }
 
 .about-content p:not(.about-role) {
-    font-size: 1.3rem;
+    font-size: 1rem;
     line-height: 1.7;
     color: #000;
     margin-bottom: 2rem;
@@ -90,7 +92,7 @@
     color: #000;
     text-decoration: none;
     border-radius: 50px;
-    font-size: 1.2rem;
+    font-size: 1rem;
     transition: all 0.3s ease;
 }
 
