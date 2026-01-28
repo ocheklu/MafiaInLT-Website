@@ -246,8 +246,22 @@ img {
 }
 
 .hero h1 {
-    font-size: 3rem;
+    font-size: 2.7rem;
     margin-bottom: 1.5rem;
+}
+
+.hero-index h1 {
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeSlideUp 1s ease forwards;
+    animation-delay: 0.3s;
+}
+
+@keyframes fadeSlideUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .hero-services h1 {
@@ -257,6 +271,22 @@ img {
 .hero p {
     font-size: 1.25rem;
     margin-bottom: 2rem;
+}
+
+.hero-index .hero-content > p {
+    opacity: 0;
+}
+
+.hero-index .hero-content > p.letter-animate span {
+    display: inline-block;
+    opacity: 0;
+    animation: letterFade 0.05s ease forwards;
+}
+
+@keyframes letterFade {
+    to {
+        opacity: 1;
+    }
 }
 
 /* ===========================
@@ -1700,12 +1730,12 @@ section h2 {
 }
 
 .service-preview-content {
-    padding: 1.5rem;
+    padding: 1.4rem;
     text-align: center;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    gap: 1.2rem;
+    gap: 1.3rem;
     flex: 1;
 }
 
@@ -1716,7 +1746,7 @@ section h2 {
 }
 
 .service-preview-content p {
-    color: #666;
+    color: #000;
     line-height: 1.6;
     margin: auto 0;
 }

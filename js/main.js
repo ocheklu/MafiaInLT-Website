@@ -243,37 +243,23 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // ===========================
-// FILM INTRO ANIMATION
+// LETTER BY LETTER ANIMATION
 // ===========================
 
 document.addEventListener('DOMContentLoaded', function() {
-    const filmIntro = document.querySelector('.film-intro');
-    if (!filmIntro) return;
+    const heroParagraph = document.querySelector('.hero-index .hero-content > p');
+    if (!heroParagraph) return;
     
-    const filmStrip = document.querySelector('.film-strip');
-    const slides = document.querySelectorAll('.film-slide');
-    const heroContent = document.querySelector('.hero-content');
+    const text = heroParagraph.textContent;
+    heroParagraph.innerHTML = '';
     
-    // Hide hero content initially
-    heroContent.style.opacity = '0';
+    // Wrap each letter in span
+    text.split('').forEach((char, index) => {
+        const span = document.createElement('span');
+        span.textContent = char;
+        span.style.animationDelay = `${0.8 + index * 0.02}s`;
+        heroParagraph.appendChild(span);
+    });
     
-    let currentSlide = 0;
-    
-    function scrollToNext() {
-        if (currentSlide < slides.length - 1) {
-            currentSlide++;
-            filmStrip.style.transform = `translateX(-${currentSlide * 100}%)`;
-            setTimeout(scrollToNext, 1500);
-        } else {
-            // Animation complete
-            setTimeout(() => {
-                filmIntro.classList.add('hidden');
-                heroContent.style.transition = 'opacity 1s ease';
-                heroContent.style.opacity = '1';
-            }, 1500);
-        }
-    }
-    
-    // Start animation
-    setTimeout(scrollToNext, 1000);
+    heroParagraph.classList.add('letter-animate');
 });
