@@ -241,25 +241,3 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 });
-
-// ===========================
-// LETTER BY LETTER ANIMATION
-// ===========================
-
-document.addEventListener('DOMContentLoaded', function() {
-    const heroParagraph = document.querySelector('.hero-index .hero-content > p');
-    if (!heroParagraph) return;
-    
-    const text = heroParagraph.textContent;
-    heroParagraph.innerHTML = '';
-    
-    // Wrap each letter in span
-    text.split('').forEach((char, index) => {
-        const span = document.createElement('span');
-        span.textContent = char;
-        span.style.animationDelay = `${0.8 + index * 0.02}s`;
-        heroParagraph.appendChild(span);
-    });
-    
-    heroParagraph.classList.add('letter-animate');
-});

@@ -274,19 +274,22 @@ img {
 }
 
 .hero-index .hero-content > p {
-    opacity: 1;
-}
-
-.hero-index .hero-content > p.letter-animate span {
-    display: inline-block;
     opacity: 0;
-    animation: letterFade 0.05s ease forwards;
+    animation: fadeIn 1s ease forwards;
+    animation-delay: 1s;
+    max-width: 800px;
 }
 
-@keyframes letterFade {
+@keyframes fadeIn {
     to {
         opacity: 1;
     }
+}
+
+.hero-index .hero-content .btn {
+    opacity: 0;
+    animation: fadeIn 1s ease forwards;
+    animation-delay: 1.5s;
 }
 
 /* ===========================
@@ -1744,14 +1747,13 @@ section h2 {
 
 .service-preview-content h3 {
     font-size: 1.5rem;
-    margin-bottom: 0.5rem;
+    margin-bottom: 2rem;
     color: #1a1a1a;
 }
 
 .service-preview-content p {
     color: #000;
     line-height: 1.6;
-    margin: auto 0;
 }
 
 /* ===========================
