@@ -274,7 +274,7 @@ img {
 }
 
 .hero-index .hero-content > p {
-    opacity: 0;
+    opacity: 1;
 }
 
 .hero-index .hero-content > p.letter-animate span {
@@ -1734,9 +1734,12 @@ section h2 {
     text-align: center;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
     gap: 1.3rem;
     flex: 1;
+}
+
+.service-preview-content .btn {
+    margin-top: auto;
 }
 
 .service-preview-content h3 {
