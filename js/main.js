@@ -247,37 +247,33 @@ document.addEventListener('DOMContentLoaded', function() {
 // ===========================
 
 document.addEventListener('DOMContentLoaded', function() {
-    // Only run on index page
     const filmIntro = document.querySelector('.film-intro');
     if (!filmIntro) return;
     
-    const frames = document.querySelectorAll('.film-frame');
+    const filmStrip = document.querySelector('.film-strip');
+    const slides = document.querySelectorAll('.film-slide');
     const heroContent = document.querySelector('.hero-content');
     
     // Hide hero content initially
     heroContent.style.opacity = '0';
     
-    let currentFrame = 0;
+    let currentSlide = 0;
     
-    function showNextFrame() {
-        if (currentFrame > 0) {
-            frames[currentFrame - 1].classList.remove('active');
-        }
-        
-        if (currentFrame < frames.length) {
-            frames[currentFrame].classList.add('active');
-            currentFrame++;
-            setTimeout(showNextFrame, 700);
+    function scrollToNext() {
+        if (currentSlide < slides.length - 1) {
+            currentSlide++;
+            filmStrip.style.transform = `translateX(-${currentSlide * 100}%)`;
+            setTimeout(scrollToNext, 1500);
         } else {
-            // Animation complete - show hero content
+            // Animation complete
             setTimeout(() => {
                 filmIntro.classList.add('hidden');
                 heroContent.style.transition = 'opacity 1s ease';
                 heroContent.style.opacity = '1';
-            }, 500);
+            }, 1500);
         }
     }
     
-    // Start animation after short delay
-    setTimeout(showNextFrame, 500);
+    // Start animation
+    setTimeout(scrollToNext, 1000);
 });

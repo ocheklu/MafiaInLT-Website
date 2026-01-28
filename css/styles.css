@@ -250,13 +250,6 @@ img {
     margin-bottom: 1.5rem;
 }
 
-.hero-index h2 {
-    font-size: 1.3rem;
-    font-weight: 400;
-    color: #999;
-    margin-bottom: 1rem;
-}
-
 .hero-services h1 {
     font-size: 4rem;
 }
@@ -1707,11 +1700,12 @@ section h2 {
 }
 
 .service-preview-content {
-    padding: 3rem;
+    padding: 1.5rem;
     text-align: center;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    gap: 1.2rem;
     flex: 1;
 }
 
