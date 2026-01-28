@@ -192,3 +192,51 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
+
+// ===========================
+// CARD TILT EFFECT
+// ===========================
+
+document.addEventListener('DOMContentLoaded', function() {
+    const cards = document.querySelectorAll('.service-flip-card');
+    
+    cards.forEach(card => {
+        card.addEventListener('mousemove', function(e) {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            
+            const rotateX = (y - centerY) / 10;
+            const rotateY = (centerX - x) / 10;
+            
+            card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+        });
+        
+        card.addEventListener('mouseleave', function() {
+            card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0)';
+        });
+    });
+});
+
+// ===========================
+// AUTO FLIP CARD FROM ANCHOR
+// ===========================
+
+document.addEventListener('DOMContentLoaded', function() {
+    const hash = window.location.hash;
+    
+    if (hash) {
+        const cardId = hash.substring(1);
+        const card = document.getElementById(cardId);
+        
+        if (card && card.classList.contains('service-flip-card')) {
+            setTimeout(() => {
+                card.classList.add('flipped');
+                card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 300);
+        }
+    }
+});
