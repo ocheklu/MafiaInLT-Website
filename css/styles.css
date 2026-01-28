@@ -250,6 +250,13 @@ img {
     margin-bottom: 1.5rem;
 }
 
+.hero-index h2 {
+    font-size: 1.3rem;
+    font-weight: 400;
+    color: #999;
+    margin-bottom: 1rem;
+}
+
 .hero-services h1 {
     font-size: 4rem;
 }
@@ -1407,6 +1414,8 @@ section h2 {
     width: 100%;
     margin-top: auto;
     flex-shrink: 0;
+    align-self: center;
+    max-width: 300px;
 }
 
 .flip-back-btn {
@@ -1715,7 +1724,7 @@ section h2 {
 .service-preview-content p {
     color: #666;
     line-height: 1.6;
-    margin-bottom: 1rem;
+    margin: auto 0;
 }
 
 /* ===========================

@@ -241,3 +241,43 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 });
+
+// ===========================
+// FILM INTRO ANIMATION
+// ===========================
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Only run on index page
+    const filmIntro = document.querySelector('.film-intro');
+    if (!filmIntro) return;
+    
+    const frames = document.querySelectorAll('.film-frame');
+    const heroContent = document.querySelector('.hero-content');
+    
+    // Hide hero content initially
+    heroContent.style.opacity = '0';
+    
+    let currentFrame = 0;
+    
+    function showNextFrame() {
+        if (currentFrame > 0) {
+            frames[currentFrame - 1].classList.remove('active');
+        }
+        
+        if (currentFrame < frames.length) {
+            frames[currentFrame].classList.add('active');
+            currentFrame++;
+            setTimeout(showNextFrame, 700);
+        } else {
+            // Animation complete - show hero content
+            setTimeout(() => {
+                filmIntro.classList.add('hidden');
+                heroContent.style.transition = 'opacity 1s ease';
+                heroContent.style.opacity = '1';
+            }, 500);
+        }
+    }
+    
+    // Start animation after short delay
+    setTimeout(showNextFrame, 500);
+});
