@@ -218,10 +218,21 @@ img {
 
 .hero-index {
     background-image: url('../images/hero/hero-index.jpg');
+    animation: zoomOut 3s ease-out forwards;
+}
+
+@keyframes zoomOut {
+    from {
+        background-size: 110% auto;
+    }
+    to {
+        background-size: cover;
+    }
 }
 
 .hero-services {
     background-image: url('../images/hero/hero-services.jpg');
+    animation: zoomOut 3s ease-out forwards;
 }
 
 .hero-overlay {
@@ -230,7 +241,14 @@ img {
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(0, 0, 0, 0.2);
+    background-color: rgba(0, 0, 0, 0);
+    animation: overlayFade 3s ease-out forwards;
+}
+
+@keyframes overlayFade {
+    to {
+        background-color: rgba(0, 0, 0, 0.6);
+    }
 }
 
 .hero-services .hero-overlay {
@@ -243,6 +261,7 @@ img {
     max-width: 1100px;
     padding: 2rem;
     margin-top: -7rem;
+    text-align: center;
 }
 
 .hero h1 {
@@ -266,6 +285,13 @@ img {
 
 .hero-services h1 {
     font-size: 4rem;
+}
+
+.hero-services .hero-content h1 {
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeSlideUp 1s ease forwards;
+    animation-delay: 0.3s;
 }
 
 .hero p {
@@ -300,9 +326,163 @@ section {
     padding: 4rem 0;
 }
 
-section h2 {
+    section h2 {
+        text-align: center;
+        margin-bottom: 3rem;
+    }
+
+    /* ===========================
+   FOUNDER SECTION
+   =========================== */
+
+.founder-section {
+    padding: 6rem 0;
+    background-color: #f5f5f5;
+}
+
+.founder-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+}
+
+.founder-text {
+    text-align: left;
+}
+
+.founder-text h2 {
+    margin-bottom: 1.5rem;
+    font-size: 2rem;
+}
+
+.founder-text p {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    margin-bottom: 2rem;
+}
+
+.founder-section img {
+    transition: transform 0.6s ease;
+}
+
+.founder-section img:hover {
+    transform: scale(1.03);
+}
+
+/* ===========================
+   TESTIMONIAL SECTION
+   =========================== */
+
+.testimonial-section {
+    padding: 6rem 0;
+    background-color: #ffffff;
+}
+
+.testimonial-wrapper {
+    max-width: 900px;
+    margin: 0 auto;
     text-align: center;
+}
+
+.testimonial-text {
+    font-size: 1.3rem;
+    line-height: 1.8;
     margin-bottom: 3rem;
+    font-style: italic;
+    color: #333;
+}
+
+.testimonial-author {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+}
+
+.author-photo {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px solid #000;
+}
+
+.author-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.author-info {
+    text-align: left;
+}
+
+.author-info h4 {
+    margin: 0;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.author-info p {
+    margin: 0;
+    color: #666;
+}
+
+/* Scroll reveal animation */
+.scroll-reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.scroll-reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.scroll-reveal:nth-child(2) {
+    transition-delay: 0.3s;
+}
+
+/* ===========================
+   CTA SECTION
+   =========================== */
+
+.cta-section {
+    padding: 6rem 0;
+    background-image: url('../images/hero/hero-apiemus.jpg');
+    background-size: cover;
+    background-position: center;
+    color: #fff;
+    text-align: center;
+    position: relative;
+}
+
+.cta-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.2);
+    z-index: 0;
+}
+
+.cta-section .container {
+    position: relative;
+    z-index: 1;
+}
+
+.cta-section h2 {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    color: #fff;
+}
+
+.cta-section .scroll-reveal:nth-child(2) {
+    transition-delay: 0.3s;
 }
 
 /* ===========================
@@ -1281,6 +1461,52 @@ section h2 {
     }
     
     /* Service items компактнее */
+
+
+    .service-flip-back h3 {
+        margin-top: 1rem;
+        margin-bottom: 0.7rem;
+        font-size: 1.3rem;
+        text-align: center;
+    }
+
+    .service-flip-back .pricing-line {
+        font-size: 0.95rem;
+        font-style: italic;
+        margin-bottom: 0;
+        text-align: center;
+    }
+
+    .service-flip-back .pricing-line.pricing-last {
+        margin-bottom: 1rem;
+    }
+
+    .service-flip-back .section-title {
+        font-size: 0.9rem;
+        font-weight: 600;
+        margin-bottom: 0.7rem;
+        text-align: center;
+    }
+
+    .service-flip-back .section-title:not(:first-of-type) {
+        margin-top: 0.7rem;
+    }
+
+    .service-flip-back .services-list {
+        font-size: 0.85rem;
+        padding-left: 1.2rem;
+        line-height: 1.6;
+        margin-bottom: 0;
+        text-align: center;
+    }
+
+    .service-flip-back .btn {
+        width: 100%;
+        margin-top: 1rem;
+        align-self: center;
+        max-width: 300px;
+    }
+    
     .service-item {
         padding: 0.6rem 1.2rem;
     }
@@ -1423,27 +1649,6 @@ section h2 {
     pointer-events: auto;
 }
 
-.service-flip-back h3 {
-    margin: 0 0 1rem 0;
-    font-size: 1.3rem;
-    text-align: center;
-    flex-shrink: 0;
-}
-
-.service-flip-back > p,
-.service-flip-back > ul {
-    text-align: center;
-    flex-shrink: 0;
-}
-
-.service-flip-back .btn {
-    width: 100%;
-    margin-top: auto;
-    flex-shrink: 0;
-    align-self: center;
-    max-width: 300px;
-}
-
 .flip-back-btn {
     position: absolute;
     top: 1rem;
@@ -1464,11 +1669,6 @@ section h2 {
 .flip-back-btn:hover {
     background: #e0e0e0;
     transform: rotate(180deg);
-}
-
-.service-flip-back .btn {
-    width: 100%;
-    margin-top: 1rem;
 }
 
 /* Calculator Container - Luxury Glossy Style */
@@ -1733,7 +1933,7 @@ section h2 {
 }
 
 .service-preview-content {
-    padding: 1.4rem;
+    padding: 1.6rem;
     text-align: center;
     display: flex;
     flex-direction: column;
@@ -1747,7 +1947,7 @@ section h2 {
 
 .service-preview-content h3 {
     font-size: 1.5rem;
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
     color: #1a1a1a;
 }
 

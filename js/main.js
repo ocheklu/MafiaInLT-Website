@@ -198,6 +198,9 @@ document.addEventListener('DOMContentLoaded', function() {
 // ===========================
 
 document.addEventListener('DOMContentLoaded', function() {
+    // Skip tilt on touch devices
+    if ('ontouchstart' in window) return;
+    
     const cards = document.querySelectorAll('.service-flip-card');
     
     cards.forEach(card => {
@@ -240,4 +243,28 @@ document.addEventListener('DOMContentLoaded', function() {
             }, 300);
         }
     }
+});
+
+// ===========================
+// SCROLL REVEAL ANIMATION
+// ===========================
+
+document.addEventListener('DOMContentLoaded', function() {
+    const revealElements = document.querySelectorAll('.scroll-reveal');
+    
+    const revealOnScroll = () => {
+        const windowHeight = window.innerHeight;
+        
+        revealElements.forEach(element => {
+            const elementTop = element.getBoundingClientRect().top;
+            const revealPoint = 150;
+            
+            if (elementTop < windowHeight - revealPoint) {
+                element.classList.add('visible');
+            }
+        });
+    };
+    
+    window.addEventListener('scroll', revealOnScroll);
+    revealOnScroll(); // Check on load
 });
