@@ -217,6 +217,7 @@ img {
 
 .hero-index {
     background-image: url('../images/hero/hero-index.jpg');
+    background-size: 110% auto;
     animation: zoomOut 3s ease-out forwards;
 }
 
@@ -231,6 +232,7 @@ img {
 
 .hero-services {
     background-image: url('../images/hero/hero-services.jpg');
+    background-size: 110% auto;
     animation: zoomOut 3s ease-out forwards;
 }
 
