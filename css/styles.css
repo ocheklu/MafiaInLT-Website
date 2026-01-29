@@ -223,16 +223,16 @@ img {
 
 @keyframes zoomOut {
     from {
-        background-size: 110% 110%;
+        background-size: 110% auto;
     }
     to {
-        background-size: 100% 100%;
+        background-size: 100% auto;
     }
 }
 
 .hero-services {
     background-image: url('../images/hero/hero-services.jpg');
-    background-size: 110% 110%;
+    background-size: 110% auto;
     animation: zoomOut 3s ease-out forwards;
 }
 
@@ -1290,6 +1290,46 @@ section {
     border-top: 1px solid #e0e0e0;
 }
 
+/* Service items компактнее */
+
+
+    .service-flip-back h3 {
+        margin-top: 1rem;
+        margin-bottom: 0.7rem;
+        font-size: 1.3rem;
+        text-align: center;
+    }
+
+    .service-flip-back .pricing-line {
+        font-size: 0.95rem;
+        font-style: italic;
+        margin-bottom: 0;
+        text-align: center;
+    }
+
+    .service-flip-back .pricing-line.pricing-last {
+        margin-bottom: 1rem;
+    }
+
+    .service-flip-back .section-title {
+        font-size: 0.9rem;
+        font-weight: 600;
+        margin-bottom: 0.7rem;
+        text-align: center;
+    }
+
+    .service-flip-back .section-title:not(:first-of-type) {
+        margin-top: 0.7rem;
+    }
+
+    .service-flip-back .services-list {
+        font-size: 0.85rem;
+        padding-left: 1.2rem;
+        line-height: 1.6;
+        margin-bottom: 0;
+        text-align: center;
+    }
+
 /* ===========================
    АДАПТИВНОСТЬ
    =========================== */
@@ -1474,46 +1514,6 @@ section {
     
     .choice-card p {
         font-size: 0.75rem;
-    }
-    
-    /* Service items компактнее */
-
-
-    .service-flip-back h3 {
-        margin-top: 1rem;
-        margin-bottom: 0.7rem;
-        font-size: 1.3rem;
-        text-align: center;
-    }
-
-    .service-flip-back .pricing-line {
-        font-size: 0.95rem;
-        font-style: italic;
-        margin-bottom: 0;
-        text-align: center;
-    }
-
-    .service-flip-back .pricing-line.pricing-last {
-        margin-bottom: 1rem;
-    }
-
-    .service-flip-back .section-title {
-        font-size: 0.9rem;
-        font-weight: 600;
-        margin-bottom: 0.7rem;
-        text-align: center;
-    }
-
-    .service-flip-back .section-title:not(:first-of-type) {
-        margin-top: 0.7rem;
-    }
-
-    .service-flip-back .services-list {
-        font-size: 0.85rem;
-        padding-left: 1.2rem;
-        line-height: 1.6;
-        margin-bottom: 0;
-        text-align: center;
     }
 
     .service-flip-back .btn {
