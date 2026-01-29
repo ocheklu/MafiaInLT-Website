@@ -210,7 +210,6 @@ img {
     min-height: 500px;
     display: flex;
     align-items: center;
-    background-size: cover;
     background-position: center;
     color: var(--bg-color);
     text-align: center;
