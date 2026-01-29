@@ -316,6 +316,8 @@ img {
     animation: fadeIn 1s ease forwards;
     animation-delay: 1s;
     max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 @keyframes fadeIn {
