@@ -242,6 +242,9 @@ img {
     right: 0;
     bottom: 0;
     background-color: rgba(0, 0, 0, 0);
+}
+
+.hero-index .hero-overlay {
     animation: overlayFade 3s ease-out forwards;
 }
 
@@ -253,6 +256,7 @@ img {
 
 .hero-services .hero-overlay {
     background-color: rgba(0, 0, 0, 0);
+    animation: none;
 }
 
 .hero-content {
@@ -354,6 +358,7 @@ section {
 .founder-text h2 {
     margin-bottom: 1.5rem;
     font-size: 2rem;
+    text-align: left;
 }
 
 .founder-text p {
@@ -368,6 +373,16 @@ section {
 
 .founder-section img:hover {
     transform: scale(1.03);
+}
+
+.founder-photo {
+    text-align: center;
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
 }
 
 /* ===========================
