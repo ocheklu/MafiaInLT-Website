@@ -222,9 +222,6 @@ img {
 }
 
 @keyframes zoomOut {
-    from {
-        background-size: 110% auto;
-    }
     to {
         background-size: cover;
     }
