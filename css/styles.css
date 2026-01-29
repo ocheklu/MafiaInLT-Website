@@ -222,14 +222,17 @@ img {
 }
 
 @keyframes zoomOut {
+    from {
+        background-size: 110% 110%;
+    }
     to {
-        background-size: cover;
+        background-size: 100% 100%;
     }
 }
 
 .hero-services {
     background-image: url('../images/hero/hero-services.jpg');
-    background-size: 110% auto;
+    background-size: 110% 110%;
     animation: zoomOut 3s ease-out forwards;
 }
 
