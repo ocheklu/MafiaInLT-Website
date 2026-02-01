@@ -552,16 +552,40 @@ section {
 
 .contact-section-redesign {
     padding: 6rem 0;
-    background: linear-gradient(to right, #f9f9f9 0%, #f9f9f9 40%, transparent 40%), 
-                url('../images/contacts/contacts-hero.jpg') right center / cover no-repeat;
+    background: linear-gradient(to right, #f9f9f9 0%, #f9f9f9 65%, transparent 65%), 
+                url('../images/contacts/contacts-hero.jpg') right center / 35% 100% no-repeat;
     background-color: #f9f9f9;
 }
 
 .contact-grid {
     display: grid;
-    grid-template-columns: 40% 60%;
-    gap: 4rem;
+    grid-template-columns: 1fr 1fr;
+    position: relative;
+    max-width: 1200px;
+    margin: 0 auto;
+    gap: 0;
+}
+
+.contact-left {
+    padding-right: 4rem;
+}
+
+.contact-right {
+    position: relative;
+    display: flex;
     align-items: start;
+}
+
+.contact-form-card {
+    position: absolute;
+    left: -8rem;
+    top: 0;
+    width: 500px;
+    background: white;
+    padding: 3rem;
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+    z-index: 10;
 }
 
 /* Left Column */
