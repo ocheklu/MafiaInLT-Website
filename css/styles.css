@@ -553,10 +553,12 @@ section {
 .contact-section-redesign {
     padding: 6rem 0;
     min-height: 700px;
-    background: linear-gradient(to right, #f9f9f9 0%, #f9f9f9 65%, transparent 65%), 
-                url('../images/contacts/contacts-hero.jpg') right center no-repeat;
-    background-color: #f9f9f9;
-    background-size: auto, contain;
+    background: 
+        linear-gradient(to right, #faf8f3 0%, #faf8f3 65%, transparent 65%),
+        linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
+        url('../images/contacts/contacts-hero.jpg') right center no-repeat;
+    background-color: #faf8f3;
+    background-size: auto, 35% 100%, contain;
 }
 
 .contact-grid {
@@ -595,6 +597,7 @@ section {
     font-size: 2.5rem;
     margin-bottom: 1.5rem;
     text-align: left;
+    color: #b8860b;
 }
 
 .contact-intro {
@@ -648,7 +651,7 @@ section {
     gap: 1rem;
 }
 
-.social-links a {
+.contact-left .social-links a {
     width: 40px;
     height: 40px;
     display: flex;
@@ -660,9 +663,20 @@ section {
     transition: transform 0.3s ease, background 0.3s ease;
 }
 
-.social-links a:hover {
+.contact-left .social-links a:hover {
     transform: translateY(-3px);
-    background: #333;
+    background: #b8860b;
+}
+
+.contact-form-card button {
+    width: 100%;
+    background: #b8860b;
+    border-color: #b8860b;
+}
+
+.contact-form-card button:hover {
+    background: #9a7209;
+    border-color: #9a7209;
 }
 
 /* Right Column - Form Card */
@@ -1712,12 +1726,12 @@ section {
     .service-flip-back .pricing-line {
         font-size: 0.95rem;
         font-style: italic;
-        margin-bottom: 0;
+        margin: 0;
         text-align: center;
     }
 
     .service-flip-back .pricing-line.pricing-last {
-        margin-bottom: 1rem;
+        margin-bottom: 0rem;
     }
 
     .service-flip-back .section-title {
@@ -1735,8 +1749,8 @@ section {
     .service-flip-back .services-list {
         font-size: 0.85rem;
         padding-left: 0;
-        line-height: 1;
-        margin-bottom: 0;
+        line-height: 1.6;
+        margin: 0;
         text-align: center;
     }
 
@@ -1863,6 +1877,42 @@ section {
     .choice-card:hover .choice-indicator {
         left: -3.2rem;
     }
+
+    /* Contact Section Redesign Mobile */
+    .contact-section-redesign {
+        background: #faf8f3;
+        padding: 4rem 0;
+        min-height: auto;
+    }
+    
+    .contact-grid {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+    }
+    
+    .contact-left {
+        padding-right: 0;
+    }
+    
+    .contact-left h2 {
+        font-size: 2rem;
+    }
+    
+    .contact-right {
+        display: block;
+    }
+    
+    .contact-form-card {
+        position: static;
+        left: 0;
+        width: 100%;
+        padding: 2rem;
+    }
+    
+    .contact-left .social-links {
+        justify-content: center;
+    }
+
 }
 
 @media (max-width: 480px) {
