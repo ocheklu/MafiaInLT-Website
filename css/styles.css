@@ -246,6 +246,22 @@ img {
     min-height: 400px;
 }
 
+@keyframes zoomOutMobile {
+        from {
+            transform: scale(1.1);
+        }
+        to {
+            transform: scale(1);
+        }
+    }
+    
+    .hero-index,
+    .hero-services {
+        background-size: cover;
+        background-repeat: no-repeat;
+        animation: zoomOutMobile 3s ease-out forwards;
+    }
+
 .hero-contacts .hero-overlay {
     animation: overlayFadeLight 3s ease-out forwards;
 }
@@ -555,10 +571,29 @@ section {
     min-height: 700px;
     background: 
         linear-gradient(to right, #faf8f3 0%, #faf8f3 65%, transparent 65%),
-        linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
+        linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)),
         url('../images/contacts/contacts-hero.jpg') right center no-repeat;
     background-color: #faf8f3;
-    background-size: auto, 35% 100%, contain;
+    background-size: auto, 35% 100%, 110% auto;
+    animation: contactsHeroZoom 3s ease-out forwards, contactsOverlayFade 3s ease-out forwards;
+}
+
+@keyframes contactsHeroZoom {
+    from {
+        background-size: auto, 35% 100%, 110% auto;
+    }
+    to {
+        background-size: auto, 35% 100%, 100% auto;
+    }
+}
+
+@keyframes contactsOverlayFade {
+    to {
+        background: 
+            linear-gradient(to right, #faf8f3 0%, #faf8f3 65%, transparent 65%),
+            linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
+            url('../images/contacts/contacts-hero.jpg') right center no-repeat;
+    }
 }
 
 .contact-grid {
@@ -622,13 +657,13 @@ section {
 
 .contact-item-redesign .contact-icon {
     font-size: 1.5rem;
-    color: #b8860b;
+    color: #000;
 }
 
 .contact-item-redesign strong {
     display: block;
     font-size: 0.85rem;
-    color: #d4a574;
+    color: #999;
     margin-bottom: 0.25rem;
     text-transform: uppercase;
     letter-spacing: 0.5px;
@@ -670,14 +705,14 @@ section {
 
 .contact-form-card button {
     width: 100%;
-    background: #b8860b;
-    border-color: #b8860b;
+    background: #000;
+    border-color: #000;
     color: #fff;
 }
 
 .contact-form-card button:hover {
-    background: #000;
-    border-color: #000;
+    background: #b8860b;
+    border-color: #b8860b;
     color: #fff;
 }
 
