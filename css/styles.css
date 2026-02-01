@@ -552,10 +552,11 @@ section {
 
 .contact-section-redesign {
     padding: 6rem 0;
+    min-height: 700px;
     background: linear-gradient(to right, #f9f9f9 0%, #f9f9f9 65%, transparent 65%), 
-                url('../images/contacts/contacts-hero.jpg') right center / cover no-repeat;
+                url('../images/contacts/contacts-hero.jpg') right center no-repeat;
     background-color: #f9f9f9;
-    background-size: auto, 35% auto;
+    background-size: auto, 35% 100%;
 }
 
 .contact-grid {
@@ -641,7 +642,7 @@ section {
     text-decoration: underline;
 }
 
-.social-links {
+.contact-left .social-links {
     display: flex;
     flex-direction: row;
     gap: 1rem;
