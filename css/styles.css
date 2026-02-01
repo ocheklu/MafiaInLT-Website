@@ -572,27 +572,19 @@ section {
     background: 
         linear-gradient(to right, #faf8f3 0%, #faf8f3 65%, transparent 65%),
         linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)),
-        url('../images/contacts/contacts-hero.jpg') right center no-repeat;
+        url('../images/contacts/contacts-hero.jpg') right 40% no-repeat;
     background-color: #faf8f3;
     background-size: auto, 35% 100%, 110% auto;
-    animation: contactsHeroZoom 3s ease-out forwards, contactsOverlayFade 3s ease-out forwards;
+    animation: contactsHeroAnimation 3s ease-out forwards;
 }
 
-@keyframes contactsHeroZoom {
-    from {
-        background-size: auto, 35% 100%, 110% auto;
-    }
-    to {
-        background-size: auto, 35% 100%, 100% auto;
-    }
-}
-
-@keyframes contactsOverlayFade {
+@keyframes contactsHeroAnimation {
     to {
         background: 
             linear-gradient(to right, #faf8f3 0%, #faf8f3 65%, transparent 65%),
             linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
-            url('../images/contacts/contacts-hero.jpg') right center no-repeat;
+            url('../images/contacts/contacts-hero.jpg') right 40% no-repeat;
+        background-size: auto, 35% 100%, 100% auto;
     }
 }
 
@@ -632,7 +624,7 @@ section {
     font-size: 2.5rem;
     margin-bottom: 1.5rem;
     text-align: left;
-    color: #b8860b;
+    color: #000;
 }
 
 .contact-intro {
@@ -1917,9 +1909,11 @@ section {
 
     /* Contact Section Redesign Mobile */
     .contact-section-redesign {
-        background: #faf8f3;
+        background: #faf8f3 !important;
+        background-image: none !important;
         padding: 4rem 0;
         min-height: auto;
+        animation: none !important;
     }
     
     .contact-grid {
@@ -1956,6 +1950,15 @@ section {
     }
     
     .contact-form-card h3 {
+        text-align: center;
+    }
+
+    .contact-list {
+        align-items: center;
+    }
+    
+    .contact-item-redesign {
+        justify-content: center;
         text-align: center;
     }
 
