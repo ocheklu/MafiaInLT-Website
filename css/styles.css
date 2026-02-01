@@ -622,13 +622,13 @@ section {
 
 .contact-item-redesign .contact-icon {
     font-size: 1.5rem;
-    color: #000;
+    color: #b8860b;
 }
 
 .contact-item-redesign strong {
     display: block;
     font-size: 0.85rem;
-    color: #999;
+    color: #d4a574;
     margin-bottom: 0.25rem;
     text-transform: uppercase;
     letter-spacing: 0.5px;
@@ -657,7 +657,7 @@ section {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #000;
+    background: #b8860b;
     border-radius: 50%;
     color: #fff;
     transition: transform 0.3s ease, background 0.3s ease;
@@ -665,18 +665,20 @@ section {
 
 .contact-left .social-links a:hover {
     transform: translateY(-3px);
-    background: #b8860b;
+    background: #000;
 }
 
 .contact-form-card button {
     width: 100%;
     background: #b8860b;
     border-color: #b8860b;
+    color: #fff;
 }
 
 .contact-form-card button:hover {
-    background: #9a7209;
-    border-color: #9a7209;
+    background: #000;
+    border-color: #000;
+    color: #fff;
 }
 
 /* Right Column - Form Card */
@@ -1911,6 +1913,15 @@ section {
     
     .contact-left .social-links {
         justify-content: center;
+    }
+
+    .contact-left h2 {
+        font-size: 2rem;
+        text-align: center;
+    }
+    
+    .contact-form-card h3 {
+        text-align: center;
     }
 
 }
