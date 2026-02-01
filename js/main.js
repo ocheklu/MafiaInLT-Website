@@ -268,3 +268,42 @@ document.addEventListener('DOMContentLoaded', function() {
     window.addEventListener('scroll', revealOnScroll);
     revealOnScroll(); // Check on load
 });
+
+// ===========================
+// REVIEW MODAL
+// ===========================
+
+document.addEventListener('DOMContentLoaded', function() {
+    const modal = document.getElementById('reviewModal');
+    const openBtn = document.querySelector('.open-review-modal');
+    const closeBtn = document.querySelector('.review-modal-close');
+    const overlay = document.querySelector('.review-modal-overlay');
+    
+    if (openBtn && modal) {
+        // Open modal
+        openBtn.addEventListener('click', function() {
+            modal.classList.add('active');
+            setTimeout(() => modal.classList.add('show'), 10);
+            document.body.style.overflow = 'hidden';
+        });
+        
+        // Close modal
+        function closeModal() {
+            modal.classList.remove('show');
+            setTimeout(() => {
+                modal.classList.remove('active');
+                document.body.style.overflow = '';
+            }, 300);
+        }
+        
+        closeBtn.addEventListener('click', closeModal);
+        overlay.addEventListener('click', closeModal);
+        
+        // Close on ESC key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && modal.classList.contains('active')) {
+                closeModal();
+            }
+        });
+    }
+});
