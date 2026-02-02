@@ -414,4 +414,12 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
+// Close success modal on outside click
+window.addEventListener('click', function(e) {
+    const modal = document.getElementById('successModal');
+    if (e.target === modal) {
+        modal.classList.remove('show');
+    }
+});
+
 
