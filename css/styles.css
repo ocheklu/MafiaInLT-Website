@@ -563,6 +563,16 @@ section {
 }
 
 /* ===========================
+   Cards stack 
+   =========================== */
+
+@media (min-width: 769px) {
+    .cards-stack {
+        margin-left: 3rem;
+    }
+}
+
+/* ===========================
    CONTACT SECTION REDESIGN
    =========================== */
 
