@@ -307,3 +307,56 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
+
+// Contact Form Success Modal
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.querySelector('.contact-form-card form');
+    const modal = document.getElementById('successModal');
+    const modalTitle = modal.querySelector('h3');
+    const modalText = modal.querySelector('p');
+    const closeBtn = document.querySelector('.contact-modal-close');
+    
+    if (form && modal) {
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(form);
+            
+            fetch(form.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'Accept': 'application/json'
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    modalTitle.textContent = 'Ačiū!';
+                    modalText.textContent = 'Jūsų žinutė išsiųsta. Susisieksime su jumis artimiausiu metu.';
+                    modal.classList.add('show');
+                    form.reset();
+                } else {
+                    modalTitle.textContent = 'Klaida';
+                    modalText.textContent = 'Bandykite dar kartą.';
+                    modal.classList.add('show');
+                }
+            })
+            .catch(error => {
+                modalTitle.textContent = 'Klaida';
+                modalText.textContent = 'Bandykite dar kartą.';
+                modal.classList.add('show');
+            });
+        });
+        
+        // Close modal
+        closeBtn.addEventListener('click', function() {
+            modal.classList.remove('show');
+        });
+        
+        window.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                modal.classList.remove('show');
+            }
+        });
+    }
+});

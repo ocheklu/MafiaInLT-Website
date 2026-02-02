@@ -200,6 +200,19 @@ function transitionToStep(currentStepId, nextStepId, progressStep) {
         nextStep.classList.add('active');
         updateProgressBar(progressStep);
     }, 500);
+
+    // Show mobile info popup on first visit to step 6
+    if (progressStep === 6 && window.innerWidth <= 768) {
+        const hasSeenPopup = localStorage.getItem('reserveInfoSeen');
+        if (!hasSeenPopup) {
+            setTimeout(() => {
+                const popup = document.getElementById('mobile-reserve-info');
+                if (popup) {
+                    popup.style.display = 'block';
+                }
+            }, 1000);
+        }
+    }
 }
 
 const prices = {
@@ -590,23 +603,8 @@ document.getElementById('reserve-btn')?.addEventListener('click', async function
     const email = document.getElementById('client-email').value;
     
     if (!email || !email.includes('@')) {
-        // Show error tooltip under email input
-        let errorTooltip = document.getElementById('email-error-tooltip');
-        if (!errorTooltip) {
-            errorTooltip = document.createElement('div');
-            errorTooltip.id = 'email-error-tooltip';
-            errorTooltip.style.cssText = 'margin-top: 0.5rem; padding: 0.6rem 1rem; background: #000; color: #d4af37; border: 2px solid #d4af37; border-radius: 6px; text-align: center; font-size: 0.9rem; animation: fadeIn 0.3s ease;';
-            errorTooltip.textContent = 'Prašome įvesti galiojantį el. pašto adresą';
-            document.getElementById('client-email').parentElement.appendChild(errorTooltip);
-        }
-        errorTooltip.style.display = 'block';
+        showModal('Klaida', 'Prašome įvesti galiojantį el. pašto adresą');
         document.getElementById('client-email').focus();
-        
-        // Hide after 3 seconds
-        setTimeout(() => {
-            errorTooltip.style.display = 'none';
-        }, 3000);
-        
         return;
     }
     
@@ -635,12 +633,12 @@ document.getElementById('reserve-btn')?.addEventListener('click', async function
         });
         
         if (response.ok) {
-            alert('Ačiū! Jūsų užklausa išsiųsta. Susisieksime su jumis artimiausiu metu.');
+            showModal('Ačiū', 'Jūsų užklausa išsiųsta. Susisieksime su jumis artimiausiu metu.');
         } else {
-            alert('Klaida siunčiant užklausą. Prašome bandyti dar kartą.');
+            showModal('Klaida', 'Užklausa neišsiųsta. Prašome bandyti dar kartą.');
         }
     } catch (error) {
-        alert('Klaida siunčiant užklausą. Prašome bandyti dar kartą.');
+        showModal('Klaida', 'Užklausa neišsiųsta. Prašome bandyti dar kartą.');
         console.error('Formspree error:', error);
     }
 });
@@ -760,4 +758,25 @@ document.addEventListener('DOMContentLoaded', function() {
 // Initialize progress bar on page load
 document.addEventListener('DOMContentLoaded', function() {
     updateProgressBar(calculatorState.currentStep);
+});
+
+// Show modal function
+function showModal(title, message) {
+    const modal = document.getElementById('successModal');
+    if (modal) {
+        const modalTitle = modal.querySelector('h3');
+        const modalText = modal.querySelector('p');
+        modalTitle.textContent = title;
+        modalText.textContent = message;
+        modal.classList.add('show');
+    }
+}
+
+// Mobile popup close handler
+document.querySelector('.mobile-popup-close')?.addEventListener('click', function() {
+    const popup = document.getElementById('mobile-reserve-info');
+    if (popup) {
+        popup.style.display = 'none';
+        localStorage.setItem('reserveInfoSeen', 'true');
+    }
 });
