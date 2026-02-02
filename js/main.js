@@ -327,14 +327,18 @@ document.querySelector('.review-form')?.addEventListener('submit', function(e) {
             // Close review modal
             const reviewModal = document.getElementById('reviewModal');
             reviewModal.classList.remove('show');
-            setTimeout(() => reviewModal.style.display = 'none', 300);
+            setTimeout(() => {
+                reviewModal.classList.remove('active');
+                reviewModal.style.display = 'none';
+            }, 300);
+            document.body.style.overflow = ''; // Восстановить скролл
             
             // Show success modal
             const successModal = document.getElementById('successModal');
             const modalTitle = successModal.querySelector('h3');
             const modalText = successModal.querySelector('p');
             modalTitle.textContent = 'Ačiū!';
-            modalText.textContent = 'Jūsų atsiliepimas sėkmingai išsiųstas!';
+            modalText.textContent = 'Jūsų atsiliepimas išsiųstas!';
             successModal.classList.add('show');
             
             form.reset();
@@ -343,7 +347,7 @@ document.querySelector('.review-form')?.addEventListener('submit', function(e) {
             const modalTitle = successModal.querySelector('h3');
             const modalText = successModal.querySelector('p');
             modalTitle.textContent = 'Klaida';
-            modalText.textContent = 'Kažkas nutiko. Bandykite dar kartą.';
+            modalText.textContent = 'Bandykite dar kartą.';
             successModal.classList.add('show');
         }
     })
@@ -352,7 +356,7 @@ document.querySelector('.review-form')?.addEventListener('submit', function(e) {
         const modalTitle = successModal.querySelector('h3');
         const modalText = successModal.querySelector('p');
         modalTitle.textContent = 'Klaida';
-        modalText.textContent = 'Kažkas nutiko. Bandykite dar kartą.';
+        modalText.textContent = 'Bandykite dar kartą.';
         successModal.classList.add('show');
     });
 });
