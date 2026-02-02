@@ -618,9 +618,9 @@ section {
     position: absolute;
     left: -4rem;
     top: 0;
-    width: 500px;
+    width: 420px;
     background: white;
-    padding: 3rem;
+    padding: 2.5rem;
     border-radius: 12px;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
     z-index: 10;
@@ -715,31 +715,23 @@ section {
     color: #fff;
 }
 
-/* Right Column - Form Card */
-.contact-form-card {
-    background: white;
-    padding: 3rem;
-    border-radius: 12px;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
-}
-
 .contact-form-card h3 {
-    font-size: 1.8rem;
-    margin-bottom: 2rem;
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
 }
 
 .contact-form-card form {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    gap: 1.2rem;
 }
 
 .contact-form-card input,
 .contact-form-card textarea {
-    padding: 1rem;
+    padding: 0.875rem;
     border: 1px solid #e0e0e0;
     border-radius: 8px;
-    font-size: 1rem;
+    font-size: 0.95rem;
     font-family: 'Alata', sans-serif;
     transition: border-color 0.3s ease;
 }
@@ -763,7 +755,7 @@ section {
    =========================== */
 
 .faq-section {
-    background-color: #f9f9f9;
+    background-color: #ede7dc;
     padding: 6rem 0;
 }
 
@@ -783,7 +775,7 @@ section {
 .faq-question {
     width: 100%;
     padding: 1.5rem;
-    background: #C19A6B;
+    background: #faf8f3;
     border: none;
     text-align: left;
     font-size: 1.1rem;
@@ -798,7 +790,7 @@ section {
 }
 
 .faq-question:hover {
-    background-color: #f5f5f5;
+    background-color: #f0ebe3;
 }
 
 .faq-question::after {
@@ -1738,16 +1730,34 @@ section {
     color: var(--primary-color);
 }
 
-.social-links {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-}
-
 .footer-bottom {
     text-align: center;
     padding-top: 2rem;
     border-top: 1px solid #e0e0e0;
+}
+
+.footer-social-links {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.footer-social-links a {
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #000;
+    border-radius: 50%;
+    color: #fff;
+    transition: transform 0.3s ease, background 0.3s ease;
+}
+
+.footer-social-links a:hover {
+    transform: translateY(-3px);
+    background: #333;
 }
 
 /* Service items компактнее */
@@ -1928,6 +1938,10 @@ section {
         min-height: auto;
         animation: none !important;
     }
+
+    .contact-section-redesign::before {
+        display: none !important;
+    }
     
     .contact-grid {
         grid-template-columns: 1fr;
@@ -1973,6 +1987,34 @@ section {
     .contact-item-redesign {
         justify-content: center;
         text-align: center;
+    }
+
+    /* Founder Section Mobile */
+    .founder-section {
+        padding: 4rem 0;
+    }
+    
+    .founder-grid {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+    }
+    
+    .founder-text {
+        text-align: center;
+    }
+    
+    .founder-text h2 {
+        font-size: 1.8rem;
+        text-align: center;
+    }
+    
+    .founder-text p {
+        font-size: 1.1rem;
+        text-align: center;
+    }
+    
+    .founder-photo {
+        max-width: 100%;
     }
 
 }
