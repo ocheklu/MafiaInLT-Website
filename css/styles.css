@@ -165,9 +165,8 @@ img {
 }
 
 .language-switcher {
-    display: flex;
     gap: 0.5rem;
-    display: none;
+    display: none !important;
 }
 
 .lang-btn {
