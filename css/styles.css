@@ -2,10 +2,6 @@
    ОБЩИЕ СТИЛИ
    =========================== */
 
-   .language-switcher {
-    display: none;
-}
-
 * {
     margin: 0;
     padding: 0;
@@ -171,6 +167,7 @@ img {
 .language-switcher {
     display: flex;
     gap: 0.5rem;
+    display: none;
 }
 
 .lang-btn {
