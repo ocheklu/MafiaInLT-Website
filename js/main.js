@@ -308,6 +308,55 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
+// Review form handler
+document.querySelector('.review-form')?.addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const form = this;
+    const formData = new FormData(form);
+    
+    fetch(form.action, {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'Accept': 'application/json'
+        }
+    })
+    .then(response => {
+        if (response.ok) {
+            // Close review modal
+            const reviewModal = document.getElementById('reviewModal');
+            reviewModal.classList.remove('show');
+            setTimeout(() => reviewModal.style.display = 'none', 300);
+            
+            // Show success modal
+            const successModal = document.getElementById('successModal');
+            const modalTitle = successModal.querySelector('h3');
+            const modalText = successModal.querySelector('p');
+            modalTitle.textContent = 'Ačiū!';
+            modalText.textContent = 'Jūsų atsiliepimas sėkmingai išsiųstas!';
+            successModal.classList.add('show');
+            
+            form.reset();
+        } else {
+            const successModal = document.getElementById('successModal');
+            const modalTitle = successModal.querySelector('h3');
+            const modalText = successModal.querySelector('p');
+            modalTitle.textContent = 'Klaida';
+            modalText.textContent = 'Kažkas nutiko. Bandykite dar kartą.';
+            successModal.classList.add('show');
+        }
+    })
+    .catch(error => {
+        const successModal = document.getElementById('successModal');
+        const modalTitle = successModal.querySelector('h3');
+        const modalText = successModal.querySelector('p');
+        modalTitle.textContent = 'Klaida';
+        modalText.textContent = 'Kažkas nutiko. Bandykite dar kartą.';
+        successModal.classList.add('show');
+    });
+});
+
 // Contact Form Success Modal
 document.addEventListener('DOMContentLoaded', function() {
     const form = document.querySelector('.contact-form-card form');
@@ -360,3 +409,5 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
+
+

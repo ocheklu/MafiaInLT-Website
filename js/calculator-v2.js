@@ -780,3 +780,19 @@ document.querySelector('.mobile-popup-close')?.addEventListener('click', functio
         localStorage.setItem('reserveInfoSeen', 'true');
     }
 });
+
+// Success modal close handler
+document.querySelector('.contact-modal-close')?.addEventListener('click', function() {
+    const modal = document.getElementById('successModal');
+    if (modal) {
+        modal.classList.remove('show');
+    }
+});
+
+// Close modal on outside click
+window.addEventListener('click', function(e) {
+    const modal = document.getElementById('successModal');
+    if (e.target === modal) {
+        modal.classList.remove('show');
+    }
+});
