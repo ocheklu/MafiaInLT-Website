@@ -1899,10 +1899,10 @@ section {
     
     .nav-menu {
         position: fixed;
-        top: 100%;
+        top: 80px;
         left: -100%;
         width: 100%;
-        min-height: calc(100vh - 80px);
+        height: calc(100vh - 80px);
         background-color: white;
         flex-direction: column;
         padding: 2rem;
