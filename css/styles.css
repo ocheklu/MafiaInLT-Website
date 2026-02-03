@@ -1899,15 +1899,26 @@ section {
     
     .nav-menu {
         position: fixed;
-        top: 70px;
+        top: 100%;
         left: -100%;
         width: 100%;
-        height: calc(100vh - 70px);
+        min-height: calc(100vh - 80px);
         background-color: white;
         flex-direction: column;
         padding: 2rem;
         transition: var(--transition);
         box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+    }
+
+    .nav-menu li {
+        text-align: center;
+        margin: 1.5rem 0;
+    }
+
+    .nav-menu a {
+        font-size: 1.25rem;
+        padding: 1rem;
+        display: block;
     }
     
     .nav-menu.active {
@@ -1922,8 +1933,16 @@ section {
     font-size: 2rem;
     }
 
+    .hero-index h1 {
+    font-size: 1.6rem;
+    }
+
     .hero-content {
     padding: 1rem !important;
+    }
+
+    .hero-index .hero-content {
+    margin-top: 4rem;
     }
 
     .hero p {
