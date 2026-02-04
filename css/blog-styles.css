@@ -4,7 +4,7 @@
 .blog-hero {
     background-image: url('../images/blog/blog-hero.jpg');
     background-size: 110%;
-    background-position: center;
+    background-position: center 60%;
     height: 50vh;
     display: flex;
     align-items: center;
