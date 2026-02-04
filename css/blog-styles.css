@@ -421,6 +421,10 @@ a.blog-review-card:hover {
 
 /* Mobile Responsive */
 @media (max-width: 768px) {
+    .blog-hero {
+        background-size: cover !important;
+    }
+    
     .blog-hero h1 {
         font-size: 2rem;
         padding: 0 1rem;
