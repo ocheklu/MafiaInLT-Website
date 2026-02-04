@@ -256,7 +256,8 @@ img {
     }
     
     .hero-index,
-    .hero-services {
+    .hero-services,
+    .blog-hero {
         background-size: cover;
         background-repeat: no-repeat;
         animation: zoomOutMobile 3s ease-out forwards;
