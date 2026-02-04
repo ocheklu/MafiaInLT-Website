@@ -28,6 +28,14 @@
         <loc>https://mafiain.lt/apie-mus.html</loc>
         <lastmod>2026-02-03</lastmod>
         <changefreq>monthly</changefreq>
-        <priority>0.6</priority>
+        <priority>0.8</priority>
     </url>
+
+    <url>
+        <loc>https://mafiain.lt/blog/dovana-vyrui-gimtadieniui.html</loc>
+        <lastmod>2026-02-04</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+
 </urlset>
