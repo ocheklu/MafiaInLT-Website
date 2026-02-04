@@ -207,7 +207,7 @@ img {
 
 .hero {
     position: relative;
-    height: 70vh;
+    height: 60vh;
     min-height: 500px;
     display: flex;
     align-items: center;
@@ -336,7 +336,7 @@ img {
 }
 
 .hero-services h1 {
-    font-size: 4rem;
+    font-size: 3.5rem;
 }
 
 .hero-services .hero-content h1 {
