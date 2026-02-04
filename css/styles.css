@@ -1913,12 +1913,12 @@ section {
 
     .nav-menu li {
         text-align: center;
-        margin: 0.5rem 0;
+        margin: 0.5rem 0 !important;
     }
 
     .nav-menu a {
         font-size: 1.25rem;
-        padding: 1rem;
+        padding: 1rem !important;
         display: block;
     }
 
@@ -1934,6 +1934,12 @@ section {
     
     .nav-menu.active {
         left: 0;
+    }
+
+    body.menu-open {
+        overflow: hidden;
+        position: fixed;
+        width: 100%;
     }
     
     .mobile-menu-toggle {

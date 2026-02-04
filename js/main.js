@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
         mobileToggle.addEventListener('click', function() {
             navMenu.classList.toggle('active');
             mobileToggle.classList.toggle('active');
+            document.body.classList.toggle('menu-open');
         });
         
         // Закрыть меню при клике на ссылку
@@ -18,6 +19,7 @@ document.addEventListener('DOMContentLoaded', function() {
             link.addEventListener('click', function() {
                 navMenu.classList.remove('active');
                 mobileToggle.classList.remove('active');
+                document.body.classList.remove('menu-open');
             });
         });
         
@@ -26,6 +28,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (!navMenu.contains(e.target) && !mobileToggle.contains(e.target)) {
                 navMenu.classList.remove('active');
                 mobileToggle.classList.remove('active');
+                document.body.classList.remove('menu-open');
             }
         });
     }
