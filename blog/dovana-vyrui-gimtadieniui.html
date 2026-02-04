@@ -189,6 +189,11 @@
     letter-spacing: -0.02em;
 }
 
+.blog-article-content strong {
+    font-weight: 600;
+    color: #1a1a1a;
+}
+
 .blog-article-content p {
     margin: 1.8rem 0;
     font-weight: 300;
@@ -201,7 +206,7 @@
 }
 
 .blog-article-content li {
-    margin: 1rem 0;
+    margin: 0.5rem 0;
     padding-left: 1.75rem;
     position: relative;
     line-height: 1.8;
@@ -277,10 +282,32 @@
     text-align: center;
     margin: 4rem 0;
     padding: 3rem 2.5rem;
-    background: linear-gradient(135deg, rgba(204, 153, 102, 0.08) 0%, rgba(204, 153, 102, 0.15) 100%);
-    border-radius: 16px;
-    border: 2px solid rgba(204, 153, 102, 0.2);
-    box-shadow: 0 4px 20px rgba(204, 153, 102, 0.1);
+    background: #ffffff;
+    border-radius: 12px;
+    border: 1px solid #e0e0e0;
+    box-shadow: 
+        0 1px 3px rgba(0, 0, 0, 0.06),
+        0 8px 16px rgba(0, 0, 0, 0.04);
+    position: relative;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.blog-article-cta::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary-color), #d4af77);
+    border-radius: 12px 12px 0 0;
+}
+
+.blog-article-cta:hover {
+    transform: translateY(-4px);
+    box-shadow: 
+        0 2px 6px rgba(0, 0, 0, 0.08),
+        0 16px 32px rgba(0, 0, 0, 0.08);
 }
 
 .blog-article-cta h3 {
@@ -417,6 +444,8 @@
         </header>
 
         <div class="blog-article-content">
+            <h2>Renginio formatas</h2>
+
             <p>Remiantis tarptautiniais tyrimais (Pew Research Center, General Social Survey, ONS), vyrams nuo 35  metų ypač svarbūs artimi santykiai su partnere ir pasitikėjimu grįsti ryšiai su draugais.</p>
 
             <p>Norint sukurti artumą santykiuose, būtinas emocinis kontaktas. Tačiau dažnai dėl nuovargio ir skubėjimo tam nebelieka nei laiko, nei vidinių resursų. Mano sukurtas „mafijos" žaidimo formatas kviečia trumpam sustoti ir suteikia galimybę jaukiai bei smagiai praleisti laiką kartu. Šis formatas padeda atgaivinti ar sustiprinti santykius, taip pat pamatyti save ir draugus iš naujos perspektyvos.</p>
@@ -426,22 +455,14 @@
 
             <h2>Renginio organizavimas</h2>
             
-            <p>Renginio organizavimas gali apimti šias paslaugas:</p>
-            <ul>
-            <li>● Vietos paiešką mafijos žaidimui ir vakarienei</li>
-            <li>● Pagalbą sudarant vakaro programą</li>
-            <li>● Renginio koordinavimą vietoje</li>
-            <li>● Vedėjo paslaugas</li>
-            <li>● Dekoravimo paslaugas</li>
-            <li>● Foto ir video paslaugas</li>
-            </ul>
+            <p>Atsižvelgiant į jūsų poreikius, galite rinktis tik žaidimo arba viso renginio organizavimą. Į pasiūlymą gali būti įtraukta vietos paieška vakarienei ir mafijos žaidimui, pagalba sudarant vakaro programą, renginio koordinavimas vietoje, dekoravimas, vedėjo paslaugos bei foto ir video paslaugos. Tačiau jei jau turite savo vietą ir viską esate suplanavę, pakanka pasirinkti žaidimo organizavimo paslaugų paketą.</p>
 
             <h2>Kodėl toks gimtadienio formatas gali būti tinkamas?</h2>
             
             <p>Klientų atsiliepimai:</p>
 
             <!-- Review 1 -->
-            <div class="blog-review-card">
+            <a href="../index.html#atsiliepimai" target="_blank" class="blog-review-card">
                 <div class="blog-review-header">
                     <div class="blog-review-photo">
                         <img src="../images/reviews/review-4.jpg" alt="Snežana">
@@ -452,10 +473,10 @@
                     </div>
                 </div>
                 <p class="blog-review-text">"Didžiausios rekomendacijos norint smagiai praleisti laiką. Begalo dėkojų Olegui už "Mafijos" žaidimo organizavimą per vyro gimtadienį! Visiems svečiams labai patiko, įspūdžiai liko ilgam. Vedėjas labai profesionalus ir draugiškas, mokantis užvaldyti jūsų dėmesį. Sėkmės!"</p>
-            </div>
+            </a>
 
             <!-- Review 2 -->
-            <div class="blog-review-card">
+            <a href="../index.html#atsiliepimai" target="_blank" class="blog-review-card">
                 <div class="blog-review-header">
                     <div class="blog-review-photo">
                         <img src="../images/reviews/review-10.jpg" alt="Jūratė">
@@ -466,10 +487,10 @@
                     </div>
                 </div>
                 <p class="blog-review-text">"Švenčiau savo jubiliejų ir draugėms pasirinkau MafiaIn žaidimą. Nuoširdžiausios rekomendacijos visų šventės dalyvių vardu MafiaIn komandai už profesionalumą, dėmesingumą, kokybę! Mes tiek juokėmės, tiek pakilių emocijų išgyvenome tą vakarą. Didžioji dalis šventės dalyvių nebuvo pažįstamos, tačiau šio žaidimo dėka mes visos įsitraukėme, aktyviai dalyvavome, kūrėme gyvenimiškas istorijas, narpliojome detektyvinius voratinklius. Įtrauku buvo žaisti, bet ne mažiau įdomu ir iš šalies stebėti žaidimą (nes matomi žaidimo veikėjų vaidmenys). Maloniai nustebino žaidėjų pristatymas (iš anksto siunčiau vedėjams po kelias užuominas apie drauges), kūrybiškai pakvietė žaidimo dalyves prisijungti. Žaidimą praturtino rekvizitai (kaukės ir ginklai), o vedėjų charizmatiškumas leido įsijausti į vaidmenis. Apie šį gimtadienį mes vis dar kalbame. Buvo nereali patirtis. Rekomenduoju vesti, dalyvauti, organizuoti tiek kolektyvams apšildyti, tiek komandoms suburti."</p>
-            </div>
+            </a>
 
             <!-- Review 3 -->
-            <div class="blog-review-card">
+            <a href="../index.html#atsiliepimai" target="_blank" class="blog-review-card">
                 <div class="blog-review-header">
                     <div class="blog-review-photo">
                         <img src="../images/reviews/review-5.jpg" alt="Simona">
@@ -480,30 +501,28 @@
                     </div>
                 </div>
                 <p class="blog-review-text">"Kviesdamas žaidime pasitelkti intuiciją, Olegas pats labai kruopščiai ir nuoširdžiai išjaučia kiekvieną dalyvį, kuria jaukumą ir taip sudaro sąlygas ne tik azartiškai praleisti laiką, bet ir suteikia galimybę norintiems giliau pažinti save."</p>
-            </div>
+            </a>
 
             <h2>Kaip vyksta renginys?</h2>
 
             <p><strong>Renginio trukmė</strong> – apie 3 valandas.</p>
 
-            <p>Kol svečiai renkasi, rekomenduoju juos pasitikti užkandžiais ir lengvais gėrimais. Kai visi svečiai susirenka – prasideda vakarienė. Po vakarienės vyksta svečių pristatymas ir žaidimo pradžia.</p>
+            <p>Kol svečiai renkasi, rekomenduoju juos pasitikti užkandžiais ir lengvais gėrimais. Kai visi svečiai susirenka - prasideda vakarienė. Po vakarienės vyksta svečių pristatymas ir žaidimo pradžia.</p>
 
-            <p>Numatytos 3 žaidimo sesijos – po kiekvienos jų daroma pertrauka aptarimui ir emocijų refleksijai. Po žaidimo – trumpa vedėjo apžvalga ir nominacijų įteikimas.</p>
+            <p>Numatytos 3 žaidimo sesijos - po kiekvienos jų daroma pertrauka emocijoms ir įspūdžiams aptarti. Trys sesijos yra optimalus skaičius, leidžiantis dalyviams perprasti taisykles ir pradėti mėgautis procesu. Po žaidimo - trumpa vedėjo apžvalga ir nominacijų įteikimas.</p>
 
             <p><strong>Dalyvių skaičius:</strong></p>
             <ul>
                 <li>Kiekvienoje sesijoje prie vieno stalo gali dalyvauti iki 10 svečių</li>
-                <li>Jei svečių yra 30 – kiekvienas dalyvauja po vieną kartą</li>
-                <li>Jei svečių 10 – kiekvienas dalyvauja tris kartus</li>
-                <li>Jei svečių 20 – kai kurie (tie, kurie iškrenta pirmieji) dalyvauja du kartus, kiti – vieną</li>
+                <li>Jei svečių yra 30 – kiekvienas sudalyvaus po vieną kartą.</li>
+                <li>Jei svečių 10 – kiekvienas sudalyvaus tris kartus.</li>
+                <li>Jei svečių 20 – kai kurie (tie, kurie iškris pirmieji) sudalyvaus du kartus, kiti – vieną.</li>
             </ul>
 
-            <p>Trys sesijos yra optimalus skaičius, leidžiantis dalyviams perprasti taisykles ir pradėti mėgautis procesu.</p>
-
-            <p>Jei gimtadienio tikslas – jaukiai pabūti, geriau pažinti save ir draugus, rekomenduoju vieno stalo formatą. Jei svečių daug ir norisi tiesiog smagiai praleisti laiką – siūlome dviejų stalų formatą (renginį veda du vedėjai).</p>
+            <p>Jei gimtadienio tikslas - jaukiai pabūti, geriau pažinti save ir draugus, rekomenduoju vieno stalo formatą. Jei svečių daug ir norisi tiesiog smagiai praleisti laiką – siūlome dviejų stalų formatą (renginį veda du vedėjai).</p>
 
             <div class="blog-article-cta">
-                <h3>Rezervuokite savo gimtadienį</h3>
+                <h3>Sukurkite savo renginį</h3>
                 <p>Pasirinkite stalų skaičių, renginio datą ir pageidaujamas paslaugas</p>
                 <a href="../paslaugos.html#calculator" class="btn btn-primary">Skaičiuoti kainą</a>
             </div>
