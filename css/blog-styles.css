@@ -3,7 +3,7 @@
 /* Hero Section */
 .blog-hero {
     background-image: url('../images/blog/blog-hero.jpg');
-    background-size: 110%;
+    background-size: 110% auto;
     background-position: center;
     height: 50vh;
     display: flex;
@@ -28,10 +28,10 @@
 
 @keyframes zoomOut {
     from {
-        background-size: 110%;
+        background-size: 110% auto;
     }
     to {
-        background-size: 100%;
+        background-size: 100% auto;
     }
 }
 
