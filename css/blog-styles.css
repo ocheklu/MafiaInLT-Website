@@ -439,8 +439,13 @@ a.blog-review-card:hover {
         gap: 2rem;
     }
     
+    .blog-card-image-wrapper {
+    height: 200px;
+    }
+
     .blog-card-image {
-        height: 200px;
+    height: 100%;
+    object-fit: cover;
     }
     
     .blog-card-content {
