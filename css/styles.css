@@ -3056,6 +3056,7 @@ section {
         justify-content: space-around;
         align-items: center;
         transform: translateZ(0);
+        will-change: transform;
     }
 
     .nav-bottom-item {
@@ -3071,6 +3072,19 @@ section {
     .nav-bottom-item.active,
     .nav-bottom-item:hover {
         color: #d4af37;
+    }
+
+    .nav-bottom-item svg,
+    .nav-bottom-item img {
+        transition: transform 0.2s, filter 0.2s;
+    }
+
+    .nav-bottom-item.active svg,
+    .nav-bottom-item.active img,
+    .nav-bottom-item:hover svg,
+    .nav-bottom-item:hover img {
+        transform: scale(1.2);
+        filter: drop-shadow(0 0 6px rgba(212, 175, 55, 0.7));
     }
 
     .nav-bottom-item img {
