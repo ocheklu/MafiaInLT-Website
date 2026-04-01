@@ -3039,6 +3039,10 @@ section {
 }
 
 @media (max-width: 768px) {
+    .navbar {
+        display: none;
+    }
+
     .nav-bottom {
         display: flex;
         position: fixed;
@@ -3047,10 +3051,11 @@ section {
         right: 0;
         z-index: 1000;
         background: #000000;
-        box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.4);
+        border-top: 1px solid #d4af37;
         padding: 8px 0 max(8px, env(safe-area-inset-bottom));
         justify-content: space-around;
         align-items: center;
+        transform: translateZ(0);
     }
 
     .nav-bottom-item {
@@ -3059,24 +3064,18 @@ section {
         justify-content: center;
         flex: 1;
         min-height: 44px;
-        color: rgba(255, 255, 255, 0.55);
+        color: #ffffff;
         transition: color 0.2s;
     }
 
     .nav-bottom-item.active,
     .nav-bottom-item:hover {
-        color: #ffffff;
+        color: #d4af37;
     }
 
     .nav-bottom-item img {
         height: 22px;
         width: auto;
-        opacity: 0.55;
-        transition: opacity 0.2s;
-    }
-
-    .nav-bottom-item.active img,
-    .nav-bottom-item:hover img {
         opacity: 1;
     }
 
