@@ -1,0 +1,1380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Mafia Online — live video and voice game platform for streamers and social deduction fans. 10 players per room, no app required. Available in EN, RU and LT. Built by Oleg Čeklu, founder of MafiaInLT.">
+<meta name="keywords" content="mafia online game, mafia game platform, mafia live stream, social deduction game, mafia for streamers, mafia webrtc, online mafia game, мафия онлайн, мафия игра стримеры, мафия игра платформа">
+
+<!-- Open Graph -->
+<meta property="og:title" content="Mafia Online — Live Video Game Platform | MafiaInLT">
+<meta property="og:description" content="Live video and voice Mafia game platform built for streamers. 10 players, unique roles, 20–35 min sessions. No app required. EN / RU / LT.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://mafiain.lt/Online.html">
+<meta property="og:see_also" content="https://mafiaonline.lt">
+<meta property="og:image" content="https://mafiain.lt/web-app-manifest-512x512.png?v=2">
+<meta property="og:image:width" content="512">
+<meta property="og:image:height" content="512">
+
+<title>Mafia Online — Live Video Game Platform | MafiaInLT</title>
+
+<!-- Schema.org -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Mafia Online",
+  "url": "https://mafiaonline.lt",
+  "applicationCategory": "GameApplication",
+  "operatingSystem": "Web",
+  "description": "Live video and voice Mafia game platform for streamers and social deduction fans. 10 players per room, full role system, day/night cycle, 20–35 min per session. No app required.",
+  "inLanguage": ["en", "ru", "lt"],
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "EUR",
+    "availability": "https://schema.org/InStock"
+  },
+  "author": {
+    "@type": "Person",
+    "name": "Oleg Čeklu"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "MafiaInLT",
+    "url": "https://mafiain.lt",
+    "logo": "https://mafiain.lt/web-app-manifest-512x512.png?v=2",
+    "foundingDate": "2015"
+  }
+}
+</script>
+
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-3GXVW6KLRR"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-3GXVW6KLRR');
+</script>
+
+<!-- Favicon -->
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="canonical" href="https://mafiain.lt/Online.html">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #c9a84c;
+    --gold-light: #e2c47a;
+    --gold-deep: #8c7430;
+    --gold-dim: rgba(201,168,76,0.15);
+    --gold-glow: rgba(201,168,76,0.35);
+    --bg: #0a0a0a;
+    --bg-card: #111111;
+    --bg-card2: #161513;
+    --bg-card3: #1a1814;
+    --text: #ebe4d5;
+    --text-dim: #888070;
+    --text-faint: #5a5448;
+    --border: rgba(201,168,76,0.2);
+    --border-soft: rgba(201,168,76,0.1);
+    --serif: 'Cormorant Garamond', Georgia, serif;
+    --sans: 'Inter', system-ui, sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: #060606;
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 15px;
+    line-height: 1.6;
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  /* Warm vignette glow from top center */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 90% 60% at 50% -8%, rgba(201,168,76,0.10) 0%, rgba(201,168,76,0.04) 28%, transparent 58%),
+      radial-gradient(ellipse 70% 50% at 50% 30%, rgba(120,60,20,0.06) 0%, transparent 60%),
+      radial-gradient(ellipse 120% 80% at 50% 50%, transparent 40%, rgba(0,0,0,0.55) 100%),
+      var(--bg);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Film-grain overlay */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: -50%;
+    background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 240 240' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.85, 0 0 0 0 0.78, 0 0 0 0 0.55, 0 0 0 0.6 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+    background-size: 240px 240px;
+    opacity: 0.08;
+    mix-blend-mode: overlay;
+    pointer-events: none;
+    z-index: 1;
+    animation: grain 6s steps(6) infinite;
+  }
+
+  @keyframes grain {
+    0%, 100% { transform: translate(0,0); }
+    20% { transform: translate(-2%, 1%); }
+    40% { transform: translate(1%, -2%); }
+    60% { transform: translate(-1%, 2%); }
+    80% { transform: translate(2%, -1%); }
+  }
+
+  /* ── HEADER ── */
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(8,8,8,0.92);
+    backdrop-filter: blur(14px) saturate(140%);
+    -webkit-backdrop-filter: blur(14px) saturate(140%);
+    border-bottom: 1px solid var(--border);
+    padding: 0 16px;
+  }
+
+  .logo-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 0 10px;
+    border-bottom: 1px solid rgba(201,168,76,0.08);
+  }
+
+  .logo-img {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    object-fit: cover;
+    flex-shrink: 0;
+    position: relative;
+    box-shadow: 0 0 0 3px rgba(201,168,76,0.05), inset 0 0 12px rgba(201,168,76,0.08);
+  }
+
+  .logo-text {
+    font-family: var(--serif);
+    font-size: 19px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    color: var(--text);
+  }
+
+  .logo-text em {
+    color: var(--gold);
+    font-style: italic;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+  }
+
+  nav {
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+    padding: 0;
+  }
+
+  nav::-webkit-scrollbar { display: none; }
+
+  .tab {
+    flex-shrink: 0;
+    padding: 13px 16px;
+    font-family: var(--sans);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    background: none;
+    border: none;
+    border-bottom: 1.5px solid transparent;
+    cursor: pointer;
+    transition: color 0.25s ease, border-color 0.25s ease;
+    white-space: nowrap;
+    position: relative;
+  }
+
+  .tab.active {
+    color: var(--gold);
+    border-bottom-color: var(--gold);
+  }
+
+  /* ── SECTIONS ── */
+  .section {
+    display: none;
+    padding: 0 0 90px;
+    position: relative;
+    z-index: 2;
+    animation: fadeIn 0.4s ease;
+  }
+
+  .section.active { display: block; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── HERO ── */
+  .hero {
+    padding: 42px 22px 36px;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+  }
+
+  .hero-tag {
+    font-family: var(--sans);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .hero-tag::before {
+    content: '';
+    display: block;
+    width: 24px;
+    height: 1px;
+    background: linear-gradient(90deg, var(--gold), transparent);
+  }
+
+  h1 {
+    font-family: var(--serif);
+    font-size: 36px;
+    font-weight: 400;
+    line-height: 1.15;
+    color: var(--text);
+    margin-bottom: 16px;
+    letter-spacing: -0.005em;
+    text-wrap: pretty;
+  }
+
+  h1 em {
+    color: var(--gold);
+    font-style: italic;
+    font-weight: 500;
+    letter-spacing: 0.005em;
+    text-shadow: 0 0 28px rgba(201,168,76,0.25);
+  }
+
+  .hero-sub {
+    font-family: var(--sans);
+    font-size: 13.5px;
+    font-weight: 300;
+    color: var(--text-dim);
+    letter-spacing: 0.02em;
+    line-height: 1.55;
+  }
+
+  /* ── BLOCKS ── */
+  .block {
+    padding: 32px 22px;
+    border-bottom: 1px solid var(--border-soft);
+    position: relative;
+  }
+
+  .block-label {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .block-label::before {
+    content: '';
+    display: block;
+    width: 18px;
+    height: 1px;
+    background: var(--gold);
+    opacity: 0.6;
+  }
+
+  .block h2 {
+    font-family: var(--serif);
+    font-size: 22px;
+    font-weight: 400;
+    color: var(--text);
+    margin-bottom: 16px;
+  }
+
+  /* ── STATUS ── */
+  .status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 10.5px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--gold);
+    background: linear-gradient(180deg, rgba(201,168,76,0.18), rgba(201,168,76,0.08));
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 6px 13px 6px 11px;
+    margin-bottom: 20px;
+    box-shadow: inset 0 1px 0 rgba(255,220,150,0.08), 0 0 18px rgba(201,168,76,0.06);
+  }
+
+  .dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #5fc26b;
+    box-shadow: 0 0 0 2px rgba(95,194,107,0.15), 0 0 8px rgba(95,194,107,0.5);
+    animation: pulse 2s infinite;
+    flex-shrink: 0;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.9); }
+  }
+
+  /* ── LIST ── */
+  ul.facts {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  ul.facts li {
+    font-size: 14.5px;
+    font-weight: 300;
+    color: var(--text);
+    padding-left: 18px;
+    position: relative;
+    line-height: 1.55;
+  }
+
+  ul.facts li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 10px;
+    width: 8px;
+    height: 1px;
+    background: var(--gold);
+  }
+
+  /* ── MARKET ── */
+  .market-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .market-item {
+    background:
+      linear-gradient(180deg, rgba(201,168,76,0.04) 0%, transparent 60%),
+      linear-gradient(180deg, var(--bg-card2), var(--bg-card));
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 24px 22px 22px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 1px 0 rgba(255,220,150,0.04) inset, 0 8px 24px rgba(0,0,0,0.35);
+  }
+
+  .market-item::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 22px; right: 22px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    opacity: 0.5;
+  }
+
+  .market-index {
+    position: absolute;
+    top: 18px;
+    right: 22px;
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 13px;
+    color: var(--text-faint);
+    letter-spacing: 0.05em;
+  }
+
+  .market-num {
+    font-family: var(--serif);
+    font-size: 52px;
+    font-weight: 300;
+    color: var(--gold);
+    line-height: 0.95;
+    margin-bottom: 12px;
+    letter-spacing: -0.01em;
+    text-shadow: 0 0 32px rgba(201,168,76,0.15);
+  }
+
+  .market-num em {
+    font-style: italic;
+    font-weight: 400;
+  }
+
+  .market-desc {
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--text);
+    margin-bottom: 6px;
+    line-height: 1.45;
+    max-width: 92%;
+  }
+
+  .market-src {
+    font-family: var(--serif);
+    font-size: 12px;
+    color: var(--text-dim);
+    font-style: italic;
+    letter-spacing: 0.02em;
+  }
+
+  /* ── ROADMAP ── */
+  .roadmap-scroll {
+    display: flex;
+    gap: 14px;
+    overflow-x: auto;
+    padding: 4px 22px 16px;
+    margin: 0 -22px;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    cursor: grab;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .roadmap-scroll::-webkit-scrollbar { display: none; }
+  .roadmap-scroll:active { cursor: grabbing; }
+
+  .roadmap-scroll::after {
+    content: '';
+    flex-shrink: 0;
+    width: 6px;
+  }
+
+  .phase {
+    flex-shrink: 0;
+    width: 244px;
+    min-height: 280px;
+    background: linear-gradient(180deg, var(--bg-card), #0d0d0d);
+    border: 1px solid var(--border-soft);
+    border-radius: 12px;
+    padding: 22px 20px;
+    scroll-snap-align: start;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.25s ease, border-color 0.25s ease;
+  }
+
+  .phase-index {
+    position: absolute;
+    top: 14px;
+    right: 18px;
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 48px;
+    line-height: 1;
+    font-weight: 400;
+    color: rgba(201,168,76,0.08);
+    letter-spacing: -0.02em;
+    pointer-events: none;
+  }
+
+  .phase.active-phase {
+    border-color: var(--gold);
+    background:
+      radial-gradient(ellipse 90% 50% at 50% 0%, rgba(201,168,76,0.10) 0%, transparent 65%),
+      linear-gradient(180deg, var(--bg-card3), #100e0a);
+    box-shadow:
+      inset 0 1px 0 rgba(255,220,150,0.08),
+      0 0 0 1px rgba(201,168,76,0.15),
+      0 18px 40px rgba(0,0,0,0.45),
+      0 0 60px rgba(201,168,76,0.08);
+  }
+
+  .phase.active-phase::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent 0%, var(--gold) 25%, var(--gold-light) 50%, var(--gold) 75%, transparent 100%);
+  }
+
+  .phase.active-phase .phase-index {
+    color: rgba(201,168,76,0.20);
+  }
+
+  .phase-now {
+    display: none;
+    align-items: center;
+    gap: 6px;
+    font-size: 9.5px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 10px;
+  }
+
+  .phase.active-phase .phase-now { display: inline-flex; }
+
+  .phase-now-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--gold);
+    box-shadow: 0 0 0 3px rgba(201,168,76,0.18), 0 0 10px var(--gold-glow);
+    animation: phasePulse 1.8s ease-in-out infinite;
+  }
+
+  @keyframes phasePulse {
+    0%, 100% { box-shadow: 0 0 0 3px rgba(201,168,76,0.18), 0 0 10px var(--gold-glow); }
+    50% { box-shadow: 0 0 0 5px rgba(201,168,76,0.08), 0 0 14px var(--gold-glow); }
+  }
+
+  .phase-label {
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 6px;
+    font-weight: 500;
+  }
+
+  .phase.active-phase .phase-label { display: none; }
+
+  .phase-label-active {
+    display: none;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 6px;
+    font-weight: 500;
+  }
+
+  .phase.active-phase .phase-label-active { display: block; }
+
+  .phase-title {
+    font-family: var(--serif);
+    font-size: 22px;
+    font-weight: 400;
+    color: var(--text);
+    margin-bottom: 18px;
+    letter-spacing: 0.005em;
+    position: relative;
+    z-index: 1;
+  }
+
+  .phase.active-phase .phase-title {
+    color: var(--gold);
+    font-style: italic;
+    font-weight: 500;
+  }
+
+  .phase-items {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .phase-items li {
+    font-size: 12.5px;
+    font-weight: 300;
+    color: var(--text-dim);
+    padding-left: 14px;
+    position: relative;
+    line-height: 1.4;
+  }
+
+  .phase.active-phase .phase-items li { color: var(--text); }
+
+  .phase-items li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 8px;
+    width: 6px;
+    height: 1px;
+    background: var(--gold);
+    opacity: 0.4;
+  }
+
+  .phase.active-phase .phase-items li::before { opacity: 1; }
+
+  /* ── SCROLL HINT (elegant) ── */
+  .scroll-hint {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 13px;
+    color: var(--text-dim);
+    letter-spacing: 0.02em;
+  }
+
+  .scroll-hint-line {
+    position: relative;
+    width: 48px;
+    height: 1px;
+    background: rgba(201,168,76,0.18);
+    overflow: hidden;
+  }
+
+  .scroll-hint-line::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -20px;
+    width: 20px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    animation: sweep 2.6s ease-in-out infinite;
+  }
+
+  @keyframes sweep {
+    0% { left: -20px; opacity: 0; }
+    20% { opacity: 1; }
+    80% { opacity: 1; }
+    100% { left: 48px; opacity: 0; }
+  }
+
+  /* ── MONETIZATION ── */
+  .mono-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .mono-item {
+    padding: 16px 0;
+    border-bottom: 1px solid var(--border-soft);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .mono-item:last-child { border-bottom: none; }
+
+  .mono-name {
+    font-family: var(--serif);
+    font-size: 17px;
+    font-weight: 500;
+    color: var(--text);
+    letter-spacing: 0.005em;
+  }
+
+  .mono-desc {
+    font-size: 12.5px;
+    font-weight: 300;
+    color: var(--text-dim);
+    line-height: 1.5;
+  }
+
+  /* ── CTA ── */
+  .cta-block {
+    padding: 32px 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    padding: 18px 18px;
+    border-radius: 10px;
+    font-family: var(--sans);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    text-decoration: none;
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.2s ease, background 0.2s ease;
+    border: none;
+    position: relative;
+    overflow: hidden;
+    will-change: transform;
+  }
+
+  .btn-primary {
+    background: linear-gradient(180deg, #e2c47a 0%, #c9a84c 50%, #a88a3a 100%);
+    color: #0a0a0a;
+    box-shadow:
+      inset 0 1px 0 rgba(255,240,200,0.55),
+      inset 0 -1px 0 rgba(80,55,15,0.5),
+      0 1px 0 rgba(0,0,0,0.4),
+      0 8px 24px rgba(201,168,76,0.22),
+      0 14px 30px rgba(0,0,0,0.35);
+    text-shadow: 0 1px 0 rgba(255,235,180,0.35);
+  }
+
+  .btn-primary:active {
+    transform: translateY(2px);
+    box-shadow:
+      inset 0 1px 2px rgba(80,55,15,0.4),
+      inset 0 1px 0 rgba(255,240,200,0.3),
+      0 2px 10px rgba(201,168,76,0.15),
+      0 4px 12px rgba(0,0,0,0.3);
+  }
+
+  .btn-outline {
+    background: linear-gradient(180deg, rgba(201,168,76,0.06), rgba(201,168,76,0.02));
+    color: var(--gold);
+    border: 1px solid var(--border);
+    box-shadow:
+      inset 0 1px 0 rgba(255,220,150,0.06),
+      0 6px 20px rgba(0,0,0,0.3);
+  }
+
+  .btn-outline:active {
+    transform: translateY(1px);
+    background: linear-gradient(180deg, rgba(201,168,76,0.14), rgba(201,168,76,0.06));
+    box-shadow: inset 0 1px 4px rgba(0,0,0,0.4);
+  }
+
+  .btn-arrow::after {
+    content: '→';
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 16px;
+    font-weight: 400;
+    margin-left: 2px;
+    transition: transform 0.2s ease;
+  }
+
+  .btn:active.btn-arrow::after { transform: translateX(3px); }
+
+  /* ── PLAY SECTION ── */
+  .sub-label {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 12px;
+    margin-top: 20px;
+  }
+
+  .sub-label:first-child { margin-top: 0; }
+
+  /* ── LANGUAGES ── */
+  .langs {
+    display: flex;
+    gap: 8px;
+    margin-top: 18px;
+  }
+
+  .lang {
+    font-size: 10.5px;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    color: var(--text-dim);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 5px 10px;
+    background: rgba(201,168,76,0.03);
+  }
+
+  /* ── COMING SOON BADGE ── */
+  .badge-soon {
+    display: inline-flex;
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    text-transform: none;
+    color: var(--gold);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1px 8px;
+    margin-left: 8px;
+    vertical-align: middle;
+    white-space: nowrap;
+    background: rgba(201,168,76,0.05);
+  }
+
+  /* ── CREATOR ── */
+  .creator-hero {
+    padding: 44px 22px 32px;
+    display: flex;
+    align-items: center;
+    gap: 22px;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+  }
+
+  .creator-photo-wrap {
+    position: relative;
+    width: 102px;
+    height: 102px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Outer ornamental ring */
+  .creator-photo-wrap::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 1px solid rgba(201,168,76,0.18);
+  }
+
+  /* Inner thin ring */
+  .creator-photo-wrap::after {
+    content: '';
+    position: absolute;
+    inset: 6px;
+    border-radius: 50%;
+    border: 1px solid rgba(201,168,76,0.10);
+  }
+
+  .creator-photo {
+    width: 84px;
+    height: 84px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    object-fit: cover;
+    flex-shrink: 0;
+    background:
+      radial-gradient(circle at 50% 30%, rgba(201,168,76,0.10), transparent 60%),
+      var(--bg-card2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 38px;
+    color: var(--gold);
+    font-weight: 400;
+    box-shadow:
+      inset 0 1px 0 rgba(255,220,150,0.08),
+      inset 0 -8px 22px rgba(0,0,0,0.4),
+      0 0 24px rgba(201,168,76,0.08);
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Decorative tick marks at N/E/S/W */
+  .creator-photo-ticks {
+    position: absolute;
+    inset: -4px;
+    pointer-events: none;
+  }
+
+  .creator-photo-ticks span {
+    position: absolute;
+    background: var(--gold);
+    opacity: 0.5;
+  }
+
+  .creator-photo-ticks span:nth-child(1) { top: 0; left: 50%; width: 1px; height: 5px; transform: translateX(-50%); }
+  .creator-photo-ticks span:nth-child(2) { bottom: 0; left: 50%; width: 1px; height: 5px; transform: translateX(-50%); }
+  .creator-photo-ticks span:nth-child(3) { left: 0; top: 50%; width: 5px; height: 1px; transform: translateY(-50%); }
+  .creator-photo-ticks span:nth-child(4) { right: 0; top: 50%; width: 5px; height: 1px; transform: translateY(-50%); }
+
+  .creator-info h1 {
+    font-size: 30px;
+    margin-bottom: 6px;
+    line-height: 1.1;
+  }
+
+  .creator-info p {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 14px;
+    color: var(--text-dim);
+    font-weight: 400;
+    letter-spacing: 0.02em;
+  }
+
+  .stat-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .stat-item {
+    padding: 22px 22px;
+    border-bottom: 1px solid var(--border-soft);
+    display: flex;
+    align-items: baseline;
+    gap: 18px;
+  }
+
+  .stat-num {
+    font-family: var(--serif);
+    font-size: 46px;
+    font-weight: 300;
+    color: var(--gold);
+    font-style: italic;
+    line-height: 1;
+    flex-shrink: 0;
+    width: 64px;
+    text-shadow: 0 0 24px rgba(201,168,76,0.18);
+  }
+
+  .stat-desc {
+    font-size: 13.5px;
+    font-weight: 300;
+    color: var(--text);
+    line-height: 1.45;
+  }
+
+  .contact-block {
+    padding: 32px 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .contact-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    text-decoration: none;
+    color: var(--text);
+    font-size: 14.5px;
+    font-weight: 300;
+    letter-spacing: 0.01em;
+  }
+
+  .contact-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    background: linear-gradient(180deg, var(--bg-card2), var(--bg-card));
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    color: var(--gold);
+    flex-shrink: 0;
+    box-shadow: inset 0 1px 0 rgba(255,220,150,0.06);
+  }
+
+  /* ── PLANNED NOTE ── */
+  .note {
+    font-family: var(--serif);
+    font-size: 12px;
+    color: var(--text-dim);
+    font-style: italic;
+    margin-top: 4px;
+  }
+
+  /* ── DIVIDER ── */
+  .divider {
+    height: 1px;
+    background: var(--border-soft);
+    margin: 0 22px;
+  }
+
+  /* ── ROLE CARDS ── */
+  .roles-scroll {
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    padding: 4px 22px 16px;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .roles-scroll::-webkit-scrollbar { display: none; }
+
+  .role-card {
+    flex-shrink: 0;
+    width: 138px;
+    aspect-ratio: 3 / 4;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    scroll-snap-align: start;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.35);
+  }
+
+  .role-card-img {
+    flex: 1;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    display: block;
+    background: #0d0d0d;
+  }
+
+  /* Placeholder when no image yet */
+  .role-card-placeholder {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background:
+      radial-gradient(circle at 50% 40%, rgba(201,168,76,0.06), transparent 60%),
+      #0d0d0d;
+    color: rgba(201,168,76,0.25);
+    font-family: var(--serif);
+    font-size: 38px;
+  }
+
+  /* Tablet+ subtle widening */
+  @media (min-width: 640px) {
+    h1 { font-size: 42px; }
+    .creator-info h1 { font-size: 34px; }
+    .market-num { font-size: 60px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo-row">
+    <div class="logo-img" style="background:#111;display:flex;align-items:center;justify-content:center;">
+      <svg width="22" height="22" viewBox="0 0 40 40" fill="none">
+        <circle cx="20" cy="20" r="19" stroke="#c9a84c" stroke-width="1.5"/>
+        <text x="20" y="25" text-anchor="middle" font-family="serif" font-size="13" fill="#fff" font-weight="600">M</text>
+      </svg>
+    </div>
+    <span class="logo-text">Mafia<em>InLT</em></span>
+  </div>
+  <nav id="nav">
+    <button class="tab active" data-tab="investors">Investors</button>
+    <button class="tab" data-tab="players">Streamers & Players</button>
+    <button class="tab" data-tab="creator">Creator</button>
+  </nav>
+</header>
+
+<!-- ══════════════════════════════════════
+     INVESTORS
+══════════════════════════════════════ -->
+<section class="section active" id="investors" data-screen-label="01 Investors">
+
+  <div class="hero">
+    <div class="hero-tag">Open to partnership · Acquisition</div>
+    <h1>Mafia Online — live video, voice and <em>real game actions</em></h1>
+    <p class="hero-sub">Built for streamers — every live session attracts new players</p>
+  </div>
+
+  <!-- STATUS -->
+  <div class="block">
+    <div class="status-badge"><span class="dot"></span>Demo is live</div>
+    <ul class="facts">
+      <li>10 players per room</li>
+      <li>Full game cycle: day, voting, night — 20–35 min per session</li>
+      <li>Live video and voice via WebRTC — no app required</li>
+    </ul>
+  </div>
+
+  <!-- MARKET -->
+  <div class="block">
+    <div class="block-label">Market</div>
+    <div class="market-grid">
+      <div class="market-item">
+        <span class="market-index">i.</span>
+        <div class="market-num">$1.62<em>B</em></div>
+        <div class="market-desc">Social Deduction Games market size, 2024</div>
+        <div class="market-src">Growth Market Reports, 2025</div>
+      </div>
+      <div class="market-item">
+        <span class="market-index">ii.</span>
+        <div class="market-num">$10<em>B</em></div>
+        <div class="market-desc">Game Streaming market size, 2024</div>
+        <div class="market-src">Grand View Research / SkyQuest, 2025</div>
+      </div>
+      <div class="market-item">
+        <span class="market-index">iii.</span>
+        <div class="market-num">9.3<em>%</em></div>
+        <div class="market-desc">CAGR — Social Deduction Games segment growth through 2033</div>
+        <div class="market-src">Growth Market Reports, 2025</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ROADMAP -->
+  <div class="block">
+    <div class="block-label">Roadmap</div>
+    <div class="scroll-hint">
+      <span>Scroll to explore phases</span>
+      <span class="scroll-hint-line"></span>
+    </div>
+    <div class="roadmap-scroll" id="roadmapScroll">
+      <div class="phase active-phase">
+        <span class="phase-index">01</span>
+        <div class="phase-now"><span class="phase-now-dot"></span>Now</div>
+        <div class="phase-label-active">Phase 01</div>
+        <div class="phase-label">Now · Phase 01</div>
+        <div class="phase-title">Core Game</div>
+        <ul class="phase-items">
+          <li>Full role system</li>
+          <li>Night & day cycle</li>
+          <li>Host & auto mode</li>
+          <li>Reconnect system</li>
+          <li>Spectator mode</li>
+        </ul>
+      </div>
+      <div class="phase">
+        <span class="phase-index">02</span>
+        <div class="phase-label">2026 · Phase 02</div>
+        <div class="phase-title">Growth</div>
+        <ul class="phase-items">
+          <li>Player rating system UI</li>
+          <li>Streamer profile & stats</li>
+          <li>Subscription system</li>
+          <li>Cosmetics & skins</li>
+          <li>UI & animation polish</li>
+        </ul>
+      </div>
+      <div class="phase">
+        <span class="phase-index">03</span>
+        <div class="phase-label">2027 · Phase 03</div>
+        <div class="phase-title">Scale</div>
+        <ul class="phase-items">
+          <li>Online tournaments</li>
+          <li>Audience live voting</li>
+          <li>Mobile version</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- MONETIZATION -->
+  <div class="block">
+    <div class="block-label">Monetization <span class="note" style="display:inline;font-size:11px;margin-left:4px;">· Planned model</span></div>
+    <ul class="mono-list">
+      <li class="mono-item">
+        <span class="mono-name">Subscription</span>
+        <span class="mono-desc">Unlimited private rooms, host mode & ranked system with win-based rewards</span>
+      </li>
+      <li class="mono-item">
+        <span class="mono-name">Pay-per-room</span>
+        <span class="mono-desc">Single session purchase</span>
+      </li>
+      <li class="mono-item">
+        <span class="mono-name">Cosmetics</span>
+        <span class="mono-desc">Card designs, custom emoji reactions</span>
+      </li>
+      <li class="mono-item">
+        <span class="mono-name">Donations</span>
+        <span class="mono-desc">Viewer-to-streamer, revenue share model</span>
+      </li>
+      <li class="mono-item">
+        <span class="mono-name">Advertising</span>
+        <span class="mono-desc">Brand placement in public rooms</span>
+      </li>
+    </ul>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta-block">
+    <a class="btn btn-primary btn-arrow" href="/cdn-cgi/l/email-protection#f69b97909f979f989a82b6919b979f9ad895999bc98583949c939582cba6978482989384859e9f86d3c4c6bf9887839f848fd3c4c6147662d3c4c6bb97909f97bf98baa2">Partnership</a>
+    <a class="btn btn-outline btn-arrow" href="/cdn-cgi/l/email-protection#bad7dbdcd3dbd3d4d6cefaddd7dbd3d694d9d5d785c9cfd8d0dfd9ce87fbd9cbcfd3c9d3ced3d5d49f888af3d4cbcfd3c8c39f888a583a2e9f888af7dbdcd3dbf3d4f6ee">Acquisition</a>
+  </div>
+
+</section>
+
+<!-- ══════════════════════════════════════
+     STREAMERS & PLAYERS
+══════════════════════════════════════ -->
+<section class="section" id="players" data-screen-label="02 Players">
+
+  <div class="hero">
+    <div class="hero-tag">Play · Stream · Compete</div>
+    <h1>Mafia Online — live video, voice and <em>real game actions</em></h1>
+    <p class="hero-sub">Built for streamers and deduction fans</p>
+  </div>
+
+  <div class="block">
+    <ul class="facts">
+      <li>10 players, unique roles — each with a distinct night ability — 20–35 min per session</li>
+      <li>Rating system &amp; tournaments <span class="badge-soon">Coming soon</span></li>
+    </ul>
+  </div>
+
+  <!-- ROLES -->
+  <div class="block" style="padding-bottom:0;">
+    <div class="block-label">Roles</div>
+  </div>
+  <div class="roles-scroll">
+    <div class="role-card">
+      <img class="role-card-img" src="mafia.jpg" alt="Mafia" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+      <div class="role-card-placeholder" style="display:none;">☠</div>
+    </div>
+    <div class="role-card">
+      <img class="role-card-img" src="doctor.jpg" alt="Doctor" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+      <div class="role-card-placeholder" style="display:none;">✚</div>
+    </div>
+    <div class="role-card">
+      <img class="role-card-img" src="sheriff.jpg" alt="Sheriff" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+      <div class="role-card-placeholder" style="display:none;">✦</div>
+    </div>
+    <div class="role-card">
+      <img class="role-card-img" src="lawyer.jpg" alt="Lawyer" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+      <div class="role-card-placeholder" style="display:none;">⚖</div>
+    </div>
+    <div class="role-card">
+      <img class="role-card-img" src="barman.jpg" alt="Barman" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+      <div class="role-card-placeholder" style="display:none;">◈</div>
+    </div>
+    <div class="role-card">
+      <img class="role-card-img" src="civilian.jpg" alt="Civilian" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+      <div class="role-card-placeholder" style="display:none;">◯</div>
+    </div>
+  </div>
+
+  <!-- PLAY -->
+  <div class="block">
+    <div class="block-label">Play</div>
+    <ul class="facts">
+      <li>Private or public rooms</li>
+      <li>Host or auto mode</li>
+      <li>Vote, heal, accuse — all by clicking player screens</li>
+    </ul>
+  </div>
+
+  <!-- STREAM -->
+  <div class="block">
+    <div class="block-label">Stream</div>
+    <ul class="facts">
+      <li>Play live with your audience watching</li>
+      <li>Collaborate with other streamers in exclusive room</li>
+    </ul>
+    <div class="langs">
+      <span class="lang">EN</span>
+      <span class="lang">LT</span>
+      <span class="lang">RU</span>
+    </div>
+  </div>
+
+  <div class="cta-block">
+    <a class="btn btn-primary btn-arrow" href="https://mafiaonline.lt" target="_blank">Play now — mafiaonline.lt</a>
+    <p style="text-align:center;font-size:11px;color:var(--text-dim);margin-top:2px;font-weight:300;letter-spacing:0.02em;font-family:var(--serif);font-style:italic;font-size:12.5px;">Currently available on desktop browsers only</p>
+  </div>
+
+</section>
+
+<!-- ══════════════════════════════════════
+     CREATOR
+══════════════════════════════════════ -->
+<section class="section" id="creator" data-screen-label="03 Creator">
+
+  <div class="creator-hero">
+    <div class="creator-photo-wrap">
+      <div class="creator-photo-ticks">
+        <span></span><span></span><span></span><span></span>
+      </div>
+      <div class="creator-photo">O</div>
+    </div>
+    <div class="creator-info">
+      <h1>Oleg <em>Čeklu</em></h1>
+      <p>Creator of MafiaInLT</p>
+    </div>
+  </div>
+
+  <ul class="stat-list">
+    <li class="stat-item">
+      <span class="stat-num">17</span>
+      <span class="stat-desc">years in live performance and events</span>
+    </li>
+    <li class="stat-item">
+      <span class="stat-num">15</span>
+      <span class="stat-desc">years immersed in therapeutic practices and human behaviour</span>
+    </li>
+    <li class="stat-item">
+      <span class="stat-num">11</span>
+      <span class="stat-desc">years founding and running a live Mafia Club in Vilnius</span>
+    </li>
+  </ul>
+
+  <div class="contact-block">
+    <div class="block-label" style="padding:0;">Contact</div>
+    <a class="contact-item" href="/cdn-cgi/l/email-protection#93fef2f5faf2fafdffe7d3f4fef2faffbdf0fcfe">
+      <span class="contact-icon">✉</span>
+      <span class="__cf_email__" data-cfemail="0b666a6d626a6265677f4b6c666a626725686466">[email&#160;protected]</span>
+    </a>
+    <a class="contact-item" href="tel:+37067168072">
+      <span class="contact-icon">✆</span>
+      067 168 072
+    </a>
+  </div>
+
+</section>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  // Tab switching
+  const tabs = document.querySelectorAll('.tab');
+  const sections = document.querySelectorAll('.section');
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      tabs.forEach(t => t.classList.remove('active'));
+      sections.forEach(s => s.classList.remove('active'));
+      tab.classList.add('active');
+      document.getElementById(tab.dataset.tab).classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  });
+
+  // Roadmap drag scroll
+  const scroll = document.getElementById('roadmapScroll');
+  let isDown = false, startX, scrollLeft;
+
+  scroll.addEventListener('mousedown', e => {
+    isDown = true;
+    startX = e.pageX - scroll.offsetLeft;
+    scrollLeft = scroll.scrollLeft;
+  });
+  scroll.addEventListener('mouseleave', () => isDown = false);
+  scroll.addEventListener('mouseup', () => isDown = false);
+  scroll.addEventListener('mousemove', e => {
+    if (!isDown) return;
+    e.preventDefault();
+    const x = e.pageX - scroll.offsetLeft;
+    scroll.scrollLeft = scrollLeft - (x - startX);
+  });
+</script>
+</body>
+</html>
