@@ -1109,6 +1109,129 @@
     .creator-info h1 { font-size: 34px; }
     .market-num { font-size: 60px; }
   }
+
+  /* ── BACK-NAV BURGER ── */
+  .site-burger {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    position: relative;
+    flex-shrink: 0;
+    margin-left: auto;
+    z-index: 101;
+  }
+
+  .site-burger span {
+    position: absolute;
+    left: 50%;
+    margin-left: -9px;
+    width: 18px;
+    height: 1.5px;
+    background-color: var(--text);
+    border-radius: 2px;
+    opacity: 0.55;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+  }
+
+  .site-burger span:nth-child(1) { top: calc(50% - 7.25px); }
+  .site-burger span:nth-child(2) { top: calc(50% - 0.75px); }
+  .site-burger span:nth-child(3) { top: calc(50% + 5.75px); }
+
+  .site-burger.active span { opacity: 1; }
+
+  .site-burger.active span:nth-child(1) {
+    transform: translateY(6.5px) rotate(45deg);
+  }
+  .site-burger.active span:nth-child(2) {
+    opacity: 0;
+    transform: scaleX(0);
+  }
+  .site-burger.active span:nth-child(3) {
+    transform: translateY(-6.5px) rotate(-45deg);
+  }
+
+  .site-nav-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(6,6,6,0.97);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    z-index: 99;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+
+  .site-nav-overlay.active {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  .site-nav-overlay .nav-back-label {
+    font-family: var(--sans);
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 24px;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.25s ease, transform 0.25s ease;
+    transition-delay: 0.02s;
+  }
+
+  .site-nav-overlay.active .nav-back-label {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .site-nav-overlay a {
+    font-family: var(--sans);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--text);
+    text-decoration: none;
+    padding: 13px 28px;
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity 0.25s ease, transform 0.25s ease, color 0.2s ease;
+  }
+
+  .site-nav-overlay a.nav-home {
+    font-family: var(--serif);
+    font-size: 22px;
+    font-weight: 400;
+    font-style: italic;
+    letter-spacing: 0.04em;
+    text-transform: none;
+    color: var(--gold);
+    margin-bottom: 12px;
+    padding: 10px 28px;
+  }
+
+  .site-nav-overlay a:not(.nav-home):hover { color: var(--gold); }
+
+  .site-nav-overlay.active a { opacity: 1; transform: translateY(0); }
+
+  .site-nav-overlay.active a.nav-home      { transition-delay: 0.06s; }
+  .site-nav-overlay.active a:nth-of-type(2){ transition-delay: 0.11s; }
+  .site-nav-overlay.active a:nth-of-type(3){ transition-delay: 0.16s; }
+  .site-nav-overlay.active a:nth-of-type(4){ transition-delay: 0.21s; }
+  .site-nav-overlay.active a:nth-of-type(5){ transition-delay: 0.26s; }
+  .site-nav-overlay.active a:nth-of-type(6){ transition-delay: 0.31s; }
 </style>
 </head>
 <body>
@@ -1120,12 +1243,26 @@
       <div class="logo-title">Mafia Online</div>
       <div class="logo-sub">live video, voice and real game actions</div>
     </div>
+    <button class="site-burger" id="siteBurger" aria-label="Site navigation">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
   </div>
   <nav id="nav">
     <button class="tab active" data-tab="investors">Investors</button>
     <button class="tab" data-tab="players">Streamers & Players</button>
     <button class="tab" data-tab="creator">Creator</button>
   </nav>
+  <div class="site-nav-overlay" id="siteNavOverlay">
+    <span class="nav-back-label">mafiain.lt</span>
+    <a class="nav-home" href="index.html">Mafia in LT</a>
+    <a href="paslaugos.html">Paslaugos</a>
+    <a href="galerija.html">Galerija</a>
+    <a href="apie-mus.html">Apie mus</a>
+    <a href="straipsniai/straipsniai.html">Straipsniai</a>
+    <a href="kontaktai.html">Kontaktai</a>
+  </div>
 </header>
 
 <!-- ══════════════════════════════════════
@@ -1401,12 +1538,28 @@
     });
   });
 
+  // Back-nav burger
+  const siteBurger = document.getElementById('siteBurger');
+  const siteNavOverlay = document.getElementById('siteNavOverlay');
+
+  siteBurger.addEventListener('click', () => {
+    siteBurger.classList.toggle('active');
+    siteNavOverlay.classList.toggle('active');
+  });
+
+  siteNavOverlay.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      siteBurger.classList.remove('active');
+      siteNavOverlay.classList.remove('active');
+    });
+  });
+
   // Touch swipe
   let touchStartX = 0, touchStartY = 0, touchLocked = false, swipeBlocked = false;
 
   document.addEventListener('touchstart', e => {
     const t = e.touches[0].target;
-    if (t.closest('.roadmap-scroll') || t.closest('.roles-scroll')) { swipeBlocked = true; return; }
+    if (t.closest('.roadmap-scroll') || t.closest('.roles-scroll') || siteNavOverlay.classList.contains('active')) { swipeBlocked = true; return; }
     swipeBlocked = false;
     touchLocked = false;
     touchStartX = e.touches[0].clientX;
