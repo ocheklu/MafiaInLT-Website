@@ -138,8 +138,12 @@
 
   /* ── HEADER ── */
   header {
-    position: relative;
+    position: sticky;
+    top: 0;
+    z-index: 100;
     background: rgba(8,8,8,0.92);
+    backdrop-filter: blur(14px) saturate(140%);
+    -webkit-backdrop-filter: blur(14px) saturate(140%);
     border-bottom: 1px solid var(--border);
     padding: 0 16px;
   }
