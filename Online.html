@@ -247,16 +247,14 @@
   }
 
   .hero-tag {
-    font-family: var(--sans);
-    font-size: 10px;
-    font-weight: 500;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-    color: var(--gold);
-    margin-bottom: 18px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
+    font-family: var(--serif);
+    font-size: 15px;
+    font-weight: 400;
+    font-style: italic;
+    letter-spacing: 0.01em;
+    color: var(--text);
+    margin-bottom: 14px;
+    line-height: 1.45;
   }
 
 
@@ -371,10 +369,12 @@
     content: '';
     position: absolute;
     left: 0;
-    top: 10px;
-    width: 8px;
-    height: 1px;
+    top: 8px;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
     background: var(--gold);
+    opacity: 0.7;
   }
 
   /* ── MARKET ── */
@@ -630,9 +630,10 @@
     content: '';
     position: absolute;
     left: 0;
-    top: 8px;
-    width: 6px;
-    height: 1px;
+    top: 6px;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
     background: var(--gold);
     opacity: 0.4;
   }
@@ -777,17 +778,27 @@
     box-shadow: inset 0 1px 4px rgba(0,0,0,0.4);
   }
 
-  .btn-arrow::after {
-    content: '→';
-    font-family: var(--serif);
-    font-style: italic;
-    font-size: 16px;
-    font-weight: 400;
-    margin-left: 2px;
-    transition: transform 0.2s ease;
+  .btn-mail::before {
+    content: '✉';
+    font-size: 14px;
+    margin-right: 8px;
+    opacity: 0.85;
   }
 
-  .btn:active.btn-arrow::after { transform: translateX(3px); }
+  /* ── DESKTOP NOTICE ── */
+  .desktop-notice {
+    text-align: center;
+    font-family: var(--sans);
+    font-size: 11.5px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    color: var(--text);
+    background: rgba(201,168,76,0.07);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 16px;
+    margin-top: 12px;
+  }
 
   /* ── PLAY SECTION ── */
   .sub-label {
@@ -1101,8 +1112,8 @@
 <section class="section active" id="investors" data-screen-label="01 Investors">
 
   <div class="hero">
-    <div class="hero-tag">Open to partnership · Acquisition</div>
-    <p class="hero-sub">Made to be streamed. Every live stream session attracts new players.</p>
+    <div class="hero-tag">Looking for partnership or acquisition.</div>
+    <p class="hero-sub">Made to be streamed — every session is potential new audience.</p>
   </div>
 
   <!-- STATUS -->
@@ -1141,7 +1152,6 @@
   <div class="block">
     <div class="block-label">Roadmap</div>
     <div class="scroll-hint">
-      <span>Scroll to explore phases</span>
       <span class="scroll-hint-line"></span>
     </div>
     <div class="roadmap-scroll" id="roadmapScroll">
@@ -1209,8 +1219,8 @@
 
   <!-- CTA -->
   <div class="cta-block">
-    <a class="btn btn-primary btn-arrow" href="/cdn-cgi/l/email-protection#f69b97909f979f989a82b6919b979f9ad895999bc98583949c939582cba6978482989384859e9f86d3c4c6bf9887839f848fd3c4c6147662d3c4c6bb97909f97bf98baa2">Partnership</a>
-    <a class="btn btn-outline btn-arrow" href="/cdn-cgi/l/email-protection#bad7dbdcd3dbd3d4d6cefaddd7dbd3d694d9d5d785c9cfd8d0dfd9ce87fbd9cbcfd3c9d3ced3d5d49f888af3d4cbcfd3c8c39f888a583a2e9f888af7dbdcd3dbf3d4f6ee">Acquisition</a>
+    <a class="btn btn-primary btn-mail" href="/cdn-cgi/l/email-protection#f69b97909f979f989a82b6919b979f9ad895999bc98583949c939582cba6978482989384859e9f86d3c4c6bf9887839f848fd3c4c6147662d3c4c6bb97909f97bf98baa2">Partnership</a>
+    <a class="btn btn-outline btn-mail" href="/cdn-cgi/l/email-protection#bad7dbdcd3dbd3d4d6cefaddd7dbd3d694d9d5d785c9cfd8d0dfd9ce87fbd9cbcfd3c9d3ced3d5d49f888af3d4cbcfd3c8c39f888a583a2e9f888af7dbdcd3dbf3d4f6ee">Acquisition</a>
   </div>
 
 </section>
@@ -1221,7 +1231,6 @@
 <section class="section" id="players" data-screen-label="02 Players">
 
   <div class="hero">
-    <div class="hero-tag">Play · Stream · Compete</div>
     <p class="hero-sub">Built for streamers and social deduction fans.</p>
   </div>
 
@@ -1277,19 +1286,15 @@
   <div class="block">
     <div class="block-label">Stream</div>
     <ul class="facts">
-      <li>Play live with your audience watching</li>
-      <li>Collaborate with other streamers in exclusive room</li>
+      <li>Viewers can connect and watch via spectator mode</li>
+      <li>Collaborate with other streamers in an exclusive room</li>
+      <li>Interface available in EN, LT and RU</li>
     </ul>
-    <div class="langs">
-      <span class="lang">EN</span>
-      <span class="lang">LT</span>
-      <span class="lang">RU</span>
-    </div>
   </div>
 
   <div class="cta-block">
-    <a class="btn btn-primary btn-arrow" href="https://mafiaonline.lt" target="_blank">Play now — mafiaonline.lt</a>
-    <p style="text-align:center;font-size:11px;color:var(--text-dim);margin-top:2px;font-weight:300;letter-spacing:0.02em;font-family:var(--serif);font-style:italic;font-size:12.5px;">Currently available on desktop browsers only</p>
+    <a class="btn btn-primary" href="https://mafiaonline.lt" target="_blank">Play now — mafiaonline.lt</a>
+    <div class="desktop-notice">Currently available on desktop browsers only</div>
   </div>
 
 </section>
