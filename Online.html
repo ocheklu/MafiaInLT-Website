@@ -251,13 +251,6 @@
     gap: 10px;
   }
 
-  .hero-tag::before {
-    content: '';
-    display: block;
-    width: 24px;
-    height: 1px;
-    background: linear-gradient(90deg, var(--gold), transparent);
-  }
 
   h1 {
     font-family: var(--serif);
@@ -306,14 +299,6 @@
     gap: 10px;
   }
 
-  .block-label::before {
-    content: '';
-    display: block;
-    width: 18px;
-    height: 1px;
-    background: var(--gold);
-    opacity: 0.6;
-  }
 
   .block h2 {
     font-family: var(--serif);
@@ -503,6 +488,21 @@
     color: rgba(201,168,76,0.08);
     letter-spacing: -0.02em;
     pointer-events: none;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+  }
+
+  .phase-index small {
+    font-family: var(--sans);
+    font-size: 9px;
+    font-style: normal;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: lowercase;
+    line-height: 1;
+    margin-bottom: 3px;
+    color: inherit;
   }
 
   .phase.active-phase {
@@ -1114,19 +1114,16 @@
     <div class="block-label">Market</div>
     <div class="market-grid">
       <div class="market-item">
-        <span class="market-index">i.</span>
         <div class="market-num">$1.62<em>B</em></div>
         <div class="market-desc">Social Deduction Games market size, 2024</div>
         <div class="market-src">Growth Market Reports, 2025</div>
       </div>
       <div class="market-item">
-        <span class="market-index">ii.</span>
         <div class="market-num">$10<em>B</em></div>
         <div class="market-desc">Game Streaming market size, 2024</div>
         <div class="market-src">Grand View Research / SkyQuest, 2025</div>
       </div>
       <div class="market-item">
-        <span class="market-index">iii.</span>
         <div class="market-num">9.3<em>%</em></div>
         <div class="market-desc">CAGR — Social Deduction Games segment growth through 2033</div>
         <div class="market-src">Growth Market Reports, 2025</div>
@@ -1143,10 +1140,8 @@
     </div>
     <div class="roadmap-scroll" id="roadmapScroll">
       <div class="phase active-phase">
-        <span class="phase-index">01</span>
+        <span class="phase-index"><small>phase</small>01</span>
         <div class="phase-now"><span class="phase-now-dot"></span>Now</div>
-        <div class="phase-label-active">Phase 01</div>
-        <div class="phase-label">Now · Phase 01</div>
         <div class="phase-title">Core Game</div>
         <ul class="phase-items">
           <li>Full role system</li>
@@ -1157,8 +1152,7 @@
         </ul>
       </div>
       <div class="phase">
-        <span class="phase-index">02</span>
-        <div class="phase-label">2026 · Phase 02</div>
+        <span class="phase-index"><small>phase</small>02</span>
         <div class="phase-title">Growth</div>
         <ul class="phase-items">
           <li>Player rating system UI</li>
@@ -1169,8 +1163,7 @@
         </ul>
       </div>
       <div class="phase">
-        <span class="phase-index">03</span>
-        <div class="phase-label">2027 · Phase 03</div>
+        <span class="phase-index"><small>phase</small>03</span>
         <div class="phase-title">Scale</div>
         <ul class="phase-items">
           <li>Online tournaments</li>
@@ -1240,27 +1233,27 @@
   </div>
   <div class="roles-scroll">
     <div class="role-card">
-      <img class="role-card-img" src="mafia.jpg" alt="Mafia" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+      <img class="role-card-img" src="images/roles/MAFIA.jpg" alt="Mafia" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
       <div class="role-card-placeholder" style="display:none;">☠</div>
     </div>
     <div class="role-card">
-      <img class="role-card-img" src="doctor.jpg" alt="Doctor" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+      <img class="role-card-img" src="images/roles/DOCTOR.jpg" alt="Doctor" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
       <div class="role-card-placeholder" style="display:none;">✚</div>
     </div>
     <div class="role-card">
-      <img class="role-card-img" src="sheriff.jpg" alt="Sheriff" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+      <img class="role-card-img" src="images/roles/SHERIFF.jpg" alt="Sheriff" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
       <div class="role-card-placeholder" style="display:none;">✦</div>
     </div>
     <div class="role-card">
-      <img class="role-card-img" src="lawyer.jpg" alt="Lawyer" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+      <img class="role-card-img" src="images/roles/LAWYER.jpg" alt="Lawyer" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
       <div class="role-card-placeholder" style="display:none;">⚖</div>
     </div>
     <div class="role-card">
-      <img class="role-card-img" src="barman.jpg" alt="Barman" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+      <img class="role-card-img" src="images/roles/BARMAN.jpg" alt="Barman" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
       <div class="role-card-placeholder" style="display:none;">◈</div>
     </div>
     <div class="role-card">
-      <img class="role-card-img" src="civilian.jpg" alt="Civilian" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+      <img class="role-card-img" src="images/roles/CIVILIAN.jpg" alt="Civilian" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
       <div class="role-card-placeholder" style="display:none;">◯</div>
     </div>
   </div>
@@ -1303,9 +1296,6 @@
 
   <div class="creator-hero">
     <div class="creator-photo-wrap">
-      <div class="creator-photo-ticks">
-        <span></span><span></span><span></span><span></span>
-      </div>
       <div class="creator-photo">O</div>
     </div>
     <div class="creator-info">
