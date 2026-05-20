@@ -163,23 +163,36 @@
     border: 1px solid var(--border);
     object-fit: cover;
     flex-shrink: 0;
-    position: relative;
-    box-shadow: 0 0 0 3px rgba(201,168,76,0.05), inset 0 0 12px rgba(201,168,76,0.08);
+    box-shadow: 0 0 0 3px rgba(201,168,76,0.05);
   }
 
-  .logo-text {
+  .logo-text-block {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .logo-title {
     font-family: var(--serif);
-    font-size: 19px;
-    font-weight: 500;
-    letter-spacing: 0.06em;
-    color: var(--text);
-  }
-
-  .logo-text em {
-    color: var(--gold);
-    font-style: italic;
+    font-size: 17px;
     font-weight: 500;
     letter-spacing: 0.04em;
+    color: var(--text);
+    line-height: 1.1;
+  }
+
+  .logo-title em {
+    color: var(--gold);
+    font-style: italic;
+  }
+
+  .logo-sub {
+    font-family: var(--sans);
+    font-size: 10px;
+    font-weight: 300;
+    letter-spacing: 0.05em;
+    color: var(--text-dim);
+    line-height: 1;
   }
 
   nav {
@@ -1073,13 +1086,11 @@
 
 <header>
   <div class="logo-row">
-    <div class="logo-img" style="background:#111;display:flex;align-items:center;justify-content:center;">
-      <svg width="22" height="22" viewBox="0 0 40 40" fill="none">
-        <circle cx="20" cy="20" r="19" stroke="#c9a84c" stroke-width="1.5"/>
-        <text x="20" y="25" text-anchor="middle" font-family="serif" font-size="13" fill="#fff" font-weight="600">M</text>
-      </svg>
+    <img class="logo-img" src="images/logo.png" alt="MafiaInLT">
+    <div class="logo-text-block">
+      <div class="logo-title">Mafia <em>Online</em></div>
+      <div class="logo-sub">live video, voice and real game actions</div>
     </div>
-    <span class="logo-text">Mafia<em>InLT</em></span>
   </div>
   <nav id="nav">
     <button class="tab active" data-tab="investors">Investors</button>
@@ -1095,8 +1106,7 @@
 
   <div class="hero">
     <div class="hero-tag">Open to partnership · Acquisition</div>
-    <h1>Mafia Online — live video, voice and <em>real game actions</em></h1>
-    <p class="hero-sub">Built for streamers — every live session attracts new players</p>
+    <p class="hero-sub">Made to be streamed. Every live stream session attracts new players.</p>
   </div>
 
   <!-- STATUS -->
@@ -1216,8 +1226,7 @@
 
   <div class="hero">
     <div class="hero-tag">Play · Stream · Compete</div>
-    <h1>Mafia Online — live video, voice and <em>real game actions</em></h1>
-    <p class="hero-sub">Built for streamers and deduction fans</p>
+    <p class="hero-sub">Built for streamers and social deduction fans.</p>
   </div>
 
   <div class="block">
