@@ -138,12 +138,8 @@
 
   /* ── HEADER ── */
   header {
-    position: sticky;
-    top: 0;
-    z-index: 100;
+    position: relative;
     background: rgba(8,8,8,0.92);
-    backdrop-filter: blur(14px) saturate(140%);
-    -webkit-backdrop-filter: blur(14px) saturate(140%);
     border-bottom: 1px solid var(--border);
     padding: 0 16px;
   }
@@ -247,13 +243,13 @@
   }
 
   .hero-tag {
-    font-family: var(--serif);
-    font-size: 15px;
-    font-weight: 400;
-    font-style: italic;
-    letter-spacing: 0.01em;
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
     color: var(--text);
-    margin-bottom: 14px;
+    margin-bottom: 18px;
     line-height: 1.45;
   }
 
@@ -278,13 +274,13 @@
   }
 
   .hero-sub {
-    font-family: var(--serif);
-    font-size: 17px;
-    font-weight: 300;
-    font-style: italic;
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
     color: var(--text);
-    letter-spacing: 0.01em;
-    line-height: 1.5;
+    line-height: 1.45;
   }
 
   /* ── BLOCKS ── */
@@ -1103,7 +1099,6 @@
 
   <div class="hero">
     <div class="hero-tag">Looking for partnership or acquisition.</div>
-    <p class="hero-sub">Made to be streamed — every session is potential new audience.</p>
   </div>
 
   <!-- STATUS -->
