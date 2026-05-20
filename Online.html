@@ -1110,6 +1110,65 @@
     .market-num { font-size: 60px; }
   }
 
+  /* ── DESKTOP ── */
+  @media (min-width: 769px) {
+
+    /* Header: center inner content, keep full-width bg */
+    header { padding: 0 24px; }
+    .logo-row,
+    nav { max-width: 900px; margin-left: auto; margin-right: auto; }
+
+    /* Sections: centered max-width */
+    .section { max-width: 900px; margin-left: auto; margin-right: auto; }
+
+    /* Desktop spacing */
+    .hero          { padding: 60px 40px 52px; }
+    .block         { padding: 44px 40px; }
+    .cta-block     { padding: 44px 40px; }
+    .creator-hero  { padding: 52px 40px 40px; }
+    .contact-block { padding: 40px 40px; }
+    .stat-item     { padding: 24px 40px; }
+    .divider       { margin: 0 40px; }
+
+    /* Typography */
+    h1               { font-size: 52px; }
+    .creator-info h1 { font-size: 38px; }
+    .hero-tag        { font-size: 15px; }
+    .market-num      { font-size: 64px; }
+
+    /* Market: 3-column grid */
+    .market-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    /* Roadmap: all phases visible, no scroll */
+    .scroll-hint { display: none; }
+    .roadmap-scroll {
+      overflow-x: visible;
+      cursor: default;
+      padding: 4px 0 16px;
+      margin: 0;
+    }
+    .roadmap-scroll:active { cursor: default; }
+    .phase { flex: 1; width: auto; min-width: 0; }
+
+    /* Role cards: 6 in a row */
+    .roles-scroll {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      overflow-x: visible;
+      padding: 4px 40px 16px;
+    }
+    .role-card { width: auto; }
+
+    /* Investors CTA: two buttons side by side */
+    #investors .cta-block { flex-direction: row; align-items: stretch; }
+    #investors .cta-block .block-label { flex: 0 0 100%; }
+    #investors .cta-block .btn { flex: 1; width: auto; min-width: 150px; }
+  }
+
 </style>
 </head>
 <body>
