@@ -1103,6 +1103,31 @@
     font-size: 38px;
   }
 
+  /* Header Play Now button — hidden on mobile */
+  .header-play-btn {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 24px;
+    background: linear-gradient(180deg, #e2c47a 0%, #c9a84c 50%, #a88a3a 100%);
+    color: #0a0a0a;
+    font-family: var(--sans);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 8px;
+    white-space: nowrap;
+    flex-shrink: 0;
+    box-shadow: 0 4px 16px rgba(201,168,76,0.28), inset 0 1px 0 rgba(255,240,200,0.45);
+    transition: transform 0.15s ease, box-shadow 0.2s ease;
+  }
+  .header-play-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 24px rgba(201,168,76,0.42);
+  }
+
   /* Tablet+ subtle widening */
   @media (min-width: 640px) {
     h1 { font-size: 42px; }
@@ -1113,28 +1138,72 @@
   /* ── DESKTOP ── */
   @media (min-width: 769px) {
 
-    /* Header: center inner content, keep full-width bg */
-    header { padding: 0 24px; }
-    .logo-row,
-    nav { max-width: 900px; margin-left: auto; margin-right: auto; }
+    /* Header: single horizontal row */
+    header { padding: 0; }
+    .header-wrap {
+      max-width: 1140px;
+      margin: 0 auto;
+      padding: 0 48px;
+      display: flex;
+      align-items: stretch;
+      height: 72px;
+      gap: 32px;
+    }
+    .logo-row {
+      border-bottom: none;
+      padding: 0;
+      flex: 0 0 auto;
+      max-width: none;
+      margin: 0;
+      display: flex;
+      align-items: center;
+    }
+    nav {
+      flex: 1;
+      max-width: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      align-items: stretch;
+      justify-content: center;
+      overflow: visible;
+    }
+    .tab { display: flex; align-items: center; padding: 0 22px; }
+    .header-play-btn { display: flex; align-self: center; }
 
     /* Sections: centered max-width */
-    .section { max-width: 900px; margin-left: auto; margin-right: auto; }
+    .section { max-width: 1140px; margin-left: auto; margin-right: auto; }
 
     /* Desktop spacing */
-    .hero          { padding: 60px 40px 52px; }
-    .block         { padding: 44px 40px; }
-    .cta-block     { padding: 44px 40px; }
-    .creator-hero  { padding: 52px 40px 40px; }
-    .contact-block { padding: 40px 40px; }
-    .stat-item     { padding: 24px 40px; }
-    .divider       { margin: 0 40px; }
+    .hero          { padding: 80px 48px 72px; }
+    .block         { padding: 44px 48px; }
+    .cta-block     { padding: 44px 48px; }
+    .creator-hero  { padding: 52px 48px 40px; }
+    .contact-block { padding: 40px 48px; }
+    .stat-item     { padding: 28px 40px; }
+    .divider       { margin: 0 48px; }
 
     /* Typography */
-    h1               { font-size: 52px; }
-    .creator-info h1 { font-size: 38px; }
-    .hero-tag        { font-size: 15px; }
-    .market-num      { font-size: 64px; }
+    h1               { font-size: 56px; }
+    .creator-info h1 { font-size: 40px; }
+    .hero-tag {
+      font-family: var(--serif);
+      font-size: 40px;
+      font-weight: 400;
+      letter-spacing: -0.01em;
+      text-transform: none;
+      line-height: 1.2;
+      margin-bottom: 0;
+    }
+    .hero-sub {
+      font-family: var(--serif);
+      font-size: 40px;
+      font-weight: 400;
+      letter-spacing: -0.01em;
+      text-transform: none;
+      line-height: 1.25;
+    }
+    .market-num { font-size: 64px; }
 
     /* Market: 3-column grid */
     .market-grid {
@@ -1159,7 +1228,7 @@
       display: grid;
       grid-template-columns: repeat(6, 1fr);
       overflow-x: visible;
-      padding: 4px 40px 16px;
+      padding: 4px 48px 16px;
     }
     .role-card { width: auto; }
 
@@ -1167,6 +1236,22 @@
     #investors .cta-block { flex-direction: row; align-items: stretch; }
     #investors .cta-block .block-label { flex: 0 0 100%; }
     #investors .cta-block .btn { flex: 1; width: auto; min-width: 150px; }
+
+    /* Hide mobile-only notice */
+    .desktop-notice { display: none; }
+
+    /* Creator: two-column layout */
+    #creator {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-areas:
+        "hero stats"
+        "contact stats";
+      padding-bottom: 0;
+    }
+    #creator .creator-hero  { grid-area: hero; }
+    #creator .stat-list     { grid-area: stats; align-self: start; border-left: 1px solid var(--border-soft); }
+    #creator .contact-block { grid-area: contact; }
   }
 
 </style>
@@ -1174,20 +1259,23 @@
 <body>
 
 <header>
-  <div class="logo-row">
-    <a href="index.html" style="display:flex;align-items:center;gap:12px;text-decoration:none;flex:1;min-width:0;">
-      <img class="logo-img" src="images/logo.png" alt="MafiaInLT">
-      <div class="logo-text-block">
-        <div class="logo-title">Mafia Online</div>
-        <div class="logo-sub">live video, voice and real game actions</div>
-      </div>
-    </a>
+  <div class="header-wrap">
+    <div class="logo-row">
+      <a href="index.html" style="display:flex;align-items:center;gap:12px;text-decoration:none;flex:1;min-width:0;">
+        <img class="logo-img" src="images/logo.png" alt="MafiaInLT">
+        <div class="logo-text-block">
+          <div class="logo-title">Mafia Online</div>
+          <div class="logo-sub">live video, voice and real game actions</div>
+        </div>
+      </a>
+    </div>
+    <nav id="nav">
+      <button class="tab active" data-tab="investors">Investors</button>
+      <button class="tab" data-tab="players">Streamers & Players</button>
+      <button class="tab" data-tab="creator">Creator</button>
+    </nav>
+    <a class="header-play-btn" href="https://mafiaonline.lt" target="_blank">Play now</a>
   </div>
-  <nav id="nav">
-    <button class="tab active" data-tab="investors">Investors</button>
-    <button class="tab" data-tab="players">Streamers & Players</button>
-    <button class="tab" data-tab="creator">Creator</button>
-  </nav>
 </header>
 
 <!-- ══════════════════════════════════════

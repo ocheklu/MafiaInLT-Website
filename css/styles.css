@@ -164,6 +164,22 @@ img {
     background-color: var(--primary-color);
 }
 
+.nav-menu a[href="Online.html"],
+.nav-menu a[href="../Online.html"] {
+    color: var(--text-color) !important;
+    border: 1px solid rgba(212,175,55,0.45);
+    border-radius: 24px;
+    padding: 4px 14px;
+}
+.nav-menu a[href="Online.html"]:hover,
+.nav-menu a[href="../Online.html"]:hover {
+    color: var(--primary-color) !important;
+}
+.nav-menu a[href="Online.html"]::after,
+.nav-menu a[href="../Online.html"]::after {
+    display: none !important;
+}
+
 .language-switcher {
     gap: 0.5rem;
     display: none !important;
@@ -355,6 +371,13 @@ img {
 .hero p {
     font-size: 1.25rem;
     margin-bottom: 2rem;
+}
+
+.hero-desc-desktop { display: none; }
+
+@media (min-width: 769px) {
+    .hero-desc-mobile  { display: none; }
+    .hero-desc-desktop { display: block; }
 }
 
 .hero-index .hero-content > p {
