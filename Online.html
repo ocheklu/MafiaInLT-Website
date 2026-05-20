@@ -87,7 +87,7 @@
 
   * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
-  html { scroll-behavior: smooth; }
+  html { scroll-behavior: smooth; overflow-x: hidden; }
 
   body {
     background: #060606;
@@ -157,41 +157,36 @@
   }
 
   .logo-img {
-    width: 38px;
-    height: 38px;
-    border-radius: 50%;
-    border: 1px solid var(--border);
-    object-fit: cover;
+    height: 36px;
+    width: auto;
     flex-shrink: 0;
-    box-shadow: 0 0 0 3px rgba(201,168,76,0.05);
+    object-fit: contain;
   }
 
   .logo-text-block {
     display: flex;
     flex-direction: column;
-    gap: 2px;
+    gap: 3px;
   }
 
   .logo-title {
-    font-family: var(--serif);
-    font-size: 17px;
-    font-weight: 500;
-    letter-spacing: 0.04em;
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
     color: var(--text);
-    line-height: 1.1;
-  }
-
-  .logo-title em {
-    color: var(--gold);
-    font-style: italic;
+    line-height: 1;
   }
 
   .logo-sub {
     font-family: var(--sans);
-    font-size: 10px;
-    font-weight: 300;
-    letter-spacing: 0.05em;
-    color: var(--text-dim);
+    font-size: 9px;
+    font-weight: 400;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text);
+    opacity: 0.45;
     line-height: 1;
   }
 
@@ -285,12 +280,13 @@
   }
 
   .hero-sub {
-    font-family: var(--sans);
-    font-size: 13.5px;
+    font-family: var(--serif);
+    font-size: 17px;
     font-weight: 300;
-    color: var(--text-dim);
-    letter-spacing: 0.02em;
-    line-height: 1.55;
+    font-style: italic;
+    color: var(--text);
+    letter-spacing: 0.01em;
+    line-height: 1.5;
   }
 
   /* ── BLOCKS ── */
@@ -1088,7 +1084,7 @@
   <div class="logo-row">
     <img class="logo-img" src="images/logo.png" alt="MafiaInLT">
     <div class="logo-text-block">
-      <div class="logo-title">Mafia <em>Online</em></div>
+      <div class="logo-title">Mafia Online</div>
       <div class="logo-sub">live video, voice and real game actions</div>
     </div>
   </div>
@@ -1186,7 +1182,7 @@
 
   <!-- MONETIZATION -->
   <div class="block">
-    <div class="block-label">Monetization <span class="note" style="display:inline;font-size:11px;margin-left:4px;">· Planned model</span></div>
+    <div class="block-label">Monetization</div>
     <ul class="mono-list">
       <li class="mono-item">
         <span class="mono-name">Subscription</span>
