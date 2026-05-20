@@ -1394,8 +1394,8 @@
   <!-- CTA -->
   <div class="cta-block">
     <div class="block-label">Get in touch</div>
-    <a class="btn btn-primary" href="mailto:mafiainlt@gmail.com?subject=Partnership — Mafia Online">Partnership</a>
-    <a class="btn btn-outline" href="mailto:mafiainlt@gmail.com?subject=Acquisition — Mafia Online">Acquisition</a>
+    <a class="btn btn-primary" href="https://mail.google.com/mail/?view=cm&to=mafiainlt@gmail.com&su=Partnership%20%E2%80%94%20Mafia%20Online" data-mobile-href="mailto:mafiainlt@gmail.com?subject=Partnership — Mafia Online" target="_blank" rel="noopener">Partnership</a>
+    <a class="btn btn-outline" href="https://mail.google.com/mail/?view=cm&to=mafiainlt@gmail.com&su=Acquisition%20%E2%80%94%20Mafia%20Online" data-mobile-href="mailto:mafiainlt@gmail.com?subject=Acquisition — Mafia Online" target="_blank" rel="noopener">Acquisition</a>
   </div>
 
 </section>
@@ -1522,6 +1522,14 @@
 </section>
 
 <script>
+  // On mobile: swap Gmail links back to mailto:
+  if (!window.matchMedia('(min-width: 769px)').matches) {
+    document.querySelectorAll('[data-mobile-href]').forEach(el => {
+      el.href = el.dataset.mobileHref;
+      el.removeAttribute('target');
+    });
+  }
+
   const tabs = document.querySelectorAll('.tab');
   const sections = document.querySelectorAll('.section');
   const tabIds = Array.from(tabs).map(t => t.dataset.tab);
