@@ -1233,15 +1233,15 @@
     .role-card { width: auto; }
 
     /* Investors CTA: two buttons side by side */
-    #investors .cta-block { flex-direction: row; align-items: stretch; }
+    #investors .cta-block { flex-direction: row; flex-wrap: wrap; align-items: stretch; }
     #investors .cta-block .block-label { flex: 0 0 100%; }
     #investors .cta-block .btn { flex: 1; width: auto; min-width: 150px; }
 
     /* Hide mobile-only notice */
     .desktop-notice { display: none; }
 
-    /* Creator: two-column layout */
-    #creator {
+    /* Creator: two-column layout — must use .active to not override display:none on inactive sections */
+    #creator.active {
       display: grid;
       grid-template-columns: 1fr 1fr;
       grid-template-areas:
@@ -1406,7 +1406,7 @@
 <section class="section" id="players" data-screen-label="02 Players">
 
   <div class="hero">
-    <p class="hero-sub">Built for streamers<br>and social deduction fans</p>
+    <p class="hero-sub">Built for streamers and social deduction fans</p>
   </div>
 
   <div class="block">
@@ -1455,7 +1455,7 @@
     <ul class="facts">
       <li>Private or public rooms</li>
       <li>Host or auto mode</li>
-      <li>Vote, heal, accuse — all by clicking player screens</li>
+      <li>Prizes and branded merch <span class="badge-soon">Coming soon</span></li>
     </ul>
   </div>
 
@@ -1465,6 +1465,7 @@
     <ul class="facts">
       <li>Viewers can connect and watch via spectator mode</li>
       <li>Collaborate with other streamers in an exclusive room</li>
+      <li>Earn from viewer donations — revenue share model <span class="badge-soon">Coming soon</span></li>
       <li>Interface available in EN, LT and RU</li>
     </ul>
   </div>
