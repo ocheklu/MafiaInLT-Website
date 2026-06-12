@@ -264,6 +264,7 @@ h1 em { color:var(--gold); font-style:italic; font-weight:500; text-shadow:0 0 2
 .hero-sub {
   font-size:13.5px; font-weight:300; color:var(--text-dim);
   line-height:1.6; margin-bottom:22px;
+  white-space:pre-line; /* mobile: \n in strings forces exact line breaks */
 }
 
 /* split — mobile: column; desktop: row */
@@ -788,6 +789,8 @@ ul.facts li a.fact-link:hover { color:var(--gold-light); border-color:rgba(212,1
   .section { max-width:1140px; margin:0 auto; }
 
   .hero         { padding:72px 48px 64px; text-align:left; }
+  .hero-sub     { white-space:normal; }
+  .m-br         { display:none; }
   .rate-for     { display:inline; }
   .block        { padding:44px 48px; }
   .cta-block    { padding:44px 48px; }
@@ -923,7 +926,7 @@ ul.facts li a.fact-link:hover { color:var(--gold-light); border-color:rgba(212,1
     <div class="split">
       <div>
         <h1 data-i18n="inv.title">The first Mafia platform with live video per seat, voice and a unique game flow.</h1>
-        <p class="hero-sub" data-i18n="inv.sub">Fully automated gameplay and a rating system with bonus rewards — a new format for streaming.</p>
+        <p class="hero-sub"><span data-i18n="inv.sub">Fully automated gameplay and a rating system with bonus rewards —</span> <br class="m-br"> <span data-i18n="inv.sub2">a new format for streaming.</span></p>
         <span class="badge"><span class="dot"></span><span data-i18n="inv.badge">Live since May 22, 2026</span></span>
       </div>
       <!-- exhibition trailer — YouTube Short switches with language via data-i18n-video -->
@@ -1366,7 +1369,8 @@ const STRINGS = {
     'nav.creator': 'Creator',
     'cta.play': 'Play now',
     'inv.title': 'The first Mafia platform with live video per seat, voice and a unique game flow.',
-    'inv.sub': 'Fully automated gameplay and a rating system with bonus rewards — a new format for streaming.',
+    'inv.sub': 'Fully automated gameplay and a rating system with bonus rewards —',
+    'inv.sub2': 'a new format for streaming.',
     'inv.badge': 'Live since May 22, 2026',
     'inv.tr.label': 'Traction',
     'inv.tr1.lab': 'Live sessions played',
@@ -1515,7 +1519,8 @@ const STRINGS = {
     'nav.creator': 'Kūrėjas',
     'cta.play': 'Žaisti',
     'inv.title': 'Pirmoji Mafijos platforma, sujungianti gyvą vaizdą ir balsą kiekvienam žaidėjui bei unikalią žaidimo eigą.',
-    'inv.sub': 'Automatizuotas žaidimas ir reitingų sistema su premijomis — naujas formatas transliacijoms.',
+    'inv.sub': 'Automatizuotas žaidimas ir reitingų sistema su premijomis —',
+    'inv.sub2': 'naujas formatas transliacijoms.',
     'inv.badge': 'Veikia nuo 2026 m. gegužės 22 d.',
     'inv.tr.label': 'Rezultatai',
     'inv.tr1.lab': 'Sužaista gyvų sesijų',
@@ -1566,7 +1571,7 @@ const STRINGS = {
     'inv.cta.demo': 'Žiūrėti platformą',
     'inv.cta.contact': 'Arba paskambinkite kūrėjui tiesiogiai',
     'inv.video.id': '_zh3dI6Bfkg',
-    'inv.watch.label': 'Pažiūrėkite, kaip tai veikia',
+    'inv.watch.label': 'Gyvo žaidimo įrašas',
     'inv.ask.label': 'Pritraukiamos lėšos',
     'inv.ask1.name': 'Rinkodara ir bendruomenės augimas',
     'inv.ask1.desc': 'Bendradarbiavimas su srautų transliuotojais, reklama YouTube ir socialiniuose tinkluose, dalyvavimas žaidimų parodose, turnyrų organizavimas.',
@@ -1641,7 +1646,8 @@ const STRINGS = {
     'nav.creator': 'Создатель',
     'cta.play': 'Играть',
     'inv.title': 'Первая платформа для Мафии, сочетающая живую передачу видео и голоса каждого игрока с уникальным игровым процессом.',
-    'inv.sub': 'Автоматизированный геймплей и рейтинговая система с бонусными наградами — новый формат для стриминга.',
+    'inv.sub': 'Автоматизированный геймплей и рейтинговая\nсистема с бонусными наградами —',
+    'inv.sub2': 'новый формат для стриминга.',
     'inv.badge': 'Работает с 22 мая 2026',
     'inv.tr.label': 'Результаты',
     'inv.tr1.lab': 'Сыграно живых сессий',
@@ -1692,7 +1698,7 @@ const STRINGS = {
     'inv.cta.demo': 'Посмотреть платформу',
     'inv.cta.contact': 'Или позвоните создателю напрямую',
     'inv.video.id': 'oaIR8FeVEec',
-    'inv.watch.label': 'Посмотрите в действии',
+    'inv.watch.label': 'Запись живой игры',
     'inv.ask.label': 'На что собираем средства',
     'inv.ask1.name': 'Маркетинг и рост сообщества',
     'inv.ask1.desc': 'Коллаборации со стримерами, реклама на YouTube и в соцсетях, участие в игровых выставках, организация турниров.',
