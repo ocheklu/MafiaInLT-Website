@@ -174,6 +174,9 @@ nav {
   display:flex; overflow-x:auto; scrollbar-width:none; flex:1;
 }
 nav::-webkit-scrollbar { display:none; }
+/* centered tabs; auto margins fall back to start-aligned scroll on overflow */
+.tab:first-child { margin-left:auto; }
+.tab:last-child  { margin-right:auto; }
 
 .tab {
   flex-shrink:0;
