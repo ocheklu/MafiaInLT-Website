@@ -245,6 +245,7 @@ nav::-webkit-scrollbar { display:none; }
   padding:40px 22px 34px;
   border-bottom:1px solid var(--border);
   position:relative;
+  text-align:center; /* mobile: title, sub and badge centered */
 }
 
 .hero-tag {
@@ -329,7 +330,6 @@ h1 em { color:var(--gold); font-style:italic; font-weight:500; text-shadow:0 0 2
   background:var(--bg-card); padding:5px;
   width:100%; max-width:420px;
 }
-.comp-note { text-align:center; max-width:560px; margin:0 auto; }
 
 /* missions — compact one-line rows */
 .mission-list {
@@ -368,7 +368,7 @@ h1 em { color:var(--gold); font-style:italic; font-weight:500; text-shadow:0 0 2
 .rate-chip span { font-size:11px; font-weight:500; letter-spacing:0.08em; text-transform:uppercase; color:var(--text-dim); }
 .rate-chip b { font-family:var(--serif); font-size:24px; font-weight:400; color:var(--gold); }
 .rate-chip.rate-loss b { color:var(--text-dim); }
-.rate-for { font-size:12px; color:var(--text-faint); }
+.rate-for { display:none; font-size:12px; color:var(--text-faint); }
 
 /* rating callout — winning team only */
 .rate-callout {
@@ -552,21 +552,6 @@ h1 em { color:var(--gold); font-style:italic; font-weight:500; text-shadow:0 0 2
 @keyframes phasePulse {
   0%,100%{box-shadow:0 0 0 3px rgba(201,168,76,0.18),0 0 10px var(--gold-glow)}
   50%    {box-shadow:0 0 0 5px rgba(201,168,76,0.08),0 0 14px var(--gold-glow)}
-}
-
-/* scroll hint */
-.scroll-hint {
-  position:relative; width:48px; height:1px;
-  margin:6px auto 16px;
-  background:rgba(201,168,76,0.18); overflow:hidden;
-}
-.scroll-hint::after {
-  content:''; position:absolute; top:0; left:-20px; width:20px; height:1px;
-  background:linear-gradient(90deg,transparent,var(--gold),transparent);
-  animation:sweep 2.6s ease-in-out infinite;
-}
-@keyframes sweep {
-  0%{left:-20px;opacity:0} 20%{opacity:1} 80%{opacity:1} 100%{left:48px;opacity:0}
 }
 
 /* ── MONETIZATION ── */
@@ -802,7 +787,8 @@ ul.facts li a.fact-link:hover { color:var(--gold-light); border-color:rgba(212,1
 
   .section { max-width:1140px; margin:0 auto; }
 
-  .hero         { padding:72px 48px 64px; }
+  .hero         { padding:72px 48px 64px; text-align:left; }
+  .rate-for     { display:inline; }
   .block        { padding:44px 48px; }
   .cta-block    { padding:44px 48px; }
   .creator-hero { padding:52px 48px 40px; }
@@ -838,7 +824,6 @@ ul.facts li a.fact-link:hover { color:var(--gold-light); border-color:rgba(212,1
   .sponsor-btn { display:inline-block; width:auto; margin:0 0 0 8px; }
   .comp-bar { flex-direction:row; align-items:center; gap:24px; }
   .comp-bar .block-label { margin-bottom:0; }
-  .comp-note { text-align:left; margin:0; }
   .mission-list { align-items:flex-start; }
 
   /* hero trailer: vertical video pinned to the right, scales with viewport */
@@ -861,7 +846,6 @@ ul.facts li a.fact-link:hover { color:var(--gold-light); border-color:rgba(212,1
   .market.cols-2 { grid-template-columns:repeat(2,1fr); }
 
   /* roadmap: all phases equal width, no scroll */
-  .scroll-hint { display:none; }
   .roadmap-scroll { overflow-x:visible; cursor:default; padding:4px 0 16px; margin:0; }
   .roadmap-scroll:active { cursor:default; }
   .phase { flex:1; width:auto; min-width:0; }
@@ -1002,7 +986,6 @@ ul.facts li a.fact-link:hover { color:var(--gold-light); border-color:rgba(212,1
   <!-- ROADMAP -->
   <div class="block">
     <p class="block-label" data-i18n="inv.road.label">Roadmap</p>
-    <div class="scroll-hint"></div>
     <div class="roadmap-scroll" id="roadmapScroll">
 
       <div class="phase">
@@ -1234,7 +1217,6 @@ ul.facts li a.fact-link:hover { color:var(--gold-light); border-color:rgba(212,1
             <button class="size-btn active" data-n="10">10</button>
           </div>
         </div>
-        <p class="market-desc comp-note" data-i18n="pl.comp.note">Role counts shown for real (non-bot) players — the table always seats 10, bots fill the rest.</p>
         <ul class="mission-list">
           <li class="mission-item"><b data-i18n="pl.mis.mafia.label">Mafia</b> — <span data-i18n="pl.mis.mafia.d">eliminate all peaceful players</span></li>
           <li class="mission-item"><b data-i18n="pl.mis.town.label">Peaceful players</b> — <span data-i18n="pl.mis.town.d">find and vote out the Mafia</span></li>
@@ -1470,7 +1452,6 @@ const STRINGS = {
     'pl.f6': 'Tournaments',
     'btn.sponsor': 'Become a sponsor',
     'pl.comp.label': 'Player composition',
-    'pl.comp.note': 'Role counts shown for real (non-bot) players — the table always seats 10, bots fill the rest.',
     'pl.mis.mafia.label': 'Mafia',
     'pl.mis.mafia.d': 'eliminate all peaceful players',
     'pl.mis.town.label': 'Peaceful players',
@@ -1582,7 +1563,7 @@ const STRINGS = {
     'inv.mono6.i': 'Renginiai', 'inv.mono6.t': 'Turnyrai', 'inv.mono6.s': 'Planuojama', 'inv.mono6.d': 'Dalyvių mokesčiai, rėmėjų prizų fondai ir atributika.',
     'inv.cta.label': 'Susisiekite',
     'inv.cta.deck': 'Gauti prezentaciją',
-    'inv.cta.demo': 'Žiūrėti gyvą produktą',
+    'inv.cta.demo': 'Žiūrėti platformą',
     'inv.cta.contact': 'Arba paskambinkite kūrėjui tiesiogiai',
     'inv.video.id': '_zh3dI6Bfkg',
     'inv.watch.label': 'Pažiūrėkite, kaip tai veikia',
@@ -1602,7 +1583,6 @@ const STRINGS = {
     'pl.f6': 'Turnyrai',
     'btn.sponsor': 'Tapti rėmėju',
     'pl.comp.label': 'Žaidėjų sudėtis',
-    'pl.comp.note': 'Vaidmenų skaičiai rodomi tikriems žaidėjams (ne botams) — prie stalo visada 10 vietų, likusias užima botai.',
     'pl.mis.mafia.label': 'Mafija',
     'pl.mis.mafia.d': 'eliminuoti visus taikius žaidėjus',
     'pl.mis.town.label': 'Taikieji',
@@ -1709,7 +1689,7 @@ const STRINGS = {
     'inv.mono6.i': 'События', 'inv.mono6.t': 'Турниры', 'inv.mono6.s': 'Запланировано', 'inv.mono6.d': 'Взносы участников, призовые фонды спонсоров и мерч.',
     'inv.cta.label': 'Связаться',
     'inv.cta.deck': 'Получить презентацию',
-    'inv.cta.demo': 'Посмотреть живой продукт',
+    'inv.cta.demo': 'Посмотреть платформу',
     'inv.cta.contact': 'Или позвоните создателю напрямую',
     'inv.video.id': 'oaIR8FeVEec',
     'inv.watch.label': 'Посмотрите в действии',
@@ -1729,7 +1709,6 @@ const STRINGS = {
     'pl.f6': 'Турниры',
     'btn.sponsor': 'Стать спонсором',
     'pl.comp.label': 'Состав игроков',
-    'pl.comp.note': 'Количество ролей показано для живых игроков (не ботов) — за столом всегда 10 мест, остальные занимают боты.',
     'pl.mis.mafia.label': 'Мафия',
     'pl.mis.mafia.d': 'устранить всех мирных игроков',
     'pl.mis.town.label': 'Мирные',
