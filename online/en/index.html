@@ -1,0 +1,2043 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Play Online Mafia with live video per player. Full role system, no app required. Browser-based Mafia game for streamers and players.">
+<meta name="keywords" content="mafia online, mafia game, mafia online game, online mafia, online mafia game, mafia game online, play mafia online, live video mafia, mafia browser game, mafia for streamers, social deduction game online, mafija žaidimas, mafija online, mafija zaidimas, online mafija, mafija internete, mafija žaisti internete, mafia zaidimas, мафия онлайн, мафия игра, игра мафия, онлайн мафия, игра мафия онлайн, играть в мафию онлайн, мафия онлайн с видео">
+
+<!-- hreflang — clean URLs: lt = /online/ (bare), en = /online/en/, ru = /online/ru/ -->
+<link rel="alternate" hreflang="en" href="https://mafiain.lt/online/en/">
+<link rel="alternate" hreflang="lt" href="https://mafiain.lt/online/">
+<link rel="alternate" hreflang="ru" href="https://mafiain.lt/online/ru/">
+<link rel="alternate" hreflang="x-default" href="https://mafiain.lt/online/en/">
+
+<!-- Open Graph (updated by JS on language switch) -->
+<meta property="og:title" content="Mafia Game Online — original platform by MafiaInLT">
+<meta property="og:description" content="Browser-based Mafia with live video per seat. Full role system, no app, no download. Built for streamers and players.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://mafiain.lt/online/en/">
+<meta property="og:image" content="https://mafiain.lt/images/og/og-image-en.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:site_name" content="Mafia Online">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="lt_LT">
+<meta property="og:locale:alternate" content="ru_RU">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Mafia Game Online — original platform by MafiaInLT">
+<meta name="twitter:description" content="Browser-based Mafia game with live video per seat. Full role system, no download.">
+<meta name="twitter:image" content="https://mafiain.lt/images/og/og-image-en.jpg">
+
+<title>Mafia Online — Play Online Mafia with Live Video | mafiaonlinegame.com</title>
+
+<!-- Schema.org -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": ["WebApplication", "VideoGame"],
+  "name": "Mafia Online",
+  "alternateName": ["Mafia Online Game", "Mafija žaidimas online", "Mafija online", "Мафия онлайн", "Игра Мафия онлайн"],
+  "url": "https://mafiaonlinegame.com",
+  "applicationCategory": "GameApplication",
+  "operatingSystem": "Web",
+  "genre": ["Social deduction", "Party game"],
+  "playMode": "https://schema.org/MultiPlayer",
+  "numberOfPlayers": { "@type": "QuantitativeValue", "minValue": 4, "maxValue": 10 },
+  "keywords": "mafia online, mafia game, mafija žaidimas, mafija online, мафия онлайн, мафия игра",
+  "description": "Browser-based live-video Mafia game. Live video per seat, full role system, automated game logic. No app required.",
+  "inLanguage": ["en", "ru", "lt"],
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "EUR", "availability": "https://schema.org/InStock" },
+  "author": { "@type": "Person", "name": "Oleg Čeklu", "url": "https://olegcheklu.eu/" },
+  "publisher": {
+    "@type": "Organization",
+    "name": "MafiaInLT",
+    "url": "https://mafiain.lt",
+    "logo": "https://mafiain.lt/web-app-manifest-512x512.png?v=2",
+    "foundingDate": "2015"
+  }
+}
+</script>
+
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-3GXVW6KLRR"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-3GXVW6KLRR');
+</script>
+
+<!-- Favicon -->
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="canonical" href="https://mafiain.lt/online/en/">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --gold:       #c9a84c;
+  --gold-light: #e2c47a;
+  --gold-deep:  #8c7430;
+  --gold-dim:   rgba(201,168,76,0.15);
+  --gold-glow:  rgba(201,168,76,0.35);
+  --bg:         #0a0a0a;
+  --bg-card:    #111111;
+  --bg-card2:   #161513;
+  --bg-card3:   #1a1814;
+  --text:       #ebe4d5;
+  --text-dim:   #888070;
+  --text-faint: #5a5448;
+  --border:     rgba(201,168,76,0.2);
+  --border-soft:rgba(201,168,76,0.1);
+  --serif: 'Cormorant Garamond', Georgia, serif;
+  --sans:  'Inter', system-ui, sans-serif;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+html { scroll-behavior:smooth; }
+
+body {
+  background:#060606;
+  color:var(--text);
+  font-family:var(--sans);
+  font-size:15px;
+  line-height:1.6;
+  min-height:100vh;
+  overflow-x:hidden;
+  position:relative;
+}
+
+/* vignette */
+body::before {
+  content:'';
+  position:fixed; inset:0;
+  background:
+    radial-gradient(ellipse 90% 60% at 50% -8%, rgba(201,168,76,0.10) 0%, rgba(201,168,76,0.04) 28%, transparent 58%),
+    radial-gradient(ellipse 120% 80% at 50% 50%, transparent 40%, rgba(0,0,0,0.55) 100%),
+    var(--bg);
+  pointer-events:none; z-index:0;
+}
+
+/* grain */
+body::after {
+  content:'';
+  position:fixed; inset:-50%;
+  background-image:url("data:image/svg+xml;utf8,<svg viewBox='0 0 240 240' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.85, 0 0 0 0 0.78, 0 0 0 0 0.55, 0 0 0 0.6 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  background-size:240px 240px;
+  opacity:0.08; mix-blend-mode:overlay;
+  pointer-events:none; z-index:1;
+  animation:grain 6s steps(6) infinite;
+}
+@keyframes grain {
+  0%,100%{transform:translate(0,0)} 20%{transform:translate(-2%,1%)} 40%{transform:translate(1%,-2%)} 60%{transform:translate(-1%,2%)} 80%{transform:translate(2%,-1%)}
+}
+
+/* ── HEADER ── */
+header {
+  position:sticky; top:0; z-index:100;
+  background:rgba(8,8,8,0.92);
+  backdrop-filter:blur(14px) saturate(140%);
+  -webkit-backdrop-filter:blur(14px) saturate(140%);
+  border-bottom:1px solid var(--border);
+}
+
+.header-wrap {
+  padding:0 16px;
+}
+
+.logo-row {
+  display:flex; align-items:center; gap:12px;
+  padding:12px 0 10px;
+  border-bottom:1px solid rgba(201,168,76,0.08);
+}
+
+.logo-img {
+  height:32px; width:auto; flex-shrink:0; object-fit:contain;
+}
+
+.logo-text { display:flex; flex-direction:column; gap:3px; }
+.logo-text b  { font-size:13px; font-weight:600; letter-spacing:0.18em; text-transform:uppercase; color:var(--text); line-height:1; }
+.logo-text span{ font-size:9px; font-weight:400; letter-spacing:0.12em; text-transform:uppercase; color:var(--text); opacity:0.45; line-height:1; }
+
+.header-controls {
+  display:flex; align-items:stretch;
+}
+
+nav {
+  display:flex; overflow-x:auto; scrollbar-width:none; flex:1;
+}
+nav::-webkit-scrollbar { display:none; }
+/* centered tabs; auto margins fall back to start-aligned scroll on overflow */
+.tab:first-child { margin-left:auto; }
+.tab:last-child  { margin-right:auto; }
+
+.tab {
+  flex-shrink:0;
+  padding:13px 16px;
+  font-family:var(--sans); font-size:11px; font-weight:500;
+  letter-spacing:0.14em; text-transform:uppercase;
+  color:var(--text-dim);
+  background:none; border:none; border-bottom:1.5px solid transparent;
+  cursor:pointer; white-space:nowrap;
+  transition:color .25s, border-color .25s;
+}
+.tab.active { color:var(--gold); border-bottom-color:var(--gold); }
+
+/* language switcher — on mobile: collapsed pill in the logo row, expands on tap */
+.lang {
+  display:inline-flex; align-items:center; align-self:center;
+  border:1px solid var(--border); border-radius:999px;
+  overflow:hidden; flex:0 0 auto;
+  margin-left:auto;
+  position:absolute; top:13px; right:16px; z-index:10;
+  background:rgba(8,8,8,0.9);
+}
+.lang button { display:none; }
+.lang button.active { display:block; }
+.lang.open button { display:block; }
+.lang::after { content:'▾'; font-size:8px; color:var(--text-faint); padding-right:9px; }
+.lang.open::after { display:none; }
+.lang button {
+  appearance:none; border:none; background:none;
+  font-family:var(--sans); font-size:10px; font-weight:600;
+  letter-spacing:0.1em; text-transform:uppercase;
+  color:var(--text-dim); cursor:pointer;
+  padding:6px 11px;
+  transition:color .18s, background .18s;
+}
+.lang button + button { border-left:1px solid var(--border-soft); }
+.lang button:hover { color:var(--text); }
+.lang button.active { color:#1a1408; background:var(--gold); }
+
+/* desktop Play Now in header — hidden on mobile */
+.header-cta {
+  display:none;
+  align-items:center; justify-content:center;
+  padding:10px 20px; margin:10px 0 10px 12px;
+  background:linear-gradient(180deg,#e2c47a 0%,#c9a84c 50%,#a88a3a 100%);
+  color:#0a0a0a;
+  font-family:var(--sans); font-size:11px; font-weight:600;
+  letter-spacing:0.16em; text-transform:uppercase; text-decoration:none;
+  border-radius:8px; white-space:nowrap; flex-shrink:0;
+  box-shadow:0 4px 16px rgba(201,168,76,0.28), inset 0 1px 0 rgba(255,240,200,0.45);
+  transition:transform .15s, box-shadow .2s;
+}
+.header-cta:hover { transform:translateY(-1px); box-shadow:0 6px 24px rgba(201,168,76,0.42); }
+
+/* ── SECTIONS ── */
+.section {
+  display:none; padding:0 0 56px;
+  position:relative; z-index:2;
+}
+.section.active { display:block; }
+
+@keyframes slideFromRight { from{opacity:0;transform:translateX(50px)} to{opacity:1;transform:translateX(0)} }
+@keyframes slideFromLeft  { from{opacity:0;transform:translateX(-50px)} to{opacity:1;transform:translateX(0)} }
+.section.slide-from-right { animation:slideFromRight 0.32s cubic-bezier(.25,.46,.45,.94) forwards; }
+.section.slide-from-left  { animation:slideFromLeft  0.32s cubic-bezier(.25,.46,.45,.94) forwards; }
+
+/* ── HERO ── */
+.hero {
+  padding:40px 22px 34px;
+  border-bottom:1px solid var(--border);
+  position:relative;
+  text-align:center; /* mobile: title, sub and badge centered */
+}
+
+.hero-tag {
+  font-size:10px; font-weight:500; letter-spacing:0.22em;
+  text-transform:uppercase; color:var(--gold);
+  margin-bottom:18px;
+}
+
+h1 {
+  font-family:var(--serif); font-size:29px; font-weight:400;
+  line-height:1.22; color:var(--text); margin-bottom:16px;
+  letter-spacing:-0.005em; text-wrap:balance;
+}
+h1 em { color:var(--gold); font-style:italic; font-weight:500; text-shadow:0 0 28px rgba(201,168,76,0.25); }
+
+.hero-sub {
+  font-size:13.5px; font-weight:300; color:var(--text-dim);
+  line-height:1.6; margin-bottom:22px;
+  white-space:pre-line; /* mobile: \n in strings forces exact line breaks */
+}
+
+/* split — mobile: column; desktop: row */
+.split { display:flex; flex-direction:column; gap:28px; }
+
+/* demo frame */
+.demo-frame {
+  border-radius:10px; overflow:hidden;
+  border:1px solid var(--border); background:var(--bg-card);
+  aspect-ratio:16/9; position:relative;
+  display:flex; align-items:center; justify-content:center;
+  flex-direction:column; gap:8px;
+}
+.demo-frame iframe {
+  position:absolute; inset:0; width:100%; height:100%; border:0;
+}
+.demo-ph {
+  font-family:var(--serif); font-style:italic;
+  font-size:13px; color:var(--text-faint); letter-spacing:0.05em; text-align:center; padding:0 16px;
+}
+.demo-ph-sub { font-size:10px; letter-spacing:0.12em; text-transform:uppercase; color:var(--text-faint); opacity:0.6; }
+
+/* horizontal video embed — YouTube, 16:9 */
+.video-embed-wide {
+  position:relative; width:100%; aspect-ratio:16/9;
+  border-radius:10px; overflow:hidden;
+  border:1px solid var(--border); background:var(--bg-card);
+}
+.video-embed-wide iframe { position:absolute; inset:0; width:100%; height:100%; border:0; }
+
+/* block without bottom divider — merges visually with the next block */
+.block.block-flush { border-bottom:none; }
+
+/* vertical video embed (YouTube Shorts trailer, switches with language) */
+.video-embed {
+  position:relative; width:100%; max-width:280px; margin:0 auto;
+  aspect-ratio:9/16; border-radius:10px; overflow:hidden;
+  border:1px solid var(--border); background:var(--bg-card);
+  flex:0 0 auto;
+}
+.video-embed iframe { position:absolute; inset:0; width:100%; height:100%; border:0; }
+
+/* rating points badge */
+.pts {
+  font-family:var(--sans); font-weight:600; font-size:13px;
+  color:var(--gold); white-space:nowrap; margin-left:6px;
+}
+.pts.neg { color:var(--text-dim); }
+
+/* composition + rating: stacked on mobile, two columns on desktop */
+.comp-rate-grid { display:flex; flex-direction:column; gap:32px; }
+.rate-col { display:flex; flex-direction:column; align-items:center; text-align:center; }
+.rate-col .rate-row { margin-bottom:0; justify-content:center; }
+
+/* table size picker — players count switch */
+.comp-bar {
+  display:flex; flex-direction:column; align-items:center;
+  margin-bottom:14px;
+}
+.comp-bar .block-label { margin-bottom:12px; }
+.size-picker {
+  display:flex; align-items:center; gap:4px;
+  border:1px solid var(--border-soft); border-radius:999px;
+  background:var(--bg-card); padding:5px;
+  width:100%; max-width:420px;
+}
+
+/* missions — compact one-line rows */
+.mission-list {
+  list-style:none; padding:0; margin:20px 0 0;
+  display:flex; flex-direction:column; align-items:center; gap:7px;
+}
+.mission-item { font-size:13px; font-weight:300; color:var(--text-dim); line-height:1.5; }
+.mission-item b { font-weight:500; color:var(--text); }
+.size-btn {
+  flex:1; min-width:0; padding:8px 0; border:none; border-radius:999px;
+  background:transparent; color:var(--text-dim);
+  font-family:var(--sans); font-size:13px; font-weight:500; cursor:pointer;
+  transition:color .25s, background .25s;
+}
+.size-btn.active {
+  background:var(--gold-dim); color:var(--gold-light);
+  box-shadow:inset 0 0 0 1px rgba(212,175,55,0.45);
+}
+
+/* role count badge on role cards — driven by the size picker */
+.role-count {
+  position:absolute; top:8px; right:8px; z-index:2;
+  font-family:var(--sans); font-size:11px; font-weight:600;
+  color:var(--gold-light); background:rgba(6,6,6,0.72);
+  border:1px solid var(--border-soft); border-radius:999px;
+  padding:2px 8px; letter-spacing:0.03em;
+}
+
+/* rating win/loss chips — driven by the size picker */
+.rate-row { display:flex; align-items:center; gap:12px; flex-wrap:wrap; margin-bottom:24px; }
+.rate-chip {
+  display:inline-flex; align-items:baseline; gap:9px;
+  border:1px solid var(--border-soft); border-radius:10px;
+  background:var(--bg-card); padding:10px 16px;
+}
+.rate-chip span { font-size:11px; font-weight:500; letter-spacing:0.08em; text-transform:uppercase; color:var(--text-dim); }
+.rate-chip b { font-family:var(--serif); font-size:24px; font-weight:400; color:var(--gold); }
+.rate-chip.rate-loss b { color:var(--text-dim); }
+.rate-for { display:none; font-size:12px; color:var(--text-faint); }
+
+/* rating callout — winning team only */
+.rate-callout {
+  margin-top:20px; padding:12px 16px; max-width:520px;
+  border-left:2px solid var(--gold); background:var(--gold-dim);
+  font-size:13.5px; font-weight:400; color:var(--text); line-height:1.5;
+}
+
+/* sponsor pill — mail CTA next to tournaments / prizes;
+   on mobile it drops to its own line under the list item */
+.sponsor-btn {
+  display:block; width:max-content; font-family:var(--sans); font-size:10px; font-weight:600;
+  letter-spacing:0.14em; text-transform:uppercase;
+  color:var(--gold); border:1px solid rgba(212,175,55,0.45); border-radius:999px;
+  padding:5px 13px; margin:8px 0 0; text-decoration:none; white-space:nowrap;
+  vertical-align:middle; transition:background .25s, color .25s;
+}
+.sponsor-btn:hover { background:var(--gold-dim); color:var(--gold-light); }
+
+/* bonus list — icon + text + points */
+.bonus-list { list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:12px; }
+.bonus-item {
+  display:flex; align-items:center; gap:12px;
+  font-size:14px; font-weight:300; color:var(--text); line-height:1.4;
+  padding-left:18px; position:relative;
+}
+.bonus-item::before {
+  content:''; position:absolute; left:0; top:50%; margin-top:-2.5px;
+  width:5px; height:5px; border-radius:50%;
+  background:var(--gold); box-shadow:0 0 8px var(--gold-glow);
+}
+.bonus-txt { flex:1; }
+
+/* ── BADGE ── */
+.badge {
+  display:inline-flex; align-items:center; gap:8px;
+  font-size:10.5px; font-weight:500; letter-spacing:0.14em; text-transform:uppercase;
+  color:var(--gold);
+  background:linear-gradient(180deg,rgba(201,168,76,0.18),rgba(201,168,76,0.08));
+  border:1px solid var(--border); border-radius:20px;
+  padding:6px 13px 6px 11px;
+  box-shadow:inset 0 1px 0 rgba(255,220,150,0.08), 0 0 18px rgba(201,168,76,0.06);
+}
+.dot {
+  width:7px; height:7px; border-radius:50%;
+  background:#5fc26b;
+  box-shadow:0 0 0 2px rgba(95,194,107,0.15), 0 0 8px rgba(95,194,107,0.5);
+  animation:pulse 2s infinite; flex-shrink:0;
+}
+@keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(0.9)} }
+
+/* ── BLOCKS ── */
+.block {
+  padding:32px 22px;
+  border-bottom:1px solid var(--border-soft);
+  position:relative;
+}
+
+.block-label {
+  font-size:10px; font-weight:500; letter-spacing:0.22em;
+  text-transform:uppercase; color:var(--gold);
+  margin-bottom:20px;
+  display:flex; align-items:center; gap:10px;
+}
+
+.block h2 {
+  font-family:var(--serif); font-size:22px; font-weight:400;
+  color:var(--text); margin-bottom:14px;
+}
+
+/* ── MARKET ── */
+.market { display:flex; flex-direction:column; gap:14px; }
+
+.market-card {
+  background:
+    linear-gradient(180deg,rgba(201,168,76,0.04) 0%,transparent 60%),
+    linear-gradient(180deg,var(--bg-card2),var(--bg-card));
+  border:1px solid var(--border); border-radius:10px;
+  padding:24px 22px 22px; position:relative; overflow:hidden;
+  box-shadow:0 1px 0 rgba(255,220,150,0.04) inset, 0 8px 24px rgba(0,0,0,0.35);
+}
+.market-card::before {
+  content:''; position:absolute; top:0; left:22px; right:22px; height:1px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent); opacity:0.5;
+}
+
+.market-num {
+  font-family:var(--serif); font-size:50px; font-weight:300;
+  color:var(--gold); line-height:0.95; margin-bottom:10px;
+  letter-spacing:-0.01em; text-shadow:0 0 32px rgba(201,168,76,0.15);
+}
+.market-num em { font-style:italic; font-weight:400; }
+.market-lab  { font-size:13px; font-weight:500; color:var(--text); margin-bottom:4px; }
+.market-desc { font-size:12.5px; font-weight:300; color:var(--text-dim); line-height:1.45; }
+.market-src  { font-family:var(--serif); font-size:11.5px; color:var(--text-faint); font-style:italic; margin-top:4px; }
+.market-src a {
+  color:inherit; text-decoration:none;
+  border-bottom:1px dotted rgba(160,160,160,0.4);
+  transition:color .25s, border-color .25s;
+}
+.market-src a:hover { color:var(--gold-light); border-color:rgba(212,175,55,0.5); }
+
+/* ── ROADMAP ── */
+.roadmap-scroll {
+  display:flex; gap:14px;
+  overflow-x:auto; padding:4px 22px 16px;
+  margin:0 -22px;
+  scroll-snap-type:x mandatory; scrollbar-width:none;
+  cursor:grab; -webkit-overflow-scrolling:touch;
+}
+.roadmap-scroll::-webkit-scrollbar { display:none; }
+.roadmap-scroll:active { cursor:grabbing; }
+.roadmap-scroll::after { content:''; flex-shrink:0; width:6px; }
+
+.phase {
+  flex-shrink:0; width:244px; min-height:260px;
+  background:linear-gradient(180deg,var(--bg-card),#0d0d0d);
+  border:1px solid var(--border-soft); border-radius:12px;
+  padding:22px 20px; scroll-snap-align:start;
+  position:relative; overflow:hidden;
+  transition:border-color .25s;
+}
+.phase-index {
+  position:absolute; top:14px; right:18px;
+  font-family:var(--serif); font-style:italic; font-size:44px;
+  font-weight:400; color:rgba(201,168,76,0.08); line-height:1;
+  pointer-events:none;
+  display:flex; flex-direction:column; align-items:flex-end;
+}
+.phase-index small {
+  font-family:var(--sans); font-size:9px; font-style:normal;
+  font-weight:500; letter-spacing:0.2em; text-transform:lowercase;
+  line-height:1; margin-bottom:3px; color:inherit;
+}
+.phase-period {
+  font-size:9.5px; font-weight:500; letter-spacing:0.16em;
+  text-transform:uppercase; color:var(--text-dim); margin-bottom:8px;
+}
+.phase h3 {
+  font-family:var(--serif); font-size:20px; font-weight:400;
+  color:var(--text); margin-bottom:16px; letter-spacing:0.005em;
+}
+.phase ul { list-style:none; display:flex; flex-direction:column; gap:8px; }
+.phase ul li {
+  font-size:12.5px; font-weight:300; color:var(--text-dim);
+  padding-left:14px; position:relative; line-height:1.4;
+}
+.phase ul li::before {
+  content:''; position:absolute; left:0; top:6px;
+  width:4px; height:4px; border-radius:50%;
+  background:var(--gold); opacity:0.4;
+}
+
+.phase.active-phase {
+  border-color:var(--gold);
+  background:
+    radial-gradient(ellipse 90% 50% at 50% 0%,rgba(201,168,76,0.10) 0%,transparent 65%),
+    linear-gradient(180deg,var(--bg-card3),#100e0a);
+  box-shadow:inset 0 1px 0 rgba(255,220,150,0.08), 0 0 0 1px rgba(201,168,76,0.15), 0 18px 40px rgba(0,0,0,0.45), 0 0 60px rgba(201,168,76,0.08);
+}
+.phase.active-phase::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:1px;
+  background:linear-gradient(90deg,transparent 0%,var(--gold) 25%,var(--gold-light) 50%,var(--gold) 75%,transparent 100%);
+}
+.phase.active-phase .phase-index { color:rgba(201,168,76,0.20); }
+.phase.active-phase .phase-period { color:rgba(201,168,76,0.7); }
+.phase.active-phase h3 { color:var(--gold); font-style:italic; font-weight:500; }
+.phase.active-phase ul li { color:var(--text); }
+.phase.active-phase ul li::before { opacity:1; }
+
+.phase-now {
+  display:inline-flex; align-items:center; gap:6px;
+  font-size:9.5px; font-weight:600; letter-spacing:0.18em; text-transform:uppercase;
+  color:var(--gold); margin-bottom:8px;
+}
+.phase-now-dot {
+  width:6px; height:6px; border-radius:50%; background:var(--gold);
+  box-shadow:0 0 0 3px rgba(201,168,76,0.18), 0 0 10px var(--gold-glow);
+  animation:phasePulse 1.8s ease-in-out infinite;
+}
+@keyframes phasePulse {
+  0%,100%{box-shadow:0 0 0 3px rgba(201,168,76,0.18),0 0 10px var(--gold-glow)}
+  50%    {box-shadow:0 0 0 5px rgba(201,168,76,0.08),0 0 14px var(--gold-glow)}
+}
+
+/* ── MONETIZATION ── */
+.mono-list { list-style:none; display:flex; flex-direction:column; gap:0; }
+.mono-item {
+  padding:14px 0;
+  display:grid; grid-template-columns:104px 1fr; grid-template-rows:auto auto;
+  column-gap:14px;
+}
+.mono-i {
+  font-size:9px; font-weight:600; letter-spacing:0.18em; text-transform:uppercase;
+  color:var(--text-faint); grid-row:1 / span 2; grid-column:1;
+  padding-top:3px;
+}
+.mono-i .badge-soon {
+  display:block; width:100%; box-sizing:border-box; text-align:center;
+  margin:7px 0 0; font-size:10px; letter-spacing:0;
+  padding:2px 6px;
+}
+.mono-t {
+  font-family:var(--serif); font-size:17px; font-weight:500;
+  color:var(--text); grid-row:1; grid-column:2; letter-spacing:0.005em;
+}
+.mono-d {
+  font-size:12.5px; font-weight:300; color:var(--text-dim);
+  line-height:1.5; grid-row:2; grid-column:2;
+}
+
+/* ── CTA BLOCK ── */
+.cta-block {
+  padding:32px 22px; display:flex; flex-direction:column;
+  gap:14px; align-items:center; text-align:center;
+}
+.cta-block .block-label { justify-content:center; margin-bottom:4px; }
+
+.cta-block h2 {
+  font-family:var(--serif); font-size:28px; font-weight:400;
+  color:var(--text); margin:0;
+}
+.cta-sub {
+  font-size:13px; font-weight:300; color:var(--text-dim);
+  line-height:1.55; margin:-4px 0 4px; max-width:360px;
+}
+
+.btns { display:flex; flex-direction:column; gap:12px; width:100%; }
+
+.btn {
+  display:flex; align-items:center; justify-content:center; gap:10px;
+  width:100%; padding:18px;
+  border-radius:10px;
+  font-family:var(--sans); font-size:12px; font-weight:600;
+  letter-spacing:0.18em; text-transform:uppercase;
+  text-decoration:none; cursor:pointer; border:none;
+  transition:transform .15s, box-shadow .2s;
+  position:relative; overflow:hidden; will-change:transform;
+}
+.btn-primary {
+  background:linear-gradient(180deg,#e2c47a 0%,#c9a84c 50%,#a88a3a 100%);
+  color:#0a0a0a;
+  box-shadow:inset 0 1px 0 rgba(255,240,200,0.55), inset 0 -1px 0 rgba(80,55,15,0.5), 0 8px 24px rgba(201,168,76,0.22), 0 14px 30px rgba(0,0,0,0.35);
+  text-shadow:0 1px 0 rgba(255,235,180,0.35);
+}
+.btn-primary:active { transform:translateY(2px); }
+.btn-outline {
+  background:linear-gradient(180deg,rgba(201,168,76,0.06),rgba(201,168,76,0.02));
+  color:var(--gold); border:1px solid var(--border);
+  box-shadow:inset 0 1px 0 rgba(255,220,150,0.06), 0 6px 20px rgba(0,0,0,0.3);
+}
+.btn-outline:active { transform:translateY(1px); }
+
+.contact-inline {
+  font-size:12px; color:var(--text-dim); margin-top:-4px;
+}
+.contact-inline a {
+  color:var(--text-dim); text-decoration:none;
+  font-size:13px; font-weight:400; letter-spacing:0.01em;
+}
+.cta-creator { color:var(--gold); font-weight:500; }
+
+/* ── FACTS LIST ── */
+ul.facts { list-style:none; display:flex; flex-direction:column; gap:12px; }
+ul.facts li {
+  font-size:14px; font-weight:300; color:var(--text);
+  padding-left:18px; position:relative; line-height:1.55;
+}
+ul.facts li::before {
+  content:''; position:absolute; left:0; top:8px;
+  width:5px; height:5px; border-radius:50%;
+  background:var(--gold); box-shadow:0 0 8px var(--gold-glow);
+}
+ul.facts li a.fact-link {
+  color:inherit; text-decoration:none;
+  border-bottom:1px solid var(--border-soft);
+  transition:color .25s, border-color .25s;
+}
+ul.facts li a.fact-link:hover { color:var(--gold-light); border-color:rgba(212,175,55,0.5); }
+
+/* ── ROLES SCROLL ── */
+.roles-scroll {
+  display:flex; gap:12px; overflow-x:auto;
+  padding:4px 22px 16px; margin:0 -22px;
+  scroll-snap-type:x mandatory; scrollbar-width:none;
+  -webkit-overflow-scrolling:touch;
+}
+.roles-scroll::-webkit-scrollbar { display:none; }
+
+.role-card {
+  flex-shrink:0; width:130px;
+  background:var(--bg-card); border:1px solid var(--border);
+  border-radius:10px; overflow:hidden; scroll-snap-align:start;
+  position:relative; display:flex; flex-direction:column;
+  box-shadow:0 8px 20px rgba(0,0,0,0.35);
+}
+.role-img-wrap { aspect-ratio:3/4; overflow:hidden; background:#0d0d0d; position:relative; }
+.role-img-wrap img { width:100%; height:100%; object-fit:cover; object-position:center top; display:block; }
+.role-ph {
+  width:100%; height:100%; display:flex; align-items:center; justify-content:center;
+  background:radial-gradient(circle at 50% 40%,rgba(201,168,76,0.06),transparent 60%),#0d0d0d;
+  color:rgba(201,168,76,0.25); font-family:var(--serif); font-size:34px;
+}
+.role-meta { padding:10px 12px 12px; }
+.role-desc { font-size:11.5px; font-weight:300; color:var(--text-dim); line-height:1.45; }
+
+.badge-soon {
+  display:inline-block; font-family:var(--serif); font-style:italic;
+  font-size:12px; letter-spacing:0.02em; color:var(--gold-light);
+  border:1px solid var(--border-soft); border-radius:999px;
+  padding:2px 11px; background:var(--gold-dim);
+  vertical-align:middle; white-space:nowrap; margin-left:8px;
+}
+
+/* ── DESKTOP NOTICE ── */
+.desktop-notice {
+  font-size:12.5px; font-weight:500; letter-spacing:0.04em;
+  color:var(--text); margin-top:4px;
+}
+.desktop-notice::before {
+  content:''; display:inline-block; width:6px; height:6px; border-radius:50%;
+  background:var(--gold); box-shadow:0 0 8px var(--gold-glow);
+  margin-right:8px; vertical-align:2px;
+}
+
+/* ── CREATOR ── */
+.creator-hero {
+  display:flex; align-items:center; gap:20px;
+  padding:44px 22px 28px;
+  border-bottom:1px solid var(--border);
+}
+.photo-widget {
+  position:relative; width:96px; height:96px; flex-shrink:0;
+  display:flex; align-items:center; justify-content:center;
+}
+
+.creator-photo {
+  width:80px; height:80px; border-radius:50%;
+  border:1px solid var(--border);
+  object-fit:cover; object-position:center top;
+  box-shadow:inset 0 1px 0 rgba(255,220,150,0.08), inset 0 -8px 22px rgba(0,0,0,0.4), 0 0 24px rgba(201,168,76,0.08);
+  position:relative; z-index:1;
+}
+.creator-ph {
+  width:80px; height:80px; border-radius:50%;
+  background:var(--bg-card2); border:1px solid var(--border);
+  display:flex; align-items:center; justify-content:center;
+  font-family:var(--serif); font-size:28px; color:var(--text-faint);
+  position:relative; z-index:1;
+}
+
+.creator-info h1 { font-size:28px; line-height:1.1; }
+
+.creator-bio {
+  padding:22px 22px 0;
+  font-size:13.5px; font-weight:300; color:var(--text-dim); line-height:1.65;
+}
+
+/* stats — horizontal magazine strip: number above, caption below, hairline dividers */
+.stat-list {
+  list-style:none; display:flex; align-items:stretch;
+  padding:26px 22px; border-bottom:1px solid var(--border-soft);
+}
+.stat-item { flex:1; min-width:0; padding:0 14px; display:flex; flex-direction:column; gap:9px; }
+.stat-item + .stat-item { border-left:1px solid var(--border-soft); }
+.stat-item:first-child { padding-left:0; }
+.stat-item:last-child  { padding-right:0; }
+.stat-num {
+  font-family:var(--serif); font-size:38px; font-weight:300;
+  color:var(--gold); line-height:1;
+  text-shadow:0 0 24px rgba(201,168,76,0.18);
+}
+.stat-desc { font-size:11.5px; font-weight:300; color:var(--text); line-height:1.45; }
+
+.contact-block { padding:28px 22px; display:flex; flex-direction:column; gap:14px; }
+.contact-rows  { display:flex; flex-direction:column; gap:14px; }
+.contact-row   { display:flex; align-items:center; gap:14px; }
+.ic {
+  width:34px; height:34px; border-radius:8px;
+  background:linear-gradient(180deg,var(--bg-card2),var(--bg-card));
+  border:1px solid var(--border); display:flex; align-items:center;
+  justify-content:center; font-size:14px; color:var(--gold); flex-shrink:0;
+  box-shadow:inset 0 1px 0 rgba(255,220,150,0.06);
+}
+.contact-row a {
+  color:var(--text); text-decoration:none;
+  font-size:14px; font-weight:300; letter-spacing:0.01em;
+}
+
+/* tablet up */
+@media (min-width:640px) {
+  h1 { font-size:38px; }
+  .market-num { font-size:56px; }
+}
+
+/* ── DESKTOP (≥769px) ── */
+@media (min-width:769px) {
+  .header-wrap {
+    max-width:1140px; margin:0 auto; padding:0 48px;
+    display:flex; align-items:stretch; height:72px; gap:24px;
+  }
+  .logo-row { border-bottom:none; padding:0; flex:0 0 auto; }
+  .header-controls {
+    flex:1; align-items:stretch; gap:0;
+  }
+  nav {
+    flex:1; justify-content:center; overflow:visible;
+    align-items:stretch;
+  }
+  .tab { display:flex; align-items:center; padding:0 20px; }
+  .header-cta { display:flex; align-self:center; margin:10px 0 10px 16px; }
+
+  /* lang switcher back to inline pill with all three languages */
+  .lang { position:static; background:none; }
+  .lang button { display:block; }
+  .lang::after { display:none; }
+
+  .section { max-width:1140px; margin:0 auto; }
+
+  .hero         { padding:72px 48px 64px; text-align:left; }
+  .hero-sub     { white-space:normal; }
+  .m-br         { display:none; }
+  .rate-for     { display:inline; }
+  .block        { padding:44px 48px; }
+  .cta-block    { padding:44px 48px; }
+  .creator-hero { padding:52px 48px 40px; }
+  .stat-list    { padding:36px 48px; }
+  .stat-item    { padding:0 36px; }
+  .stat-num     { font-size:48px; }
+  .stat-desc    { font-size:13px; max-width:240px; }
+  .contact-block{ padding:36px 48px; }
+
+  h1 { font-size:52px; }
+  .creator-info h1 { font-size:38px; }
+
+  /* Hero split: text left 55%, demo/screenshot right 45% */
+  .split { flex-direction:row; align-items:flex-start; gap:48px; }
+  .split > div:first-child { flex:0 0 55%; }
+  .split > .demo-frame { flex:1; align-self:stretch; min-height:260px; }
+  .split > .video-embed-wide { flex:1; min-width:0; }
+
+  /* watch block: wide video + label centred */
+  #watchBlock .video-embed-wide { max-width:820px; margin:0 auto; }
+  #watchBlock .block-label { justify-content:center; }
+
+  /* bonuses: two columns, like the monetisation list */
+  .bonus-list {
+    display:grid; grid-template-columns:1fr 1fr;
+    column-gap:64px; row-gap:12px;
+  }
+
+  /* composition left, rating right — the picker drives both in one view */
+  .comp-rate-grid { display:grid; grid-template-columns:1fr auto; gap:56px; align-items:center; }
+  .rate-col { align-items:flex-start; text-align:left; }
+  .rate-col .rate-row { justify-content:flex-start; }
+  .sponsor-btn { display:inline-block; width:auto; margin:0 0 0 8px; }
+  .comp-bar { flex-direction:row; align-items:center; gap:24px; }
+  .comp-bar .block-label { margin-bottom:0; }
+  .mission-list { align-items:flex-start; }
+
+  /* hero trailer: vertical video pinned to the right, scales with viewport */
+  .split > .video-embed {
+    flex:0 0 clamp(220px, 23vw, 280px);
+    max-width:clamp(220px, 23vw, 280px);
+    margin:0 0 0 auto;
+  }
+  /* investors hero text takes all width left of the video (long RU/LT titles) */
+  #investors .hero .split > div:first-child { flex:1 1 auto; min-width:0; }
+
+  /* monetisation: two columns, no divider lines — spacing carries the structure */
+  .mono-list { display:grid; grid-template-columns:1fr 1fr; column-gap:64px; row-gap:8px; }
+
+  /* players CTA: sign-in line stays on one line */
+  .cta-sub-nowrap { white-space:nowrap; max-width:none; }
+
+  /* market 3-col (2-col variant for paired cards) */
+  .market { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+  .market.cols-2 { grid-template-columns:repeat(2,1fr); }
+
+  /* roadmap: all phases equal width, no scroll */
+  .roadmap-scroll { overflow-x:visible; cursor:default; padding:4px 0 16px; margin:0; }
+  .roadmap-scroll:active { cursor:default; }
+  .phase { flex:1; width:auto; min-width:0; }
+
+  /* roles 6-col grid */
+  .roles-scroll {
+    display:grid; grid-template-columns:repeat(6,1fr);
+    overflow-x:visible; padding:4px 48px 16px; margin:0;
+    gap:14px;
+  }
+  .role-card { width:auto; }
+
+  /* investors CTA: centred, buttons side by side */
+  #investors .cta-block .btns { flex-direction:row; width:auto; justify-content:center; }
+  #investors .cta-block .btn { width:auto; min-width:180px; }
+
+  /* players split: play/stream side by side */
+  .desktop-notice { display:block; }
+
+  /* creator: hero left + bio right in one row; stats strip and contacts full width.
+     Must target #creator.active, not bare #creator (ID specificity vs .section display:none) */
+  #creator.active {
+    display:grid; grid-template-columns:auto 1fr;
+    grid-template-areas:"hero bio" "stats stats" "contact contact";
+    align-items:center;
+  }
+  #creator .creator-hero  { grid-area:hero; border-bottom:none; }
+  #creator .creator-bio   { grid-area:bio; padding:28px 48px 28px 0; max-width:820px; }
+  #creator .stat-list     { grid-area:stats; }
+  #creator .contact-block { grid-area:contact; }
+
+  /* contacts in one line with the label */
+  .contact-block { flex-direction:row; align-items:center; gap:44px; }
+  .contact-block .block-label { margin-bottom:0; }
+  .contact-rows { flex-direction:row; flex-wrap:wrap; gap:18px 44px; }
+
+}
+</style>
+</head>
+<body>
+<div class="app">
+
+<!-- ═══════════════════════ HEADER ═══════════════════════ -->
+<header>
+  <div class="header-wrap">
+    <div class="logo-row">
+      <a href="../../" style="display:flex;align-items:center;gap:12px;text-decoration:none;">
+        <img class="logo-img" src="../../images/logo.png" alt="MafiaInLT">
+        <div class="logo-text">
+          <b data-i18n="brand.name">Mafia Online</b>
+          <span data-i18n="brand.tag">original platform by MafiaInLT</span>
+        </div>
+      </a>
+    </div>
+    <div class="header-controls">
+      <nav>
+        <button class="tab active" data-tab="investors" data-i18n="nav.investors">Investors</button>
+        <button class="tab" data-tab="players"   data-i18n="nav.players">Players</button>
+        <button class="tab" data-tab="creator"   data-i18n="nav.creator">Creator</button>
+      </nav>
+      <div class="lang" role="group">
+        <button data-lang="en" class="active">EN</button>
+        <button data-lang="lt">LT</button>
+        <button data-lang="ru">RU</button>
+      </div>
+      <a class="header-cta" data-goto="players" data-i18n="cta.play">Play now</a>
+    </div>
+  </div>
+</header>
+
+<!-- ═══════════════════════ INVESTORS ═══════════════════════ -->
+<section class="section active" id="investors">
+
+  <div class="hero">
+    <div class="split">
+      <div>
+        <h1 data-i18n="inv.title">The first Mafia platform with live video per seat, voice and a unique game flow.</h1>
+        <p class="hero-sub"><span data-i18n="inv.sub">Fully automated gameplay and a rating system with bonus rewards —</span> <br class="m-br"> <span data-i18n="inv.sub2">a new format for streaming.</span></p>
+        <span class="badge"><span class="dot"></span><span data-i18n="inv.badge">Live since May 22, 2026</span></span>
+      </div>
+      <!-- exhibition trailer — YouTube Short switches with language via data-i18n-video -->
+      <div class="video-embed">
+        <iframe data-i18n-video src="" title="Mafia Online — gameplay preview" loading="lazy"
+                referrerpolicy="origin"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen frameborder="0"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <!-- TRACTION — update session count from DB after each milestone -->
+  <div class="block block-flush">
+    <p class="block-label" data-i18n="inv.tr.label">Traction</p>
+    <div class="market">
+      <div class="market-card">
+        <div class="market-num">49<em>+</em></div>
+        <div class="market-lab" data-i18n="inv.tr1.lab">Live sessions played</div>
+        <p class="market-desc" data-i18n="inv.tr1.desc">May–June 2026</p>
+      </div>
+      <div class="market-card">
+        <div class="market-num">118</div>
+        <div class="market-lab" data-i18n="inv.tr2.lab">Unique players</div>
+        <p class="market-desc" data-i18n="inv.tr2.desc">Since launch, including exhibition games</p>
+      </div>
+      <div class="market-card">
+        <div class="market-num">€40</div>
+        <div class="market-lab" data-i18n="inv.tr3.lab">Monthly infrastructure</div>
+        <p class="market-desc" data-i18n="inv.tr3.desc">Server and domains — total running cost today</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- MARKET -->
+  <div class="block">
+    <p class="block-label" data-i18n="inv.market.label">Market</p>
+    <div class="market">
+      <div class="market-card">
+        <div class="market-num">$1.62<em>B</em></div>
+        <div class="market-lab" data-i18n="inv.m1.lab">Social Deduction Games</div>
+        <p class="market-desc" data-i18n="inv.m1.desc">Global market size, 2024</p>
+        <p class="market-src"><a href="https://growthmarketreports.com/report/social-deduction-games-market" target="_blank" rel="noopener">Growth Market Reports, 2025</a></p>
+      </div>
+      <div class="market-card">
+        <div class="market-num">$10<em>B</em></div>
+        <div class="market-lab" data-i18n="inv.m2.lab">Game Streaming</div>
+        <p class="market-desc" data-i18n="inv.m2.desc">Global market size, 2024</p>
+        <p class="market-src"><a href="https://www.grandviewresearch.com/industry-analysis/game-streaming-market-report" target="_blank" rel="noopener">Grand View Research, 2025</a></p>
+      </div>
+      <div class="market-card">
+        <div class="market-num">9.3<em>%</em></div>
+        <div class="market-lab" data-i18n="inv.m3.lab">CAGR</div>
+        <p class="market-desc" data-i18n="inv.m3.desc">Social Deduction segment growth through 2033</p>
+        <p class="market-src"><a href="https://growthmarketreports.com/report/social-deduction-games-market" target="_blank" rel="noopener">Growth Market Reports, 2025</a></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ROADMAP -->
+  <div class="block">
+    <p class="block-label" data-i18n="inv.road.label">Roadmap</p>
+    <div class="roadmap-scroll" id="roadmapScroll">
+
+      <div class="phase">
+        <span class="phase-index"><small>phase</small>01</span>
+        <div class="phase-period" data-i18n="inv.p1.period">Live</div>
+        <h3 data-i18n="inv.p1.title">Core platform</h3>
+        <ul>
+          <li data-i18n="inv.p1.i1">Real-time video &amp; voice per seat</li>
+          <li data-i18n="inv.p1.i2">Full role system</li>
+          <li data-i18n="inv.p1.i4">Public &amp; private rooms</li>
+          <li data-i18n="inv.p1.i5">Host &amp; auto modes</li>
+          <li data-i18n="inv.p1.i8">Personal stats &amp; ELO rating</li>
+          <li data-i18n="inv.p1.i3">OAuth login (Google, Discord, Twitch)</li>
+          <li data-i18n="inv.p1.i6">Reconnect system</li>
+          <li data-i18n="inv.p1.i7">Spectator mode</li>
+        </ul>
+      </div>
+
+      <div class="phase active-phase">
+        <span class="phase-index"><small>phase</small>02</span>
+        <div class="phase-now"><span class="phase-now-dot"></span><span data-i18n="phase.now">Now</span></div>
+        <h3 data-i18n="inv.p2.title">Growth</h3>
+        <ul>
+          <li data-i18n="inv.p2.i3">Subscription system</li>
+          <li data-i18n="inv.p2.i4">Cosmetics &amp; skins</li>
+          <li data-i18n="inv.p2.i5">UI &amp; animation polish</li>
+          <li data-i18n="inv.p2.i2">Streamer / host profile &amp; stats</li>
+          <li data-i18n="inv.p2.i6">Streamer earnings — donations &amp; revenue share</li>
+        </ul>
+      </div>
+
+      <div class="phase">
+        <span class="phase-index"><small>phase</small>03</span>
+        <div class="phase-period" data-i18n="inv.p3.period">Late 2026</div>
+        <h3 data-i18n="inv.p3.title">Scale</h3>
+        <ul>
+          <li data-i18n="inv.p3.i1">Online tournaments</li>
+          <li data-i18n="inv.p3.i2">Audience live voting</li>
+          <li data-i18n="inv.p3.i4">New roles</li>
+          <li data-i18n="inv.p3.i3">Mobile version</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- MONETIZATION -->
+  <div class="block">
+    <p class="block-label" data-i18n="inv.mono.label">How it earns</p>
+    <ul class="mono-list">
+      <li class="mono-item">
+        <span class="mono-i"><span data-i18n="inv.mono1.i">Recurring</span><span class="badge-soon" data-i18n="inv.mono1.s">In development</span></span>
+        <span class="mono-t" data-i18n="inv.mono1.t">Subscription</span>
+        <span class="mono-d" data-i18n="inv.mono1.d">Unlimited private rooms, host mode &amp; ranked system with win-based rewards.</span>
+      </li>
+      <li class="mono-item">
+        <span class="mono-i"><span data-i18n="inv.mono2.i">Margin</span><span class="badge-soon" data-i18n="inv.mono2.s">Planned</span></span>
+        <span class="mono-t" data-i18n="inv.mono2.t">Cosmetics</span>
+        <span class="mono-d" data-i18n="inv.mono2.d">Card designs, custom emoji reactions.</span>
+      </li>
+      <li class="mono-item">
+        <span class="mono-i"><span data-i18n="inv.mono3.i">Per session</span><span class="badge-soon" data-i18n="inv.mono3.s">Planned</span></span>
+        <span class="mono-t" data-i18n="inv.mono3.t">Pay-per-room</span>
+        <span class="mono-d" data-i18n="inv.mono3.d">Single session purchase.</span>
+      </li>
+      <li class="mono-item">
+        <span class="mono-i"><span data-i18n="inv.mono4.i">Scaling</span><span class="badge-soon" data-i18n="inv.mono4.s">Payments live</span></span>
+        <span class="mono-t" data-i18n="inv.mono4.t">Donations</span>
+        <span class="mono-d" data-i18n="inv.mono4.d">Viewer-to-streamer, revenue share model.</span>
+      </li>
+      <li class="mono-item">
+        <span class="mono-i"><span data-i18n="inv.mono5.i">Passive</span><span class="badge-soon" data-i18n="inv.mono5.s">Planned</span></span>
+        <span class="mono-t" data-i18n="inv.mono5.t">Advertising</span>
+        <span class="mono-d" data-i18n="inv.mono5.d">Brand placement in public rooms.</span>
+      </li>
+      <li class="mono-item">
+        <span class="mono-i"><span data-i18n="inv.mono6.i">Events</span><span class="badge-soon" data-i18n="inv.mono6.s">Planned</span></span>
+        <span class="mono-t" data-i18n="inv.mono6.t">Tournaments</span>
+        <span class="mono-d" data-i18n="inv.mono6.d">Entry fees and sponsored prize pools.</span>
+      </li>
+    </ul>
+  </div>
+
+  <!-- WATCH -->
+  <div class="block" id="watchBlock">
+    <p class="block-label" data-i18n="inv.watch.label">See it in action</p>
+    <div class="video-embed-wide">
+      <iframe data-i18n-video="watch.video.id" src="https://www.youtube.com/embed/yHLq2zaS74Y"
+              title="Mafia Online — live gameplay" loading="lazy" referrerpolicy="origin"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen frameborder="0"></iframe>
+    </div>
+  </div>
+
+  <!-- THE ASK -->
+  <div class="block">
+    <p class="block-label" data-i18n="inv.ask.label">What we're raising</p>
+    <div class="market cols-2">
+      <div class="market-card">
+        <div class="market-num">€50<em>k+</em></div>
+        <div class="market-lab" data-i18n="inv.ask1.name">Marketing &amp; Community Growth</div>
+        <p class="market-desc" data-i18n="inv.ask1.desc">Streamer collaborations, YouTube and social media advertising, gaming expo presence, and tournament organisation.</p>
+      </div>
+      <div class="market-card">
+        <div class="market-num">€100<em>k+</em></div>
+        <div class="market-lab" data-i18n="inv.ask2.name">Product Development &amp; Team</div>
+        <p class="market-desc" data-i18n="inv.ask2.desc">A UI/UX designer and a developer to prepare the platform for horizontal scaling, plus operating costs for the team during this stage.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta-block">
+    <div class="btns">
+      <a class="btn btn-primary"
+         href="https://mail.google.com/mail/?view=cm&to=mafiaonlinegame.en@gmail.com&su=Mafia%20Online%20%E2%80%94%20investor%20deck"
+         data-mobile-href="mailto:mafiaonlinegame.en@gmail.com?subject=Mafia Online — investor deck"
+         target="_blank" rel="noopener"
+         data-i18n="inv.cta.deck">Request the deck</a>
+      <a class="btn btn-outline" href="https://mafiaonlinegame.com" target="_blank" rel="noopener"
+         data-i18n="inv.cta.demo">See the live product</a>
+    </div>
+    <p class="contact-inline">
+      <a href="#" data-goto-tab="creator" data-i18n-html="inv.cta.contact">Get in touch or call the <span class="cta-creator">creator</span> directly</a>
+    </p>
+  </div>
+
+</section>
+
+<!-- ═══════════════════════ PLAYERS ═══════════════════════ -->
+<section class="section" id="players">
+
+  <div class="hero">
+    <div class="split">
+      <div>
+        <h1 data-i18n="pl.title">A live Mafia game for 10 players — video, voice &amp; real role actions.</h1>
+        <p class="hero-sub" data-i18n="pl.sub">Browser-based — no download.</p>
+      </div>
+      <div class="video-embed-wide">
+        <iframe data-i18n-video="pl.video.id" src="https://www.youtube.com/embed/yHLq2zaS74Y"
+                title="Mafia Online — gameplay" loading="lazy" referrerpolicy="origin"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen frameborder="0"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <!-- ROLES -->
+  <div class="block block-flush" style="padding-bottom:0;">
+    <p class="block-label" data-i18n="pl.roles.label">The roles</p>
+  </div>
+  <div class="roles-scroll">
+
+    <div class="role-card">
+      <div class="role-img-wrap">
+        <img src="../../images/roles/MAFIA.jpg" alt="Mafia" onerror="this.parentElement.innerHTML='<div class=\'role-ph\'>☠</div>'">
+        <span class="role-count" data-rc="mafia">× 3</span>
+      </div>
+      <div class="role-meta">
+        <div class="role-desc" data-i18n="role.mafia.d">Kill by night, blend in by day.</div>
+      </div>
+    </div>
+
+    <div class="role-card">
+      <div class="role-img-wrap">
+        <img src="../../images/roles/DOCTOR.jpg" alt="Doctor" onerror="this.parentElement.innerHTML='<div class=\'role-ph\'>✚</div>'">
+        <span class="role-count" data-rc="doctor">× 1</span>
+      </div>
+      <div class="role-meta">
+        <div class="role-desc" data-i18n="role.doctor.d">Each night, tries to guess and save the Mafia's target.</div>
+      </div>
+    </div>
+
+    <div class="role-card">
+      <div class="role-img-wrap">
+        <img src="../../images/roles/SHERIFF.jpg" alt="Sheriff" onerror="this.parentElement.innerHTML='<div class=\'role-ph\'>✦</div>'">
+        <span class="role-count" data-rc="sheriff">× 1</span>
+      </div>
+      <div class="role-meta">
+        <div class="role-desc" data-i18n="role.sheriff.d">Checks one player's true alignment each night.</div>
+      </div>
+    </div>
+
+    <div class="role-card">
+      <div class="role-img-wrap">
+        <img src="../../images/roles/LAWYER.jpg" alt="Lawyer" onerror="this.parentElement.innerHTML='<div class=\'role-ph\'>⚖</div>'">
+        <span class="role-count" data-rc="lawyer">× 1</span>
+      </div>
+      <div class="role-meta">
+        <div class="role-desc" data-i18n="role.lawyer.d">Breaks the tie — picks who is eliminated when votes split.</div>
+      </div>
+    </div>
+
+    <div class="role-card">
+      <div class="role-img-wrap">
+        <img src="../../images/roles/BARMAN.jpg" alt="Barman" onerror="this.parentElement.innerHTML='<div class=\'role-ph\'>◈</div>'">
+      </div>
+      <div class="role-meta">
+        <div class="role-desc"><span data-i18n="role.barman.d">Reveals one player's true role.</span> <span class="badge-soon" data-i18n="badge.soon">Coming soon</span></div>
+      </div>
+    </div>
+
+    <div class="role-card">
+      <div class="role-img-wrap">
+        <img src="../../images/roles/CIVILIAN.jpg" alt="Civilian" onerror="this.parentElement.innerHTML='<div class=\'role-ph\'>◯</div>'">
+        <span class="role-count" data-rc="civilian">× 4</span>
+      </div>
+      <div class="role-meta">
+        <div class="role-desc" data-i18n="role.civilian.d">Find your allies and vote the Mafia out.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- COMPOSITION & RATING — one picker drives role counts and points -->
+  <div class="block">
+    <div class="comp-rate-grid">
+      <div class="comp-col">
+        <div class="comp-bar">
+          <p class="block-label" data-i18n="pl.comp.label">Player composition</p>
+          <div class="size-picker" id="sizePicker" role="group" aria-label="Number of players">
+            <button class="size-btn" data-n="4">4</button>
+            <button class="size-btn" data-n="5">5</button>
+            <button class="size-btn" data-n="6">6</button>
+            <button class="size-btn" data-n="7">7</button>
+            <button class="size-btn" data-n="8">8</button>
+            <button class="size-btn" data-n="9">9</button>
+            <button class="size-btn active" data-n="10">10</button>
+          </div>
+        </div>
+        <ul class="mission-list">
+          <li class="mission-item"><b data-i18n="pl.mis.mafia.label">Mafia</b> — <span data-i18n="pl.mis.mafia.d">eliminate all peaceful players</span></li>
+          <li class="mission-item"><b data-i18n="pl.mis.town.label">Peaceful players</b> — <span data-i18n="pl.mis.town.d">find and vote out the Mafia</span></li>
+        </ul>
+      </div>
+      <div class="rate-col">
+        <p class="block-label" data-i18n="pl.rate.label">How the rating works</p>
+        <div class="rate-row">
+          <span class="rate-chip"><span data-i18n="pl.rate.win">Win</span><b id="rateWin">+40</b></span>
+          <span class="rate-chip rate-loss"><span data-i18n="pl.rate.loss">Loss</span><b id="rateLoss">−22</b></span>
+          <span class="rate-for"><span class="rate-n">10</span> <span data-i18n="pl.rate.players">players</span></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RATING BONUSES -->
+  <div class="block">
+    <p class="block-label" data-i18n="pl.rate.bonus.label">Individual bonuses</p>
+    <ul class="bonus-list">
+      <li class="bonus-item"><span class="bonus-txt" data-i18n="pl.rate.b1">Correct vote — Mafia eliminated</span><span class="pts">+15</span></li>
+      <li class="bonus-item"><span class="bonus-txt" data-i18n="pl.rate.b2">Sheriff identified the Mafia</span><span class="pts">+15</span></li>
+      <li class="bonus-item"><span class="bonus-txt" data-i18n="pl.rate.b3">Doctor saved a player</span><span class="pts">+22</span></li>
+      <li class="bonus-item"><span class="bonus-txt" data-i18n="pl.rate.b4">Lawyer chose the Mafia in a tie</span><span class="pts">+22</span></li>
+      <li class="bonus-item"><span class="bonus-txt" data-i18n="pl.rate.b5">Mafia eliminated a role at night (Sheriff / Doctor / Lawyer)</span><span class="pts">+15</span></li>
+      <li class="bonus-item"><span class="bonus-txt" data-i18n="pl.rate.b6">Survived to the end</span><span class="pts">+8</span></li>
+    </ul>
+    <p class="rate-callout" data-i18n="pl.rate.note">Only the winning team receives bonuses and survival points.</p>
+  </div>
+
+  <!-- WHY DIFFERENT -->
+  <div class="block">
+    <p class="block-label" data-i18n="pl.facts.label">Why it works differently</p>
+    <ul class="facts">
+      <li data-i18n="pl.f1">Rating system is live — compete and earn exclusive card backs</li>
+      <li data-i18n="pl.f8">Two modes — host-controlled for streamers, fully automated for everyone else</li>
+      <li><a class="fact-link" href="https://mafiain.lt/apie-mus.html" target="_blank" rel="noopener" data-i18n="pl.f2">Original game flow refined over 11 years of live club games</a></li>
+      <li data-i18n="pl.f3">Every role has real impact — night actions, day votes, tie-breaks</li>
+      <li data-i18n="pl.f5">Public and private rooms — join an open table or create your own</li>
+      <li><span data-i18n="pl.f6">Tournaments</span> <span class="badge-soon" data-i18n="badge.soon">Coming soon</span> <a class="sponsor-btn" data-sponsor href="https://mail.google.com/mail/?view=cm&to=mafiaonlinegame.en@gmail.com&su=Mafia%20Online%20%E2%80%94%20sponsorship" target="_blank" rel="noopener" data-i18n="btn.sponsor">Become a sponsor</a></li>
+    </ul>
+  </div>
+
+  <!-- PLAY + STREAM -->
+  <div class="block">
+    <div class="split" style="gap:32px;">
+      <div>
+        <p class="block-label" data-i18n="pl.play.label">Play</p>
+        <ul class="facts">
+          <li><span data-i18n="pl.play1">100 / 500 / 1000 wins — exclusive player card backs</span> <span class="badge-soon" data-i18n="badge.soon">Coming soon</span></li>
+          <li data-i18n="pl.play2">20–35 min per session</li>
+          <li><span data-i18n="pl.play3">Prizes and branded merch</span> <span class="badge-soon" data-i18n="badge.soon">Coming soon</span> <a class="sponsor-btn" data-sponsor href="https://mail.google.com/mail/?view=cm&to=mafiaonlinegame.en@gmail.com&su=Mafia%20Online%20%E2%80%94%20sponsorship" target="_blank" rel="noopener" data-i18n="btn.sponsor">Become a sponsor</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="block-label" data-i18n="pl.stream.label">Stream</p>
+        <ul class="facts">
+          <li data-i18n="pl.stream1">Viewers can join and watch via spectator mode</li>
+          <li data-i18n="pl.stream2">Collaborate with other streamers in an exclusive room</li>
+          <li>
+            <span data-i18n="pl.stream3">Earn from viewer donations</span>
+            <span class="badge-soon" data-i18n="badge.soon">Coming soon</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta-block">
+    <h2 data-i18n="pl.cta.h">Start your first game</h2>
+    <p class="cta-sub cta-sub-nowrap" data-i18n="pl.cta.sub">Sign in with Google, Discord or Twitch — no download.</p>
+    <div class="btns">
+      <a class="btn btn-primary" href="https://mafiaonlinegame.com" target="_blank" rel="noopener" data-i18n="cta.play">Play now</a>
+    </div>
+    <p class="desktop-notice" data-i18n="pl.notice">Currently desktop only. Mobile version — late 2026.</p>
+  </div>
+
+</section>
+
+<!-- ═══════════════════════ CREATOR ═══════════════════════ -->
+<section class="section" id="creator">
+
+  <div class="creator-hero">
+    <div class="photo-widget">
+      <img class="creator-photo" src="../../images/team/oleg-online.jpg" alt="Oleg Čeklu"
+           onerror="this.outerHTML='<div class=\'creator-ph\'>O</div>'">
+    </div>
+    <div class="creator-info">
+      <h1><span data-i18n="cr.name1">Oleg</span> <em data-i18n="cr.name2">Cheklu</em></h1>
+    </div>
+  </div>
+
+  <p class="creator-bio" data-i18n="cr.bio">Single-handedly designed and built the entire platform — to bring the live energy of the game online. The game flow is shaped to create space for genuine emotional interaction between players.</p>
+
+  <ul class="stat-list">
+    <li class="stat-item">
+      <span class="stat-num" data-i18n="cr.s1.num">17</span>
+      <span class="stat-desc" data-i18n="cr.s1.desc">years of live performance and event organisation</span>
+    </li>
+    <li class="stat-item">
+      <span class="stat-num" data-i18n="cr.s2.num">15</span>
+      <span class="stat-desc" data-i18n="cr.s2.desc">years of therapeutic practice and emotional intelligence development</span>
+    </li>
+    <li class="stat-item">
+      <span class="stat-num" data-i18n="cr.s3.num">11</span>
+      <span class="stat-desc" data-i18n="cr.s3.desc">years running a self-founded live Mafia club</span>
+    </li>
+  </ul>
+
+  <div class="contact-block">
+    <p class="block-label" data-i18n="cr.contact.label">Contact</p>
+    <div class="contact-rows">
+      <div class="contact-row">
+        <span class="ic">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/></svg>
+        </span>
+        <a href="mailto:mafiaonlinegame.en@gmail.com" data-i18n-href="cr.email" data-i18n-text="cr.email.text">mafiaonlinegame.en@gmail.com</a>
+      </div>
+      <div class="contact-row">
+        <span class="ic">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.75 12 19.79 19.79 0 0 1 1.68 3.35 2 2 0 0 1 3.68 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.69a16 16 0 0 0 6.34 6.34l1.06-1.06a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        </span>
+        <a href="tel:+37067168072">+370 67 168 072</a>
+      </div>
+      <div class="contact-row">
+        <span class="ic">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        </span>
+        <a href="https://olegcheklu.eu/en/" data-i18n-href="cr.web" target="_blank" rel="noopener">olegcheklu.eu</a>
+      </div>
+    </div>
+  </div>
+
+</section>
+</div><!-- .app -->
+
+
+<script>
+// ── i18n ──────────────────────────────────────────────────
+const STRINGS = {
+  en: {
+    'brand.name': 'Mafia Online',
+    'brand.tag': 'original platform by MafiaInLT',
+    'nav.investors': 'Investors',
+    'nav.players': 'Players',
+    'nav.creator': 'Creator',
+    'cta.play': 'Play now',
+    'inv.title': 'The first Mafia platform with live video per seat, voice and a unique game flow.',
+    'inv.sub': 'Fully automated gameplay and a rating system with bonus rewards —',
+    'inv.sub2': 'a new format for streaming.',
+    'inv.badge': 'Live since May 22, 2026',
+    'inv.tr.label': 'Traction',
+    'inv.tr1.lab': 'Live sessions played',
+    'inv.tr1.desc': 'May–June 2026',
+    'inv.tr2.lab': 'Unique players',
+    'inv.tr2.desc': 'Since launch, including exhibition games',
+    'inv.tr3.lab': 'Monthly infrastructure',
+    'inv.tr3.desc': 'Server and domains — total running cost today',
+    'inv.market.label': 'Market',
+    'inv.m1.lab': 'Social Deduction Games',
+    'inv.m1.desc': 'Global market size, 2024',
+    'inv.m2.lab': 'Game Streaming',
+    'inv.m2.desc': 'Global market size, 2024',
+    'inv.m3.lab': 'CAGR',
+    'inv.m3.desc': 'Social Deduction segment growth through 2033',
+    'inv.road.label': 'Roadmap',
+    'inv.p1.period': 'Live',
+    'inv.p1.title': 'Core platform',
+    'inv.p1.i1': 'Real-time video & voice per seat',
+    'inv.p1.i2': 'Full role system',
+    'inv.p1.i3': 'OAuth login (Google, Discord, Twitch)',
+    'inv.p1.i4': 'Public & private rooms',
+    'inv.p1.i5': 'Host & auto modes',
+    'inv.p1.i6': 'Reconnect system',
+    'inv.p1.i7': 'Spectator mode',
+    'inv.p1.i8': 'Personal stats & ELO rating',
+    'inv.p2.title': 'Growth',
+    'inv.p2.i2': 'Streamer / host profile & stats',
+    'inv.p2.i3': 'Subscription system',
+    'inv.p2.i4': 'Cosmetics & skins',
+    'inv.p2.i5': 'UI & animation polish',
+    'inv.p2.i6': 'Streamer earnings — donations & revenue share',
+    'inv.p3.title': 'Scale',
+    'inv.p3.period': 'Late 2026',
+    'inv.p3.i1': 'Online tournaments',
+    'inv.p3.i2': 'Audience live voting',
+    'inv.p3.i3': 'Mobile version',
+    'inv.p3.i4': 'New roles',
+    'inv.mono.label': 'How it earns',
+    'inv.mono1.i': 'Recurring',
+    'inv.mono1.t': 'Subscription',
+    'inv.mono1.s': 'In development',
+    'inv.mono1.d': 'Unlimited private rooms, host mode & ranked system with win-based rewards.',
+    'inv.mono2.i': 'Margin',
+    'inv.mono2.t': 'Cosmetics',
+    'inv.mono2.s': 'Planned',
+    'inv.mono2.d': 'Card designs, custom emoji reactions.',
+    'inv.mono3.i': 'Per session',
+    'inv.mono3.t': 'Pay-per-room',
+    'inv.mono3.s': 'Planned',
+    'inv.mono3.d': 'Single session purchase.',
+    'inv.mono4.i': 'Scaling',
+    'inv.mono4.t': 'Donations',
+    'inv.mono4.s': 'Payments live',
+    'inv.mono4.d': 'Viewer-to-streamer, revenue share model.',
+    'inv.mono5.i': 'Passive',
+    'inv.mono5.t': 'Advertising',
+    'inv.mono5.s': 'Planned',
+    'inv.mono5.d': 'Brand placement in public rooms.',
+    'inv.mono6.i': 'Events',
+    'inv.mono6.t': 'Tournaments',
+    'inv.mono6.s': 'Planned',
+    'inv.mono6.d': 'Entry fees, sponsored prize pools and event merch.',
+    'inv.cta.label': 'Get in touch',
+    'inv.cta.deck': 'Request the deck',
+    'inv.cta.demo': 'See the live product',
+    'inv.cta.contact': 'Get in touch or call the <span class="cta-creator">creator</span> directly',
+    'inv.video.id': 'Edvq2hUQ2JM',
+    'inv.watch.label': 'See it in action',
+    'watch.video.id': 'yHLq2zaS74Y',
+    'inv.ask.label': 'What we\'re raising',
+    'inv.ask1.name': 'Marketing & Community Growth',
+    'inv.ask1.desc': 'Streamer collaborations, YouTube and social media advertising, gaming expo presence, tournament organisation, and video production.',
+    'inv.ask2.name': 'Product Development & Team',
+    'inv.ask2.desc': 'A UI/UX designer and a developer for horizontal scaling of the platform + operating costs for the team during this stage.',
+    'pl.title': 'A live Mafia game for 10 players — video, voice & real role actions.',
+    'pl.sub': 'Browser-based — no download.',
+    'pl.video.id': 'yHLq2zaS74Y',
+    'pl.facts.label': 'Why it works differently',
+    'pl.f1': 'Rating system is live — compete and earn exclusive card backs',
+    'pl.f8': 'Two modes — host-controlled for streamers, fully automated for everyone else',
+    'pl.f2': 'Original game flow refined over 11 years of live club games',
+    'pl.f3': 'Every role has real impact — night actions, day votes, tie-breaks',
+    'pl.f5': 'Public and private rooms — join an open table or create your own',
+    'pl.f6': 'Tournaments',
+    'btn.sponsor': 'Become a sponsor',
+    'pl.comp.label': 'Player composition',
+    'pl.mis.mafia.label': 'Mafia',
+    'pl.mis.mafia.d': 'eliminate all peaceful players',
+    'pl.mis.town.label': 'Peaceful players',
+    'pl.mis.town.d': 'find and vote out the Mafia',
+    'pl.roles.label': 'The roles',
+    'role.mafia.n': 'Mafia',
+    'role.mafia.d': 'Kill by night, blend in by day.',
+    'role.doctor.n': 'Doctor',
+    'role.doctor.d': 'Each night, tries to guess and save the Mafia\'s target.',
+    'role.sheriff.n': 'Sheriff',
+    'role.sheriff.d': 'Checks one player\'s true alignment each night.',
+    'role.lawyer.n': 'Lawyer',
+    'role.lawyer.d': 'Breaks the tie — picks who is eliminated when votes split.',
+    'role.barman.d': 'Reveals one player\'s true role.',
+    'role.civilian.n': 'Civilian',
+    'role.civilian.d': 'Find your allies and vote the Mafia out.',
+    'pl.rate.label': 'How the rating works',
+    'pl.rate.win': 'Win',
+    'pl.rate.loss': 'Loss',
+    'pl.rate.players': 'players',
+    'pl.rate.bonus.label': 'Individual bonuses',
+    'pl.rate.b1': 'Correct vote — Mafia eliminated',
+    'pl.rate.b2': 'Sheriff identified the Mafia',
+    'pl.rate.b3': 'Doctor saved a player',
+    'pl.rate.b4': 'Lawyer chose the Mafia in a tie',
+    'pl.rate.b5': 'Mafia eliminated a role at night (Sheriff / Doctor / Lawyer)',
+    'pl.rate.b6': 'Survived to the end',
+    'pl.rate.note': 'Only the winning team receives bonuses and survival points.',
+    'pl.play.label': 'Play',
+    'pl.play1': '100 / 500 / 1000 wins — exclusive player card backs',
+    'pl.play2': '20–35 min per session',
+    'pl.play3': 'Prizes and branded merch',
+    'pl.stream.label': 'Stream',
+    'pl.stream1': 'Viewers can join and watch via spectator mode',
+    'pl.stream2': 'Collaborate with other streamers in an exclusive room',
+    'pl.stream3': 'Earn from viewer donations',
+    'pl.cta.h': 'Start your first game',
+    'pl.cta.sub': 'Sign in with Google, Discord or Twitch — no download.',
+    'pl.notice': 'Currently desktop only. Mobile version — late 2026.',
+    'cr.name1': 'Oleg', 'cr.name2': 'Cheklu',
+    'cr.bio': 'Single-handedly designed and built the entire platform — to bring the live energy of the game online. The game flow is shaped to create space for genuine emotional interaction between players.',
+    'cr.s1.num': '17', 'cr.s1.desc': 'years of live performance and event organisation',
+    'cr.s2.num': '15', 'cr.s2.desc': 'years of therapeutic practice and emotional intelligence development',
+    'cr.s3.num': '11', 'cr.s3.desc': 'years running a self-founded live Mafia club',
+    'cr.contact.label': 'Contact',
+    'cr.email': 'mailto:mafiaonlinegame.en@gmail.com',
+    'cr.email.text': 'mafiaonlinegame.en@gmail.com',
+    'cr.web': 'https://olegcheklu.eu/en/',
+    'meta.title': 'Mafia Online — Play Online Mafia with Live Video | mafiaonlinegame.com',
+    'meta.desc': 'Play Online Mafia with live video per player. Full role system, no app required. Browser-based Mafia game for streamers and players.',
+    'meta.og.title': 'Mafia Game Online — original platform by MafiaInLT',
+    'meta.og.desc': 'Browser-based Mafia with live video per seat. Full role system, no app, no download. Built for streamers and players.',
+    'phase.now': 'Now',
+    'badge.soon': 'Coming soon',
+  },
+  lt: {
+    'brand.name': 'Mafia Online',
+    'brand.tag': 'originali MafiaInLT platforma',
+    'nav.investors': 'Investuotojai',
+    'nav.players': 'Žaidėjai',
+    'nav.creator': 'Kūrėjas',
+    'cta.play': 'Žaisti',
+    'inv.title': 'Pirmoji Mafijos platforma, sujungianti gyvą vaizdą ir balsą kiekvienam žaidėjui bei unikalią žaidimo eigą.',
+    'inv.sub': 'Automatizuotas žaidimas ir reitingų sistema su premijomis —',
+    'inv.sub2': 'naujas formatas transliacijoms.',
+    'inv.badge': 'Veikia nuo 2026 m. gegužės 22 d.',
+    'inv.tr.label': 'Rezultatai',
+    'inv.tr1.lab': 'Sužaista gyvų sesijų',
+    'inv.tr1.desc': '2026 m. gegužė–birželis',
+    'inv.tr2.lab': 'Unikalūs žaidėjai',
+    'inv.tr2.desc': 'Nuo paleidimo, įskaitant žaidimus parodoje',
+    'inv.tr3.lab': 'Mėnesinė infrastruktūra',
+    'inv.tr3.desc': 'Serveris ir domenai — visos dabartinės veiklos išlaidos',
+    'inv.market.label': 'Rinka',
+    'inv.m1.lab': 'Socialinės dedukcijos žaidimai',
+    'inv.m1.desc': 'Pasaulinės rinkos dydis, 2024',
+    'inv.m2.lab': 'Žaidimų transliacijos',
+    'inv.m2.desc': 'Pasaulinės rinkos dydis, 2024',
+    'inv.m3.lab': 'CAGR',
+    'inv.m3.desc': 'Socialinės dedukcijos segmento augimas iki 2033 m.',
+    'inv.road.label': 'Planas',
+    'inv.p1.period': 'Veikia',
+    'inv.p1.title': 'Platformos pagrindas',
+    'inv.p1.i1': 'Realaus laiko vaizdas ir balsas kiekvienam žaidėjui',
+    'inv.p1.i2': 'Vaidmenų sistema',
+    'inv.p1.i3': 'OAuth prisijungimas (Google, Discord, Twitch)',
+    'inv.p1.i4': 'Viešieji ir privatūs kambariai',
+    'inv.p1.i5': 'Vedėjo ir automatinis režimai',
+    'inv.p1.i6': 'Reconnect sistema',
+    'inv.p1.i7': 'Stebėtojo režimas',
+    'inv.p1.i8': 'Asmeninė statistika ir ELO reitingas',
+    'inv.p2.title': 'Augimas',
+    'inv.p2.i2': 'Streamerio / vedėjo profilis ir statistika',
+    'inv.p2.i3': 'Prenumeratos sistema',
+    'inv.p2.i4': 'Kosmetika ir skinai',
+    'inv.p2.i5': 'UI ir animacijų tobulinimas',
+    'inv.p2.i6': 'Streamerių uždarbis — donatai ir pajamų dalijimasis',
+    'inv.p3.title': 'Plėtra',
+    'inv.p3.period': '2026 m. pabaiga',
+    'inv.p3.i1': 'Online turnyrai',
+    'inv.p3.i2': 'Žiūrovų balsavimas gyvai',
+    'inv.p3.i3': 'Mobilioji versija',
+    'inv.p3.i4': 'Nauji vaidmenys',
+    'inv.mono.label': 'Kaip platforma uždirba',
+    'inv.mono1.i': 'Periodinės', 'inv.mono1.t': 'Prenumerata', 'inv.mono1.s': 'Kuriama', 'inv.mono1.d': 'Neriboti privatūs kambariai, vedėjo režimas ir reitingų sistema su atlygiais už pergales.',
+    'inv.mono2.i': 'Marža', 'inv.mono2.t': 'Kosmetika', 'inv.mono2.s': 'Planuojama', 'inv.mono2.d': 'Kortų dizainai, individualios emoji reakcijos.',
+    'inv.mono3.i': 'Už sesiją', 'inv.mono3.t': 'Mokėjimas už privatų kambarį', 'inv.mono3.s': 'Planuojama', 'inv.mono3.d': 'Vienkartinis sesijos pirkimas.',
+    'inv.mono4.i': 'Augant', 'inv.mono4.t': 'Donatai', 'inv.mono4.s': 'Mokėjimai veikia', 'inv.mono4.d': 'Žiūrovų donatai streameriams — platforma gauna dalį.',
+    'inv.mono5.i': 'Pasyvios', 'inv.mono5.t': 'Reklama', 'inv.mono5.s': 'Planuojama', 'inv.mono5.d': 'Prekės ženklo rodymas viešuosiuose kambariuose.',
+    'inv.mono6.i': 'Renginiai', 'inv.mono6.t': 'Turnyrai', 'inv.mono6.s': 'Planuojama', 'inv.mono6.d': 'Dalyvių mokesčiai, rėmėjų prizų fondai ir atributika.',
+    'inv.cta.label': 'Susisiekite',
+    'inv.cta.deck': 'Gauti prezentaciją',
+    'inv.cta.demo': 'Žiūrėti platformą',
+    'inv.cta.contact': 'Susisiekite arba paskambinkite <span class="cta-creator">kūrėjui</span> tiesiogiai',
+    'inv.video.id': '_zh3dI6Bfkg',
+    'inv.watch.label': 'Gyvo žaidimo įrašas',
+    'watch.video.id': 'HWmFSSYIc7c',
+    'inv.ask.label': 'Pritraukiamos lėšos',
+    'inv.ask1.name': 'Rinkodara ir bendruomenės augimas',
+    'inv.ask1.desc': 'Bendradarbiavimas su srautų transliuotojais, reklama YouTube ir socialiniuose tinkluose, dalyvavimas žaidimų parodose, turnyrų organizavimas, vaizdo produkcija.',
+    'inv.ask2.name': 'Produkto vystymas ir komanda',
+    'inv.ask2.desc': 'UI/UX dizaineris ir programuotojas platformos horizontaliam plėtimui + komandos veiklos išlaidos šiame etape.',
+    'pl.title': 'Gyvas Mafijos žaidimas 10-iai žaidėjų — vaizdas, balsas ir tikri vaidmenų veiksmai.',
+    'pl.sub': 'Veikia naršyklėje — nieko nereikia atsisiųsti.',
+    'pl.video.id': 'HWmFSSYIc7c',
+    'pl.facts.label': 'Kuo šis žaidimas kitoks',
+    'pl.f1': 'Reitingų sistema jau veikia — varžykitės ir pelnykite išskirtines kortų nugarėles',
+    'pl.f8': 'Du režimai — vedėjo valdomas streameriams, visiškai automatinis visiems kitiems',
+    'pl.f2': 'Autorinė žaidimo eiga, tobulinta per 11 metų gyvų klubo žaidimų',
+    'pl.f3': 'Kiekvienas vaidmuo turi realią įtaką — naktiniai veiksmai, dienos balsavimai, lygiųjų sprendimai',
+    'pl.f5': 'Vieši ir privatūs kambariai — prisijunkite prie atviro stalo arba sukurkite savą',
+    'pl.f6': 'Turnyrai',
+    'btn.sponsor': 'Tapti rėmėju',
+    'pl.comp.label': 'Žaidėjų sudėtis',
+    'pl.mis.mafia.label': 'Mafija',
+    'pl.mis.mafia.d': 'eliminuoti visus taikius žaidėjus',
+    'pl.mis.town.label': 'Taikieji',
+    'pl.mis.town.d': 'surasti ir išbalsuoti mafiją',
+    'pl.roles.label': 'Vaidmenys',
+    'role.mafia.n': 'Mafija', 'role.mafia.d': 'Žudo naktį, maskuojasi dieną.',
+    'role.doctor.n': 'Daktaras', 'role.doctor.d': 'Kiekvieną naktį bando atspėti ir išgelbėti žaidėją, į kurį šovė mafija.',
+    'role.sheriff.n': 'Šerifas', 'role.sheriff.d': 'Kiekvieną naktį patikrina, ar žaidėjas priklauso mafijai.',
+    'role.lawyer.n': 'Advokatas', 'role.lawyer.d': 'Lygiųjų atveju nusprendžia, kas pašalinamas.',
+    'role.barman.d': 'Atskleidžia vieno žaidėjo tikrąjį vaidmenį.',
+    'role.civilian.n': 'Civilis', 'role.civilian.d': 'Atraskite savus ir išbalsuokite mafiją.',
+    'pl.rate.label': 'Kaip veikia reitingas',
+    'pl.rate.win': 'Pergalė',
+    'pl.rate.loss': 'Pralaimėjimas',
+    'pl.rate.players': 'žaidėjų',
+    'pl.rate.bonus.label': 'Individualios premijos',
+    'pl.rate.b1': 'Teisingas balsas — mafija pašalinta',
+    'pl.rate.b2': 'Šerifas atpažino mafiją',
+    'pl.rate.b3': 'Daktaras išgelbėjo žaidėją',
+    'pl.rate.b4': 'Advokatas lygiosiose pasirinko mafiją',
+    'pl.rate.b5': 'Mafija naktį pašalino vaidmenį (Šerifą / Daktarą / Advokatą)',
+    'pl.rate.b6': 'Išgyveno iki galo',
+    'pl.rate.note': 'Premijos ir išgyvenimo taškai skiriami tik laimėjusiai komandai.',
+    'pl.play.label': 'Žaisti',
+    'pl.play1': '100 / 500 / 1000 pergalių — išskirtinės žaidėjo kortų nugarėlės',
+    'pl.play2': '20–35 min. per sesiją',
+    'pl.play3': 'Prizai ir firminė atributika',
+    'pl.stream.label': 'Transliuoti',
+    'pl.stream1': 'Žiūrovai gali prisijungti ir stebėti žaidimą stebėtojo režimu',
+    'pl.stream2': 'Bendradarbiaukite su kitais streameriais išskirtiniame kambaryje',
+    'pl.stream3': 'Uždirbkite iš žiūrovų aukų',
+    'pl.cta.h': 'Pradėkite pirmą žaidimą',
+    'pl.cta.sub': 'Prisijunkite per Google, Discord ar Twitch — be atsisiuntimo.',
+    'pl.notice': 'Šiuo metu tik kompiuteriams. Mobilioji versija — 2026 m. pabaigoje.',
+    'cr.name1': 'Oleg', 'cr.name2': 'Čeklu',
+    'cr.bio': 'Pats nuo pradžios iki galo suprojektavo ir sukūrė visą platformą — siekdamas perkelti gyvą žaidimo energiją į online formatą. Žaidimo eiga apgalvota taip, kad tarp žaidėjų susikurtų erdvė tikroms emocijoms ir gyvam bendravimui.',
+    'cr.s1.num': '17', 'cr.s1.desc': 'metų gyvų pasirodymų ir renginių organizavimo',
+    'cr.s2.num': '15', 'cr.s2.desc': 'metų terapinių praktikų ir emocinio intelekto lavinimo',
+    'cr.s3.num': '11', 'cr.s3.desc': 'metų vadovauja paties įkurtam gyvam Mafijos klubui',
+    'cr.contact.label': 'Kontaktai',
+    'cr.email': 'mailto:mafiaonlinegame.lt@gmail.com',
+    'cr.email.text': 'mafiaonlinegame.lt@gmail.com',
+    'cr.web': 'https://olegcheklu.eu/lt/',
+    'meta.title': 'Mafia Online — Žaisk Mafija Online | Mafija Žaidimas | mafiaonlinegame.com',
+    'meta.desc': 'Žaisk mafija online su live video kiekvienam žaidėjui. Mafija žaidimas naršyklėje — pilna vaidmenų sistema, be programėlės. Žaidėjams ir streameriams.',
+    'meta.og.title': 'Mafija Žaidimas Online — originali MafiaInLT platforma',
+    'meta.og.desc': 'Mafija online žaidimas su live video kiekvienam žaidėjui. Be programėlės, be atsisiuntimo.',
+    'phase.now': 'Dabar',
+    'badge.soon': 'Netrukus',
+  },
+  ru: {
+    'brand.name': 'Mafia Online',
+    'brand.tag': 'оригинальная платформа от MafiaInLT',
+    'nav.investors': 'Инвесторам',
+    'nav.players': 'Игрокам',
+    'nav.creator': 'Создатель',
+    'cta.play': 'Играть',
+    'inv.title': 'Первая платформа для Мафии, сочетающая живую передачу видео и голоса каждого игрока с уникальным игровым процессом.',
+    'inv.sub': 'Автоматизированный геймплей и рейтинговая\nсистема с бонусными наградами —',
+    'inv.sub2': 'новый формат для стриминга.',
+    'inv.badge': 'Работает с 22 мая 2026',
+    'inv.tr.label': 'Результаты',
+    'inv.tr1.lab': 'Сыграно живых сессий',
+    'inv.tr1.desc': 'Май–июнь 2026',
+    'inv.tr2.lab': 'Уникальных игроков',
+    'inv.tr2.desc': 'С момента запуска, включая игры на выставке',
+    'inv.tr3.lab': 'Инфраструктура в месяц',
+    'inv.tr3.desc': 'Сервер и домены — все текущие расходы на сегодня',
+    'inv.market.label': 'Рынок',
+    'inv.m1.lab': 'Игры жанра «социальная дедукция»',
+    'inv.m1.desc': 'Объём мирового рынка, 2024',
+    'inv.m2.lab': 'Стриминг игр',
+    'inv.m2.desc': 'Объём мирового рынка, 2024',
+    'inv.m3.lab': 'CAGR',
+    'inv.m3.desc': 'Рост сегмента социальной дедукции до 2033 года',
+    'inv.road.label': 'План развития',
+    'inv.p1.period': 'Работает',
+    'inv.p1.title': 'Фундамент',
+    'inv.p1.i1': 'Живое видео и голос у каждого игрока',
+    'inv.p1.i2': 'Полная система ролей',
+    'inv.p1.i3': 'OAuth-вход (Google, Discord, Twitch)',
+    'inv.p1.i4': 'Публичные и приватные комнаты',
+    'inv.p1.i5': 'Режим ведущего и авторежим',
+    'inv.p1.i6': 'Система реконнекта',
+    'inv.p1.i7': 'Режим зрителя',
+    'inv.p1.i8': 'Личная статистика и ELO-рейтинг',
+    'inv.p2.title': 'Рост',
+    'inv.p2.i2': 'Профиль и статистика стримера / ведущего',
+    'inv.p2.i3': 'Система подписок',
+    'inv.p2.i4': 'Косметика и скины',
+    'inv.p2.i5': 'Полировка UI и анимаций',
+    'inv.p2.i6': 'Заработок стримеров — донаты и доля дохода',
+    'inv.p3.title': 'Масштабирование',
+    'inv.p3.period': 'Конец 2026',
+    'inv.p3.i1': 'Онлайн-турниры',
+    'inv.p3.i2': 'Голосование аудитории в прямом эфире',
+    'inv.p3.i3': 'Мобильная версия',
+    'inv.p3.i4': 'Новые роли',
+    'inv.mono.label': 'Монетизация',
+    'inv.mono1.i': 'Регулярный', 'inv.mono1.t': 'Подписка', 'inv.mono1.s': 'В разработке', 'inv.mono1.d': 'Безлимитные приватные комнаты, режим ведущего и рейтинговая система с наградами за победы.',
+    'inv.mono2.i': 'Маржа', 'inv.mono2.t': 'Косметика', 'inv.mono2.s': 'Запланировано', 'inv.mono2.d': 'Дизайны карт, собственные emoji-реакции.',
+    'inv.mono3.i': 'Разовый', 'inv.mono3.t': 'Оплата приватной комнаты', 'inv.mono3.s': 'Запланировано', 'inv.mono3.d': 'Разовая покупка сессии.',
+    'inv.mono4.i': 'Масштабируемый', 'inv.mono4.t': 'Донаты', 'inv.mono4.s': 'Платежи работают', 'inv.mono4.d': 'Зрители донатят стримерам — платформа берёт долю.',
+    'inv.mono5.i': 'Пассивный', 'inv.mono5.t': 'Реклама', 'inv.mono5.s': 'Запланировано', 'inv.mono5.d': 'Размещение брендов в публичных комнатах.',
+    'inv.mono6.i': 'События', 'inv.mono6.t': 'Турниры', 'inv.mono6.s': 'Запланировано', 'inv.mono6.d': 'Взносы участников, призовые фонды спонсоров и мерч.',
+    'inv.cta.label': 'Связаться',
+    'inv.cta.deck': 'Получить презентацию',
+    'inv.cta.demo': 'Посмотреть платформу',
+    'inv.cta.contact': 'Свяжитесь или позвоните <span class="cta-creator">создателю</span> напрямую',
+    'inv.video.id': 'oaIR8FeVEec',
+    'inv.watch.label': 'Запись живой игры',
+    'watch.video.id': 'yHLq2zaS74Y',
+    'inv.ask.label': 'На что собираем средства',
+    'inv.ask1.name': 'Маркетинг и рост сообщества',
+    'inv.ask1.desc': 'Коллаборации со стримерами, реклама на YouTube и в соцсетях, участие в игровых выставках, организация турниров, видео-продакшн.',
+    'inv.ask2.name': 'Развитие продукта и команды',
+    'inv.ask2.desc': 'UI/UX-дизайнер и разработчик для горизонтального масштабирования платформы + операционные расходы команды на этот период.',
+    'pl.title': 'Живая игра Мафия на 10 игроков — видео, голос и настоящие действия ролей.',
+    'pl.sub': 'Работает в браузере — без скачивания.',
+    'pl.video.id': 'yHLq2zaS74Y',
+    'pl.facts.label': 'Чем отличается',
+    'pl.f1': 'Рейтинговая система уже работает — соревнуйтесь и зарабатывайте эксклюзивные рубашки карт',
+    'pl.f8': 'Два режима — управляемый ведущим для стримеров, полностью автоматический для всех остальных',
+    'pl.f2': 'Авторский игровой флоу, отточенный за 11 лет живых игр клуба',
+    'pl.f3': 'Каждая роль реально влияет на игру — ночные действия, дневное голосование, решающий голос при ничьей',
+    'pl.f5': 'Публичные и приватные комнаты — присоединяйтесь к открытому столу или создайте свой',
+    'pl.f6': 'Турниры',
+    'btn.sponsor': 'Стать спонсором',
+    'pl.comp.label': 'Состав игроков',
+    'pl.mis.mafia.label': 'Мафия',
+    'pl.mis.mafia.d': 'устранить всех мирных игроков',
+    'pl.mis.town.label': 'Мирные',
+    'pl.mis.town.d': 'найти и выбить мафию голосованием',
+    'pl.roles.label': 'Роли',
+    'role.mafia.n': 'Мафия', 'role.mafia.d': 'Убивает ночью, маскируется днём.',
+    'role.doctor.n': 'Доктор', 'role.doctor.d': 'Каждую ночь пытается угадать и спасти игрока, в которого стреляла мафия.',
+    'role.sheriff.n': 'Шериф', 'role.sheriff.d': 'Каждую ночь проверяет, мафия игрок или нет.',
+    'role.lawyer.n': 'Адвокат', 'role.lawyer.d': 'Решает ничью — выбирает, кто выбывает.',
+    'role.barman.d': 'Узнаёт реальную роль одного из игроков.',
+    'role.civilian.n': 'Мирный', 'role.civilian.d': 'Найдите своих и выбейте мафию голосованием.',
+    'pl.rate.label': 'Как работает рейтинг',
+    'pl.rate.win': 'Победа',
+    'pl.rate.loss': 'Поражение',
+    'pl.rate.players': 'игроков',
+    'pl.rate.bonus.label': 'Индивидуальные бонусы',
+    'pl.rate.b1': 'Правильный голос — мафия устранена',
+    'pl.rate.b2': 'Шериф вычислил мафию',
+    'pl.rate.b3': 'Доктор спас игрока',
+    'pl.rate.b4': 'Адвокат при ничьей выбрал мафию',
+    'pl.rate.b5': 'Мафия ночью устранила роль (Шерифа / Доктора / Адвоката)',
+    'pl.rate.b6': 'Дожил до конца игры',
+    'pl.rate.note': 'Бонусы и очки за выживание получает только победившая команда.',
+    'pl.play.label': 'Играть',
+    'pl.play1': '100 / 500 / 1000 побед — эксклюзивные рубашки карт игрока',
+    'pl.play2': '20–35 мин на сессию',
+    'pl.play3': 'Призы и фирменный мерч',
+    'pl.stream.label': 'Стримить',
+    'pl.stream1': 'Зрители могут наблюдать за любым живым столом',
+    'pl.stream2': 'Сотрудничайте с другими стримерами в эксклюзивной комнате',
+    'pl.stream3': 'Зарабатывайте на донатах зрителей',
+    'pl.cta.h': 'Начните первую игру',
+    'pl.cta.sub': 'Вход через Google, Discord или Twitch — без скачивания.',
+    'pl.notice': 'Сейчас только десктоп. Мобильная версия — конец 2026.',
+    'cr.name1': 'Олег', 'cr.name2': 'Чеклу',
+    'cr.bio': 'Самостоятельно спроектировал и построил платформу от и до — чтобы перенести живую энергию игры в онлайн. Последовательность игровых событий выстроена так, чтобы между игроками создавалось пространство для настоящего эмоционального взаимодействия.',
+    'cr.s1.num': '17', 'cr.s1.desc': 'лет живых выступлений и организации мероприятий',
+    'cr.s2.num': '15', 'cr.s2.desc': 'лет терапевтических практик и изучения эмоционального интеллекта',
+    'cr.s3.num': '11', 'cr.s3.desc': 'лет руководства собственным живым клубом Мафии',
+    'cr.contact.label': 'Контакты',
+    'cr.email': 'mailto:mafiaonlinegame.ru@gmail.com',
+    'cr.email.text': 'mafiaonlinegame.ru@gmail.com',
+    'cr.web': 'https://olegcheklu.eu/',
+    'meta.title': 'Mafia Online — Онлайн Мафия | Играть в Мафию Онлайн | mafiaonlinegame.com',
+    'meta.desc': 'Играй в Мафию онлайн с живым видео для каждого игрока. Игра Мафия в браузере — полная система ролей, без приложения. Онлайн Мафия для стримеров и игроков.',
+    'meta.og.title': 'Мафия Игра Онлайн — оригинальная платформа от MafiaInLT',
+    'meta.og.desc': 'Онлайн Мафия с живым видео для каждого игрока. Без приложения, без скачивания.',
+    'phase.now': 'Сейчас',
+    'badge.soon': 'Скоро',
+  }
+};
+
+// language is derived from the clean URL path: /online/ = lt (bare), /online/en/, /online/ru/
+// each folder ships its own static <head>, which is what social crawlers read (no JS there)
+const pathLang = /\/online\/ru(\/|$)/.test(location.pathname) ? 'ru'
+              : /\/online\/en(\/|$)/.test(location.pathname) ? 'en'
+              : 'lt';
+let currentLang = STRINGS[pathLang] ? pathLang : 'lt';
+
+function applyLang(lang) {
+  currentLang = lang;
+  const s = STRINGS[lang] || STRINGS.en;
+
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.dataset.i18n;
+    if (s[key] !== undefined) el.textContent = s[key];
+  });
+
+  // rich-text strings (inline markup, e.g. the highlighted "creator" in the CTA)
+  document.querySelectorAll('[data-i18n-html]').forEach(el => {
+    const key = el.dataset.i18nHtml;
+    if (s[key] !== undefined) el.innerHTML = s[key];
+  });
+
+  // language-specific video embeds: investor trailer Short, watch block, players hero
+  document.querySelectorAll('[data-i18n-video]').forEach(videoFrame => {
+    const key = videoFrame.dataset.i18nVideo || 'inv.video.id';
+    if (s[key]) {
+      const embedSrc = `https://www.youtube.com/embed/${s[key]}`;
+      if (videoFrame.src !== embedSrc) videoFrame.src = embedSrc;
+    }
+  });
+
+  // language-specific email href + text
+  document.querySelectorAll('[data-i18n-href]').forEach(el => {
+    const key = el.dataset.i18nHref;
+    const textKey = el.dataset.i18nText;
+    if (s[key]) el.href = s[key];
+    if (textKey && s[textKey]) el.textContent = s[textKey];
+  });
+
+  // investor deck email - update hrefs
+  const deckEmail = lang === 'lt' ? 'mafiaonlinegame.lt@gmail.com'
+                  : lang === 'ru' ? 'mafiaonlinegame.ru@gmail.com'
+                  : 'mafiaonlinegame.en@gmail.com';
+  const subject = lang === 'ru' ? 'Mafia Online — презентация для инвесторов'
+                : lang === 'lt' ? 'Mafia Online — investuotojo pristatymas'
+                : 'Mafia Online — investor deck';
+  document.querySelectorAll('[data-mobile-href]').forEach(el => {
+    el.dataset.mobileHref = `mailto:${deckEmail}?subject=${encodeURIComponent(subject)}`;
+    if (!window.matchMedia('(min-width:769px)').matches) {
+      el.href = el.dataset.mobileHref;
+    } else {
+      el.href = `https://mail.google.com/mail/?view=cm&to=${deckEmail}&su=${encodeURIComponent(subject)}`;
+    }
+  });
+
+  // sponsor buttons — same per-language email, sponsorship subject
+  const sponsorSubject = 'Mafia Online — sponsorship';
+  document.querySelectorAll('[data-sponsor]').forEach(el => {
+    if (window.matchMedia('(min-width:769px)').matches) {
+      el.href = `https://mail.google.com/mail/?view=cm&to=${deckEmail}&su=${encodeURIComponent(sponsorSubject)}`;
+      el.setAttribute('target', '_blank');
+    } else {
+      el.href = `mailto:${deckEmail}?subject=${encodeURIComponent(sponsorSubject)}`;
+      el.removeAttribute('target');
+    }
+  });
+
+  // meta tags
+  if (s['meta.title'])    document.title = s['meta.title'];
+  if (s['meta.desc'])     document.querySelector('meta[name="description"]')?.setAttribute('content', s['meta.desc']);
+  if (s['meta.og.title']) document.querySelector('meta[property="og:title"]')?.setAttribute('content', s['meta.og.title']);
+  if (s['meta.og.desc'])  document.querySelector('meta[property="og:description"]')?.setAttribute('content', s['meta.og.desc']);
+
+  // og:image / twitter:image — per-language share card (images/og/og-image-{lang}.jpg, 1200x630)
+  const ogImage = `https://mafiain.lt/images/og/og-image-${lang}.jpg`;
+  document.querySelector('meta[property="og:image"]')?.setAttribute('content', ogImage);
+  document.querySelector('meta[name="twitter:image"]')?.setAttribute('content', ogImage);
+
+  // self-canonical + og:url per language — clean URLs (lt = bare /online/, en/ru = subfolders)
+  const cleanPath = lang === 'lt' ? '/online/' : '/online/' + lang + '/';
+  const pageUrl = 'https://mafiain.lt' + cleanPath;
+  document.querySelector('link[rel="canonical"]')?.setAttribute('href', pageUrl);
+  document.querySelector('meta[property="og:url"]')?.setAttribute('content', pageUrl);
+
+  // keep the address bar on the clean per-language path so reload/share preserves the language
+  // (wrapped: replaceState throws under the file:// origin during local preview)
+  try { history.replaceState(null, '', cleanPath + location.hash); } catch (e) {}
+
+  document.querySelectorAll('.lang button').forEach(b => {
+    b.classList.toggle('active', b.dataset.lang === lang);
+  });
+  document.documentElement.lang = lang;
+  localStorage.setItem('lang', lang);
+
+  // the i18n loop above wrote the dictionary form of "players" — re-decline it
+  applyTableSize(currentTableSize);
+}
+
+// language buttons — on mobile the pill is collapsed: first tap expands, second picks
+const langBox = document.querySelector('.lang');
+document.querySelectorAll('.lang button').forEach(btn => {
+  btn.addEventListener('click', e => {
+    const mobile = !window.matchMedia('(min-width:769px)').matches;
+    if (mobile && !langBox.classList.contains('open')) {
+      e.stopPropagation();
+      langBox.classList.add('open');
+      return;
+    }
+    applyLang(btn.dataset.lang);
+    langBox.classList.remove('open');
+  });
+});
+document.addEventListener('click', e => {
+  if (!e.target.closest('.lang')) langBox.classList.remove('open');
+});
+
+// ── tabs ──────────────────────────────────────────────────
+const tabs    = [...document.querySelectorAll('.tab')];
+const sections= [...document.querySelectorAll('.section')];
+const tabIds  = tabs.map(t => t.dataset.tab);
+
+function switchToTab(id, dir) {
+  const cur  = document.querySelector('.section.active');
+  const next = document.getElementById(id);
+  if (!next || next === cur) return;
+
+  tabs.forEach(t => t.classList.remove('active'));
+  document.querySelector(`.tab[data-tab="${id}"]`).classList.add('active');
+
+  if (cur) cur.classList.remove('active','slide-from-right','slide-from-left');
+  next.classList.remove('slide-from-right','slide-from-left');
+  void next.offsetWidth;
+  next.classList.add('active', dir === 'right' ? 'slide-from-right' : 'slide-from-left');
+  window.scrollTo({ top:0, behavior:'smooth' });
+}
+
+tabs.forEach(tab => {
+  tab.addEventListener('click', () => {
+    const from = tabIds.indexOf(document.querySelector('.tab.active')?.dataset.tab);
+    const to   = tabIds.indexOf(tab.dataset.tab);
+    switchToTab(tab.dataset.tab, to > from ? 'right' : 'left');
+  });
+});
+
+// header "Play now" → players tab
+document.querySelector('.header-cta').addEventListener('click', e => {
+  e.preventDefault();
+  switchToTab('players', 'right');
+  window.scrollTo({ top:0, behavior:'smooth' });
+});
+
+// inline links that jump to another tab (e.g. investors CTA → creator)
+document.querySelectorAll('[data-goto-tab]').forEach(el => {
+  el.addEventListener('click', e => {
+    e.preventDefault();
+    switchToTab(el.dataset.gotoTab, 'right');
+    window.scrollTo({ top:0, behavior:'smooth' });
+  });
+});
+
+// ── swipe ─────────────────────────────────────────────────
+let tx = 0, ty = 0, locked = false, blocked = false;
+document.addEventListener('touchstart', e => {
+  const t = e.touches[0].target;
+  blocked = !!(t.closest('.roadmap-scroll') || t.closest('.roles-scroll'));
+  locked  = false;
+  tx = e.touches[0].clientX;
+  ty = e.touches[0].clientY;
+}, { passive:true });
+document.addEventListener('touchmove', e => {
+  if (blocked || locked) return;
+  if (Math.abs(e.touches[0].clientY - ty) > Math.abs(e.touches[0].clientX - tx)) locked = true;
+}, { passive:true });
+document.addEventListener('touchend', e => {
+  if (blocked || locked) return;
+  const dx = e.changedTouches[0].clientX - tx;
+  const dy = e.changedTouches[0].clientY - ty;
+  if (Math.abs(dx) < 70 || Math.abs(dy) > Math.abs(dx) * 0.8) return;
+  const cur = tabIds.indexOf(document.querySelector('.tab.active')?.dataset.tab);
+  if (dx < 0 && cur < tabIds.length - 1) switchToTab(tabIds[cur + 1], 'right');
+  if (dx > 0 && cur > 0)                 switchToTab(tabIds[cur - 1], 'left');
+}, { passive:true });
+
+// ── roadmap drag scroll ───────────────────────────────────
+const rScroll = document.getElementById('roadmapScroll');
+let rDown = false, rStartX, rLeft;
+rScroll.addEventListener('mousedown', e => { rDown=true; rStartX=e.pageX-rScroll.offsetLeft; rLeft=rScroll.scrollLeft; });
+rScroll.addEventListener('mouseleave', () => rDown = false);
+rScroll.addEventListener('mouseup',    () => rDown = false);
+rScroll.addEventListener('mousemove',  e => {
+  if (!rDown) return; e.preventDefault();
+  rScroll.scrollLeft = rLeft - (e.pageX - rScroll.offsetLeft - rStartX);
+});
+
+// roadmap active phase on scroll
+const phases = [...rScroll.querySelectorAll('.phase')];
+function updateActivePhase() {
+  const center = rScroll.scrollLeft + rScroll.offsetWidth / 2;
+  let closest = null, dist = Infinity;
+  phases.forEach(p => {
+    const d = Math.abs((p.offsetLeft + p.offsetWidth / 2) - center);
+    if (d < dist) { dist = d; closest = p; }
+  });
+  phases.forEach(p => p.classList.remove('active-phase'));
+  if (closest) closest.classList.add('active-phase');
+}
+rScroll.addEventListener('scroll', updateActivePhase, { passive:true });
+
+// ── table size picker ─────────────────────────────────────
+// Role counts among REAL players (bots fill the table to 10).
+// Doctor / Sheriff / Lawyer always go to real players; at least 1 mafia is real,
+// the 2nd and 3rd mafia are drawn from a mixed player+bot pool — hence the ranges.
+const COMP = {
+  4:  { mafia:'1',   civilian:'0'   },
+  5:  { mafia:'1–2', civilian:'0–1' },
+  6:  { mafia:'1–2', civilian:'1–2' },
+  7:  { mafia:'1–3', civilian:'1–3' },
+  8:  { mafia:'2–3', civilian:'2–3' },
+  9:  { mafia:'2–3', civilian:'3–4' },
+  10: { mafia:'3',   civilian:'4'   }
+};
+
+// "players" word declines with the number in LT and RU
+const PLAYERS_WORD = {
+  en: () => 'players',
+  lt: n => (n === 10 ? 'žaidėjų' : 'žaidėjai'),
+  ru: n => (n === 4 ? 'игрока' : 'игроков')
+};
+let currentTableSize = 10;
+
+function applyTableSize(n) {
+  currentTableSize = n;
+  document.querySelectorAll('#sizePicker .size-btn').forEach(b => {
+    b.classList.toggle('active', +b.dataset.n === n);
+  });
+  const c = COMP[n];
+  document.querySelectorAll('[data-rc]').forEach(el => {
+    const r = el.dataset.rc;
+    el.textContent = '× ' + (c[r] !== undefined ? c[r] : '1');
+  });
+  // rating scales with the number of real players: win 20+2n, loss −(12+n)
+  document.getElementById('rateWin').textContent  = '+' + (20 + 2 * n);
+  document.getElementById('rateLoss').textContent = '−' + (12 + n);
+  document.querySelectorAll('.rate-n').forEach(el => el.textContent = n);
+  const word = (PLAYERS_WORD[currentLang] || PLAYERS_WORD.en)(n);
+  document.querySelectorAll('[data-i18n="pl.rate.players"]').forEach(el => el.textContent = word);
+}
+
+document.querySelectorAll('#sizePicker .size-btn').forEach(btn => {
+  btn.addEventListener('click', () => applyTableSize(+btn.dataset.n));
+});
+
+// ── mobile href swap ──────────────────────────────────────
+if (!window.matchMedia('(min-width:769px)').matches) {
+  document.querySelectorAll('[data-mobile-href]').forEach(el => {
+    el.href = el.dataset.mobileHref;
+    el.removeAttribute('target');
+  });
+}
+
+// ── init ──────────────────────────────────────────────────
+applyLang(currentLang);
+</script>
+</body>
+</html>
