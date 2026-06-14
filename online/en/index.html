@@ -898,7 +898,7 @@ ul.facts li a.fact-link:hover { color:var(--gold-light); border-color:rgba(212,1
   <div class="header-wrap">
     <div class="logo-row">
       <a href="../../" style="display:flex;align-items:center;gap:12px;text-decoration:none;">
-        <img class="logo-img" src="../../images/logo.png" alt="MafiaInLT">
+        <img class="logo-img" src="../../images/logo.webp" alt="MafiaInLT">
         <div class="logo-text">
           <b data-i18n="brand.name">Mafia Online</b>
           <span data-i18n="brand.tag">original platform by MafiaInLT</span>
@@ -916,7 +916,7 @@ ul.facts li a.fact-link:hover { color:var(--gold-light); border-color:rgba(212,1
         <button data-lang="lt">LT</button>
         <button data-lang="ru">RU</button>
       </div>
-      <a class="header-cta" data-goto="players" data-i18n="cta.play">Play now</a>
+      <a class="header-cta" href="https://mafiaonlinegame.com" target="_blank" rel="noopener" data-i18n="cta.play">Play now</a>
     </div>
   </div>
 </header>
@@ -1146,7 +1146,7 @@ ul.facts li a.fact-link:hover { color:var(--gold-light); border-color:rgba(212,1
 
     <div class="role-card">
       <div class="role-img-wrap">
-        <img src="../../images/roles/MAFIA.jpg" alt="Mafia" onerror="this.parentElement.innerHTML='<div class=\'role-ph\'>☠</div>'">
+        <img src="../../images/roles/MAFIA.webp" alt="Mafia" onerror="this.parentElement.innerHTML='<div class=\'role-ph\'>☠</div>'">
         <span class="role-count" data-rc="mafia">× 3</span>
       </div>
       <div class="role-meta">
@@ -1156,7 +1156,7 @@ ul.facts li a.fact-link:hover { color:var(--gold-light); border-color:rgba(212,1
 
     <div class="role-card">
       <div class="role-img-wrap">
-        <img src="../../images/roles/DOCTOR.jpg" alt="Doctor" onerror="this.parentElement.innerHTML='<div class=\'role-ph\'>✚</div>'">
+        <img src="../../images/roles/DOCTOR.webp" alt="Doctor" onerror="this.parentElement.innerHTML='<div class=\'role-ph\'>✚</div>'">
         <span class="role-count" data-rc="doctor">× 1</span>
       </div>
       <div class="role-meta">
@@ -1166,7 +1166,7 @@ ul.facts li a.fact-link:hover { color:var(--gold-light); border-color:rgba(212,1
 
     <div class="role-card">
       <div class="role-img-wrap">
-        <img src="../../images/roles/SHERIFF.jpg" alt="Sheriff" onerror="this.parentElement.innerHTML='<div class=\'role-ph\'>✦</div>'">
+        <img src="../../images/roles/SHERIFF.webp" alt="Sheriff" onerror="this.parentElement.innerHTML='<div class=\'role-ph\'>✦</div>'">
         <span class="role-count" data-rc="sheriff">× 1</span>
       </div>
       <div class="role-meta">
@@ -1176,7 +1176,7 @@ ul.facts li a.fact-link:hover { color:var(--gold-light); border-color:rgba(212,1
 
     <div class="role-card">
       <div class="role-img-wrap">
-        <img src="../../images/roles/LAWYER.jpg" alt="Lawyer" onerror="this.parentElement.innerHTML='<div class=\'role-ph\'>⚖</div>'">
+        <img src="../../images/roles/LAWYER.webp" alt="Lawyer" onerror="this.parentElement.innerHTML='<div class=\'role-ph\'>⚖</div>'">
         <span class="role-count" data-rc="lawyer">× 1</span>
       </div>
       <div class="role-meta">
@@ -1186,7 +1186,7 @@ ul.facts li a.fact-link:hover { color:var(--gold-light); border-color:rgba(212,1
 
     <div class="role-card">
       <div class="role-img-wrap">
-        <img src="../../images/roles/BARMAN.jpg" alt="Barman" onerror="this.parentElement.innerHTML='<div class=\'role-ph\'>◈</div>'">
+        <img src="../../images/roles/BARMAN.webp" alt="Barman" onerror="this.parentElement.innerHTML='<div class=\'role-ph\'>◈</div>'">
       </div>
       <div class="role-meta">
         <div class="role-desc"><span data-i18n="role.barman.d">Reveals one player's true role.</span> <span class="badge-soon" data-i18n="badge.soon">Coming soon</span></div>
@@ -1195,7 +1195,7 @@ ul.facts li a.fact-link:hover { color:var(--gold-light); border-color:rgba(212,1
 
     <div class="role-card">
       <div class="role-img-wrap">
-        <img src="../../images/roles/CIVILIAN.jpg" alt="Civilian" onerror="this.parentElement.innerHTML='<div class=\'role-ph\'>◯</div>'">
+        <img src="../../images/roles/CIVILIAN.webp" alt="Civilian" onerror="this.parentElement.innerHTML='<div class=\'role-ph\'>◯</div>'">
         <span class="role-count" data-rc="civilian">× 4</span>
       </div>
       <div class="role-meta">
@@ -1297,7 +1297,7 @@ ul.facts li a.fact-link:hover { color:var(--gold-light); border-color:rgba(212,1
 
   <div class="creator-hero">
     <div class="photo-widget">
-      <img class="creator-photo" src="../../images/team/oleg-online.jpg" alt="Oleg Čeklu"
+      <img class="creator-photo" src="../../images/team/oleg-online.webp" alt="Oleg Čeklu"
            onerror="this.outerHTML='<div class=\'creator-ph\'>O</div>'">
     </div>
     <div class="creator-info">
@@ -1907,13 +1907,6 @@ tabs.forEach(tab => {
     const to   = tabIds.indexOf(tab.dataset.tab);
     switchToTab(tab.dataset.tab, to > from ? 'right' : 'left');
   });
-});
-
-// header "Play now" → players tab
-document.querySelector('.header-cta').addEventListener('click', e => {
-  e.preventDefault();
-  switchToTab('players', 'right');
-  window.scrollTo({ top:0, behavior:'smooth' });
 });
 
 // inline links that jump to another tab (e.g. investors CTA → creator)

@@ -244,7 +244,7 @@ img {
 }
 
 .hero-index {
-    background-image: url('../images/hero/hero-index.jpg');
+    background-image: url('../images/hero/hero-index.webp');
     background-size: 110% auto;
     animation: zoomOut 3s ease-out forwards;
 }
@@ -259,13 +259,13 @@ img {
 }
 
 .hero-services {
-    background-image: url('../images/hero/hero-services.jpg');
+    background-image: url('../images/hero/hero-services.webp');
     background-size: 110% auto;
     animation: zoomOut 3s ease-out forwards;
 }
 
 .hero-contacts {
-    background-image: url('../images/contacts/contacts-hero.jpg');
+    background-image: url('../images/contacts/contacts-hero.webp');
     background-size: 110% auto;
     animation: zoomOut 3s ease-out forwards;
     height: 50vh;
@@ -554,7 +554,7 @@ section {
 
 .cta-section {
     padding: 6rem 0;
-    background-image: url('../images/hero/hero-gallery.jpg');
+    background-image: url('../images/hero/hero-gallery.webp');
     background-size: cover;
     background-position: center;
     color: #fff;
@@ -616,7 +616,7 @@ section {
     right: 0;
     width: 35%;
     height: 100%;
-    background: url('../images/contacts/contacts-hero.jpg') center center no-repeat;
+    background: url('../images/contacts/contacts-hero.webp') center center no-repeat;
     background-size: cover;
     z-index: 0;
     animation: contactsBlurAnimation 3s ease-out forwards;
