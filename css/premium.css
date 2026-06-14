@@ -1,0 +1,109 @@
+/* ============================================================
+   premium.css — "Batch 1" smoothness / premium preview.
+   Loaded ONLY on index.html (isolated preview layer).
+
+   Upgrades easing, adds depth + restrained micro-interactions
+   on the home page. Nothing here touches other pages.
+
+   • Roll out site-wide later: add this <link> to the other pages.
+   • Revert: remove the <link> from index.html (and delete this file).
+   ============================================================ */
+
+:root {
+  /* refined easing + differentiated timing (the single biggest
+     "cheap → premium" lever vs. the flat 0.3s ease used everywhere) */
+  --ease:     cubic-bezier(.22, 1, .36, 1);   /* settle */
+  --ease-out: cubic-bezier(.16, 1, .3, 1);
+  --t-fast: .2s;
+  --t:      .4s;
+  --t-slow: .65s;
+
+  /* upgrade the global transition token used across the page */
+  --transition: all var(--t) var(--ease);
+}
+
+html { scroll-behavior: smooth; }
+
+/* headings: a touch tighter tracking reads more "designed" */
+h1, h2 { letter-spacing: -.015em; }
+
+/* ── buttons: keep the inversion, add a soft lift + layered shadow ── */
+.btn {
+  transition: opacity var(--t-slow) var(--ease),
+              color var(--t-fast) var(--ease-out),
+              background-color var(--t-fast) var(--ease-out),
+              border-color var(--t-fast) var(--ease-out),
+              transform var(--t) var(--ease),
+              box-shadow var(--t) var(--ease);
+}
+.btn-primary:not(.btn-hero):hover,
+.btn-outline:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px -8px rgba(0, 0, 0, .28),
+              0 4px 10px -6px rgba(0, 0, 0, .18);
+}
+/* hero / CTA buttons sit on dark imagery — lift + soft depth in any section
+   (covers both the top hero button and the bottom "Apie mus" CTA button) */
+.btn-hero:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, .55);
+}
+
+/* apie-mus uses its own .about-btn (not .btn) — give it the same easing + lift */
+.about-btn {
+  transition: color var(--t-fast) var(--ease-out),
+              background-color var(--t-fast) var(--ease-out),
+              border-color var(--t-fast) var(--ease-out),
+              transform var(--t) var(--ease),
+              box-shadow var(--t) var(--ease);
+}
+.about-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px -8px rgba(0, 0, 0, .28),
+              0 4px 10px -6px rgba(0, 0, 0, .18);
+}
+
+/* The CTA "Apie mus" button is ALSO a .scroll-reveal. Our generic .btn
+   transition above overrides the element's `transition` shorthand and would
+   DROP `opacity` from it — so the reveal's opacity 0→1 snaps instantly while
+   the slide animates, making the button "pop" on appearance. Restore the
+   opacity transition here (highest specificity wins) and clear the reveal's
+   0.3s delay so the hover lift also feels clean. */
+.cta-section .scroll-reveal.btn {
+  transition: opacity var(--t-slow) var(--ease),
+              transform var(--t) var(--ease),
+              color var(--t-fast) var(--ease-out),
+              background-color var(--t-fast) var(--ease-out),
+              border-color var(--t-fast) var(--ease-out),
+              box-shadow var(--t) var(--ease);
+  transition-delay: 0s;
+}
+
+/* ── service cards: deeper lift, layered shadow, slow image zoom ── */
+.service-preview-card {
+  transition: transform var(--t) var(--ease),
+              box-shadow var(--t) var(--ease),
+              border-color var(--t) var(--ease);
+}
+.service-preview-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 18px 40px -16px rgba(0, 0, 0, .22),
+              0 6px 14px -8px rgba(0, 0, 0, .14);
+  border-color: #d4d4d4;
+}
+.service-preview-image img {
+  transition: transform var(--t-slow) var(--ease);
+}
+.service-preview-card:hover .service-preview-image img {
+  transform: scale(1.05);
+}
+
+/* premium = considerate: honour reduced-motion preference */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .btn:hover,
+  .service-preview-card:hover,
+  .service-preview-card:hover .service-preview-image img {
+    transform: none;
+  }
+}

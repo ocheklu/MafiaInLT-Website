@@ -165,13 +165,18 @@ img {
 }
 
 .nav-menu a[href="/online/"] {
-    color: var(--text-color) !important;
-    border: 1px solid rgba(212,175,55,0.45);
+    color: #e6c878 !important;
+    background: #161616;
+    border: none;
     border-radius: 24px;
-    padding: 4px 14px;
+    padding: 6px 18px;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    transition: background .25s ease, color .25s ease;
 }
 .nav-menu a[href="/online/"]:hover {
-    color: var(--primary-color) !important;
+    color: #f4dc96 !important;
+    background: #000;
 }
 .nav-menu a[href="/online/"]::after {
     display: none !important;
@@ -1979,17 +1984,20 @@ section {
     }
 
     .nav-menu a[href="/online/"] {
-        color: #fff !important;
-        border: 1px solid rgba(212,175,55,0.45);
+        color: #e6c878 !important;
+        background: rgba(201,168,76,0.10);
+        border: none;
         border-radius: 24px;
-        padding: 5px 20px !important;
+        padding: 9px 28px !important;
         margin-top: 10px;
         opacity: 1;
+        font-weight: 600;
+        letter-spacing: 0.03em;
     }
 
     .nav-menu a[href="/online/"]:hover {
-        border-color: rgba(212,175,55,0.8);
-        color: #d4af37 !important;
+        background: rgba(201,168,76,0.18);
+        color: #f4dc96 !important;
     }
 
     .nav-menu.active {
