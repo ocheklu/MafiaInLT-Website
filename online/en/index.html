@@ -199,22 +199,22 @@ nav::-webkit-scrollbar { display:none; }
   position:absolute; top:13px; right:16px; z-index:10;
   background:rgba(8,8,8,0.9);
 }
-.lang button { display:none; }
-.lang button.active { display:block; }
-.lang.open button { display:block; }
+.lang a { display:none; }
+.lang a.active { display:block; }
+.lang.open a { display:block; }
 .lang::after { content:'▾'; font-size:8px; color:var(--text-faint); padding-right:9px; }
 .lang.open::after { display:none; }
-.lang button {
-  appearance:none; border:none; background:none;
+.lang a {
+  appearance:none; border:none; background:none; text-decoration:none;
   font-family:var(--sans); font-size:10px; font-weight:600;
   letter-spacing:0.1em; text-transform:uppercase;
   color:var(--text-dim); cursor:pointer;
   padding:6px 11px;
   transition:color .18s, background .18s;
 }
-.lang button + button { border-left:1px solid var(--border-soft); }
-.lang button:hover { color:var(--text); }
-.lang button.active { color:#1a1408; background:var(--gold); }
+.lang a + a { border-left:1px solid var(--border-soft); }
+.lang a:hover { color:var(--text); }
+.lang a.active { color:#1a1408; background:var(--gold); }
 
 /* desktop Play Now in header — hidden on mobile */
 .header-cta {
@@ -789,7 +789,7 @@ ul.facts li a.fact-link:hover { color:var(--gold-light); border-color:rgba(212,1
 
   /* lang switcher back to inline pill with all three languages */
   .lang { position:static; background:none; }
-  .lang button { display:block; }
+  .lang a { display:block; }
   .lang::after { display:none; }
 
   .section { max-width:1140px; margin:0 auto; }
@@ -912,9 +912,9 @@ ul.facts li a.fact-link:hover { color:var(--gold-light); border-color:rgba(212,1
         <button class="tab" data-tab="creator"   data-i18n="nav.creator">Creator</button>
       </nav>
       <div class="lang" role="group">
-        <button data-lang="en" class="active">EN</button>
-        <button data-lang="lt">LT</button>
-        <button data-lang="ru">RU</button>
+        <a href="/online/en/" data-lang="en" class="active">EN</a>
+        <a href="/online/" data-lang="lt">LT</a>
+        <a href="/online/ru/" data-lang="ru">RU</a>
       </div>
       <a class="header-cta" href="https://mafiaonlinegame.com" target="_blank" rel="noopener" data-i18n="cta.play">Play now</a>
     </div>
@@ -1853,7 +1853,7 @@ function applyLang(lang) {
   // (wrapped: replaceState throws under the file:// origin during local preview)
   try { history.replaceState(null, '', cleanPath + location.hash); } catch (e) {}
 
-  document.querySelectorAll('.lang button').forEach(b => {
+  document.querySelectorAll('.lang a').forEach(b => {
     b.classList.toggle('active', b.dataset.lang === lang);
   });
   document.documentElement.lang = lang;
@@ -1865,8 +1865,9 @@ function applyLang(lang) {
 
 // language buttons — on mobile the pill is collapsed: first tap expands, second picks
 const langBox = document.querySelector('.lang');
-document.querySelectorAll('.lang button').forEach(btn => {
+document.querySelectorAll('.lang a').forEach(btn => {
   btn.addEventListener('click', e => {
+    e.preventDefault();
     const mobile = !window.matchMedia('(min-width:769px)').matches;
     if (mobile && !langBox.classList.contains('open')) {
       e.stopPropagation();
