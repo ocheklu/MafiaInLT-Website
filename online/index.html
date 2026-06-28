@@ -1907,6 +1907,10 @@ function switchToTab(id, dir) {
   void next.offsetWidth;
   next.classList.add('active', dir === 'right' ? 'slide-from-right' : 'slide-from-left');
   window.scrollTo({ top:0, behavior:'smooth' });
+
+  // reflect the active section in the URL so it can be shared / reloaded (clean per-language path + #section)
+  const base = currentLang === 'lt' ? '/online/' : '/online/' + currentLang + '/';
+  try { history.replaceState(null, '', id === tabIds[0] ? base : base + '#' + id); } catch (e) {}
 }
 
 tabs.forEach(tab => {
@@ -2028,6 +2032,16 @@ if (!window.matchMedia('(min-width:769px)').matches) {
 
 // ── init ──────────────────────────────────────────────────
 applyLang(currentLang);
+
+// shareable deep links: open the section named in the URL hash (e.g. /online/en/#players)
+const deepTab = location.hash.slice(1);
+if (tabIds.includes(deepTab) && deepTab !== tabIds[0]) switchToTab(deepTab, 'right');
+
+// keep the tab in sync if the hash changes later (manual edit / back-forward to a hashed entry)
+window.addEventListener('hashchange', () => {
+  const id = location.hash.slice(1) || tabIds[0];
+  if (tabIds.includes(id)) switchToTab(id, 'right');
+});
 </script>
 </body>
 </html>
