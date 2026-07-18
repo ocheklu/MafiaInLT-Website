@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Prisijungimas prie privataus kambario — Mafia Online</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --gold:       #c9a84c;
+  --gold-light: #e2c47a;
+  --gold-deep:  #8c7430;
+  --gold-dim:   rgba(201,168,76,0.15);
+  --gold-glow:  rgba(201,168,76,0.35);
+  --bg:         #0a0a0a;
+  --bg-card:    #111111;
+  --bg-card2:   #161513;
+  --text:       #ebe4d5;
+  --text-dim:   #888070;
+  --text-faint: #5a5448;
+  --border:     rgba(201,168,76,0.2);
+  --border-soft:rgba(201,168,76,0.1);
+  --serif: 'Cormorant Garamond', Georgia, serif;
+  --sans:  'Inter', system-ui, sans-serif;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+html { scroll-behavior:smooth; }
+
+body {
+  background:#060606;
+  color:var(--text);
+  font-family:var(--sans);
+  font-size:15px;
+  line-height:1.6;
+  min-height:100vh;
+  overflow-x:hidden;
+  position:relative;
+}
+
+body::before {
+  content:'';
+  position:fixed; inset:0;
+  background:
+    radial-gradient(ellipse 90% 60% at 50% -8%, rgba(201,168,76,0.10) 0%, rgba(201,168,76,0.04) 28%, transparent 58%),
+    radial-gradient(ellipse 120% 80% at 50% 50%, transparent 40%, rgba(0,0,0,0.55) 100%),
+    var(--bg);
+  pointer-events:none; z-index:0;
+}
+
+body::after {
+  content:'';
+  position:fixed; inset:-50%;
+  background-image:url("data:image/svg+xml;utf8,<svg viewBox='0 0 240 240' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.85, 0 0 0 0 0.78, 0 0 0 0 0.55, 0 0 0 0.6 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  background-size:240px 240px;
+  opacity:0.08; mix-blend-mode:overlay;
+  pointer-events:none; z-index:1;
+  animation:grain 6s steps(6) infinite;
+}
+@keyframes grain {
+  0%,100%{transform:translate(0,0)} 20%{transform:translate(-2%,1%)} 40%{transform:translate(1%,-2%)} 60%{transform:translate(-1%,2%)} 80%{transform:translate(2%,-1%)}
+}
+
+.app { position:relative; z-index:2; }
+
+/* ── HEADER ── */
+header {
+  border-bottom:1px solid var(--border);
+  background:rgba(8,8,8,0.92);
+  backdrop-filter:blur(14px) saturate(140%);
+  -webkit-backdrop-filter:blur(14px) saturate(140%);
+}
+.logo-row {
+  max-width:640px; margin:0 auto;
+  display:flex; align-items:center; gap:12px;
+  padding:14px 20px;
+}
+.logo-img { height:30px; width:auto; flex-shrink:0; object-fit:contain; }
+.logo-text { display:flex; flex-direction:column; gap:3px; }
+.logo-text b    { font-size:12px; font-weight:600; letter-spacing:0.16em; text-transform:uppercase; color:var(--text); line-height:1; }
+.logo-text span { font-size:9px; font-weight:400; letter-spacing:0.1em; text-transform:uppercase; color:var(--text); opacity:0.45; line-height:1; }
+
+/* ── MAIN ── */
+main { max-width:640px; margin:0 auto; padding:40px 20px 80px; }
+
+h1 {
+  font-family:var(--serif); font-weight:500; font-size:32px; line-height:1.2;
+  color:var(--text); margin-bottom:36px; text-align:center;
+}
+h1 a { color:var(--gold-light); text-decoration:none; }
+h1 a:hover { color:var(--gold); }
+
+.steps { display:flex; flex-direction:column; gap:28px; }
+
+.step {
+  position:relative; overflow:hidden;
+  display:flex; flex-direction:column; align-items:center; text-align:center;
+  gap:16px;
+  background:var(--bg-card);
+  border:1px solid var(--border-soft);
+  border-radius:10px;
+  padding:26px 20px 24px;
+}
+
+.step-index {
+  position:absolute; top:14px; right:18px;
+  font-family:var(--serif); font-style:italic; font-size:38px;
+  font-weight:400; color:rgba(201,168,76,0.08); line-height:1;
+  pointer-events:none;
+  display:flex; flex-direction:column; align-items:flex-end;
+}
+.step-index small {
+  font-family:var(--sans); font-size:8.5px; font-style:normal;
+  font-weight:500; letter-spacing:0.2em; text-transform:lowercase;
+  line-height:1; margin-bottom:3px; color:inherit;
+}
+
+.step img {
+  display:block; margin:0 auto;
+  max-width:100%; width:auto; max-height:300px;
+  border-radius:6px; border:1px solid var(--border-soft);
+}
+
+.step-text {
+  font-size:14px; color:var(--text-dim); line-height:1.65;
+  max-width:440px;
+}
+.step-text strong { color:var(--text); font-weight:600; }
+
+/* ── FOOTER ── */
+footer {
+  max-width:640px; margin:0 auto; padding:0 20px 60px;
+  text-align:center;
+}
+.support {
+  border-top:1px solid var(--border-soft);
+  padding-top:28px;
+  font-size:13.5px; color:var(--text-dim); line-height:1.8;
+}
+.support a { color:var(--gold-light); text-decoration:none; border-bottom:1px solid var(--border); }
+.support a:hover { color:var(--gold); }
+.brand-foot {
+  margin-top:22px;
+  font-size:10px; letter-spacing:0.14em; text-transform:uppercase;
+  color:var(--text-faint);
+}
+.brand-foot a { color:var(--text-faint); text-decoration:none; }
+
+@media (min-width: 640px) {
+  h1 { font-size:38px; }
+  .step { padding:32px 40px 30px; }
+  .step-index { font-size:44px; top:18px; right:22px; }
+  .step img { max-height:360px; }
+}
+</style>
+</head>
+<body>
+<div class="app">
+
+<header>
+  <div class="logo-row">
+    <a href="https://mafiaonlinegame.com" style="display:flex;align-items:center;gap:12px;text-decoration:none;">
+      <img class="logo-img" src="../images/logo.webp" alt="MafiaInLT">
+      <div class="logo-text">
+        <b>Mafia Online</b>
+        <span>originali MafiaInLT platforma</span>
+      </div>
+    </a>
+  </div>
+</header>
+
+<main>
+  <h1>Prisijungimas prie privataus kambario <a href="https://mafiaonlinegame.com">mafiaonlinegame.com</a> svetainėje</h1>
+
+  <div class="steps">
+
+    <div class="step">
+      <div class="step-index">1<small>step</small></div>
+      <img src="../images/instruction/1 - autoriz.webp" alt="Prisijungimas" loading="lazy">
+      <p class="step-text">Pasirinkite patogią jums kalbą ir prisijunkite prie svetainės per <strong>Google</strong>, <strong>Discord</strong> arba <strong>Twitch</strong> — bet kuriuo patogiu būdu.</p>
+    </div>
+
+    <div class="step">
+      <div class="step-index">2<small>step</small></div>
+      <img src="../images/instruction/2 - pasirinkti kambari.webp" alt="Pasirinkti kambarį" loading="lazy">
+      <p class="step-text">Paspauskite mygtuką <strong>„Pasirinkti kambarį“</strong>.</p>
+    </div>
+
+    <div class="step">
+      <div class="step-index">3<small>step</small></div>
+      <img src="../images/instruction/3 - privatus.webp" alt="Privatus žaidimas" loading="lazy">
+      <p class="step-text">Pasirinkite skirtuką <strong>„Privatus žaidimas“</strong>.</p>
+    </div>
+
+    <div class="step">
+      <div class="step-index">4<small>step</small></div>
+      <img src="../images/instruction/4 - id slapta.webp" alt="Kambario ID ir slaptažodis" loading="lazy">
+      <p class="step-text">Įveskite <strong>Kambario ID</strong> ir <strong>Slaptažodį</strong>, kuriuos jums atsiuntė organizatorius, ir paspauskite rodyklę <strong>→</strong>.</p>
+    </div>
+
+    <div class="step">
+      <div class="step-index">5<small>step</small></div>
+      <img src="../images/instruction/5 - dalyvauti.webp" alt="Dalyvauti" loading="lazy">
+      <p class="step-text">Pasirinkite <strong>„Dalyvauti“</strong>.</p>
+    </div>
+
+    <div class="step">
+      <div class="step-index">6<small>step</small></div>
+      <img src="../images/instruction/6 - pasiruoses.webp" alt="Pasiruošęs žaisti" loading="lazy">
+      <p class="step-text">Paspauskite <strong>„Pasiruošęs žaisti“</strong>.</p>
+    </div>
+
+    <div class="step">
+      <div class="step-index">7<small>step</small></div>
+      <img src="../images/instruction/7 - allow this time.webp" alt="Allow camera/microphone" loading="lazy">
+      <p class="step-text">Naršyklė paprašys leidimo naudoti kamerą ir mikrofoną — paspauskite <strong>„Allow this time“</strong> (arba „Allow while visiting the site“).</p>
+    </div>
+
+  </div>
+</main>
+
+<footer>
+  <div class="support">
+    Kilus klausimų, <a href="index.html#creator">susisiekite</a>
+    <div class="brand-foot"><a href="https://mafiaonlinegame.com">mafiaonlinegame.com</a></div>
+  </div>
+</footer>
+
+</div>
+</body>
+</html>
