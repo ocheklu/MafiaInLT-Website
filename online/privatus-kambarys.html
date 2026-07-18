@@ -111,16 +111,7 @@ h1 a:hover { color:var(--gold); }
 }
 
 .step-index {
-  position:absolute; top:14px; right:18px;
-  font-family:var(--serif); font-style:italic; font-size:38px;
-  font-weight:400; color:rgba(201,168,76,0.08); line-height:1;
-  pointer-events:none;
-  display:flex; flex-direction:column; align-items:flex-end;
-}
-.step-index small {
-  font-family:var(--sans); font-size:8.5px; font-style:normal;
-  font-weight:500; letter-spacing:0.2em; text-transform:lowercase;
-  line-height:1; margin-bottom:3px; color:inherit;
+  display:none;
 }
 
 .step img {
@@ -157,7 +148,7 @@ footer {
 @media (min-width: 640px) {
   h1 { font-size:38px; }
   .step { padding:32px 40px 30px; }
-  .step-index { font-size:44px; top:18px; right:22px; }
+  .step-index { font-size:44px; top:18px; left:22px; }
   .step img { max-height:360px; }
 }
 </style>
@@ -183,43 +174,43 @@ footer {
   <div class="steps">
 
     <div class="step">
-      <div class="step-index">1<small>step</small></div>
+      <div class="step-index">1</div>
       <img src="../images/instruction/1 - autoriz.webp" alt="Prisijungimas" loading="lazy">
       <p class="step-text">Pasirinkite patogią jums kalbą ir prisijunkite prie svetainės per <strong>Google</strong>, <strong>Discord</strong> arba <strong>Twitch</strong> — bet kuriuo patogiu būdu.</p>
     </div>
 
     <div class="step">
-      <div class="step-index">2<small>step</small></div>
+      <div class="step-index">2</div>
       <img src="../images/instruction/2 - pasirinkti kambari.webp" alt="Pasirinkti kambarį" loading="lazy">
       <p class="step-text">Paspauskite mygtuką <strong>„Pasirinkti kambarį“</strong>.</p>
     </div>
 
     <div class="step">
-      <div class="step-index">3<small>step</small></div>
+      <div class="step-index">3</div>
       <img src="../images/instruction/3 - privatus.webp" alt="Privatus žaidimas" loading="lazy">
       <p class="step-text">Pasirinkite skirtuką <strong>„Privatus žaidimas“</strong>.</p>
     </div>
 
     <div class="step">
-      <div class="step-index">4<small>step</small></div>
+      <div class="step-index">4</div>
       <img src="../images/instruction/4 - id slapta.webp" alt="Kambario ID ir slaptažodis" loading="lazy">
       <p class="step-text">Įveskite <strong>Kambario ID</strong> ir <strong>Slaptažodį</strong>, kuriuos jums atsiuntė organizatorius, ir paspauskite rodyklę <strong>→</strong>.</p>
     </div>
 
     <div class="step">
-      <div class="step-index">5<small>step</small></div>
+      <div class="step-index">5</div>
       <img src="../images/instruction/5 - dalyvauti.webp" alt="Dalyvauti" loading="lazy">
       <p class="step-text">Pasirinkite <strong>„Dalyvauti“</strong>.</p>
     </div>
 
     <div class="step">
-      <div class="step-index">6<small>step</small></div>
+      <div class="step-index">6</div>
       <img src="../images/instruction/6 - pasiruoses.webp" alt="Pasiruošęs žaisti" loading="lazy">
       <p class="step-text">Paspauskite <strong>„Pasiruošęs žaisti“</strong>.</p>
     </div>
 
     <div class="step">
-      <div class="step-index">7<small>step</small></div>
+      <div class="step-index">7</div>
       <img src="../images/instruction/7 - allow this time.webp" alt="Allow camera/microphone" loading="lazy">
       <p class="step-text">Naršyklė paprašys leidimo naudoti kamerą ir mikrofoną — paspauskite <strong>„Allow this time“</strong> (arba „Allow while visiting the site“).</p>
     </div>
