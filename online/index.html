@@ -474,6 +474,19 @@ h1 em { color:var(--gold); font-style:italic; font-weight:500; text-shadow:0 0 2
   letter-spacing:-0.01em; text-shadow:0 0 32px rgba(201,168,76,0.15);
 }
 .market-num em { font-style:italic; font-weight:400; }
+.market-num[data-count] {
+  font-variant-numeric:tabular-nums;
+  transition:opacity 1s ease, transform 1s cubic-bezier(0.16,1,0.3,1), filter 1s ease;
+}
+.market-num[data-count].cu-idle { opacity:0; transform:translateY(14px); filter:blur(10px); }
+.market-num[data-count] em { opacity:0; transition:opacity .7s ease; }
+.market-num[data-count].cu-done em { opacity:1; }
+.market-num[data-count].cu-done { animation:cu-glow 1.4s ease; }
+@keyframes cu-glow {
+  0%   { text-shadow:0 0 32px rgba(201,168,76,0.15); }
+  45%  { text-shadow:0 0 46px rgba(201,168,76,0.42); }
+  100% { text-shadow:0 0 32px rgba(201,168,76,0.15); }
+}
 .market-lab  { font-size:13px; font-weight:500; color:var(--text); margin-bottom:4px; }
 .market-desc { font-size:12.5px; font-weight:300; color:var(--text-dim); line-height:1.45; }
 .market-src  { font-family:var(--serif); font-size:11.5px; color:var(--text-faint); font-style:italic; margin-top:4px; }
@@ -953,17 +966,17 @@ ul.facts li a.fact-link:hover { color:var(--gold-light); border-color:rgba(212,1
     <p class="block-label" data-i18n="inv.tr.label">Traction</p>
     <div class="market">
       <div class="market-card">
-        <div class="market-num">49<em>+</em></div>
+        <div class="market-num" data-count="54" data-count-suffix="+">54<em>+</em></div>
         <div class="market-lab" data-i18n="inv.tr1.lab">Live sessions played</div>
-        <p class="market-desc" data-i18n="inv.tr1.desc">May–June 2026</p>
+        <p class="market-desc" data-i18n="inv.tr1.desc">May–July 2026</p>
       </div>
       <div class="market-card">
-        <div class="market-num">118</div>
+        <div class="market-num" data-count="168">168</div>
         <div class="market-lab" data-i18n="inv.tr2.lab">Unique players</div>
-        <p class="market-desc" data-i18n="inv.tr2.desc">Since launch, including exhibition games</p>
+        <p class="market-desc" data-i18n="inv.tr2.desc">Since launch</p>
       </div>
       <div class="market-card">
-        <div class="market-num">€40</div>
+        <div class="market-num" data-count="40" data-count-prefix="€">€40</div>
         <div class="market-lab" data-i18n="inv.tr3.lab">Monthly infrastructure</div>
         <p class="market-desc" data-i18n="inv.tr3.desc">Server and domains — total running cost today</p>
       </div>
@@ -1379,9 +1392,9 @@ const STRINGS = {
     'inv.badge': 'Live since May 22, 2026',
     'inv.tr.label': 'Traction',
     'inv.tr1.lab': 'Live sessions played',
-    'inv.tr1.desc': 'May–June 2026',
+    'inv.tr1.desc': 'May–July 2026',
     'inv.tr2.lab': 'Unique players',
-    'inv.tr2.desc': 'Since launch, including exhibition games',
+    'inv.tr2.desc': 'Since launch',
     'inv.tr3.lab': 'Monthly infrastructure',
     'inv.tr3.desc': 'Server and domains — total running cost today',
     'inv.market.label': 'Market',
@@ -1531,9 +1544,9 @@ const STRINGS = {
     'inv.badge': 'Veikia nuo 2026 m. gegužės 22 d.',
     'inv.tr.label': 'Rezultatai',
     'inv.tr1.lab': 'Sužaista gyvų sesijų',
-    'inv.tr1.desc': '2026 m. gegužė–birželis',
+    'inv.tr1.desc': '2026 m. gegužė–liepa',
     'inv.tr2.lab': 'Unikalūs žaidėjai',
-    'inv.tr2.desc': 'Nuo paleidimo, įskaitant žaidimus parodoje',
+    'inv.tr2.desc': 'Nuo paleidimo',
     'inv.tr3.lab': 'Mėnesinė infrastruktūra',
     'inv.tr3.desc': 'Serveris ir domenai — visos dabartinės veiklos išlaidos',
     'inv.market.label': 'Rinka',
@@ -1660,9 +1673,9 @@ const STRINGS = {
     'inv.badge': 'Работает с 22 мая 2026',
     'inv.tr.label': 'Результаты',
     'inv.tr1.lab': 'Сыграно живых сессий',
-    'inv.tr1.desc': 'Май–июнь 2026',
+    'inv.tr1.desc': 'Май–июль 2026',
     'inv.tr2.lab': 'Уникальных игроков',
-    'inv.tr2.desc': 'С момента запуска, включая игры на выставке',
+    'inv.tr2.desc': 'С момента запуска',
     'inv.tr3.lab': 'Инфраструктура в месяц',
     'inv.tr3.desc': 'Сервер и домены — все текущие расходы на сегодня',
     'inv.market.label': 'Рынок',
@@ -2048,6 +2061,59 @@ window.addEventListener('hashchange', () => {
   const id = location.hash.slice(1) || tabIds[0];
   if (tabIds.includes(id)) switchToTab(id, 'right');
 });
+
+// ── traction count-up ─────────────────────────────
+(function () {
+  const nums = [...document.querySelectorAll('.market-num[data-count]')];
+  if (!nums.length) return;
+
+  // split each number into prefix + live value + suffix once, so the
+  // suffix can fade in on its own instead of being redrawn every frame
+  nums.forEach(el => {
+    const val = document.createElement('span');
+    val.textContent = el.dataset.count;
+    el.textContent = el.dataset.countPrefix || '';
+    el.appendChild(val);
+    if (el.dataset.countSuffix) {
+      const em = document.createElement('em');
+      em.textContent = el.dataset.countSuffix;
+      el.appendChild(em);
+    }
+    el._cuVal = val;
+  });
+
+  const settle = el => { el.classList.remove('cu-idle'); el.classList.add('cu-done'); };
+
+  const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+             || !('IntersectionObserver' in window);
+  if (still) { nums.forEach(settle); return; }
+
+  nums.forEach(el => { el.classList.add('cu-idle'); el._cuVal.textContent = '0'; });
+
+  const DUR = 2200;
+  const run = el => {
+    const target = +el.dataset.count;
+    el.classList.remove('cu-idle');              // fade / lift / unblur
+    const start = performance.now();
+    const step = now => {
+      const t = Math.min((now - start) / DUR, 1);
+      const eased = 1 - Math.pow(1 - t, 5);      // ease-out quint — long gentle settle
+      el._cuVal.textContent = Math.round(target * eased);
+      if (t < 1) requestAnimationFrame(step);
+      else el.classList.add('cu-done');          // suffix fades in, glow pulses
+    };
+    requestAnimationFrame(step);
+  };
+
+  const io = new IntersectionObserver((entries, obs) => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      obs.unobserve(e.target);
+      setTimeout(() => run(e.target), nums.indexOf(e.target) * 160); // stagger across cards
+    });
+  }, { threshold: 0.6 });
+  nums.forEach(el => io.observe(el));
+})();
 </script>
 </body>
 </html>
