@@ -976,9 +976,9 @@ ul.facts li a.fact-link:hover { color:var(--gold-light); border-color:rgba(212,1
         <p class="market-desc" data-i18n="inv.tr2.desc">Since launch</p>
       </div>
       <div class="market-card">
-        <div class="market-num" data-count="40" data-count-prefix="€">€40</div>
-        <div class="market-lab" data-i18n="inv.tr3.lab">Monthly infrastructure</div>
-        <p class="market-desc" data-i18n="inv.tr3.desc">Server and domains — total running cost today</p>
+        <div class="market-num" data-count="58.6" data-count-decimals="1" data-count-suffix="%">58.6<em>%</em></div>
+        <div class="market-lab" data-i18n="inv.tr3.lab">Returning players</div>
+        <p class="market-desc" data-i18n="inv.tr3.desc">Played a second session after their first</p>
       </div>
     </div>
   </div>
@@ -1400,8 +1400,8 @@ const STRINGS = {
     'inv.tr1.desc': 'May–July 2026',
     'inv.tr2.lab': 'Unique players',
     'inv.tr2.desc': 'Since launch',
-    'inv.tr3.lab': 'Monthly infrastructure',
-    'inv.tr3.desc': 'Server and domains — total running cost today',
+    'inv.tr3.lab': 'Returning players',
+    'inv.tr3.desc': 'Played a second session after their first',
     'inv.market.label': 'Market',
     'inv.m1.lab': 'Social Deduction Games',
     'inv.m1.desc': 'Global market size, 2024',
@@ -1552,8 +1552,8 @@ const STRINGS = {
     'inv.tr1.desc': '2026 m. gegužė–liepa',
     'inv.tr2.lab': 'Unikalūs žaidėjai',
     'inv.tr2.desc': 'Nuo paleidimo',
-    'inv.tr3.lab': 'Mėnesinė infrastruktūra',
-    'inv.tr3.desc': 'Serveris ir domenai — visos dabartinės veiklos išlaidos',
+    'inv.tr3.lab': 'Grįžtantys žaidėjai',
+    'inv.tr3.desc': 'Po pirmos sesijos sužaidė antrą',
     'inv.market.label': 'Rinka',
     'inv.m1.lab': 'Socialinės dedukcijos žaidimai',
     'inv.m1.desc': 'Pasaulinės rinkos dydis, 2024',
@@ -1681,8 +1681,8 @@ const STRINGS = {
     'inv.tr1.desc': 'Май–июль 2026',
     'inv.tr2.lab': 'Уникальных игроков',
     'inv.tr2.desc': 'С момента запуска',
-    'inv.tr3.lab': 'Инфраструктура в месяц',
-    'inv.tr3.desc': 'Сервер и домены — все текущие расходы на сегодня',
+    'inv.tr3.lab': 'Вернувшиеся игроки',
+    'inv.tr3.desc': 'Сыграли вторую сессию после первой',
     'inv.market.label': 'Рынок',
     'inv.m1.lab': 'Игры жанра «социальная дедукция»',
     'inv.m1.desc': 'Объём мирового рынка, 2024',
@@ -1892,6 +1892,8 @@ function applyLang(lang) {
 
   // the i18n loop above wrote the dictionary form of "players" — re-decline it
   applyTableSize(currentTableSize);
+
+  if (window.__cuRelocalize) window.__cuRelocalize();
 }
 
 // language buttons — on mobile the pill is collapsed: first tap expands, second picks
@@ -2072,11 +2074,18 @@ window.addEventListener('hashchange', () => {
   const nums = [...document.querySelectorAll('.market-num[data-count]')];
   if (!nums.length) return;
 
+  // decimal-aware formatting; separator follows the active language
+  const cuSep = () => (typeof currentLang === 'string' && currentLang !== 'en') ? ',' : '.';
+  const cuFmt = (el, v) => {
+    const d = +(el.dataset.countDecimals || 0);
+    return d ? v.toFixed(d).replace('.', cuSep()) : String(Math.round(v));
+  };
+
   // split each number into prefix + live value + suffix once, so the
   // suffix can fade in on its own instead of being redrawn every frame
   nums.forEach(el => {
     const val = document.createElement('span');
-    val.textContent = el.dataset.count;
+    val.textContent = cuFmt(el, +el.dataset.count);
     el.textContent = el.dataset.countPrefix || '';
     el.appendChild(val);
     if (el.dataset.countSuffix) {
@@ -2087,25 +2096,32 @@ window.addEventListener('hashchange', () => {
     el._cuVal = val;
   });
 
+  // redraw the separator when the language changes (called from applyLang)
+  window.__cuRelocalize = () => nums.forEach(el => {
+    if (el._cuRunning) return;
+    el._cuVal.textContent = cuFmt(el, el.classList.contains('cu-idle') ? 0 : +el.dataset.count);
+  });
+
   const settle = el => { el.classList.remove('cu-idle'); el.classList.add('cu-done'); };
 
   const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches
              || !('IntersectionObserver' in window);
   if (still) { nums.forEach(settle); return; }
 
-  nums.forEach(el => { el.classList.add('cu-idle'); el._cuVal.textContent = '0'; });
+  nums.forEach(el => { el.classList.add('cu-idle'); el._cuVal.textContent = cuFmt(el, 0); });
 
   const DUR = 2200;
   const run = el => {
     const target = +el.dataset.count;
+    el._cuRunning = true;
     el.classList.remove('cu-idle');              // fade / lift / unblur
     const start = performance.now();
     const step = now => {
       const t = Math.min((now - start) / DUR, 1);
       const eased = 1 - Math.pow(1 - t, 5);      // ease-out quint — long gentle settle
-      el._cuVal.textContent = Math.round(target * eased);
+      el._cuVal.textContent = cuFmt(el, target * eased);
       if (t < 1) requestAnimationFrame(step);
-      else el.classList.add('cu-done');          // suffix fades in, glow pulses
+      else { el._cuRunning = false; el.classList.add('cu-done'); }          // suffix fades in, glow pulses
     };
     requestAnimationFrame(step);
   };
