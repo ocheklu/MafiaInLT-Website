@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arbatpinigiai | MafiaInLT</title>
+    <meta name="description" content="Arbatpinigiai MafiaInLT vedėjui.">
+    <!-- Puslapis skirtas QR kodui renginyje, paieškoje jo nereikia -->
+    <meta name="robots" content="noindex, follow">
+
+    <link rel="icon" type="image/png" href="../images/logo.webp">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Alata&display=swap" rel="stylesheet">
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2.5rem 1.25rem;
+            font-family: 'Alata', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #000000;
+            color: #FFFFFF;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .tip-card {
+            width: 100%;
+            max-width: 380px;
+            text-align: center;
+        }
+
+        .tip-logo {
+            display: block;
+            width: 132px;
+            height: 132px;
+            margin: 0 auto 2rem;
+        }
+
+        /* Логотип ведёт на главную — текстовой ссылки на странице нет */
+        .tip-logo-link {
+            display: block;
+            transition: opacity 0.25s ease;
+        }
+
+        .tip-logo-link:hover { opacity: 0.75; }
+
+        .tip-title {
+            font-size: 0.85rem;
+            font-weight: 400;
+            line-height: 1.55;
+            color: rgba(255, 255, 255, 0.45);
+            margin-bottom: 2.25rem;
+        }
+
+        /* Три суммы в ряд, «kita suma» — во всю ширину под ними */
+        .tip-amounts {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.7rem;
+            margin-bottom: 0.7rem;
+        }
+
+        .tip-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 72px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: transparent;
+            color: #FFFFFF;
+            font-family: inherit;
+            font-size: 1.4rem;
+            text-decoration: none;
+            transition: background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease;
+        }
+
+        .tip-btn--custom {
+            min-height: 56px;
+            font-size: 0.95rem;
+            letter-spacing: 0.06em;
+            color: rgba(255, 255, 255, 0.65);
+        }
+
+        /* Инверсия только для мыши — на телефоне :hover залипает после нажатия */
+        @media (hover: hover) {
+            .tip-btn:hover {
+                background: #FFFFFF;
+                border-color: #FFFFFF;
+                color: #000000;
+            }
+        }
+
+        .tip-btn:active {
+            background: #FFFFFF;
+            border-color: #FFFFFF;
+            color: #000000;
+        }
+
+        /* Пока ссылка Stripe не вставлена — кнопка неактивна */
+        .tip-btn[aria-disabled="true"] {
+            opacity: 0.25;
+            pointer-events: none;
+        }
+
+        .tip-note {
+            margin-top: 2.25rem;
+            font-size: 0.72rem;
+            letter-spacing: 0.04em;
+            color: rgba(255, 255, 255, 0.3);
+        }
+
+        .tip-setup {
+            display: none;
+            margin-top: 1.5rem;
+            padding: 0.85rem 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            font-size: 0.75rem;
+            line-height: 1.55;
+            color: rgba(255, 255, 255, 0.45);
+        }
+
+        @media (max-width: 360px) {
+            .tip-btn { font-size: 1.25rem; min-height: 66px; }
+        }
+    </style>
+</head>
+<body>
+
+    <main class="tip-card">
+        <a href="../index.html" class="tip-logo-link" aria-label="MafiaInLT">
+            <img src="../images/mafia-club-gold.webp" alt="MafiaInLT" class="tip-logo" width="132" height="132">
+        </a>
+
+        <p class="tip-title">Pinigai bus išsiųsti į MafiaInLT projekto sąskaitą.</p>
+
+        <div class="tip-amounts">
+            <a class="tip-btn" data-tip="10" href="#">10 €</a>
+            <a class="tip-btn" data-tip="20" href="#">20 €</a>
+            <a class="tip-btn" data-tip="50" href="#">50 €</a>
+        </div>
+
+        <a class="tip-btn tip-btn--custom" data-tip="custom" href="#">Kita suma</a>
+
+        <p class="tip-note">Mokėjimą apdoroja Stripe</p>
+
+        <div class="tip-setup" id="tipSetup"></div>
+    </main>
+
+    <script>
+        // ===========================================================
+        //  ЕДИНСТВЕННОЕ МЕСТО ДЛЯ ПРАВКИ
+        //  Четыре ссылки Payment Links из дашборда Stripe.
+        //
+        //  ССЫЛКИ БОЕВЫЕ — деньги списываются по-настоящему.
+        //  Если когда-нибудь подставишь тестовые (buy.stripe.com/test_...),
+        //  на странице сама появится плашка «Testinis režimas».
+        // ===========================================================
+        const TIP_LINKS = {
+            '10':     'https://buy.stripe.com/dRmfZi1H94zi0j49pebMQ00',
+            '20':     'https://buy.stripe.com/14AaEY99Bc1K3vg58YbMQ01',
+            '50':     'https://buy.stripe.com/4gM28sfxZ4zie9UfNCbMQ02',
+            'custom': 'https://buy.stripe.com/4gM8wQ3Ph2raaXIcBqbMQ03'
+        };
+
+        document.querySelectorAll('.tip-btn').forEach(function (btn) {
+            const link = TIP_LINKS[btn.dataset.tip];
+
+            if (link) {
+                btn.href = link;
+                btn.removeAttribute('aria-disabled');
+            } else {
+                btn.href = '#';
+                btn.setAttribute('aria-disabled', 'true');
+            }
+        });
+
+        // Предупреждения: незаполненные ссылки и тестовый режим.
+        // Тестовые ссылки не должны молча уехать в прод — плашку видно сразу.
+        const missing = Object.keys(TIP_LINKS).filter(function (key) {
+            return !TIP_LINKS[key];
+        });
+
+        const isTestMode = Object.keys(TIP_LINKS).some(function (key) {
+            return TIP_LINKS[key].indexOf('/test_') !== -1;
+        });
+
+        const setup = document.getElementById('tipSetup');
+
+        if (missing.length) {
+            setup.style.display = 'block';
+            setup.textContent = 'Nustatymas: į TIP_LINKS (aciu/index.html) reikia įrašyti Stripe nuorodas: ' + missing.join(', ') + '.';
+        } else if (isTestMode) {
+            setup.style.display = 'block';
+            setup.textContent = 'Testinis režimas — tikri pinigai nenuskaitomi.';
+        }
+    </script>
+
+</body>
+</html>

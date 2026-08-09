@@ -84,6 +84,7 @@
     </script>
 
     <!-- Favicon -->
+    <link rel="canonical" href="https://mafiain.lt/paslaugos.html">
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
@@ -310,6 +311,12 @@
             <span class="progress-label">Rezervacija</span>
         </div>
     </div>
+    <!-- Подпись под полосой — только телефон, заполняется из calculator-v2.js -->
+    <div class="progress-caption">
+        <button id="back-btn" class="calc-back-btn" type="button" style="display: none;">← Atgal</button>
+        <span class="progress-caption-count"></span>
+        <span class="progress-caption-title"></span>
+    </div>
 </div>
         
         <div class="calculator-container">
@@ -361,20 +368,6 @@
                         </div>
                     </div>
                 </div>
-            </div>
-
-            <!-- Step 4: Days (for atributika) -->
-            <div class="calculator-step" id="step-days">
-                <label style="display: block; font-weight: 600; margin-bottom: 1rem; font-size: 1.1rem;">Parų kiekis</label>
-                <select id="days-select" style="width: 100%; padding: 1rem; border: 2px solid #e0e0e0; border-radius: 10px; font-size: 1rem;">
-                    <option value="1">1 diena</option>
-                    <option value="2">2 dienos</option>
-                    <option value="3">3 dienos</option>
-                    <option value="4">4 dienos</option>
-                    <option value="5">5 dienos</option>
-                    <option value="6">6 dienos</option>
-                    <option value="7">7 dienos</option>
-                </select>
             </div>
 
             <!-- Step 5: Location (for zaidimo) -->
@@ -437,8 +430,7 @@
             <div class="calculator-step" id="step-services">
                 <label style="display: block; font-weight: 600; margin-bottom: 1rem; font-size: 1.1rem;">Paslaugos</label>
                 <div id="services-list"></div>
-                    <!-- Dynamic services will be added here -->
-               </div>
+                <!-- Dynamic services will be added here -->
             </div>
             <!-- END step-services -->
 
@@ -453,30 +445,28 @@
                 </div>
                 
                 <div style="max-width: 400px; margin: 0 auto;">
-                    <input type="email" id="client-email" placeholder="Jūsų el. paštas" style="width: 100%; padding: 1rem; border: 2px solid #e0e0e0; border-radius: 10px; margin-bottom: 1rem; font-size: 1rem;">
+                    <input type="text" id="client-name" class="calc-input" placeholder="Jūsų vardas" autocomplete="name">
+                    <input type="tel" id="client-phone" class="calc-input" placeholder="Telefono numeris" autocomplete="tel" inputmode="tel">
+                    <input type="email" id="client-email" class="calc-input" placeholder="Jūsų el. paštas" autocomplete="email" inputmode="email" autocapitalize="off" spellcheck="false">
                     
-                    <div style="position: relative; display: inline-block; width: 100%;">
-                        <button id="reserve-btn" class="btn btn-primary" style="padding: 1rem 3rem; font-size: 1.1rem; width: 100%;">Rezervuoti</button>
-                        <div class="tooltip" style="display: none; position: absolute; bottom: 110%; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.9); color: #d4af37; border: 2px solid #d4af37; padding: 0.8rem 1rem; border-radius: 8px; font-size: 0.9rem; max-width: 250px; text-align: center; z-index: 1000; pointer-events: none;">
-                            Užklausa bus išsiųsta el. paštu mafiainlt@gmail.com. Susisieksime su jumis artimiausiu metu.
-                        </div>
-                    </div>
-                    <!-- Mobile Info Popup -->
-<div id="mobile-reserve-info" class="mobile-reserve-popup" style="display: none;">
-    <button class="mobile-popup-close">&times;</button>
-    <p>Užklausa bus išsiųsta el. paštu mafiainlt@gmail.com. Susisieksime su jumis artimiausiu metu.</p>
-</div>
+                    <button id="reserve-btn" class="btn btn-primary" style="padding: 1rem 3rem; font-size: 1.1rem; width: 100%;">Rezervuoti</button>
+                    <p class="reserve-note">Užklausa bus išsiųsta el. paštu mafiainlt@gmail.com. Susisieksime su jumis artimiausiu metu.</p>
                 </div>
             </div>
 
         </div>
         <!-- End Steps Container -->
 
-            <!-- Next Button -->
-            <div style="text-align: center; margin-top: 3rem;">
+            <!-- Navigation -->
+            <div class="calculator-nav">
                 <button id="next-to-summary-btn" class="btn btn-primary" style="padding: 1rem 3rem; font-size: 1.1rem; display: none;">Toliau →</button>
             </div>
         </div>
+
+    <!-- Preliminari kaina: lipni juosta telefone -->
+    <div id="calc-price-bar" class="calc-price-bar" aria-live="polite">
+        <span class="calc-price-bar-label">Preliminari kaina</span>
+        <span class="calc-price-bar-value"><span id="calc-price-bar-value">0</span> €</span>
     </div>
 </section>
 

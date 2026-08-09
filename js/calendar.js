@@ -10,18 +10,45 @@ class Calendar {
         this.currentDate = new Date();
         this.selectedDate = null;
         this.onDateSelect = onDateSelect;
+
+        // Заказы принимаем от сегодняшнего дня и на год вперёд:
+        // дальше листать некуда, раньше — тоже
+        this.minDate = new Date();
+        this.minDate.setHours(0, 0, 0, 0);
+
+        this.maxDate = new Date(this.minDate);
+        this.maxDate.setFullYear(this.maxDate.getFullYear() + 1);
         
         // Range mode for selecting two dates
         this.isRangeMode = options.rangeMode || false;
         this.selectedDateStart = null;
         this.selectedDateEnd = null;
         
-        this.monthNames = [
-            'Sausis', 'Vasaris', 'Kovas', 'Balandis', 'Gegužė', 'Birželis',
-            'Liepa', 'Rugpjūtis', 'Rugsėjis', 'Spalis', 'Lapkritis', 'Gruodis'
-        ];
-        
-        this.weekDays = ['Pr', 'An', 'Tr', 'Kt', 'Pn', 'Št', 'Sk'];
+        // Локализация по <html lang>: / — LT, /ru/ — RU, /en/ — EN
+        const lang = (document.documentElement.lang || 'lt').slice(0, 2);
+        const L10N = {
+            lt: {
+                months: ['Sausis', 'Vasaris', 'Kovas', 'Balandis', 'Gegužė', 'Birželis',
+                         'Liepa', 'Rugpjūtis', 'Rugsėjis', 'Spalis', 'Lapkritis', 'Gruodis'],
+                weekDays: ['Pr', 'An', 'Tr', 'Kt', 'Pn', 'Št', 'Sk'],
+                dateTaken: 'Ši data užimta'
+            },
+            ru: {
+                months: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь',
+                         'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
+                weekDays: ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'],
+                dateTaken: 'Эта дата занята'
+            },
+            en: {
+                months: ['January', 'February', 'March', 'April', 'May', 'June',
+                         'July', 'August', 'September', 'October', 'November', 'December'],
+                weekDays: ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'],
+                dateTaken: 'This date is unavailable'
+            }
+        };
+        this.l10n = L10N[lang] || L10N.lt;
+        this.monthNames = this.l10n.months;
+        this.weekDays = this.l10n.weekDays;
         
         this.render();
     }
@@ -35,16 +62,28 @@ class Calendar {
         
         const prevBtn = document.createElement('button');
         prevBtn.className = 'calendar-nav';
+        prevBtn.type = 'button';
         prevBtn.innerHTML = '&larr;';
-        prevBtn.addEventListener('click', () => this.previousMonth());
-        
+        if (this.canGoToPreviousMonth()) {
+            prevBtn.addEventListener('click', () => this.previousMonth());
+        } else {
+            prevBtn.classList.add('disabled');
+            prevBtn.disabled = true;
+        }
+
         const currentMonth = document.createElement('span');
         currentMonth.textContent = `${this.monthNames[this.currentDate.getMonth()]} ${this.currentDate.getFullYear()}`;
-        
+
         const nextBtn = document.createElement('button');
         nextBtn.className = 'calendar-nav';
+        nextBtn.type = 'button';
         nextBtn.innerHTML = '&rarr;';
-        nextBtn.addEventListener('click', () => this.nextMonth());
+        if (this.canGoToNextMonth()) {
+            nextBtn.addEventListener('click', () => this.nextMonth());
+        } else {
+            nextBtn.classList.add('disabled');
+            nextBtn.disabled = true;
+        }
         
         header.appendChild(prevBtn);
         header.appendChild(currentMonth);
@@ -90,15 +129,20 @@ class Calendar {
             
             const currentDayDate = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth(), day);
             const dateString = this.formatDate(currentDayDate);
-            
-            // Проверяем, не прошедшая ли это дата
-            if (currentDayDate < today) {
+
+            // Прошедшие дни и всё, что дальше года вперёд
+            if (currentDayDate < today || currentDayDate > this.maxDate) {
+                dayElement.classList.add('disabled');
+            }
+            // В режиме диапазона конец не может быть раньше начала
+            else if (this.isRangeMode && this.selectedDateStart && !this.selectedDateEnd &&
+                     dateString < this.formatDate(this.selectedDateStart)) {
                 dayElement.classList.add('disabled');
             }
             // Проверяем, не заблокирована ли дата
             else if (typeof isDateBlocked !== 'undefined' && isDateBlocked(dateString)) {
                 dayElement.classList.add('blocked');
-                dayElement.title = 'Ši data užimta';
+                dayElement.title = this.l10n.dateTaken;
             }
             // Проверяем, выбрана ли дата
             else if (this.selectedDate && this.formatDate(this.selectedDate) === dateString) {
@@ -177,12 +221,29 @@ class Calendar {
         }
     }
     
+    // Листать можно только в пределах «от текущего месяца до месяца через год»
+    canGoToPreviousMonth() {
+        const year = this.currentDate.getFullYear();
+        const month = this.currentDate.getMonth();
+        return year > this.minDate.getFullYear() ||
+               (year === this.minDate.getFullYear() && month > this.minDate.getMonth());
+    }
+
+    canGoToNextMonth() {
+        const year = this.currentDate.getFullYear();
+        const month = this.currentDate.getMonth();
+        return year < this.maxDate.getFullYear() ||
+               (year === this.maxDate.getFullYear() && month < this.maxDate.getMonth());
+    }
+
     previousMonth() {
+        if (!this.canGoToPreviousMonth()) return;
         this.currentDate.setMonth(this.currentDate.getMonth() - 1);
         this.render();
     }
-    
+
     nextMonth() {
+        if (!this.canGoToNextMonth()) return;
         this.currentDate.setMonth(this.currentDate.getMonth() + 1);
         this.render();
     }

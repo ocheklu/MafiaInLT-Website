@@ -1,2 +1,7 @@
 CLAUDE.md
 work-log.md
+
+# Ключи и секреты: .env и любые его варианты (.env.local, .env.production)
+.env
+.env.*
+!.env.example
