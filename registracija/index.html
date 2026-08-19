@@ -251,6 +251,11 @@
                     });
 
                     fireConfetti();
+
+                    // Let the confetti finish, then send them to the game page
+                    setTimeout(function () {
+                        location.replace('../online/en/');
+                    }, 3000);
                 } catch (err) {
                     button.classList.remove('is-sending');
                     button.disabled = false;
