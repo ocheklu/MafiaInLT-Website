@@ -142,7 +142,8 @@ h1, h2 { letter-spacing: -.015em; }
   .service-flip-card:not(.flipped):hover {
     transform: none;
   }
-  /* полоса «Skaityti» заливается без анимации */
+  /* переворот и заливки полос — без анимации */
+  .service-flip-inner,
   .blog-preview-more,
   .blog-preview-more::before,
   .service-flip-front .hint,

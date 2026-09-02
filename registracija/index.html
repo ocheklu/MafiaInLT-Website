@@ -16,6 +16,7 @@
 
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { -webkit-tap-highlight-color: transparent; }
 
         body {
             min-height: 100vh;
@@ -150,6 +151,9 @@
                 color: #FFFFFF;
             }
         }
+
+        /* Отклик на тап вместо снятого системного блика */
+        .reg-submit:active:not(:disabled) { opacity: 0.72; }
 
         .reg-submit:disabled { cursor: default; }
 

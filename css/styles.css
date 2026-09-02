@@ -8,6 +8,13 @@
     box-sizing: border-box;
 }
 
+/* Синий блик, которым Chrome и Safari отвечают на тап, ломает монохром:
+   гасим его на всей странице (наследуется вниз), а отклик на касание
+   даём своими :active-состояниями ниже */
+html {
+    -webkit-tap-highlight-color: transparent;
+}
+
 :root {
     --primary-color: #000000;
     --secondary-color: #333333;
@@ -2131,9 +2138,84 @@ section {
         grid-template-columns: 1fr;
     }
 
+    /* Карточки услуг лентой со свайпом — тот же приём, что у статей
+       на главной. Инлайновый display: grid на .services-desktop
+       перебивается только !important. */
     .services-desktop {
-    grid-template-columns: 1fr !important;
-    gap: 2rem !important;
+        display: flex !important;
+        grid-template-columns: none !important;
+        gap: 1rem !important;
+        max-width: none !important;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        scroll-padding-left: 26px;
+        /* свайп по ленте не должен уводить браузер «назад» */
+        overscroll-behavior-x: contain;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+        /* вылет за паддинги .container, чтобы лента шла от края экрана */
+        margin: 0 -20px !important;
+        /* лента обрезает всё, что вылезает за её границы, а карточка
+           в середине переворота вырастает по высоте: дальняя perspective
+           уменьшает этот выход, вертикальные паддинги добирают остаток */
+        padding: 1.75rem 26px;
+    }
+
+    .services-desktop::-webkit-scrollbar {
+        display: none;
+    }
+
+    .services-desktop .service-flip-card {
+        /* Собственный слой композитора: у ленты overflow-x: auto, а такой
+           предок на мобильных браузерах уплощает 3D-контекст потомков —
+           переворот тогда замирает на полпути и доходит только со следующим
+           касанием. Отдельный слой это развязывает. */
+        transform: translateZ(0);
+        perspective: 1800px;
+        flex: 0 0 80%;
+        scroll-snap-align: start;
+        /* ниже десктопных 640: карточка вместе с полосой «Paslaugų sąrašas»
+           должна помещаться в экран телефона с адресной строкой браузера —
+           иначе подсказку о тапе просто не видно */
+        height: 600px;
+    }
+
+    /* Оборот на мобильном плотнее: те же размеры шрифтов,
+       уже только вертикальные отступы — иначе самый длинный
+       список не помещается и уводит кнопку под нижний край */
+    .services-desktop .service-flip-back {
+        padding: 1.6rem 1.35rem;
+    }
+
+    .services-desktop .service-flip-back h3 {
+        margin-bottom: 0.8rem;
+        padding-bottom: 0.75rem;
+    }
+
+    .services-desktop .service-flip-back .pricing-line {
+        padding: 0.4rem 0;
+    }
+
+    .services-desktop .service-flip-back .section-title {
+        margin: 1.05rem 0 0.55rem;
+    }
+
+    .services-desktop .service-flip-back .services-list li {
+        margin-bottom: 0.3rem;
+    }
+
+    .services-desktop .service-flip-front-content {
+        padding-top: 4.5rem;
+    }
+
+    /* Переворот на телефоне короче десктопных 0.8s:
+       палец ждёт отклика, а не представления.
+       will-change поднимает оборот на собственный слой: без него
+       карточка внутри скроллящейся ленты доворачивается рывком
+       только при следующем касании */
+    .services-desktop .service-flip-inner {
+        transition: transform 0.62s cubic-bezier(0.22, 0.61, 0.36, 1);
+        will-change: transform;
     }
 
     .contact-wrapper {
@@ -2427,6 +2509,65 @@ section {
     }
 }
 
+/* На тачскрине ховера нет, и полоса читалась как подпись, а не как кнопка.
+   Поэтому там она сразу залита белым, а на нажатии инвертируется —
+   тап видно сразу, ещё до переворота карточки. */
+@media (hover: none) {
+    .service-flip-front .hint {
+        color: #000;
+    }
+
+    .service-flip-front .hint::before {
+        transform: scaleX(1);
+        transition: background-color 0.18s ease;
+    }
+
+    .service-flip-card:not(.flipped):active .service-flip-front .hint {
+        color: #fff;
+    }
+
+    .service-flip-card:not(.flipped):active .service-flip-front .hint::before {
+        background-color: #000;
+    }
+
+    /* Полосы, которые на десктопе заливаются по ховеру, на тап отвечают
+       той же заливкой — только быстрее: палец держат недолго */
+    .services-articles-links a:active {
+        color: #fff;
+    }
+
+    .services-articles-links a:active::before {
+        transform: scaleX(1);
+        transition-duration: 0.25s;
+    }
+
+    .blog-preview-card:active .blog-preview-more {
+        color: #fff;
+    }
+
+    .blog-preview-card:active .blog-preview-more::before {
+        transform: scaleX(1);
+        transition-duration: 0.25s;
+    }
+
+    /* Остальное кликабельное осталось без отклика после снятия блика */
+    .btn:active,
+    .nav-menu a:active,
+    .faq-question:active,
+    .gallery-item:active,
+    .blog-card:active,
+    .flip-back-btn:active,
+    .mobile-menu-toggle:active,
+    .lightbox-close:active,
+    .lightbox-prev:active,
+    .lightbox-next:active,
+    .review-modal-close:active,
+    .contact-modal-close:active {
+        opacity: 0.72;
+        transition: opacity 0.12s ease;
+    }
+}
+
 .service-flip-back {
     background: white;
     transform: rotateY(180deg);
@@ -2503,7 +2644,9 @@ section {
 @media (max-width: 768px) {
     .services-articles-links {
         grid-template-columns: 1fr;
-        margin-top: 2.5rem;
+        /* 6px к паддингу .container = 26px от края экрана,
+           ровно по левому краю карточек в ленте выше */
+        margin: 2.5rem 6px 0;
     }
 }
 
@@ -3713,13 +3856,13 @@ section {
         gap: 1rem;
         overflow-x: auto;
         scroll-snap-type: x mandatory;
-        scroll-padding-left: 20px;
-        -webkit-overflow-scrolling: touch;
+        scroll-padding-left: 26px;
+        overscroll-behavior-x: contain;
         scrollbar-width: none;
         -ms-overflow-style: none;
         /* вылет за паддинги .container, чтобы лента шла от края экрана */
         margin: 0 -20px;
-        padding: 0.5rem 20px 1rem;
+        padding: 0.5rem 26px 1rem;
     }
 
     .blog-preview-grid::-webkit-scrollbar {
@@ -3727,7 +3870,7 @@ section {
     }
 
     .blog-preview-card {
-        flex: 0 0 82%;
+        flex: 0 0 78%;
         scroll-snap-align: start;
     }
 
