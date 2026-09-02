@@ -596,20 +596,20 @@ section {
     border-top: 1px solid #e8e8e8;
 }
 
-/* Единственная полоса, которая заливается золотом, а не чёрным.
-   Под ней фото со свечами: чёрное, наползающее на такой кадр,
-   читалось как траурная рамка. Золото — цвет Mafia Online из
-   шапки, но на тон глубже: #e6c878 задуман как текст на тёмном,
-   залитый большой площадью он читается жёлтым. #b8860b — то же
-   золото, каким заливается форма контактов; на нём держится
-   белый текст. */
+/* Единственная полоса, которая заливается не чёрным. Под ней фото
+   со свечами: чёрное, наползающее на такой кадр, читалось как
+   траурная рамка. Здесь вместо этого плашка Mafia Online из шапки
+   в её обычном виде — тёмный графит с золотой надписью. Золото
+   рифмуется с пламенем, оба цвета уже в палитре, новых не добавили.
+   Заливать полосу золотом целиком пробовали: на такой площади
+   #e6c878 читается жёлтым, а более глубокое #b8860b — горчичным. */
 .founder-photo .more-bar::before {
-    background-color: #b8860b;
+    background-color: #161616;
 }
 
 @media (hover: hover) {
     .founder-photo:hover .more-bar {
-        color: #fff;
+        color: #e6c878;
         transition: color 0.3s ease 0.12s;
     }
 
@@ -2748,6 +2748,7 @@ section {
     .flip-reserve:active::before,
     .calc-submit:active::before,
     .calc-next:active::before,
+    .btn-primary.btn-hero:active::before,
     .contact-form-card button:active::before {
         transform: scaleX(0);
     }
@@ -2791,6 +2792,12 @@ section {
     .calc-next:active,
     .about-btn:active {
         background-color: #ececec;
+    }
+
+    /* Кнопка на тёмном фоне прозрачная — масштаб на ней почти не
+       виден, отклик даёт лёгкое осветление. */
+    .btn-primary.btn-hero:active {
+        background-color: rgba(255, 255, 255, 0.14);
     }
 
     .contact-form-card button:active {

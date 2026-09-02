@@ -141,15 +141,20 @@
     }
 }
 
-/* На тач-экранах наведения нет — полоса отзывается на нажатие */
+/* На тач-экранах заливки нет: тап короче анимации, она обрывается
+   на полпути и читается как вспышка. Вместо неё — нажатие, то же,
+   что у всех кнопок сайта (см. блок «ОТКЛИК НА ТАП» в styles.css).
+   Правило живёт здесь, потому что about-final.css грузится после
+   styles.css и перебил бы общий блок. */
 @media (hover: none) {
     .about-btn:active {
-        color: #fff;
+        background-color: #ececec;
+        transform: scale(0.985);
+        transition: transform 0.08s ease, background-color 0.08s ease;
     }
 
     .about-btn:active::before {
-        transform: scaleX(1);
-        transition-duration: 0.2s;
+        transform: scaleX(0);
     }
 }
 
