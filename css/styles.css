@@ -256,19 +256,45 @@ img {
 }
 
 .nav-menu a[href^="/online/"] {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
     color: #e6c878 !important;
     background: #161616;
     border: none;
-    border-radius: 24px;
+    border-radius: 2px;
     padding: 6px 18px;
     font-weight: 600;
     letter-spacing: 0.03em;
-    transition: background .25s ease, color .25s ease;
+    transition: color .22s ease;
 }
-.nav-menu a[href^="/online/"]:hover {
-    color: #f4dc96 !important;
-    background: #000;
+
+/* Тот же приём, что у полос на карточках, только вывернутый: фон тёмный,
+   поэтому заливка идёт золотом, а текст на ней чернеет. */
+.nav-menu a[href^="/online/"]::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    z-index: -1;
+    background-color: #e6c878;
+    transform: scaleX(0);
+    transform-origin: left center;
+    will-change: transform;
+    transition: transform 0.42s cubic-bezier(0.33, 1, 0.68, 1);
 }
+
+@media (hover: hover) {
+    .nav-menu a[href^="/online/"]:hover {
+        color: #111 !important;
+        transition: color 0.3s ease 0.12s;
+    }
+
+    .nav-menu a[href^="/online/"]:hover::before {
+        transform: scaleX(1);
+        transition-duration: 0.55s;
+    }
+}
+
 .nav-menu a[href^="/online/"]::after {
     display: none !important;
 }
@@ -2197,7 +2223,7 @@ section {
         color: #e6c878 !important;
         background: rgba(201,168,76,0.10);
         border: none;
-        border-radius: 24px;
+        border-radius: 2px;
         padding: 9px 20px !important;
         margin-top: 10px;
         opacity: 1;
