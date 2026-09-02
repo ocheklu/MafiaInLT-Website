@@ -234,6 +234,12 @@ img {
     flex: 1;
     justify-content: center;
 }
+/* Логотип живёт только в мобильном оверлее — в горизонтальной шапке
+   он дублировал бы лого слева. */
+.nav-menu-logo {
+    display: none;
+}
+
 
 .nav-menu a {
     font-weight: 500;
@@ -1406,13 +1412,22 @@ section {
    КАЛЬКУЛЯТОР
    =========================== */
 
-.calculator {
-    background-color: #f9f9f9;
-    padding: 3rem;
-    border-radius: 10px;
-    margin-top: 3rem;
+/* Секция калькулятора во всю ширину. Отступы и фон жили в inline-стиле
+   <section>, из-за чего медиазапросы до них не доставали. Радиус 10px
+   убран: у полноширинной секции он срезал углы фона по краям экрана. */
+/* Секция с карточками услуг. Отступы тоже переехали из inline-стиля.
+   Снизу она вплотную работает с калькулятором, поэтому её нижний
+   отступ на телефоне подрезается вместе с верхним отступом секции
+   калькулятора. */
+.services-cards-section {
+    padding: 6rem 0;
 }
 
+.calculator {
+    padding: 6rem 0;
+    background-color: #f8f8f8;
+    margin-top: 3rem;
+}
 .calculator h2 {
     text-align: center;
     margin-bottom: 2rem;
@@ -2190,21 +2205,37 @@ section {
         transition: opacity 0.25s ease, transform 0.25s ease;
     }
 
+    /* Логотип над списком: точка опоры вверху чёрного экрана и путь
+       на главную. Виден только в мобильном оверлее. */
+    .nav-menu-logo {
+        display: block;
+        margin-bottom: 1.6rem !important;
+    }
+
+    .nav-menu-logo img {
+        display: block;
+        width: 72px;
+        height: 72px;
+        margin: 0 auto;
+    }
+
+    /* Раньше активный пункт красился золотом — тем же цветом, что и
+       Mafia Online. В одном экране получались два золотых элемента, и
+       золото переставало читаться как метка продукта. Теперь глубину
+       задаёт яркость: текущая страница белая, остальные приглушены,
+       золото остаётся только за Mafia Online. */
     .nav-menu a {
         font-size: 1.7rem !important;
         padding: 12px 32px !important;
         display: block;
-        color: #fff !important;
+        color: rgba(255, 255, 255, 0.5) !important;
         letter-spacing: 0.06em;
         text-transform: uppercase;
-    }
-
-    .nav-menu a:hover {
-        color: #d4af37 !important;
+        transition: color 0.25s ease;
     }
 
     .nav-menu a.active {
-        color: #d4af37 !important;
+        color: #fff !important;
         background: transparent !important;
         border-radius: 0;
         margin: 0 !important;
@@ -2214,21 +2245,18 @@ section {
         display: none;
     }
 
+    /* Без плашки: на чёрном хватает самого золота. */
     .nav-menu a[href^="/online/"] {
         color: #e6c878 !important;
-        background: rgba(201,168,76,0.10);
+        background: none;
+        background-image: none;
         border: none;
-        border-radius: 2px;
-        padding: 9px 20px !important;
-        margin-top: 10px;
+        border-radius: 0;
+        padding: 12px 32px !important;
+        margin-top: 0;
         opacity: 1;
-        font-weight: 600;
-        letter-spacing: 0.03em;
-    }
-
-    .nav-menu a[href^="/online/"]:hover {
-        background: rgba(201,168,76,0.18);
-        color: #f4dc96 !important;
+        font-weight: 500;
+        letter-spacing: 0.06em;
     }
 
     .nav-menu.active {
@@ -2248,6 +2276,7 @@ section {
     .nav-menu.active li:nth-child(5) { transition-delay: 0.20s; }
     .nav-menu.active li:nth-child(6) { transition-delay: 0.24s; }
     .nav-menu.active li:nth-child(7) { transition-delay: 0.28s; }
+    .nav-menu.active li:nth-child(8) { transition-delay: 0.32s; }
 
     body.menu-open {
         overflow: hidden;
@@ -2417,6 +2446,13 @@ section {
         grid-template-columns: 1fr;
     }
     
+    /* Карточки услуг и калькулятор — соседние шаги одного разговора:
+       «вот что мы делаем» → «посчитай своё». Полтора экрана пустоты
+       между ними на телефоне рвали эту связь. */
+    .services-cards-section {
+        padding: 4rem 0 2rem;
+    }
+
     .calculator {
         padding: 1.5rem;
     }
@@ -2427,12 +2463,6 @@ section {
     
     /* Полоса шагов на телефоне пересобрана в конце файла */
 
-    /* Calculator container на планшетах */
-    .calculator-container {
-        padding: 2rem 1.25rem 2.25rem;
-        border-radius: 0 0 8px 8px;
-    }
-    
     /* Карточки калькулятора на телефоне пересобраны в конце файла */
 
     /* Contact Section Redesign Mobile */
@@ -2536,12 +2566,6 @@ section {
     
     section {
         padding: 2rem 0;
-    }
-    
-    /* Calculator container на телефонах */
-    .calculator-container {
-        padding: 1.75rem 1rem 2rem;
-        border-radius: 0 0 8px 8px;
     }
     
     /* На телефоне полоса во всю ширину оборота, без ограничения. */
@@ -3779,6 +3803,35 @@ section {
         margin: 0 auto;
         border: 1px solid #e6e6e6;
         border-radius: 8px 8px 0 0;
+    }
+
+
+    /* Калькулятор на телефоне. На узком экране три зоны фона (белая секция
+       услуг, серая секция калькулятора, серый футер) с линиями между ними
+       читались как случайные полосы: серый секции #f8f8f8 и серый футера
+       #f9f9f9 глаз не различает, а граница между ними видна. Секцию
+       делаем такой же белой, как услуги над ней, — карточку держит её
+       собственная рамка, а переход остаётся ровно один: к футеру. */
+    .calculator {
+        margin-top: 0;
+        padding: 3rem 0;
+        background-color: #ffffff;
+    }
+
+    /* Фон футера сам отделяет его от белой секции — линия сверху была бы
+       второй границей на том же месте. */
+    .footer {
+        border-top: none;
+    }
+
+    /* Базовое правило .calculator-container лежит НИЖЕ по файлу,
+       поэтому мобильные паддинги обязаны стоять здесь: медиазапрос
+       не добавляет специфичности, при равном весе побеждает
+       последнее правило. Раньше оверрайд стоял выше базового и
+       молча не работал — на телефоне держались десктопные 56px
+       по бокам. */
+    .calculator-container {
+        padding: 2rem 1.25rem 2.25rem;
     }
 
     .progress-bar {
