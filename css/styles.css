@@ -596,6 +596,17 @@ section {
     border-top: 1px solid #e8e8e8;
 }
 
+/* Единственная полоса, которая заливается золотом, а не чёрным.
+   Под ней фото со свечами: чёрное, наползающее на такой кадр,
+   читалось как траурная рамка. Золото — цвет Mafia Online из
+   шапки, но на тон глубже: #e6c878 задуман как текст на тёмном,
+   залитый большой площадью он читается жёлтым. #b8860b — то же
+   золото, каким заливается форма контактов; на нём держится
+   белый текст. */
+.founder-photo .more-bar::before {
+    background-color: #b8860b;
+}
+
 @media (hover: hover) {
     .founder-photo:hover .more-bar {
         color: #fff;
@@ -2698,7 +2709,19 @@ section {
 /* На тачскрине ховера нет, и полоса читалась как подпись, а не как кнопка.
    Поэтому там она сразу залита белым, а на нажатии инвертируется —
    тап видно сразу, ещё до переворота карточки. */
+/* ===========================
+   ОТКЛИК НА ТАП
+   Заливка слева направо — жест курсора: он наводится и живёт над
+   элементом. Палец держат ~100мс, анимация не успевает и обрывается
+   на полпути — вместо плавности выходит вспышка. Поэтому на тач-экранах
+   заливки нет вообще, вместо неё короткое нажатие: поверхность на
+   80мс проседает и темнеет на один шаг. Эффект короче касания, а не
+   длиннее, поэтому моргать нечему.
+   =========================== */
+
 @media (hover: none) {
+    /* Полоса-подсказка на лицевой стороне флип-карточки в покое уже
+       залита (иначе на телефоне её не видно), на тап — инверсия. */
     .service-flip-front .hint {
         color: #000;
     }
@@ -2716,79 +2739,83 @@ section {
         background-color: #000;
     }
 
-    /* Полосы, которые на десктопе заливаются по ховеру, на тап отвечают
-       той же заливкой — только быстрее: палец держат недолго */
-    .services-articles-links a:active {
-        color: #fff;
-    }
-
-    .services-articles-links a:active::before {
-        transform: scaleX(1);
-        transition-duration: 0.25s;
-    }
-
-    .founder-photo:active .more-bar {
-        color: #fff;
-    }
-
-    .founder-photo:active .more-bar::before {
-        transform: scaleX(1);
-        transition-duration: 0.25s;
-    }
-
-    .service-preview-card:active .service-preview-more {
-        color: #fff;
-    }
-
-    .service-preview-card:active .service-preview-more::before {
-        transform: scaleX(1);
-        transition-duration: 0.25s;
-    }
-
-    .flip-reserve:active,
-    .calc-submit:active,
-    .calc-next:active {
-        color: #fff;
-        border-color: #000;
-    }
-
+    /* Заливки на тапе не запускаем: держим ::before свёрнутым. */
+    .services-articles-links a:active::before,
+    .founder-photo:active .more-bar::before,
+    .service-preview-card:active .service-preview-more::before,
+    .blog-preview-card:active .blog-preview-more::before,
+    .more-bar:active::before,
     .flip-reserve:active::before,
     .calc-submit:active::before,
-    .calc-next:active::before {
-        transform: scaleX(1);
+    .calc-next:active::before,
+    .contact-form-card button:active::before {
+        transform: scaleX(0);
+    }
+
+    /* Одно нажатие на всё кликабельное: карточка целиком, полоса,
+       кнопка. Один тайминг, один масштаб. */
+    .more-bar:active,
+    .services-articles-links a:active,
+    .flip-reserve:active,
+    .calc-submit:active,
+    .calc-next:active,
+    .contact-form-card button:active,
+    .about-btn:active,
+    .btn:active,
+    .blog-preview-card:active,
+    .service-preview-card:active,
+    .founder-photo:active,
+    .service-flip-card:active,
+    .gallery-item:active,
+    .faq-question:active,
+    .choice-card:active,
+    .flip-back-btn:active,
+    .mobile-menu-toggle:active,
+    .nav-menu a:active,
+    .lightbox-close:active,
+    .lightbox-prev:active,
+    .lightbox-next:active,
+    .review-modal-close:active,
+    .contact-modal-close:active {
+        transform: scale(0.985);
+        transition: transform 0.08s ease, background-color 0.08s ease,
+                    border-color 0.08s ease;
+    }
+
+    /* Светлым полосам — фон на шаг темнее: сам масштаб на узкой
+       полосе почти незаметен. */
+    .more-bar:active,
+    .services-articles-links a:active,
+    .flip-reserve:active,
+    .calc-submit:active,
+    .calc-next:active,
+    .about-btn:active {
+        background-color: #ececec;
     }
 
     .contact-form-card button:active {
-        color: #fff;
+        background-color: #f0e6cd;
         border-color: #b8860b;
     }
 
-    .contact-form-card button:active::before {
-        transform: scaleX(1);
+    /* У карточек нажимается вся карточка, но полоса внизу должна
+       откликнуться вместе с ней. */
+    .blog-preview-card:active .blog-preview-more,
+    .service-preview-card:active .service-preview-more,
+    .founder-photo:active .more-bar {
+        background-color: #ececec;
     }
 
-    .blog-preview-card:active .blog-preview-more {
-        color: #fff;
-    }
-
-    .blog-preview-card:active .blog-preview-more::before {
-        transform: scaleX(1);
-        transition-duration: 0.25s;
-    }
-
-    /* Карточки калькулятора: то же, что на десктопе даёт наведение */
+    /* Карточки калькулятора: то же, что на десктопе даёт наведение. */
     .choice-card:active {
         border-color: #000000;
         background-color: #fafafa;
     }
 
-    /* Остальное кликабельное осталось без отклика после снятия блика */
-    .btn:active,
-    .more-bar:active,
+    /* Элементы без собственного фона — им масштаб мало что даёт,
+       добавляем затемнение. */
     .nav-menu a:active,
     .faq-question:active,
-    .gallery-item:active,
-    .blog-card:active,
     .flip-back-btn:active,
     .mobile-menu-toggle:active,
     .lightbox-close:active,
@@ -2797,7 +2824,6 @@ section {
     .review-modal-close:active,
     .contact-modal-close:active {
         opacity: 0.72;
-        transition: opacity 0.12s ease;
     }
 }
 
