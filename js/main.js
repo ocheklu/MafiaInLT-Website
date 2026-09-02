@@ -234,15 +234,24 @@ document.addEventListener('DOMContentLoaded', function() {
 
 document.addEventListener('DOMContentLoaded', function() {
     const hash = window.location.hash;
-    
+
     if (hash) {
         const cardId = hash.substring(1);
         const card = document.getElementById(cardId);
-        
+
+        // Скроллим мгновенно, а не smooth: у html стоит scroll-behavior: smooth,
+        // и Chrome обрывает плавную прокрутку, пока догружаются картинки страницы —
+        // по той же причине не срабатывает и нативный якорный прыжок.
+        // Пользователь пришёл с другой страницы, промежуточного положения он
+        // всё равно не видел.
         if (card && card.classList.contains('service-flip-card')) {
             setTimeout(() => {
                 card.classList.add('flipped');
-                card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                card.scrollIntoView({ behavior: 'instant', block: 'center' });
+            }, 300);
+        } else if (card) {
+            setTimeout(() => {
+                card.scrollIntoView({ behavior: 'instant', block: 'start' });
             }, 300);
         }
     }

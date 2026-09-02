@@ -2890,6 +2890,12 @@ section {
 
 /* Progress Bar */
 
+/* Приход по якорю с другой страницы: шапка sticky и высотой ~113px,
+   без запаса она накрыла бы заголовок секции. */
+#calculator {
+    scroll-margin-top: 90px;
+}
+
 .progress-bar-container {
     background: #ffffff;
     width: 100%;
