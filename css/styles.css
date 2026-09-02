@@ -487,9 +487,14 @@ img {
 
 .hero-desc-desktop { display: none; }
 
+/* Перенос строки в H1 только на телефоне: „…pagal“ / „Oleg Čeklu metodiką“.
+   На десктопе заголовок в одну строку, перенос выключается. */
+.hero-br-mobile { display: inline; }
+
 @media (min-width: 769px) {
     .hero-desc-mobile  { display: none; }
     .hero-desc-desktop { display: block; }
+    .hero-br-mobile   { display: none; }
 }
 
 .hero-index .hero-content > p {
@@ -2539,13 +2544,10 @@ section {
         border-radius: 0 0 8px 8px;
     }
     
-    .service-flip-back .btn {
-        width: 100%;
+    /* На телефоне полоса во всю ширину оборота, без ограничения. */
+    .flip-reserve {
         margin-top: 1rem;
-        align-self: center;
-        max-width: 300px;
     }
-    
 }
 
 /* Flip Cards - Desktop */
@@ -2719,6 +2721,19 @@ section {
         transition-duration: 0.25s;
     }
 
+    .flip-reserve:active,
+    .calc-submit:active,
+    .calc-next:active {
+        color: #fff;
+        border-color: #000;
+    }
+
+    .flip-reserve:active::before,
+    .calc-submit:active::before,
+    .calc-next:active::before {
+        transform: scaleX(1);
+    }
+
     .contact-form-card button:active {
         color: #fff;
         border-color: #b8860b;
@@ -2775,11 +2790,76 @@ section {
     pointer-events: none;
 }
 
-/* Кнопка «Rezervuoti» всегда у нижнего края оборота */
-.service-flip-back .btn {
+/* Кнопки-действия на карточках услуг и в калькуляторе. Тот же язык,
+   что у полос «Plačiau» и «Skaityti»: капс с разрядкой, светлый фон,
+   заливка чёрным слева направо на наведении. */
+.flip-reserve,
+.calc-submit,
+.calc-next {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    display: block;
+    width: 100%;
+    padding: 0.9rem 1.25rem;
+    border: 1px solid #e8e8e8;
+    border-radius: 2px;
+    background-color: #f7f7f7;
+    color: #000;
+    font-family: 'Alata', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition: color 0.22s ease, border-color 0.3s ease;
+}
+
+/* На обороте карточки кнопка прижата к низу — так три карточки
+   разной длины заканчиваются на одной линии. */
+.flip-reserve {
     margin-top: auto;
-    padding: 12px 20px;
-    font-size: 0.95rem;
+}
+
+/* Внутри флекс-контейнера навигации ширину задаёт flex-basis:
+   width: 100% там ужимается по тексту. */
+.calc-next {
+    flex: 0 0 260px;
+    width: auto;
+}
+
+.flip-reserve::before,
+.calc-submit::before,
+.calc-next::before {
+    content: '';
+    position: absolute;
+    /* На пиксель за рамку: иначе на дробной ширине справа остаётся щель. */
+    inset: -1px;
+    z-index: -1;
+    background-color: #000;
+    transform: scaleX(0);
+    transform-origin: left center;
+    will-change: transform;
+    transition: transform 0.42s cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+@media (hover: hover) {
+    .flip-reserve:hover,
+    .calc-submit:hover,
+    .calc-next:hover {
+        color: #fff;
+        border-color: #000;
+        transition: color 0.3s ease 0.12s, border-color 0.3s ease;
+    }
+
+    .flip-reserve:hover::before,
+    .calc-submit:hover::before,
+    .calc-next:hover::before {
+        transform: scaleX(1);
+        transition-duration: 0.55s;
+    }
 }
 
 /* Полоса из двух ссылок на статьи под сеткой услуг.
@@ -3496,8 +3576,8 @@ section {
     width: 100%;
     padding: 1rem;
     margin-bottom: 0.75rem;
-    border: 2px solid #e0e0e0;
-    border-radius: 10px;
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
     font-family: inherit;
     font-size: 1rem;
     color: #1A1A1A;
