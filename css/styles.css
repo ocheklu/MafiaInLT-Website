@@ -1888,51 +1888,94 @@ section {
     background: #333;
 }
 
-/* Service items компактнее */
+/* ===========================
+   ОБОРОТ КАРТОЧКИ УСЛУГИ
+   Заголовок — цены — сгруппированные списки — кнопка.
+   =========================== */
 
+.service-flip-back h3 {
+    margin: 0 0 1rem;
+    padding-bottom: 0.9rem;
+    font-size: 1.25rem;
+    text-align: center;
+    border-bottom: 1px solid #ececec;
+}
 
-    .service-flip-back h3 {
-        margin-top: 0.5rem;
-        margin-bottom: 0.5rem;
-        font-size: 1.3rem;
-        text-align: center;
-    }
+/* Цена: слева состав, справа сумма — читается как прайс, а не как строка текста */
+.service-flip-back .pricing-line {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin: 0;
+    padding: 0.45rem 0;
+    font-size: 0.85rem;
+    font-style: normal;
+    color: #555;
+    text-align: left;
+}
 
-    .service-flip-back .pricing-line {
-        font-size: 0.95rem;
-        font-style: italic;
-        margin: 0;
-        text-align: center;
-    }
+.service-flip-back .pricing-line + .pricing-line {
+    border-top: 1px dashed #ededed;
+}
 
-    .service-flip-back .pricing-line.pricing-last {
-        margin-bottom: 0rem;
-    }
+.service-flip-back .pricing-line .amount {
+    flex-shrink: 0;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #000;
+}
 
-    .service-flip-back .section-title {
-        font-size: 0.9rem;
-        font-weight: 600;
-        margin-bottom: 0.2rem;
-        text-align: center;
-    }
+/* Метка группы: капитель + линия до правого края */
+.service-flip-back .section-title {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    margin: 1.35rem 0 0.7rem;
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #9a9a9a;
+    text-align: left;
+}
 
-    .service-flip-back .section-title:not(:first-of-type) {
-        margin-top: 0.2rem;
-        margin-bottom: 0.2rem;
-    }
+.service-flip-back .section-title::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: #ececec;
+}
 
-    .faq-title {
-        color: #C19A6B;
-    }
+.service-flip-back .services-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-size: 0.85rem;
+    line-height: 1.45;
+    color: #3a3a3a;
+    text-align: left;
+}
 
+.service-flip-back .services-list li {
+    position: relative;
+    padding-left: 1rem;
+    margin-bottom: 0.4rem;
+}
 
-    .service-flip-back .services-list {
-        font-size: 0.85rem;
-        padding-left: 0;
-        line-height: 1.6;
-        margin: 0;
-        text-align: center;
-    }
+.service-flip-back .services-list li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.6em;
+    width: 6px;
+    height: 1px;
+    background: #c9c9c9;
+}
+
+.faq-title {
+    color: #C19A6B;
+}
 
 /* ===========================
    АДАПТИВНОСТЬ
@@ -2266,7 +2309,7 @@ section {
 /* Flip Cards - Desktop */
 .service-flip-card {
     perspective: 1000px;
-    height: 560px;
+    height: 640px;
     cursor: pointer;
 }
 
@@ -2287,98 +2330,181 @@ section {
     width: 100%;
     height: 100%;
     backface-visibility: hidden;
-    border-radius: 15px;
+    border-radius: 8px;
     overflow: hidden;
 }
 
 .service-flip-front {
-    background: white;
-    display: flex;
-    flex-direction: column;
+    background: #000;
     pointer-events: auto;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.10);
+    transition: box-shadow 0.35s ease;
 }
 
 .service-flip-card.flipped .service-flip-front {
     pointer-events: none;
 }
 
+/* Фото занимает карточку целиком, текст лежит на нём */
 .service-flip-front img {
     width: 100%;
-    height: 60%;
+    height: 100%;
     object-fit: cover;
-}
-
-.service-flip-front-content::before {
-    content: '';
-    position: absolute;
-    top: -2px;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background: #f8f8f8;
-    z-index: 2;
+    display: block;
+    transition: transform 0.6s cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 
 .service-flip-front-content {
-    padding: 2rem 1.5rem 1.5rem 1.5rem;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    background: linear-gradient(to bottom, rgba(0,0,0,0.85), rgba(0,0,0,0.95) 20%, rgba(0,0,0,1));
-    color: white;
     position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
-    height: 40%;
+    padding: 5.5rem 1.5rem 0 1.5rem;
+    text-align: center;
+    color: white;
     z-index: 10;
+    background: linear-gradient(to top,
+        rgba(0, 0, 0, 0.94) 0%,
+        rgba(0, 0, 0, 0.82) 40%,
+        rgba(0, 0, 0, 0.45) 70%,
+        rgba(0, 0, 0, 0) 100%);
 }
 
 .service-flip-front h3 {
-    margin: 0 0 0.5rem 0;
+    margin: 0 0 0.35rem 0;
     font-size: 1.4rem;
 }
 
 .service-flip-front .price {
-    font-size: 1.8rem;
+    font-size: 1.75rem;
     font-weight: 700;
-    margin: 0.5rem 0;
+    margin: 0 0 1.35rem 0;
 }
 
+/* Полоса «Paslaugų sąrašas» во всю ширину карточки.
+   На ховере заливается белым слева направо, надпись чернеет —
+   тот же приём, что у «Skaityti» в блоке статей на главной. */
 .service-flip-front .hint {
-    font-size: 0.95rem;
-    opacity: 0.9;
-    margin-top: 0.8rem;
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    margin: 0 -1.5rem;
+    padding: 0.95rem 1.25rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.18);
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #fff;
+    opacity: 1;
+    transition: color 0.22s ease;
 }
 
-.service-flip-front .hint::after {
-    content: ' →';
-    display: inline-block;
-    animation: slideRight 1.5s ease-in-out infinite;
+.service-flip-front .hint::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background-color: #fff;
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 0.42s cubic-bezier(0.33, 1, 0.68, 1);
 }
 
-@keyframes slideRight {
-    0%, 100% { 
-        transform: translateX(0); 
-        opacity: 1; 
+@media (hover: hover) {
+    .service-flip-card:not(.flipped):hover .service-flip-front img {
+        transform: scale(1.04);
     }
-    50% { 
-        transform: translateX(10px); 
-        opacity: 0.5; 
+
+    .service-flip-card:not(.flipped):hover .service-flip-front .hint {
+        color: #000;
+        transition: color 0.3s ease 0.12s;
+    }
+
+    .service-flip-card:not(.flipped):hover .service-flip-front .hint::before {
+        transform: scaleX(1);
+        transition-duration: 0.55s;
     }
 }
 
 .service-flip-back {
     background: white;
     transform: rotateY(180deg);
-    padding: 2rem;
+    padding: 1.9rem 1.6rem;
     overflow-y: auto;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+    box-shadow: 0 18px 40px -16px rgba(0, 0, 0, 0.22),
+                0 6px 14px -8px rgba(0, 0, 0, 0.14);
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: flex-start;
     pointer-events: none;
+}
+
+/* Кнопка «Rezervuoti» всегда у нижнего края оборота */
+.service-flip-back .btn {
+    margin-top: auto;
+    padding: 12px 20px;
+    font-size: 0.95rem;
+}
+
+/* Полоса из двух ссылок на статьи под сеткой услуг.
+   Тот же язык, что и полоса-подсказка на карточке: капс, разрядка,
+   заливка чёрным слева направо на ховере. */
+.services-articles-links {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    max-width: 720px;
+    margin: 4rem auto 0;
+    background-color: #e4e4e4;
+    border: 1px solid #e4e4e4;
+}
+
+.services-articles-links a {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    display: block;
+    padding: 1.15rem 1.25rem;
+    background-color: #f7f7f7;
+    text-align: center;
+    text-decoration: none;
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #000;
+    transition: color 0.22s ease;
+}
+
+.services-articles-links a::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background-color: #000;
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 0.42s cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+@media (hover: hover) {
+    .services-articles-links a:hover {
+        color: #fff;
+        transition: color 0.3s ease 0.12s;
+    }
+
+    .services-articles-links a:hover::before {
+        transform: scaleX(1);
+        transition-duration: 0.55s;
+    }
+}
+
+@media (max-width: 768px) {
+    .services-articles-links {
+        grid-template-columns: 1fr;
+        margin-top: 2.5rem;
+    }
 }
 
 .service-flip-card.flipped .service-flip-back {
@@ -3424,4 +3550,189 @@ section {
     .service-item:hover .choice-indicator {
         left: -2.8rem;
     }
+}
+
+/* ===========================
+   STRAIPSNIAI PREVIEW (главная)
+   Собственные классы blog-preview-*, чтобы не тянуть на главную
+   весь css/blog-styles.css — он несёт ещё и стили тела статьи.
+   =========================== */
+
+.blog-preview-section {
+    padding: 6rem 0;
+    background-color: #fafafa;
+}
+
+.blog-preview-heading {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.blog-preview-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+}
+
+.blog-preview-card {
+    background: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+}
+
+/* hover только там, где есть курсор: на тач-устройствах
+   :hover залипает после тапа */
+@media (hover: hover) {
+    .blog-preview-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .blog-preview-card:hover .blog-preview-image {
+        transform: scale(1.04);
+    }
+
+    .blog-preview-card:hover .blog-preview-more {
+        color: #fff;
+        transition: color 0.3s ease 0.12s;
+    }
+
+    .blog-preview-card:hover .blog-preview-more::before {
+        transform: scaleX(1);
+        transition-duration: 0.55s;
+    }
+}
+
+.blog-preview-image-wrapper {
+    position: relative;
+    width: 100%;
+    height: 220px;
+    overflow: hidden;
+}
+
+.blog-preview-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s ease;
+}
+
+.blog-preview-card-title {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 1.5rem;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.4) 70%, transparent 100%);
+    color: #fff;
+    font-size: 1.3rem;
+    margin: 0;
+    text-align: center;
+    font-weight: 600;
+    line-height: 1.3;
+}
+
+.blog-preview-content {
+    padding: 1.25rem;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.blog-preview-excerpt {
+    font-size: 0.9rem;
+    color: #666;
+    line-height: 1.6;
+    margin: 0 0 1.25rem 0;
+    flex-grow: 1;
+}
+
+/* «Skaityti» — полоса во всю ширину карточки, надпись по центру.
+   На ховере полосу заливает чёрным слева направо, текст белеет:
+   заметнее, чем перелив по самим буквам. */
+.blog-preview-more {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    margin: auto -1.25rem -1.25rem;
+    padding: 0.9rem 1.25rem;
+    text-align: center;
+    border-top: 1px solid #e8e8e8;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: #000;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    background-color: #f7f7f7;
+    transition: color 0.22s ease;
+}
+
+/* Заливка — отдельный слой на transform: он считается на композиторе,
+   поэтому идёт ровнее, чем background-position, и на scaleX(0)
+   схлопывается в честный ноль без остатка на дробных ширинах карточек. */
+.blog-preview-more::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background-color: #000;
+    transform: scaleX(0);
+    transform-origin: left center;
+    will-change: transform;
+    transition: transform 0.42s cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+/* Свои задержки появления: глобальное правило
+   .scroll-reveal:nth-child(2) даёт 0.3s только второй карточке,
+   из-за чего третья опережала бы вторую. */
+.blog-preview-grid .scroll-reveal:nth-child(1) { transition-delay: 0s; }
+.blog-preview-grid .scroll-reveal:nth-child(2) { transition-delay: 0.12s; }
+.blog-preview-grid .scroll-reveal:nth-child(3) { transition-delay: 0.24s; }
+
+/* Мобильный: горизонтальный свайп со snap, карточка целиком — ссылка,
+   так что тап по ней работает как переход */
+@media (max-width: 768px) {
+    .blog-preview-section {
+        padding: 4rem 0;
+    }
+
+    .blog-preview-heading {
+        margin-bottom: 2.5rem;
+    }
+
+    .blog-preview-grid {
+        display: flex;
+        grid-template-columns: none;
+        gap: 1rem;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        scroll-padding-left: 20px;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+        /* вылет за паддинги .container, чтобы лента шла от края экрана */
+        margin: 0 -20px;
+        padding: 0.5rem 20px 1rem;
+    }
+
+    .blog-preview-grid::-webkit-scrollbar {
+        display: none;
+    }
+
+    .blog-preview-card {
+        flex: 0 0 82%;
+        scroll-snap-align: start;
+    }
+
+    .blog-preview-image-wrapper {
+        height: 200px;
+    }
+
 }

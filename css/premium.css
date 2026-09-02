@@ -98,12 +98,55 @@ h1, h2 { letter-spacing: -.015em; }
   transform: scale(1.05);
 }
 
+/* ── straipsniai cards: same treatment as the service cards above ── */
+.blog-preview-card {
+  transition: transform var(--t) var(--ease),
+              box-shadow var(--t) var(--ease);
+}
+.blog-preview-image {
+  transition: transform var(--t-slow) var(--ease);
+}
+@media (hover: hover) {
+  .blog-preview-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 18px 40px -16px rgba(0, 0, 0, .22),
+                0 6px 14px -8px rgba(0, 0, 0, .14);
+  }
+  .blog-preview-card:hover .blog-preview-image {
+    transform: scale(1.05);
+  }
+}
+
+/* ── paslaugos flip cards: the same lift as the cards above ── */
+.service-flip-card {
+  transition: transform var(--t) var(--ease);
+}
+@media (hover: hover) {
+  .service-flip-card:not(.flipped):hover {
+    transform: translateY(-6px);
+  }
+  .service-flip-card:not(.flipped):hover .service-flip-front {
+    box-shadow: 0 18px 40px -16px rgba(0, 0, 0, .22),
+                0 6px 14px -8px rgba(0, 0, 0, .14);
+  }
+}
+
 /* premium = considerate: honour reduced-motion preference */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .btn:hover,
   .service-preview-card:hover,
-  .service-preview-card:hover .service-preview-image img {
+  .service-preview-card:hover .service-preview-image img,
+  .blog-preview-card:hover,
+  .blog-preview-card:hover .blog-preview-image,
+  .service-flip-card:not(.flipped):hover {
     transform: none;
   }
+  /* полоса «Skaityti» заливается без анимации */
+  .blog-preview-more,
+  .blog-preview-more::before,
+  .service-flip-front .hint,
+  .service-flip-front .hint::before,
+  .services-articles-links a,
+  .services-articles-links a::before { transition: none; }
 }
