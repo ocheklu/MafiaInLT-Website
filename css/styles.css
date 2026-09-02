@@ -104,16 +104,100 @@ img {
     color: var(--bg-color);
 }
 
+/* Кнопка на тёмном фото: герой главной, CTA внизу главной, CTA галереи.
+   Прямоугольник вместо пилюли — тот же капс с разрядкой и та же заливка
+   слева направо, что у полос «Plačiau» и «Skaityti» на карточках. */
 .btn-primary.btn-hero {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    padding: 14px 34px;
+    border-width: 1px;
+    border-radius: 2px;
     background-color: transparent;
     color: #fff;
-    border-color: #fff;
+    border-color: rgba(255, 255, 255, 0.75);
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    transition: color 0.22s ease, border-color 0.3s ease;
 }
 
-.btn-primary.btn-hero:hover {
-    background-color: rgba(255, 255, 255, 0.2);
-    color: #fff;
-    border-color: #fff;
+.btn-primary.btn-hero::before {
+    content: '';
+    position: absolute;
+    /* Полоса-заливка позиционируется по padding-box, то есть внутри
+       рамки. При дробной ширине кнопки справа оставался просвет,
+       поэтому уводим её на 1px за рамку — overflow: hidden на кнопке
+       обрезает лишнее по border-box. На наведении рамка и так белеет. */
+    inset: -1px;
+    z-index: -1;
+    background-color: #fff;
+    transform: scaleX(0);
+    transform-origin: left center;
+    will-change: transform;
+    transition: transform 0.42s cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+@media (hover: hover) {
+    .btn-primary.btn-hero:hover {
+        background-color: transparent;
+        color: #000;
+        border-color: #fff;
+        transition: color 0.3s ease 0.12s, border-color 0.3s ease;
+    }
+
+    .btn-primary.btn-hero:hover::before {
+        transform: scaleX(1);
+        transition-duration: 0.55s;
+    }
+}
+
+/* Полоса-кнопка вне карточки — тот же приём, что у .blog-preview-more
+   и .service-preview-more, но со своей рамкой: там полосу держали края
+   карточки, здесь она стоит сама по себе. */
+.more-bar {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    display: block;
+    max-width: 260px;
+    padding: 0.9rem 1.25rem;
+    text-align: center;
+    border: 1px solid #e8e8e8;
+    background-color: #f7f7f7;
+    color: #000;
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: color 0.22s ease;
+}
+
+.more-bar::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background-color: #000;
+    transform: scaleX(0);
+    transform-origin: left center;
+    will-change: transform;
+    transition: transform 0.42s cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+@media (hover: hover) {
+    .more-bar:hover {
+        color: #fff;
+        transition: color 0.3s ease 0.12s;
+    }
+
+    .more-bar:hover::before {
+        transform: scaleX(1);
+        transition-duration: 0.55s;
+    }
 }
 
 /* ===========================
@@ -439,7 +523,7 @@ section {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 4rem;
-    align-items: center;
+    align-items: start;
 }
 
 .founder-text {
@@ -458,22 +542,43 @@ section {
     margin-bottom: 2rem;
 }
 
-.founder-section img {
-    transition: transform 0.6s ease;
-}
-
-.founder-section img:hover {
-    transform: scale(1.03);
-}
-
+/* Фото основателя — такая же карточка, как в секции услуг:
+   вся плитка ссылка, снизу полоса «Plačiau» во всю ширину.
+   Лифт и увеличение фото на наведении лежат в premium.css. */
 .founder-photo {
-    text-align: center;
+    display: block;
     width: 100%;
     max-width: 500px;
     margin: 0 auto;
-    border-radius: 10px;
+    border-radius: 8px;
     overflow: hidden;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    text-decoration: none;
+}
+
+.founder-photo img {
+    display: block;
+    width: 100%;
+}
+
+/* Внутри карточки полоса занимает всю ширину, а боковые рамки
+   ей не нужны: края уже держит скругление родителя */
+.founder-photo .more-bar {
+    max-width: none;
+    border: none;
+    border-top: 1px solid #e8e8e8;
+}
+
+@media (hover: hover) {
+    .founder-photo:hover .more-bar {
+        color: #fff;
+        transition: color 0.3s ease 0.12s;
+    }
+
+    .founder-photo:hover .more-bar::before {
+        transform: scaleX(1);
+        transition-duration: 0.55s;
+    }
 }
 
 /* ===========================
@@ -1080,6 +1185,12 @@ section {
 /* ===========================
    УСЛУГИ (ПРЕВЬЮ НА ГЛАВНОЙ)
    =========================== */
+
+/* Секция услуг на главной. Раньше отступы жили в inline-стиле <section>,
+   теперь класс — рядом с блоком статей, который устроен так же. */
+.services-preview-section {
+    padding: 6rem 0;
+}
 
 .services-grid {
     display: grid;
@@ -2134,10 +2245,6 @@ section {
     font-size: 1rem;
     }
     
-    .services-grid {
-        grid-template-columns: 1fr;
-    }
-
     /* Карточки услуг лентой со свайпом — тот же приём, что у статей
        на главной. Инлайновый display: grid на .services-desktop
        перебивается только !important. */
@@ -2148,6 +2255,8 @@ section {
         max-width: none !important;
         overflow-x: auto;
         scroll-snap-type: x mandatory;
+        /* Без этого snap притягивает первую карточку к краю
+           контейнера, съедая левый отступ */
         scroll-padding-left: 26px;
         /* свайп по ленте не должен уводить браузер «назад» */
         overscroll-behavior-x: contain;
@@ -2352,7 +2461,7 @@ section {
         font-size: 1.1rem;
         text-align: center;
     }
-    
+
     .founder-photo {
         max-width: 100%;
     }
@@ -2541,6 +2650,24 @@ section {
         transition-duration: 0.25s;
     }
 
+    .founder-photo:active .more-bar {
+        color: #fff;
+    }
+
+    .founder-photo:active .more-bar::before {
+        transform: scaleX(1);
+        transition-duration: 0.25s;
+    }
+
+    .service-preview-card:active .service-preview-more {
+        color: #fff;
+    }
+
+    .service-preview-card:active .service-preview-more::before {
+        transform: scaleX(1);
+        transition-duration: 0.25s;
+    }
+
     .blog-preview-card:active .blog-preview-more {
         color: #fff;
     }
@@ -2558,6 +2685,7 @@ section {
 
     /* Остальное кликабельное осталось без отклика после снятия блика */
     .btn:active,
+    .more-bar:active,
     .nav-menu a:active,
     .faq-question:active,
     .gallery-item:active,
@@ -2897,18 +3025,40 @@ section {
    SERVICE PREVIEW CARDS (Index Page)
    =========================== */
 
+/* Карточка услуги — целиком ссылка, той же породы, что карточка статьи:
+   белый лист, мягкая тень, без рамки. */
 .service-preview-card {
-    border: 1px solid #e0e0e0;
-    border-radius: 10px;
+    background: #fff;
+    border-radius: 8px;
     overflow: hidden;
-    transition: var(--transition);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    text-decoration: none;
+    color: inherit;
     display: flex;
     flex-direction: column;
 }
 
-.service-preview-card:hover {
-    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-    transform: translateY(-5px);
+/* hover только там, где есть курсор: на тач-экранах :hover залипает */
+@media (hover: hover) {
+    .service-preview-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .service-preview-card:hover .service-preview-image img {
+        transform: scale(1.04);
+    }
+
+    .service-preview-card:hover .service-preview-more {
+        color: #fff;
+        transition: color 0.3s ease 0.12s;
+    }
+
+    .service-preview-card:hover .service-preview-more::before {
+        transform: scaleX(1);
+        transition-duration: 0.55s;
+    }
 }
 
 .service-preview-image {
@@ -2922,6 +3072,8 @@ section {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    display: block;
+    transition: transform 0.4s ease;
 }
 
 .service-preview-content {
@@ -2929,24 +3081,58 @@ section {
     text-align: center;
     display: flex;
     flex-direction: column;
-    gap: 1.3rem;
     flex: 1;
-}
-
-.service-preview-content .btn {
-    margin-top: auto;
 }
 
 .service-preview-content h3 {
     font-size: 1.5rem;
-    margin-bottom: 1rem;
+    margin-bottom: 0.85rem;
     color: #1a1a1a;
 }
 
 .service-preview-content p {
     color: #000;
     line-height: 1.6;
+    margin: 0 0 1.6rem 0;
+    flex-grow: 1;
 }
+
+/* «Plačiau» — та же полоса, что «Skaityti» у статей: во всю ширину
+   карточки, на ховере заливается чёрным слева направо. */
+.service-preview-more {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    margin: auto -1.6rem -1.6rem;
+    padding: 0.9rem 1.6rem;
+    text-align: center;
+    border-top: 1px solid #e8e8e8;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: #000;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    background-color: #f7f7f7;
+    transition: color 0.22s ease;
+}
+
+.service-preview-more::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background-color: #000;
+    transform: scaleX(0);
+    transform-origin: left center;
+    will-change: transform;
+    transition: transform 0.42s cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+/* Свои задержки появления: premium.css раздаёт их по nth-child всем
+   подряд, здесь нужна ровная волна слева направо */
+.services-grid .scroll-reveal:nth-child(1) { transition-delay: 0s; }
+.services-grid .scroll-reveal:nth-child(2) { transition-delay: 0.12s; }
+.services-grid .scroll-reveal:nth-child(3) { transition-delay: 0.24s; }
 
 /* ===========================
    SERVICE ITEMS - Calculator
@@ -3602,7 +3788,7 @@ section {
     background-color: #fafafa;
 }
 
-.blog-preview-heading {
+.section-heading {
     text-align: center;
     margin-bottom: 4rem;
 }
@@ -3735,14 +3921,71 @@ section {
 .blog-preview-grid .scroll-reveal:nth-child(2) { transition-delay: 0.12s; }
 .blog-preview-grid .scroll-reveal:nth-child(3) { transition-delay: 0.24s; }
 
+/* Карточки услуг на телефоне: та же лента, что у статей ниже.
+   Блок стоит после базовых правил .service-preview-*, иначе
+   база перебивает высоту картинки. */
+@media (max-width: 768px) {
+    .services-grid {
+        display: flex;
+        grid-template-columns: none;
+        gap: 1rem;
+        margin-top: 0;
+        overflow-x: auto;
+        overscroll-behavior-x: contain;
+        scroll-snap-type: x mandatory;
+        /* Без этого snap притягивает первую карточку к краю
+           контейнера, съедая левый отступ */
+        scroll-padding-left: 26px;
+        scrollbar-width: none;
+        margin-left: -20px;
+        margin-right: -20px;
+        padding: 0.5rem 26px 1rem;
+    }
+
+    .services-grid::-webkit-scrollbar {
+        display: none;
+    }
+
+    .service-preview-card {
+        flex: 0 0 78%;
+        scroll-snap-align: start;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    .service-preview-image {
+        height: 200px;
+    }
+
+    .service-preview-content {
+        padding: 1.25rem;
+    }
+
+    .service-preview-content h3 {
+        font-size: 1.2rem;
+        margin-bottom: 0.6rem;
+    }
+
+    .service-preview-content p {
+        font-size: 0.9rem;
+        margin-bottom: 1.25rem;
+    }
+
+    .service-preview-more {
+        margin: auto -1.25rem -1.25rem;
+        padding: 0.9rem 1.25rem;
+    }
+
+}
+
 /* Мобильный: горизонтальный свайп со snap, карточка целиком — ссылка,
    так что тап по ней работает как переход */
 @media (max-width: 768px) {
+    .services-preview-section,
     .blog-preview-section {
         padding: 4rem 0;
     }
 
-    .blog-preview-heading {
+    .section-heading {
         margin-bottom: 2.5rem;
     }
 
@@ -3752,6 +3995,8 @@ section {
         gap: 1rem;
         overflow-x: auto;
         scroll-snap-type: x mandatory;
+        /* Без этого snap притягивает первую карточку к краю
+           контейнера, съедая левый отступ */
         scroll-padding-left: 26px;
         overscroll-behavior-x: contain;
         scrollbar-width: none;

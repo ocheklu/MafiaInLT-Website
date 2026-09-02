@@ -42,12 +42,6 @@ h1, h2 { letter-spacing: -.015em; }
   box-shadow: 0 10px 24px -8px rgba(0, 0, 0, .28),
               0 4px 10px -6px rgba(0, 0, 0, .18);
 }
-/* hero / CTA buttons sit on dark imagery — lift + soft depth in any section
-   (covers both the top hero button and the bottom "Apie mus" CTA button) */
-.btn-hero:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, .55);
-}
 
 /* apie-mus uses its own .about-btn (not .btn) — give it the same easing + lift */
 .about-btn {
@@ -82,22 +76,41 @@ h1, h2 { letter-spacing: -.015em; }
 /* ── service cards: deeper lift, layered shadow, slow image zoom ── */
 .service-preview-card {
   transition: transform var(--t) var(--ease),
-              box-shadow var(--t) var(--ease),
-              border-color var(--t) var(--ease);
-}
-.service-preview-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 18px 40px -16px rgba(0, 0, 0, .22),
-              0 6px 14px -8px rgba(0, 0, 0, .14);
-  border-color: #d4d4d4;
+              box-shadow var(--t) var(--ease);
 }
 .service-preview-image img {
   transition: transform var(--t-slow) var(--ease);
 }
-.service-preview-card:hover .service-preview-image img {
-  transform: scale(1.05);
+@media (hover: hover) {
+  .service-preview-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 18px 40px -16px rgba(0, 0, 0, .22),
+                0 6px 14px -8px rgba(0, 0, 0, .14);
+  }
+  .service-preview-card:hover .service-preview-image img {
+    transform: scale(1.05);
+  }
 }
 
+
+/* ── founder photo: the same card treatment as the service cards ── */
+.founder-photo {
+  transition: transform var(--t) var(--ease),
+              box-shadow var(--t) var(--ease);
+}
+.founder-photo img {
+  transition: transform var(--t-slow) var(--ease);
+}
+@media (hover: hover) {
+  .founder-photo:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 18px 40px -16px rgba(0, 0, 0, .22),
+                0 6px 14px -8px rgba(0, 0, 0, .14);
+  }
+  .founder-photo:hover img {
+    transform: scale(1.05);
+  }
+}
 /* ── straipsniai cards: same treatment as the service cards above ── */
 .blog-preview-card {
   transition: transform var(--t) var(--ease),
@@ -139,15 +152,23 @@ h1, h2 { letter-spacing: -.015em; }
   .service-preview-card:hover .service-preview-image img,
   .blog-preview-card:hover,
   .blog-preview-card:hover .blog-preview-image,
+  .founder-photo:hover,
+  .founder-photo:hover img,
   .service-flip-card:not(.flipped):hover {
     transform: none;
   }
   /* переворот и заливки полос — без анимации */
   .service-flip-inner,
+  .service-preview-more,
+  .service-preview-more::before,
   .blog-preview-more,
   .blog-preview-more::before,
   .service-flip-front .hint,
   .service-flip-front .hint::before,
   .services-articles-links a,
-  .services-articles-links a::before { transition: none; }
+  .services-articles-links a::before,
+  .btn-primary.btn-hero,
+  .btn-primary.btn-hero::before,
+  .more-bar,
+  .more-bar::before { transition: none; }
 }
