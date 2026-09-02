@@ -157,6 +157,8 @@ h1, h2 { letter-spacing: -.015em; }
   .btn-primary.btn-hero::before,
   .about-btn,
   .about-btn::before,
+  .contact-form-card button,
+  .contact-form-card button::before,
   .more-bar,
   .more-bar::before { transition: none; }
 }
