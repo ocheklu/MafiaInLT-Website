@@ -255,43 +255,33 @@ img {
     background-color: var(--primary-color);
 }
 
+/* Пункт-продукт: тёмная плашка с золотым текстом. На наведении золото
+   заезжает слева направо и текст чернеет — тот же приём, что у полос на
+   карточках, только вывернутый. Заливка сделана фоном-градиентом, а не
+   псевдоэлементом: у ::before с отрицательным z-index золото не пробивалось
+   поверх собственного фона плашки, оставалась чёрная кнопка без надписи. */
 .nav-menu a[href^="/online/"] {
     position: relative;
-    isolation: isolate;
-    overflow: hidden;
     color: #e6c878 !important;
-    background: #161616;
+    background-color: #161616;
+    background-image: linear-gradient(90deg, #e6c878 0%, #e6c878 50%, #161616 50%, #161616 100%);
+    background-size: 200% 100%;
+    background-position: 100% 0;
     border: none;
     border-radius: 2px;
     padding: 6px 18px;
     font-weight: 600;
     letter-spacing: 0.03em;
-    transition: color .22s ease;
-}
-
-/* Тот же приём, что у полос на карточках, только вывернутый: фон тёмный,
-   поэтому заливка идёт золотом, а текст на ней чернеет. */
-.nav-menu a[href^="/online/"]::before {
-    content: '';
-    position: absolute;
-    inset: -1px;
-    z-index: -1;
-    background-color: #e6c878;
-    transform: scaleX(0);
-    transform-origin: left center;
-    will-change: transform;
-    transition: transform 0.42s cubic-bezier(0.33, 1, 0.68, 1);
+    transition: background-position 0.42s cubic-bezier(0.33, 1, 0.68, 1),
+                color 0.22s ease;
 }
 
 @media (hover: hover) {
     .nav-menu a[href^="/online/"]:hover {
         color: #111 !important;
-        transition: color 0.3s ease 0.12s;
-    }
-
-    .nav-menu a[href^="/online/"]:hover::before {
-        transform: scaleX(1);
-        transition-duration: 0.55s;
+        background-position: 0 0;
+        transition: background-position 0.55s cubic-bezier(0.33, 1, 0.68, 1),
+                    color 0.3s ease 0.12s;
     }
 }
 

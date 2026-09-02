@@ -160,7 +160,6 @@ h1, h2 { letter-spacing: -.015em; }
   .contact-form-card button,
   .contact-form-card button::before,
   .nav-menu a[href^="/online/"],
-  .nav-menu a[href^="/online/"]::before,
   .more-bar,
   .more-bar::before { transition: none; }
 }
