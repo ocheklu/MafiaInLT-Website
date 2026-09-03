@@ -20,18 +20,15 @@ const calculatorState = {
 let isTransitioning = false;
 const STEP_ANIMATION_MS = 600;
 
-// Подпись под полосой шагов на телефоне: «3 / 6» и название текущего шага.
-// Название берём из разметки полосы, чтобы не дублировать переводы.
+// Подпись под полосой шагов на телефоне: только счётчик, «3 / 6».
+// Название шага рядом с ним не пишем — оно дублирует заголовок,
+// который стоит прямо под полосой в самом шаге.
 function updateProgressCaption(currentStep) {
     const countEl = document.querySelector('.progress-caption-count');
-    const titleEl = document.querySelector('.progress-caption-title');
-    if (!countEl || !titleEl) return;
+    if (!countEl) return;
 
     const total = document.querySelectorAll('.progress-step').length;
-    const label = document.querySelector('.progress-step[data-step="' + currentStep + '"] .progress-label');
-
     countEl.textContent = currentStep + ' / ' + total;
-    titleEl.textContent = label ? label.textContent : '';
 }
 
 // Update progress bar with bullet animation

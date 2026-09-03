@@ -593,28 +593,21 @@ section {
 .founder-photo .more-bar {
     max-width: none;
     border: none;
-    background-color: #161616;
-    color: #e6c878;
-}
-
-/* Единственная полоса, которая в покое тёмная. Под ней фото со
-   свечами: светлая полоса обрывала кадр, а чёрная заливка по
-   наведению читалась как траурная рамка. Теперь полоса — плашка
-   Mafia Online из шапки: #161616 с золотой надписью, продолжение
-   тёмного низа снимка, золото в цвет пламени. Наведение выворачивает
-   её наизнанку: белым слева направо, текст чернеет.
-   Заливать золотом целиком пробовали — на такой площади #e6c878
-   уходит в жёлтый, а #b8860b в горчичный. */
-.founder-photo .more-bar::before {
+    border-top: 1px solid #e8e8e8;
     background-color: #ffffff;
 }
 
-@media (hover: hover) {
-    .founder-photo:hover .more-bar {
-        color: #111;
-        transition: color 0.3s ease 0.12s;
-    }
+/* Единственная полоса, которая заливается не чёрным. Под ней фото
+   со свечами, и чёрное, наползающее на такой кадр, читалось как
+   траурная рамка. Пробовали и золото — на всю ширину #e6c878
+   уходит в жёлтый, а #b8860b в горчичный; и тёмную плашку из
+   шапки — она спорила со снимком. Осталось самое тихое: белая
+   полоса, на наведении светло-серая, текст всё время чёрный. */
+.founder-photo .more-bar::before {
+    background-color: #ececec;
+}
 
+@media (hover: hover) {
     .founder-photo:hover .more-bar::before {
         transform: scaleX(1);
         transition-duration: 0.55s;
@@ -700,8 +693,12 @@ section {
 .scroll-reveal {
     opacity: 0;
     transform: translateY(18px);
-    transition: opacity 0.85s cubic-bezier(0.22, 1, 0.36, 1),
-                transform 0.85s cubic-bezier(0.22, 1, 0.36, 1);
+    /* Секунда — ровно столько же длится появление каждого элемента
+       в hero (fadeSlideUp/fadeIn 1s). Секции шли за 0.85s, карточки
+       и вовсе за 0.65s, и на фоне неспешного первого экрана это
+       читалось как спешка. */
+    transition: opacity 1s cubic-bezier(0.22, 1, 0.36, 1),
+                transform 1s cubic-bezier(0.22, 1, 0.36, 1);
 }
 .scroll-reveal.visible {
     opacity: 1;
@@ -3812,7 +3809,7 @@ section {
    =========================== */
 
 /* Строка под полосой шагов. На десктопе в ней только кнопка «Назад» —
-   счётчик и название шага там не нужны, их заменяют кружки с подписями. */
+   счётчик там не нужен, его заменяют кружки с подписями. */
 .progress-caption {
     display: flex;
     align-items: baseline;
@@ -3820,8 +3817,7 @@ section {
     margin-top: 1.15rem;
 }
 
-.progress-caption-count,
-.progress-caption-title {
+.progress-caption-count {
     display: none;
 }
 
@@ -3832,7 +3828,7 @@ section {
 
 /* Шесть кружков с подписями по 0.65rem не помещаются в 360px, поэтому
    на телефоне полоса собрана иначе: шесть сегментов во всю ширину и
-   строка «3 / 6 — Stalai» под ними. Сегменты остаются кликабельными. */
+   строка со счётчиком «3 / 6» под ними. Сегменты остаются кликабельными. */
 @media (max-width: 768px) {
     .progress-bar-container {
         flex-direction: column;
@@ -3922,8 +3918,7 @@ section {
         margin-top: 0;
     }
 
-    .progress-caption-count,
-    .progress-caption-title {
+    .progress-caption-count {
         display: inline;
     }
 
@@ -3940,13 +3935,6 @@ section {
     .calc-back-btn {
         padding: 0.4rem 0.8rem 0.4rem 0;
         font-size: 0.7rem;
-    }
-
-    .progress-caption-title {
-        font-size: 0.95rem;
-        font-weight: 600;
-        color: #000;
-        text-align: right;
     }
 }
 

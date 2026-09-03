@@ -29,7 +29,11 @@ h1, h2 { letter-spacing: -.015em; }
 
 /* ── buttons: keep the inversion, add a soft lift + layered shadow ── */
 .btn {
-  transition: opacity var(--t-slow) var(--ease),
+  /* opacity 1s, а не --t-slow: столько же длится появление в hero,
+     и карточки перестают выпадать быстрее первого экрана.
+     transform оставляем коротким — он же отвечает за подъём
+     на наведении, там 0.4s в самый раз. */
+  transition: opacity 1s var(--ease),
               color var(--t-fast) var(--ease-out),
               background-color var(--t-fast) var(--ease-out),
               border-color var(--t-fast) var(--ease-out),
@@ -50,7 +54,11 @@ h1, h2 { letter-spacing: -.015em; }
    opacity transition here (highest specificity wins) and clear the reveal's
    0.3s delay so the hover lift also feels clean. */
 .cta-section .scroll-reveal.btn {
-  transition: opacity var(--t-slow) var(--ease),
+  /* opacity 1s, а не --t-slow: столько же длится появление в hero,
+     и карточки перестают выпадать быстрее первого экрана.
+     transform оставляем коротким — он же отвечает за подъём
+     на наведении, там 0.4s в самый раз. */
+  transition: opacity 1s var(--ease),
               transform var(--t) var(--ease),
               color var(--t-fast) var(--ease-out),
               background-color var(--t-fast) var(--ease-out),
@@ -67,7 +75,11 @@ h1, h2 { letter-spacing: -.015em; }
      на появлении не проявляется, а щёлкает из нуля в единицу,
      пока едет transform: то самое «выпадает резко». Та же ловушка
      уже описана выше для кнопки CTA. */
-  transition: opacity var(--t-slow) var(--ease),
+  /* opacity 1s, а не --t-slow: столько же длится появление в hero,
+     и карточки перестают выпадать быстрее первого экрана.
+     transform оставляем коротким — он же отвечает за подъём
+     на наведении, там 0.4s в самый раз. */
+  transition: opacity 1s var(--ease),
               transform var(--t) var(--ease),
               box-shadow var(--t) var(--ease);
 }
@@ -94,7 +106,11 @@ h1, h2 { letter-spacing: -.015em; }
      на появлении не проявляется, а щёлкает из нуля в единицу,
      пока едет transform: то самое «выпадает резко». Та же ловушка
      уже описана выше для кнопки CTA. */
-  transition: opacity var(--t-slow) var(--ease),
+  /* opacity 1s, а не --t-slow: столько же длится появление в hero,
+     и карточки перестают выпадать быстрее первого экрана.
+     transform оставляем коротким — он же отвечает за подъём
+     на наведении, там 0.4s в самый раз. */
+  transition: opacity 1s var(--ease),
               transform var(--t) var(--ease),
               box-shadow var(--t) var(--ease);
 }
@@ -119,7 +135,11 @@ h1, h2 { letter-spacing: -.015em; }
      на появлении не проявляется, а щёлкает из нуля в единицу,
      пока едет transform: то самое «выпадает резко». Та же ловушка
      уже описана выше для кнопки CTA. */
-  transition: opacity var(--t-slow) var(--ease),
+  /* opacity 1s, а не --t-slow: столько же длится появление в hero,
+     и карточки перестают выпадать быстрее первого экрана.
+     transform оставляем коротким — он же отвечает за подъём
+     на наведении, там 0.4s в самый раз. */
+  transition: opacity 1s var(--ease),
               transform var(--t) var(--ease),
               box-shadow var(--t) var(--ease);
 }
