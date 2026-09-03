@@ -376,7 +376,25 @@ document.addEventListener('DOMContentLoaded', function() {
             threshold: 0
         });
 
-        revealElements.forEach(el => io.observe(el));
+        // Кто уже в первом экране, тот ждёт hero.
+        //
+        // На телефоне заголовок следующей секции виден краем сразу при
+        // загрузке — наблюдатель честно сообщает «в кадре» и показывает его
+        // в ту же секунду, поверх ещё едущего hero. Поэтому за такими
+        // элементами начинаем следить не сразу: hero разворачивается
+        // до 2.5s — последняя его кнопка стартует на 1.5s и едет
+        // секунду. К 2.6s заголовок вступает следом за ним, а не
+        // вперёд него. За всем, что ниже сгиба, следим с самого начала —
+        // туда всё равно надо доскроллить.
+        const HERO_MS = 2600;
+        const early = [];
+
+        revealElements.forEach(el => {
+            if (el.getBoundingClientRect().top < window.innerHeight) early.push(el);
+            else io.observe(el);
+        });
+
+        setTimeout(() => early.forEach(el => io.observe(el)), HERO_MS);
 
         // Страховка. Наблюдатель, как и requestAnimationFrame, молчит, пока
         // вкладка в фоне: страницу открыли в соседней вкладке, вернулись —
@@ -413,8 +431,8 @@ document.addEventListener('DOMContentLoaded', function() {
         // элемент выходит на 1.5s. Заголовок следующей секции, если он
         // виден краем уже на первом экране, подтягивается за ним, а не
         // вперёд него.
-        if (document.readyState === 'complete') setTimeout(sweep, 900);
-        else window.addEventListener('load', () => setTimeout(sweep, 900), { once: true });
+        if (document.readyState === 'complete') setTimeout(sweep, HERO_MS);
+        else window.addEventListener('load', () => setTimeout(sweep, HERO_MS), { once: true });
 
         return;
     }
