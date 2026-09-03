@@ -123,22 +123,71 @@ document.addEventListener('DOMContentLoaded', function() {
 // ПЛАВНАЯ ПРОКРУТКА К ЯКОРЯМ
 // ===========================
 
+// Куда именно вставать: под sticky-шапкой, с запасом воздуха.
+// Высоту шапки берём живьём — она разная на десктопе (113px) и на
+// телефоне (61px), а прежние жёсткие 80px не совпадали ни с одной.
+function anchorOffsetTop(target) {
+    const header = document.querySelector('.navbar');
+    const headerH = header ? header.getBoundingClientRect().height : 0;
+    const top = target.getBoundingClientRect().top + window.scrollY;
+    return Math.max(0, Math.round(top - headerH - 28));
+}
+
+// Ведём прокрутку сами, кадр за кадром.
+//
+// Браузерный scroll-behavior: smooth здесь ненадёжен: Chrome отменяет
+// плавную прокрутку, пока догружаются картинки страницы, — по той же
+// причине не срабатывает и нативный якорный прыжок. Своя анимация от
+// него не зависит: мы просто ставим scrollTop каждый кадр.
+//
+// getDest — функция, а не число: страница может ещё расти, и цель
+// пересчитывается на каждом кадре.
+function glideTo(getDest, duration) {
+    const from = window.scrollY;
+    const span = getDest() - from;
+    if (Math.abs(span) < 4) return;
+
+    let cancelled = false;
+    const stop = () => { cancelled = true; };
+    window.addEventListener('wheel', stop, { once: true, passive: true });
+    window.addEventListener('touchstart', stop, { once: true, passive: true });
+
+    const start = performance.now();
+    let done = false;
+
+    const step = (now) => {
+        if (cancelled) return;
+        const p = Math.min(1, (now - start) / duration);
+        // ease-out-cubic: трогается заметно, останавливается мягко
+        const eased = 1 - Math.pow(1 - p, 3);
+        window.scrollTo({ top: from + (getDest() - from) * eased, behavior: 'instant' });
+        if (p < 1) requestAnimationFrame(step);
+        else done = true;
+    };
+    requestAnimationFrame(step);
+
+    // Страховка: requestAnimationFrame не вызывается, пока вкладка в
+    // фоне. Человек открыл ссылку в новой вкладке, вернулся — и стоит
+    // не там, куда шёл. Проверяем и доводим разом.
+    setTimeout(() => {
+        if (!done && !cancelled) {
+            window.scrollTo({ top: getDest(), behavior: 'instant' });
+        }
+    }, duration + 180);
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     const links = document.querySelectorAll('a[href^="#"]');
-    
+
     links.forEach(link => {
         link.addEventListener('click', function(e) {
             const href = this.getAttribute('href');
             if (href === '#') return;
-            
+
             const target = document.querySelector(href);
             if (target) {
                 e.preventDefault();
-                const offsetTop = target.offsetTop - 80; // Учитываем высоту навигации
-                window.scrollTo({
-                    top: offsetTop,
-                    behavior: 'smooth'
-                });
+                glideTo(() => anchorOffsetTop(target), 620);
             }
         });
     });
@@ -234,27 +283,50 @@ document.addEventListener('DOMContentLoaded', function() {
 
 document.addEventListener('DOMContentLoaded', function() {
     const hash = window.location.hash;
+    if (!hash) return;
 
-    if (hash) {
-        const cardId = hash.substring(1);
-        const card = document.getElementById(cardId);
+    const target = document.getElementById(hash.substring(1));
+    if (!target) return;
 
-        // Скроллим мгновенно, а не smooth: у html стоит scroll-behavior: smooth,
-        // и Chrome обрывает плавную прокрутку, пока догружаются картинки страницы —
-        // по той же причине не срабатывает и нативный якорный прыжок.
-        // Пользователь пришёл с другой страницы, промежуточного положения он
-        // всё равно не видел.
-        if (card && card.classList.contains('service-flip-card')) {
-            setTimeout(() => {
-                card.classList.add('flipped');
-                card.scrollIntoView({ behavior: 'instant', block: 'center' });
-            }, 300);
-        } else if (card) {
-            setTimeout(() => {
-                card.scrollIntoView({ behavior: 'instant', block: 'start' });
-            }, 300);
+    const isCard = target.classList.contains('service-flip-card');
+
+    // Флип-карточку показываем целиком, если она помещается под шапкой —
+    // тогда ставим её по центру свободной области. Если не помещается
+    // (на телефоне оборот выше экрана), центрировать нельзя: заголовок
+    // карточки уедет под шапку. В этом случае ведём себя как с секцией —
+    // верх под шапку.
+    const destOf = () => {
+        if (!isCard) return anchorOffsetTop(target);
+
+        const header = document.querySelector('.navbar');
+        const headerH = header ? header.getBoundingClientRect().height : 0;
+        const r = target.getBoundingClientRect();
+        const avail = window.innerHeight - headerH;
+
+        if (r.height > avail - 24) return anchorOffsetTop(target);
+
+        return Math.max(0, Math.round(
+            r.top + window.scrollY - headerH - (avail - r.height) / 2));
+    };
+
+    // Приход по якорю с другой страницы. Через всю страницу человека не
+    // гоним: мгновенно встаём в 260px от цели и проезжаем их плавно —
+    // прибытие читается как движение, а не как рывок. Ждём при этом
+    // полной загрузки: пока грузятся картинки, документ короче итогового
+    // и прокрутка упирается в его текущий конец.
+    const arrive = () => {
+        window.scrollTo({ top: Math.max(0, destOf() - 260), behavior: 'instant' });
+        if (document.readyState === 'complete') {
+            glideTo(destOf, 520);
+        } else {
+            window.addEventListener('load', () => glideTo(destOf, 520), { once: true });
         }
-    }
+    };
+
+    setTimeout(() => {
+        if (isCard) target.classList.add('flipped');
+        arrive();
+    }, 300);
 });
 
 // ===========================

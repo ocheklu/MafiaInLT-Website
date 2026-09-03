@@ -61,7 +61,14 @@ h1, h2 { letter-spacing: -.015em; }
 
 /* ── service cards: deeper lift, layered shadow, slow image zoom ── */
 .service-preview-card {
-  transition: transform var(--t) var(--ease),
+  /* opacity здесь обязателен. Эти карточки ещё и .scroll-reveal,
+     а её transition задан в styles.css одной строкой — правило
+     отсюда его целиком перебивает. Без opacity в списке карточка
+     на появлении не проявляется, а щёлкает из нуля в единицу,
+     пока едет transform: то самое «выпадает резко». Та же ловушка
+     уже описана выше для кнопки CTA. */
+  transition: opacity var(--t-slow) var(--ease),
+              transform var(--t) var(--ease),
               box-shadow var(--t) var(--ease);
 }
 .service-preview-image img {
@@ -81,7 +88,14 @@ h1, h2 { letter-spacing: -.015em; }
 
 /* ── founder photo: the same card treatment as the service cards ── */
 .founder-photo {
-  transition: transform var(--t) var(--ease),
+  /* opacity здесь обязателен. Эти карточки ещё и .scroll-reveal,
+     а её transition задан в styles.css одной строкой — правило
+     отсюда его целиком перебивает. Без opacity в списке карточка
+     на появлении не проявляется, а щёлкает из нуля в единицу,
+     пока едет transform: то самое «выпадает резко». Та же ловушка
+     уже описана выше для кнопки CTA. */
+  transition: opacity var(--t-slow) var(--ease),
+              transform var(--t) var(--ease),
               box-shadow var(--t) var(--ease);
 }
 .founder-photo img {
@@ -99,7 +113,14 @@ h1, h2 { letter-spacing: -.015em; }
 }
 /* ── straipsniai cards: same treatment as the service cards above ── */
 .blog-preview-card {
-  transition: transform var(--t) var(--ease),
+  /* opacity здесь обязателен. Эти карточки ещё и .scroll-reveal,
+     а её transition задан в styles.css одной строкой — правило
+     отсюда его целиком перебивает. Без opacity в списке карточка
+     на появлении не проявляется, а щёлкает из нуля в единицу,
+     пока едет transform: то самое «выпадает резко». Та же ловушка
+     уже описана выше для кнопки CTA. */
+  transition: opacity var(--t-slow) var(--ease),
+              transform var(--t) var(--ease),
               box-shadow var(--t) var(--ease);
 }
 .blog-preview-image {
