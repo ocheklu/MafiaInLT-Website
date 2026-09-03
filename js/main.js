@@ -335,22 +335,103 @@ document.addEventListener('DOMContentLoaded', function() {
 
 document.addEventListener('DOMContentLoaded', function() {
     const revealElements = document.querySelectorAll('.scroll-reveal');
-    
+    if (!revealElements.length) return;
+
+    // Следим за реальным пересечением, а не считаем координаты по таймеру.
+    //
+    // Раньше проверка шла один раз на DOMContentLoaded и дальше на каждый
+    // scroll. Беда в первом вызове: картинки ещё не загружены, страница
+    // короче итоговой, и заголовок следующей секции попадает в видимую
+    // зону — ему сразу ставился .visible. На телефоне это выглядело так:
+    // hero ещё грузится, а «Paslaugos» под ним уже проявлен, и когда до
+    // него доскроллишь, появляться ему уже нечем.
+    //
+    // Наблюдатель пересчитывает пересечения сам, в том числе когда
+    // страница выросла после загрузки картинок.
+    if ('IntersectionObserver' in window) {
+        // Ленты со свайпом: карточка, стоящая правее экрана, с точки зрения
+        // наблюдателя невидима — и проявлялась бы по одной прямо под пальцем
+        // во время свайпа. Поэтому у таких карточек появление общее: вошла
+        // в кадр одна — показываем всю ленту.
+        const stripOf = (el) => el.closest('.services-grid, .blog-preview-grid');
+
+        const io = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (!entry.isIntersecting) return;
+
+                const strip = stripOf(entry.target);
+                const group = strip
+                    ? strip.querySelectorAll('.scroll-reveal')
+                    : [entry.target];
+
+                group.forEach(el => {
+                    el.classList.add('visible');
+                    io.unobserve(el);        // появляется один раз
+                });
+            });
+        }, {
+            // Нижняя граница поднята на 150px: элемент проявляется, когда
+            // вошёл в кадр заметной частью, а не краем.
+            rootMargin: '0px 0px -150px 0px',
+            threshold: 0
+        });
+
+        revealElements.forEach(el => io.observe(el));
+
+        // Страховка. Наблюдатель, как и requestAnimationFrame, молчит, пока
+        // вкладка в фоне: страницу открыли в соседней вкладке, вернулись —
+        // и первый экран пустой, пока не тронешь скролл. Поэтому сами
+        // проходим по тому, что уже в кадре: один раз после полной загрузки
+        // и дальше на скролл, пока не покажем всё.
+        //
+        // Важно, что после загрузки, а не на DOMContentLoaded: пока грузятся
+        // картинки, страница короче итоговой, и в «видимую зону» попадает
+        // заголовок следующей секции — он проявлялся раньше, чем дочитан hero.
+        let left = revealElements.length;
+
+        const sweep = () => {
+            revealElements.forEach(el => {
+                if (el.classList.contains('visible')) return;
+                const r = el.getBoundingClientRect();
+                if (r.top < window.innerHeight - 150 && r.bottom > 0) {
+                    const strip = stripOf(el);
+                    (strip ? strip.querySelectorAll('.scroll-reveal') : [el])
+                        .forEach(x => {
+                            if (x.classList.contains('visible')) return;
+                            x.classList.add('visible');
+                            io.unobserve(x);
+                            left--;
+                        });
+                }
+            });
+            if (left <= 0) window.removeEventListener('scroll', sweep);
+        };
+
+        window.addEventListener('scroll', sweep, { passive: true });
+
+        // Пауза даёт hero отыграть своё появление первым: его последний
+        // элемент выходит на 1.5s. Заголовок следующей секции, если он
+        // виден краем уже на первом экране, подтягивается за ним, а не
+        // вперёд него.
+        if (document.readyState === 'complete') setTimeout(sweep, 900);
+        else window.addEventListener('load', () => setTimeout(sweep, 900), { once: true });
+
+        return;
+    }
+
+    // Запасной путь для браузеров без наблюдателя.
     const revealOnScroll = () => {
         const windowHeight = window.innerHeight;
-        
         revealElements.forEach(element => {
-            const elementTop = element.getBoundingClientRect().top;
-            const revealPoint = 150;
-            
-            if (elementTop < windowHeight - revealPoint) {
+            if (element.getBoundingClientRect().top < windowHeight - 150) {
                 element.classList.add('visible');
             }
         });
     };
-    
+
     window.addEventListener('scroll', revealOnScroll);
-    revealOnScroll(); // Check on load
+    window.addEventListener('load', revealOnScroll);
+    revealOnScroll();
 });
 
 // ===========================
