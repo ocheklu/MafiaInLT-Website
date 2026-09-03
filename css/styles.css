@@ -24,9 +24,22 @@ html {
     --hover-bg: #000000;
     --hover-text: #ffffff;
     --transition: all 0.3s ease;
+
+    /* Боковой отступ .container. Ленты со свайпом выходят за него
+       отрицательными полями, чтобы карточки шли от края экрана, —
+       и должны знать его точное значение. Раньше −20px были вписаны
+       в каждую ленту руками, а на экранах уже 480px паддинг
+       становится 15px: ленты вылезали за экран на 5px, и главную
+       можно было толкнуть вбок. */
+    --container-pad: 20px;
 }
 
+/* overflow-x на body, а не на html: на html он ломает position: sticky
+   в Safari, и шапка перестаёт прилипать (см. CLAUDE.md §5). Это
+   страховка, а не лечение: если какой-то блок снова окажется шире
+   экрана, страницу хотя бы нельзя будет утащить вбок. */
 body {
+    overflow-x: hidden;
     font-family: 'Alata', sans-serif;
     line-height: 1.6;
     color: var(--text-color);
@@ -37,7 +50,7 @@ body {
     max-width: 1200px;
     width: 100%;
     margin: 0 auto;
-    padding: 0 20px;
+    padding: 0 var(--container-pad);
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -393,12 +406,18 @@ img {
     min-height: 400px;
 }
 
+/* Тот же наезд, что и на десктопе, но масштабируется фон, а не сама
+   секция. transform: scale(1.1) растягивал <section> на 10% шире
+   экрана — и первые три секунды, пока шла анимация, страницу можно
+   было утащить вбок пальцем. Картинки 3:2, при высоте 110% и 100%
+   они всё равно шире вертикального экрана, так что кадр остаётся
+   закрытым. */
 @keyframes zoomOutMobile {
         from {
-            transform: scale(1.1);
+            background-size: auto 115%;
         }
         to {
-            transform: scale(1);
+            background-size: auto 100%;
         }
     }
 
@@ -2188,7 +2207,9 @@ section {
     .hero-index,
     .hero-services,
     .blog-hero {
-        background-size: cover;
+        /* Конечный кадр анимации — auto 100%, поэтому cover здесь
+           только для мгновения до её старта. */
+        background-size: auto 100%;
         background-repeat: no-repeat;
         animation: zoomOutMobile 3s ease-out forwards;
     }
@@ -2362,7 +2383,7 @@ section {
         scrollbar-width: none;
         -ms-overflow-style: none;
         /* вылет за паддинги .container, чтобы лента шла от края экрана */
-        margin: 0 -20px !important;
+        margin: 0 calc(-1 * var(--container-pad)) !important;
         /* лента обрезает всё, что вылезает за её границы, а карточка
            в середине переворота вырастает по высоте: дальняя perspective
            уменьшает этот выход, вертикальные паддинги добирают остаток */
@@ -2569,10 +2590,12 @@ section {
 }
 
 @media (max-width: 480px) {
-    .container {
-        padding: 0 15px;
+    /* Токен меняем на :root, а не внутри .container: от него считают
+       вылет ленты, а они не всегда лежат внутри контейнера. */
+    :root {
+        --container-pad: 15px;
     }
-    
+
     .hero {
         height: 60vh;
         min-height: 400px;
@@ -4163,8 +4186,8 @@ section {
            контейнера, съедая левый отступ */
         scroll-padding-left: 26px;
         scrollbar-width: none;
-        margin-left: -20px;
-        margin-right: -20px;
+        margin-left: calc(-1 * var(--container-pad));
+        margin-right: calc(-1 * var(--container-pad));
         padding: 0.5rem 26px 1rem;
     }
 
@@ -4228,7 +4251,7 @@ section {
         scrollbar-width: none;
         -ms-overflow-style: none;
         /* вылет за паддинги .container, чтобы лента шла от края экрана */
-        margin: 0 -20px;
+        margin: 0 calc(-1 * var(--container-pad));
         padding: 0.5rem 26px 1rem;
     }
 
