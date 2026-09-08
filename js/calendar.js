@@ -139,8 +139,10 @@ class Calendar {
                      dateString < this.formatDate(this.selectedDateStart)) {
                 dayElement.classList.add('disabled');
             }
-            // Проверяем, не заблокирована ли дата
-            else if (typeof isDateBlocked !== 'undefined' && isDateBlocked(dateString)) {
+            // Занятые даты — только для мероприятий. В режиме диапазона
+            // (аренда атрибутики) их не показываем: комплектов несколько,
+            // реквизит можно взять и на день, когда игра уже занята
+            else if (!this.isRangeMode && typeof isDateBlocked !== 'undefined' && isDateBlocked(dateString)) {
                 dayElement.classList.add('blocked');
                 dayElement.title = this.l10n.dateTaken;
             }

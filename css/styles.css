@@ -1572,11 +1572,38 @@ section {
     color: #2d6a4f;
 }
 
+/* Занятая дата — чёрный квадрат с крестиком вместо числа.
+   Цифру убираем сознательно: .selected тоже чёрная, и если оставить
+   в занятой белое число, свой выбор от чужой брони не отличить.
+   Штриховку (диагональные полосы на белом) пробовали 2026-09-08 —
+   слишком тихая, занятая дата терялась среди свободных. */
 .calendar-day.blocked {
-    background-color: #ffebee;
-    color: #c62828;
+    position: relative;
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    color: transparent;
     cursor: not-allowed;
 }
+
+.calendar-day.blocked::before,
+.calendar-day.blocked::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 11px;
+    height: 1px;
+    background-color: var(--bg-color);
+}
+
+.calendar-day.blocked::before {
+    transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.calendar-day.blocked::after {
+    transform: translate(-50%, -50%) rotate(-45deg);
+}
+*/
 
 .calendar-day.disabled {
     color: #ccc;
