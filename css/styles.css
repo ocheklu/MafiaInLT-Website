@@ -1603,7 +1603,6 @@ section {
 .calendar-day.blocked::after {
     transform: translate(-50%, -50%) rotate(-45deg);
 }
-*/
 
 .calendar-day.disabled {
     color: #ccc;
