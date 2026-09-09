@@ -256,6 +256,22 @@
     font-weight: 300;
 }
 
+/* Inline links in the body copy: gold, no underline.
+   The body sits at weight 300 — a link at 300 in a lighter colour reads as
+   faded rather than active, so links go up one step to 400.
+   Not pure #c9a84c: on white it lands at 2.3:1 and looks washed out at 16px;
+   this darker gold keeps the same hue at ~4:1. */
+.blog-article-content p a {
+    color: #9a7b1f;
+    font-weight: 400;
+    text-decoration: none;
+    transition: color 0.25s ease;
+}
+
+@media (hover: hover) {
+    .blog-article-content p a:hover { color: #1a1a1a; }
+}
+
 .blog-article-content ul {
     margin: 2rem 0;
     padding-left: 0;
