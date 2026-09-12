@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="robots" content="noindex, nofollow">
+<title>Vedėjo skydelis</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@500;600&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="icon" href="../images/mafia-club-gold.webp">
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-tab="sablonas">
+
+<svg class="sprite" aria-hidden="true">
+  <symbol id="ico-eye" viewBox="0 0 24 24">
+    <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/>
+  </symbol>
+  <symbol id="ico-eye-off" viewBox="0 0 24 24">
+    <path d="M17.9 17.9A10.1 10.1 0 0 1 12 20C5 20 1 12 1 12a18.5 18.5 0 0 1 5.1-5.9m3.8-1.9A9.1 9.1 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.2 3.2m-6.7-1.1a3 3 0 1 1-4.2-4.2"/>
+    <line x1="2" y1="2" x2="22" y2="22"/>
+  </symbol>
+</svg>
+
+<header class="hdr">
+  <img class="hdr-logo" src="../images/logo.webp" alt="">
+
+  <div class="hdr-fields">
+    <label class="f"><span>Žaidimo data</span><input type="date" id="fDate"></label>
+    <label class="f f-grow"><span>Renginio pavadinimas</span><input type="text" id="fEvent" autocomplete="off"></label>
+  </div>
+
+  <button type="button" id="modeBtn" class="eye eye-lg" aria-label="">
+    <svg class="i-on"><use href="#ico-eye"></use></svg>
+    <svg class="i-off"><use href="#ico-eye-off"></use></svg>
+  </button>
+
+  <div class="hdr-tools">
+    <button type="button" id="btnExport" class="tool">💾 Kopija</button>
+    <button type="button" id="btnImport" class="tool">📂 Įkelti</button>
+    <button type="button" id="btnPrint" class="tool">Spausdinti</button>
+    <button type="button" id="btnSession" class="tool">Nauja sesija</button>
+    <button type="button" id="btnReset" class="tool">Naujas žaidimas</button>
+  </div>
+  <input type="file" id="fileInput" accept="application/json,.json" hidden>
+</header>
+
+<nav class="tabs">
+  <button type="button" class="tab" data-go="sablonas">Šablonas</button>
+  <button type="button" class="tab" data-go="muzika">Muzika</button>
+</nav>
+
+<main class="layout">
+
+  <section class="col-left">
+
+    <div class="secret">
+      <div class="secret-inner">
+
+        <section class="block">
+          <div class="block-head">
+            <h2>ŽAIDĖJAS</h2>
+            <div class="block-acts">
+              <button type="button" id="btnPool" class="act">Svečiai</button>
+              <button type="button" id="btnAddPlayer" class="act">+ Pridėti žaidėją</button>
+              <button type="button" id="btnDelPlayer" class="act act-min">−</button>
+              <button type="button" id="btnAddRound" class="act">+ Pridėti raundą</button>
+              <button type="button" id="btnDelRound" class="act act-min">−</button>
+            </div>
+          </div>
+          <div class="tbl-wrap">
+            <table class="tbl" id="tblPlayers">
+              <thead id="thPlayers"></thead>
+              <tbody id="tbPlayers"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="block">
+          <h2>VAIDMUO</h2>
+          <div class="roles" id="roles"></div>
+        </section>
+
+      </div>
+      <div class="day-overlay" aria-hidden="true">
+        <img src="../images/mafia-club-gold.webp" alt="">
+      </div>
+    </div>
+
+    <section class="block">
+      <div class="block-head">
+        <h2>Vedėjo pastabos</h2>
+        <button type="button" id="notesBtn" class="eye" aria-label="">
+          <svg class="i-on"><use href="#ico-eye"></use></svg>
+          <svg class="i-off"><use href="#ico-eye-off"></use></svg>
+        </button>
+      </div>
+      <div class="notes-wrap">
+        <textarea id="fNotes" class="notes" rows="4"></textarea>
+      </div>
+    </section>
+
+  </section>
+
+  <aside class="col-right">
+    <div class="music-bar">
+      <h2>Muzika</h2>
+      <button type="button" id="btnCfg" class="cfg">⚙️</button>
+    </div>
+    <div class="cfg-box" id="cfgBox" hidden>
+      <div class="pl-row"><input type="text" class="pl-name" data-i="0" placeholder="Pavadinimas" autocomplete="off"><input type="text" class="pl-url" data-i="0" placeholder="Spotify nuoroda" autocomplete="off" spellcheck="false"></div>
+      <div class="pl-row"><input type="text" class="pl-name" data-i="1" placeholder="Pavadinimas" autocomplete="off"><input type="text" class="pl-url" data-i="1" placeholder="Spotify nuoroda" autocomplete="off" spellcheck="false"></div>
+      <div class="pl-row"><input type="text" class="pl-name" data-i="2" placeholder="Pavadinimas" autocomplete="off"><input type="text" class="pl-url" data-i="2" placeholder="Spotify nuoroda" autocomplete="off" spellcheck="false"></div>
+      <button type="button" id="btnCfgSave" class="act">Išsaugoti</button>
+    </div>
+    <div class="pl-tabs" id="plTabs"></div>
+    <div class="player-wrap">
+      <iframe id="spotify" title="Spotify" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+    </div>
+  </aside>
+
+</main>
+
+<div class="pop" id="numpad" hidden></div>
+
+<div class="modal" id="poolModal" hidden>
+  <div class="modal-box pool-box">
+    <button type="button" class="pin-close" id="poolClose">✕</button>
+    <div class="pin-title">Svečiai</div>
+    <div class="pool-add">
+      <input type="text" id="poolInput" autocomplete="off" placeholder="Vardas">
+      <button type="button" id="poolAdd" class="act act-min">+</button>
+    </div>
+    <div class="pool-list" id="poolList"></div>
+  </div>
+</div>
+
+<div class="modal" id="pinModal" hidden>
+  <div class="modal-box">
+    <button type="button" class="pin-close" id="pinClose">✕</button>
+    <div class="pin-title" id="pinTitle">PIN kodas</div>
+    <div class="pin-dots" id="pinDots"></div>
+    <div class="pin-grid" id="pinGrid"></div>
+  </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
