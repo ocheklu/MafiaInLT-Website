@@ -569,6 +569,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (response.ok) {
                     modalTitle.textContent = 'Ačiū!';
                     modalText.textContent = 'Jūsų žinutė išsiųsta. Susisieksime su jumis artimiausiu metu.';
+                    // Meta: обращение через форму — считаем как лид
+                    if (typeof fbq === 'function') fbq('track', 'Lead', { content_name: 'contact_form' });
                     modal.classList.add('show');
                     form.reset();
                 } else {

@@ -921,6 +921,15 @@ document.getElementById('reserve-btn')?.addEventListener('click', async function
                 language: CALC_LANG
             });
 
+            // Meta: заявка из калькулятора — основная конверсия рекламы
+            if (typeof fbq === 'function') {
+                fbq('track', 'Lead', {
+                    content_name: calculatorState.service,
+                    value: calculateTotal(),
+                    currency: 'EUR'
+                });
+            }
+
             showModal(CALC_T.thanks, CALC_T.requestSent);
             return;
         }
