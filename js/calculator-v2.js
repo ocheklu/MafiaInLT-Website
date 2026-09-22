@@ -323,6 +323,16 @@ function transitionToStep(currentStepId, nextStepId, progressStep) {
             service: calculatorState.service || 'none',
             language: CALC_LANG
         });
+
+        // Второй шаг — первый осмысленный признак интереса: услугу уже выбрали.
+        // Заявок мало, и Meta на них одних учиться не может: даём ей событие,
+        // которое случается чаще, но всё ещё означает намерение.
+        if (progressStep === 2 && typeof fbq === 'function') {
+            fbq('track', 'InitiateCheckout', {
+                content_name: calculatorState.service || 'none',
+                content_category: 'calculator'
+            });
+        }
     }
     calculatorState.currentStep = progressStep;
     
@@ -885,6 +895,9 @@ document.getElementById('reserve-btn')?.addEventListener('click', async function
         additionalServices: calculatorState.additionalServices,
         totalPrice: document.getElementById('total-price').textContent
     };
+
+    // Откуда человек пришёл — уезжает вместе с заявкой в письмо
+    if (window.MafiaTracking) Object.assign(formData, window.MafiaTracking.attribution());
     
     // Кнопка блокируется на время отправки, иначе несколько тапов
     // отправляют одну и ту же заявку по нескольку раз
@@ -921,9 +934,9 @@ document.getElementById('reserve-btn')?.addEventListener('click', async function
                 language: CALC_LANG
             });
 
-            // Meta: заявка из калькулятора — основная конверсия рекламы
-            if (typeof fbq === 'function') {
-                fbq('track', 'Lead', {
+            // Заявка из калькулятора — основная конверсия рекламы: и в GA, и в Meta
+            if (window.MafiaTracking) {
+                window.MafiaTracking.lead({
                     content_name: calculatorState.service,
                     value: calculateTotal(),
                     currency: 'EUR'

@@ -186,11 +186,6 @@
     flex: 0 0 260px;
 }
 
-.review-form .about-btn {
-    max-width: none;
-    margin-top: 0.5rem;
-}
-
 /* Cards Stack */
 .cards-stack {
     position: relative;

@@ -1157,143 +1157,6 @@ section {
 }
 
 /* ===========================
-   REVIEW MODAL
-   =========================== */
-
-.review-modal {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 1000;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-.review-modal.active {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.review-modal.show {
-    opacity: 1;
-}
-
-.review-modal-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.7);
-    cursor: pointer;
-}
-
-.review-modal-content {
-    position: relative;
-    background: white;
-    padding: 3rem;
-    border-radius: 12px;
-    max-width: 600px;
-    width: 90%;
-    max-height: 90vh;
-    overflow-y: auto;
-    z-index: 1001;
-    transform: scale(0.9);
-    transition: transform 0.3s ease;
-}
-
-.review-modal.show .review-modal-content {
-    transform: scale(1);
-}
-
-.review-modal-close {
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-    background: none;
-    border: none;
-    font-size: 2rem;
-    cursor: pointer;
-    color: #666;
-    transition: color 0.3s ease;
-}
-
-.review-modal-close:hover {
-    color: #000;
-}
-
-.review-modal h2 {
-    margin-bottom: 2rem;
-    text-align: center;
-}
-
-.review-form {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-}
-
-.review-form input,
-.review-form textarea {
-    padding: 1rem;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    font-size: 1rem;
-    font-family: 'Alata', sans-serif;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-.review-form input:focus,
-.review-form textarea:focus {
-    outline: none;
-    border-color: #000;
-    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
-}
-
-.review-form textarea {
-    min-height: 150px;
-    resize: vertical;
-}
-
-.rating-input {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-}
-
-.rating-input label {
-    font-weight: 600;
-}
-
-.stars {
-    display: flex;
-    flex-direction: row-reverse;
-    justify-content: flex-end;
-    gap: 0.5rem;
-}
-
-.stars input {
-    display: none;
-}
-
-.stars label {
-    font-size: 2rem;
-    color: #ddd;
-    cursor: pointer;
-    transition: color 0.2s ease;
-}
-
-.stars input:checked ~ label,
-.stars label:hover,
-.stars label:hover ~ label {
-    color: #ffc107;
-}
-
-/* ===========================
    УСЛУГИ (ПРЕВЬЮ НА ГЛАВНОЙ)
    =========================== */
 
@@ -2152,6 +2015,25 @@ section {
     background: #333;
 }
 
+/* Ссылка на политику приватности в строке копирайта. Держится тише самого
+   копирайта: она обязана быть на странице, но читать её незачем. */
+.footer-legal {
+    color: #8a8a8a;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer-sep {
+    color: #c9c9c9;
+    margin: 0 0.2rem;
+}
+
+@media (hover: hover) {
+    .footer-legal:hover {
+        color: var(--text-color);
+    }
+}
+
 /* ===========================
    ОБОРОТ КАРТОЧКИ УСЛУГИ
    Заголовок — цены — сгруппированные списки — кнопка.
@@ -2844,7 +2726,6 @@ section {
     .lightbox-close:active,
     .lightbox-prev:active,
     .lightbox-next:active,
-    .review-modal-close:active,
     .contact-modal-close:active {
         transform: scale(0.985);
         transition: transform 0.08s ease, background-color 0.08s ease,
@@ -2896,7 +2777,6 @@ section {
     .lightbox-close:active,
     .lightbox-prev:active,
     .lightbox-next:active,
-    .review-modal-close:active,
     .contact-modal-close:active {
         opacity: 0.72;
     }

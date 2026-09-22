@@ -68,41 +68,11 @@
 }
 </script>
 
-<!-- Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-3GXVW6KLRR"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-3GXVW6KLRR');
-</script>
+<!-- Счётчики: GA4 + Meta Pixel + Clarity. Грузятся из js/tracking.js
+     по согласию из cookie-баннера. -->
+<script src="../js/tracking.js"></script>
 
-<!-- Meta Pixel Code -->
-<script>
-!function(f,b,e,v,n,t,s)
-{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-n.queue=[];t=b.createElement(e);t.async=!0;
-t.src=v;s=b.getElementsByTagName(e)[0];
-s.parentNode.insertBefore(t,s)}(window,document,'script',
-'https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', '359618631730393');
-fbq('track', 'PageView');
-</script>
-<noscript><img height="1" width="1" style="display:none"
-src="https://www.facebook.com/tr?id=359618631730393&ev=PageView&noscript=1"/></noscript>
-<!-- End Meta Pixel Code -->
 
-<!-- Microsoft Clarity -->
-<script type="text/javascript">
-    (function(c,l,a,r,i,t,y){
-        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-    })(window, document, "clarity", "script", "3j9kkblzoj");
-</script>
-<!-- End Microsoft Clarity -->
 
 <!-- Favicon -->
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
@@ -963,7 +933,7 @@ ul.facts li a.fact-link:hover { color:var(--gold-light); border-color:rgba(212,1
         <a href="/online/" data-lang="lt">LT</a>
         <a href="/online/ru/" data-lang="ru">RU</a>
       </div>
-      <a class="header-cta" href="https://mafiaonlinegame.com" target="_blank" rel="noopener" data-i18n="cta.play">Play now</a>
+      <a class="header-cta" href="https://mafiaonlinegame.com/?utm_source=mafiain.lt&amp;utm_medium=referral&amp;utm_campaign=online-lt" target="_blank" rel="noopener" data-i18n="cta.play">Play now</a>
     </div>
   </div>
 </header>
@@ -1157,7 +1127,7 @@ ul.facts li a.fact-link:hover { color:var(--gold-light); border-color:rgba(212,1
          data-mobile-href="mailto:mafiaonlinegame.en@gmail.com?subject=Mafia Online — investor deck"
          target="_blank" rel="noopener"
          data-i18n="inv.cta.deck">Request the deck</a>
-      <a class="btn btn-outline" href="https://mafiaonlinegame.com" target="_blank" rel="noopener"
+      <a class="btn btn-outline" href="https://mafiaonlinegame.com/?utm_source=mafiain.lt&amp;utm_medium=referral&amp;utm_campaign=online-lt" target="_blank" rel="noopener"
          data-i18n="inv.cta.demo">See the live product</a>
     </div>
     <p class="contact-inline">
@@ -1332,7 +1302,7 @@ ul.facts li a.fact-link:hover { color:var(--gold-light); border-color:rgba(212,1
     <h2 data-i18n="pl.cta.h">Start your first game</h2>
     <p class="cta-sub cta-sub-nowrap" data-i18n="pl.cta.sub">Browser-based — no download.</p>
     <div class="btns">
-      <a class="btn btn-primary" href="https://mafiaonlinegame.com" target="_blank" rel="noopener" data-i18n="cta.play">Play now</a>
+      <a class="btn btn-primary" href="https://mafiaonlinegame.com/?utm_source=mafiain.lt&amp;utm_medium=referral&amp;utm_campaign=online-lt" target="_blank" rel="noopener" data-i18n="cta.play">Play now</a>
     </div>
     <p class="desktop-notice" data-i18n="pl.notice">Currently desktop only. Mobile version — late 2026.</p>
   </div>

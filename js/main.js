@@ -38,31 +38,66 @@ document.addEventListener('DOMContentLoaded', function() {
 // ПЕРЕКЛЮЧАТЕЛЬ ЯЗЫКОВ
 // ===========================
 
-let currentLanguage = 'lt'; // По умолчанию литовский
+// Язык определяется по <html lang> — каждая языковая версия живёт
+// в своей папке: / (LT), /ru/, /en/. Кнопки — это навигация между ними.
+const PAGE_LANG = (document.documentElement.lang || 'lt').slice(0, 2);
+let currentLanguage = PAGE_LANG;
+
+// Тексты модалки формы контактов на языке страницы
+const UI_TEXT = {
+    lt: {
+        thanks: 'Ačiū!',
+        error: 'Klaida',
+        tryAgain: 'Bandykite dar kartą.',
+        messageSent: 'Jūsų žinutė išsiųsta. Susisieksime su jumis artimiausiu metu.'
+    },
+    ru: {
+        thanks: 'Спасибо!',
+        error: 'Ошибка',
+        tryAgain: 'Попробуйте ещё раз.',
+        messageSent: 'Ваше сообщение отправлено. Мы свяжемся с вами в ближайшее время.'
+    },
+    en: {
+        thanks: 'Thank you!',
+        error: 'Error',
+        tryAgain: 'Please try again.',
+        messageSent: 'Your message has been sent. We will get back to you shortly.'
+    }
+};
+const T = UI_TEXT[PAGE_LANG] || UI_TEXT.lt;
 
 document.addEventListener('DOMContentLoaded', function() {
     const langButtons = document.querySelectorAll('.lang-btn');
-    
-    // Проверяем сохраненный язык в localStorage
-    const savedLang = localStorage.getItem('selectedLanguage');
-    if (savedLang) {
-        currentLanguage = savedLang;
-        updateLanguageUI(savedLang);
-    }
-    
+
+    updateLanguageUI(PAGE_LANG);
+
     langButtons.forEach(btn => {
         btn.addEventListener('click', function() {
             const lang = this.getAttribute('data-lang');
-            changeLanguage(lang);
+            if (lang === PAGE_LANG) return;
+            localStorage.setItem('selectedLanguage', lang);
+            window.location.href = langHref(lang);
         });
     });
 });
 
-function changeLanguage(lang) {
-    currentLanguage = lang;
-    localStorage.setItem('selectedLanguage', lang);
-    updateLanguageUI(lang);
-    updatePageContent(lang);
+// Строит ссылку на текущую страницу в другой языковой версии.
+// Пути относительные — работает и локально (file://), и на хостинге.
+function langHref(targetLang) {
+    const path = window.location.pathname.replace(/\\/g, '/');
+    let file = path.split('/').pop();
+    if (!file || !file.includes('.')) file = 'index.html';
+
+    const inLangDir = /\/(ru|en)\/[^\/]*$/.test(path);
+    const inBlog = /\/straipsniai\//.test(path);
+    const prefix = (inLangDir || inBlog) ? '../' : '';
+
+    // Блог пока только на литовском — с него ведём на главную нужного языка
+    if (inBlog) {
+        return targetLang === 'lt' ? prefix + 'index.html' : prefix + targetLang + '/index.html';
+    }
+
+    return targetLang === 'lt' ? prefix + file : prefix + targetLang + '/' + file;
 }
 
 function updateLanguageUI(lang) {
@@ -74,22 +109,6 @@ function updateLanguageUI(lang) {
             btn.classList.remove('active');
         }
     });
-}
-
-function updatePageContent(lang) {
-    // Эта функция будет обновлять контент страницы
-    // В будущем здесь будет загрузка переводов из translations.js
-    
-    // Пример структуры (пока не реализовано, но готово к добавлению):
-    // const elements = document.querySelectorAll('[data-translate]');
-    // elements.forEach(el => {
-    //     const key = el.getAttribute('data-translate');
-    //     if (translations[lang] && translations[lang][key]) {
-    //         el.textContent = translations[lang][key];
-    //     }
-    // });
-    
-    console.log(`Language changed to: ${lang}`);
 }
 
 // ===========================
@@ -452,112 +471,27 @@ document.addEventListener('DOMContentLoaded', function() {
     revealOnScroll();
 });
 
-// ===========================
-// REVIEW MODAL
-// ===========================
-
-document.addEventListener('DOMContentLoaded', function() {
-    const modal = document.getElementById('reviewModal');
-    const openBtn = document.querySelector('.open-review-modal');
-    const closeBtn = document.querySelector('.review-modal-close');
-    const overlay = document.querySelector('.review-modal-overlay');
-    
-    if (openBtn && modal) {
-        // Open modal
-        openBtn.addEventListener('click', function() {
-            modal.classList.add('active');
-            setTimeout(() => modal.classList.add('show'), 10);
-            document.body.style.overflow = 'hidden';
-        });
-        
-        // Close modal
-        function closeModal() {
-            modal.classList.remove('show');
-            setTimeout(() => {
-                modal.classList.remove('active');
-                document.body.style.overflow = '';
-            }, 300);
-        }
-        
-        closeBtn.addEventListener('click', closeModal);
-        overlay.addEventListener('click', closeModal);
-        
-        // Close on ESC key
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape' && modal.classList.contains('active')) {
-                closeModal();
-            }
-        });
-    }
-});
-
-// Review form handler
-document.querySelector('.review-form')?.addEventListener('submit', function(e) {
-    e.preventDefault();
-    
-    const form = this;
-    const formData = new FormData(form);
-    
-    fetch(form.action, {
-        method: 'POST',
-        body: formData,
-        headers: {
-            'Accept': 'application/json'
-        }
-    })
-    .then(response => {
-        if (response.ok) {
-            // Close review modal
-            const reviewModal = document.getElementById('reviewModal');
-            reviewModal.classList.remove('show');
-            setTimeout(() => {
-                reviewModal.classList.remove('active');
-                reviewModal.style.display = 'none';
-            }, 300);
-            document.body.style.overflow = ''; // Восстановить скролл
-            
-            // Show success modal
-            const successModal = document.getElementById('successModal');
-            const modalTitle = successModal.querySelector('h3');
-            const modalText = successModal.querySelector('p');
-            modalTitle.textContent = 'Ačiū!';
-            modalText.textContent = 'Jūsų atsiliepimas išsiųstas!';
-            successModal.classList.add('show');
-            
-            form.reset();
-        } else {
-            const successModal = document.getElementById('successModal');
-            const modalTitle = successModal.querySelector('h3');
-            const modalText = successModal.querySelector('p');
-            modalTitle.textContent = 'Klaida';
-            modalText.textContent = 'Bandykite dar kartą.';
-            successModal.classList.add('show');
-        }
-    })
-    .catch(error => {
-        const successModal = document.getElementById('successModal');
-        const modalTitle = successModal.querySelector('h3');
-        const modalText = successModal.querySelector('p');
-        modalTitle.textContent = 'Klaida';
-        modalText.textContent = 'Bandykite dar kartą.';
-        successModal.classList.add('show');
-    });
-});
-
 // Contact Form Success Modal
 document.addEventListener('DOMContentLoaded', function() {
     const form = document.querySelector('.contact-form-card form');
     const modal = document.getElementById('successModal');
+    // Модалки нет на галерее, в блоге и на странице политики — читать её
+    // содержимое до проверки нельзя, иначе обработчик падает на пустой ссылке.
+    if (!form || !modal) return;
+
     const modalTitle = modal.querySelector('h3');
     const modalText = modal.querySelector('p');
     const closeBtn = document.querySelector('.contact-modal-close');
-    
+
     if (form && modal) {
         form.addEventListener('submit', function(e) {
             e.preventDefault();
             
             const formData = new FormData(form);
-            
+
+            // Откуда человек пришёл — уезжает вместе с заявкой в письмо
+            if (window.MafiaTracking) window.MafiaTracking.applyToFormData(formData);
+
             fetch(form.action, {
                 method: 'POST',
                 body: formData,
@@ -567,21 +501,23 @@ document.addEventListener('DOMContentLoaded', function() {
             })
             .then(response => {
                 if (response.ok) {
-                    modalTitle.textContent = 'Ačiū!';
-                    modalText.textContent = 'Jūsų žinutė išsiųsta. Susisieksime su jumis artimiausiu metu.';
-                    // Meta: обращение через форму — считаем как лид
-                    if (typeof fbq === 'function') fbq('track', 'Lead', { content_name: 'contact_form' });
+                    modalTitle.textContent = T.thanks;
+                    modalText.textContent = T.messageSent;
+                    // Обращение через форму — считаем как лид: и в GA, и в Meta
+                    if (window.MafiaTracking) {
+                        window.MafiaTracking.lead({ content_name: 'contact_form' });
+                    }
                     modal.classList.add('show');
                     form.reset();
                 } else {
-                    modalTitle.textContent = 'Klaida';
-                    modalText.textContent = 'Bandykite dar kartą.';
+                    modalTitle.textContent = T.error;
+                    modalText.textContent = T.tryAgain;
                     modal.classList.add('show');
                 }
             })
             .catch(error => {
-                modalTitle.textContent = 'Klaida';
-                modalText.textContent = 'Bandykite dar kartą.';
+                modalTitle.textContent = T.error;
+                modalText.textContent = T.tryAgain;
                 modal.classList.add('show');
             });
         });
