@@ -6559,7 +6559,11 @@ section {
 
 .page-faq .faq-wrapper {
     max-width: 860px;
-    margin: 0;
+    margin: 0 auto;
+}
+
+.page-faq .section-heading {
+    text-align: center;
 }
 
 .page-faq .faq-item {
@@ -6575,33 +6579,38 @@ section {
 
 .page-faq .faq-question {
     position: relative;
-    padding: 1.55rem 3.2rem 1.55rem 2.2rem;
+    /* Заливка лежит в ::before с z-index: -1. Своего фона у кнопки нет,
+       поэтому ей нужна изоляция — иначе псевдоэлемент уйдёт под фон
+       секции и заливки на экране не будет (грабля из CLAUDE.md). */
+    isolation: isolate;
+    overflow: hidden;
+    padding: 1.5rem 1.7rem;
     background-color: transparent;
     font-size: 1.04rem;
     font-weight: 400;
     line-height: 1.5;
     color: #1a1a1a;
-    transition: color 0.35s ease;
+    /* Задержка — чтобы буквы не побелели раньше заливки */
+    transition: color 0.35s ease 0.12s;
 }
 
-/* Метка слева: короткая золотая линия выезжает из края. Тот же приём,
-   что у кнопок-полос, только в миниатюре — поэтому и отступ 2.2rem,
-   текст больше не прибит к краю. */
+/* Чёрное заливает ячейку слева направо — тот же приём, что у кнопок-полос.
+   inset: -1px, а не 0: псевдоэлемент считается по padding-box, и на
+   дробной ширине справа остаётся щель в пиксель. Ответ не заливается. */
 .page-faq .faq-question::before {
     content: '';
     position: absolute;
-    left: 0;
-    top: 50%;
-    width: 14px;
-    height: 1px;
-    background-color: #9a7b1f;
+    inset: -1px;
+    z-index: -1;
+    background-color: #111;
     transform: scaleX(0);
     transform-origin: left center;
-    transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+    transition: transform 0.5s cubic-bezier(0.33, 1, 0.68, 1);
 }
 
+/* Раскрытый вопрос остаётся залитым: так видно, какой из пяти открыт */
 .page-faq .faq-question.active {
-    color: #000;
+    color: #fff;
 }
 
 .page-faq .faq-question.active::before {
@@ -6625,6 +6634,7 @@ section {
 }
 
 .page-faq .faq-question.active::after {
+    background-image: linear-gradient(#e6c878, #e6c878), linear-gradient(#e6c878, #e6c878);
     background-size: 13px 1px, 1px 0;
 }
 
@@ -6634,7 +6644,7 @@ section {
 }
 
 .page-faq .faq-answer-content {
-    padding: 0 3.2rem 1.7rem 2.2rem;
+    padding: 1.3rem 1.7rem 1.7rem;
     color: #555;
     font-size: 0.95rem;
     line-height: 1.75;
@@ -6671,17 +6681,21 @@ section {
 @media (hover: hover) {
     .page-faq .faq-question:hover {
         background-color: transparent;
-        color: #000;
+        color: #fff;
     }
 
     .page-faq .faq-question:hover::before {
         transform: scaleX(1);
     }
+
+    .page-faq .faq-question:hover::after {
+        background-image: linear-gradient(#e6c878, #e6c878), linear-gradient(#e6c878, #e6c878);
+    }
 }
 
 /* На тапе заливки нет — отклик яркостью: у кнопки своего фона нет */
 @media (hover: none) {
-    .page-faq .faq-question:active {
+    .page-faq .faq-question:active:not(.active) {
         background-color: transparent;
         opacity: 0.72;
     }
@@ -6693,12 +6707,8 @@ section {
     }
 
     .page-faq .faq-question {
-        padding: 1.25rem 2.2rem 1.25rem 1.3rem;
+        padding: 1.2rem 1.1rem;
         font-size: 0.97rem;
-    }
-
-    .page-faq .faq-question::before {
-        width: 9px;
     }
 
     .page-faq .faq-question::after,
@@ -6713,7 +6723,7 @@ section {
     }
 
     .page-faq .faq-answer-content {
-        padding: 0 1.3rem 1.4rem 1.3rem;
+        padding: 1.1rem 1.1rem 1.4rem;
         font-size: 0.92rem;
         line-height: 1.7;
     }
