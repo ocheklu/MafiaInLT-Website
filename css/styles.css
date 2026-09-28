@@ -5741,11 +5741,6 @@ section {
         z-index: 2;
         max-width: none;
         padding: 0 1.4rem 1.4rem;
-        /* Место под три строки держится всегда: описания у ведущих разной
-           длины, а текст прижат к низу панели — без резерва короткий
-           начинался ниже, и зазор от звания до текста у двоих разъезжался. */
-        min-height: 4.9rem;
-        color: rgba(255, 255, 255, 0.92);
     }
 
     .host-panel:hover .host-caption,
@@ -5884,6 +5879,33 @@ section {
         max-height: 10rem;
         margin-top: 1.1rem;
         opacity: 1;
+    }
+}
+
+/* Десктоп: цвет и высота описания. Стоит ниже базового .host-panel-text
+   и ниже блока ховера намеренно — медиазапрос специфичности не добавляет,
+   и оттуда color: #666 перебивал белый (тёмное на тёмном кадре). */
+@media (min-width: 769px) {
+    .host-panel-text {
+        color: rgba(255, 255, 255, 0.92);
+        /* Вместо max-height — своя высота: резерв под три строки одинаковый
+           у обоих. Текст прижат к низу кадра, поэтому короткое описание
+           начиналось ниже длинного, и зазор от звания до текста разъезжался.
+           Теперь текст всегда стартует на одной высоте, пустое место
+           остаётся внизу. */
+        max-height: none;
+        height: 0;
+        transition: height 0.75s cubic-bezier(0.22, 1, 0.36, 1),
+                    opacity 0.5s ease;
+    }
+}
+
+@media (min-width: 769px) and (hover: hover) {
+    .host-panel:hover .host-panel-text,
+    .host-panel:focus-visible .host-panel-text {
+        max-height: none;
+        /* Три строки 0.92rem × 1.7 плюс нижний паддинг 1.4rem */
+        height: 6.1rem;
     }
 }
 
