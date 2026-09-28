@@ -5750,7 +5750,10 @@ section {
        три строки, чтобы без скрипта ховер всё равно работал. */
     .host-panel:hover .host-caption,
     .host-panel:focus-visible .host-caption {
-        bottom: calc(var(--host-text-h, 6.1rem) + 0.5rem);
+        /* Минус, а не плюс: у подписи свой нижний паддинг 1.4rem, и
+           он уже даёт воздух между званием и текстом. Со сдвигом вверх
+           зазор получался почти два ряда. */
+        bottom: calc(var(--host-text-h, 6.1rem) - 0.6rem);
     }
 
     .hosts-panels {
