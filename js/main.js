@@ -924,3 +924,61 @@ window.addEventListener('click', function(e) {
         });
     });
 })();
+
+
+// ===========================
+// ВЫСОТА ОПИСАНИЙ ВЕДУЩИХ
+// ===========================
+// На десктопе описание выезжает снизу кадра, а подпись поднимается ему
+// навстречу. Описания у ведущих разной длины, поэтому общий сдвиг не
+// годится: у короткого оставался провал до низа, у длинного текст лез
+// под звание. Меряем каждое и отдаём высоту в --host-text-h.
+
+(function () {
+    const panels = document.querySelectorAll('.host-panel');
+    if (!panels.length) return;
+
+    function measure() {
+        // На телефоне описание лежит под фото обычным потоком — там
+        // переменная не нужна, и мерить нечего.
+        if (window.innerWidth < 769) {
+            panels.forEach(function (panel) {
+                panel.style.removeProperty('--host-text-h');
+                const text = panel.querySelector('.host-panel-text');
+                if (text) text.style.removeProperty('width');
+            });
+            return;
+        }
+
+        // Под курсором панель получает flex: 2, соседние — flex: 0.75.
+        // Значит итоговая ширина раскрытой панели известна заранее, и
+        // описание надо мерить по ней, а не по нынешней узкой.
+        const wrap = panels[0].parentElement;
+        const gap = parseFloat(getComputedStyle(wrap).columnGap) || 0;
+        const count = panels.length;
+        const open = (wrap.clientWidth - gap * (count - 1)) * 2 / (2 + 0.75 * (count - 1));
+        if (!(open > 0)) return;
+
+        panels.forEach(function (panel) {
+            const text = panel.querySelector('.host-panel-text');
+            if (!text) return;
+            // Ширину держим постоянной: при box-sizing: border-box это
+            // ровно ширина раскрытой панели вместе с паддингами. Пока
+            // панель узкая, описание всё равно скрыто (height: 0).
+            text.style.width = open + 'px';
+            // Высота считается при height: 0 — scrollHeight отдаёт
+            // содержимое вместе с нижним паддингом.
+            const h = text.scrollHeight;
+            if (h > 0) panel.style.setProperty('--host-text-h', h + 'px');
+        });
+    }
+
+    window.addEventListener('load', measure);
+    document.addEventListener('DOMContentLoaded', measure);
+
+    let timer = null;
+    window.addEventListener('resize', function () {
+        clearTimeout(timer);
+        timer = setTimeout(measure, 150);
+    });
+})();
