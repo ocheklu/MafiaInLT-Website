@@ -74,6 +74,29 @@
 }
 </script>
 
+    <!-- Путь по сайту для выдачи: Google рисует «Pradžia › Paslaugos»
+         вместо голого URL. Адреса — с .html, как везде у нас. -->
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Pradžia",
+      "item": "https://mafiain.lt/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Paslaugos ir kainos",
+      "item": "https://mafiain.lt/paslaugos.html"
+    }
+  ]
+}
+</script>
+
     <!-- Счётчики: GA4 + Meta Pixel + Clarity. Грузятся из js/tracking.js
          по согласию из cookie-баннера. -->
     <script src="js/tracking.js"></script>
