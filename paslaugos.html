@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Mafijos žaidimo organizavimo paslaugos Vilniuje, Kaune ir Klaipėdoje. Žaidimo organizavimas, renginio organizavimas ir atributikos nuoma. Paskaičiuokite kainą per minutę.">
+    <meta name="description" content="Mafijos žaidimo organizavimas įmonių renginiams, gimtadieniams ir draugų vakarams Vilniuje, Kaune ir Klaipėdoje. Programa ~3 val. Kaina nuo 600 €.">
     <meta name="keywords" content="mafija vilnius, mafija klubas, mafija paslaugos, mafija kaina, renginių organizavimas, atributikos nuoma, mafija įmonėms, mafija žaidimas kaina, dovana vyrui, dovana žmonai, mafija mergvakaris, mafija gimtadienis, mafija zaidimas">
     <!-- Open Graph -->
     <meta property="og:title" content="Paslaugos - Mafija žaidimo organizavimas Vilniuje">
@@ -23,7 +23,7 @@
     <meta name="twitter:image:alt" content="MafiaInLT paslaugos - Mafija žaidimo ir renginių organizavimas">
 
 
-    <title>Paslaugos - Mafija žaidimo organizavimas Vilniuje</title>
+    <title>Mafijos žaidimo organizavimas įmonėms ir šventėms | Kainos</title>
 
     <script type="application/ld+json">
 {
@@ -46,7 +46,7 @@
     "aggregateRating": {
       "@type": "AggregateRating",
       "ratingValue": "5",
-      "reviewCount": "9"
+      "reviewCount": "19"
     }
   },
   "areaServed": ["Vilnius", "Kaunas", "Klaipėda"],
@@ -62,7 +62,7 @@
       "@type": "Offer",
       "name": "Renginio organizavimas",
       "priceCurrency": "EUR",
-      "price": "1200"
+      "price": "1500"
     },
     {
       "@type": "Offer",
@@ -77,8 +77,6 @@
     <!-- Счётчики: GA4 + Meta Pixel + Clarity. Грузятся из js/tracking.js
          по согласию из cookie-баннера. -->
     <script src="js/tracking.js"></script>
-
-
 
     <!-- Favicon -->
     <link rel="canonical" href="https://mafiain.lt/paslaugos.html">
@@ -131,18 +129,35 @@
     </nav>
 
     <!-- Hero Section -->
-    <section class="hero hero-services" style="height: 50vh; min-height: 400px;">
+    <section class="hero hero-services">
         <div class="hero-overlay"></div>
         <div class="container">
             <div class="hero-content">
-                <h1>Paslaugos</h1>
+                <h1>Mafijos žaidimo <br class="hero-br-mobile">organizavimas</h1>
+                <p class="hero-tagline">Vilnius · Kaunas · Klaipėda</p>
             </div>
         </div>
     </section>
 
-  <!-- Services Cards -->
-<section class="services-cards-section">
+    <!-- Якоря по странице: она длинная, и без них до цены нужно листать пять экранов.
+         Прокрутку ведёт glideTo() из main.js — он ловит любой a[href^="#"]. -->
+    <nav class="page-anchors" aria-label="Puslapio skyriai">
+        <span class="page-anchors-progress" aria-hidden="true"></span>
+        <div class="container">
+            <a href="#kaina">Kainos</a>
+            <a href="#vieta">Kur vyksta</a>
+            <a href="#kaip-vyksta">Kaip vyksta</a>
+            <a href="#progos">Kam tinka</a>
+            <a href="#vedejai">Vedėjai</a>
+            <a href="#calculator">Skaičiuoklė</a>
+        </div>
+    </nav>
+
+  <!-- Paslaugos ir kainos: карточки уже несут цены и состав,
+       отдельный список цен под ними был бы вторым рассказом о том же -->
+<section class="services-cards-section" id="kaina">
     <div class="container">
+        <h2 class="section-heading scroll-reveal">Paslaugos ir kainos</h2>
         <!-- Desktop Grid -->
         <div class="services-desktop" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; max-width: 1200px; margin: 0 auto;">
             
@@ -154,7 +169,7 @@
                         <img loading="lazy" src="images/services/service-1.webp" alt="Žaidimo organizavimas">
                         <div class="service-flip-front-content">
                             <h3>Žaidimo organizavimas</h3>
-                            <p class="price">600-1450 €</p>
+                            <p class="price">600–3150 €</p>
                             <p class="hint">Paslaugų sąrašas</p>
                         </div>
                     </div>
@@ -162,21 +177,33 @@
                     <!-- Back -->
                     <div class="service-flip-back">
                         <h3>Žaidimo organizavimas</h3>
-                        <p class="pricing-line"><span>1 stalas | iki 30 svečių</span><span class="amount">600 €</span></p>
-                        <p class="pricing-line"><span>2 stalai | iki 60 svečių</span><span class="amount">1200 €</span></p>
+
+                        <div class="flip-tables dial-toggle" role="group" aria-label="Stalų skaičius">
+                            <span class="dial-toggle-pill" aria-hidden="true"></span>
+                            <button type="button" class="dial-toggle-btn is-on" data-tables="1"
+                                    data-price="600 €" data-capacity="Nuo 8 iki 30 svečių">1 stalas</button>
+                            <button type="button" class="dial-toggle-btn" data-tables="2"
+                                    data-price="1500 €" data-capacity="Nuo 20 iki 60 svečių">2 stalai</button>
+                        </div>
+
+                        <p class="pricing-line"><span class="flip-capacity">Nuo 8 iki 30 svečių</span><span class="amount flip-price">600 €</span></p>
                         <p class="section-title">Įskaičiuota:</p>
                         <ul class="services-list">
-                            <li>Trys / šešios mafijos sesijos</li>
-                            <li>Vedėjo(-ų) paslaugos</li>
+                            <li data-tables="1">Trys mafijos sesijos</li>
+                            <li data-tables="2">Šešios mafijos sesijos</li>
+                            <li data-tables="2">Koordinavimo paslauga</li>
+                            <li data-tables="1">Vedėjo paslaugos</li>
+                            <li data-tables="2">Vedėjų paslaugos</li>
                             <li>Atributika</li>
-                            <li>Apvalus stalas(-ai)</li>
+                            <li data-tables="1">Apvalus stalas</li>
+                            <li data-tables="2">Apvalūs stalai</li>
                             <li>Svečių vardų kortelės</li>
                         </ul>
                         
                         <p class="section-title">Pasirinktinai:</p>
                         <ul class="services-list services-last">
                             <li>Vietos paieška ir rezervacija</li>
-                            <li>Stalo dekoravimas gėlėmis</li>
+                            <li>Erdvės dekoravimas</li>
                         </ul>
                         
                         <a href="#calculator" class="flip-reserve">Rezervuoti</a>
@@ -192,27 +219,32 @@
                         <img loading="lazy" src="images/services/service-2.webp" alt="Renginio organizavimas">
                         <div class="service-flip-front-content">
                             <h3>Renginio organizavimas</h3>
-                            <p class="price">1200-4000 €</p>
+                            <p class="price">1500–4700 €</p>
                             <p class="hint">Paslaugų sąrašas</p>
                         </div>
                     </div>
                     
                     <!-- Back -->
                     <div class="service-flip-back">
-                        <h3>Renginio organizavimas</h3> 
-                        <p class="pricing-line"><span>1 stalas | iki 30 svečių</span><span class="amount">1200 €</span></p>
-                        <p class="pricing-line"><span>2 stalai | iki 60 svečių</span><span class="amount">2200 €</span></p>
+                        <h3>Renginio organizavimas</h3>
+
+                        <div class="flip-tables dial-toggle" role="group" aria-label="Stalų skaičius">
+                            <span class="dial-toggle-pill" aria-hidden="true"></span>
+                            <button type="button" class="dial-toggle-btn is-on" data-tables="1"
+                                    data-price="1500 €" data-capacity="Nuo 8 iki 30 svečių">1 stalas</button>
+                            <button type="button" class="dial-toggle-btn" data-tables="2"
+                                    data-price="2400 €" data-capacity="Nuo 20 iki 60 svečių">2 stalai</button>
+                        </div>
+
+                        <p class="pricing-line"><span class="flip-capacity">Nuo 8 iki 30 svečių</span><span class="amount flip-price">1500 €</span></p>
                         <p class="section-title">Įskaičiuota:</p>
                         <ul class="services-list">
                             <li>Vietos paieška ir rezervacija</li>
                             <li>Programos planavimas</li>
                             <li>Renginio koordinavimas</li>
-                            <li>Stalo dekoravimas</li>
-                            <li>Trys / šešios mafijos sesijos</li>
-                            <li>Vedėjo(-ų) paslaugos</li>
-                            <li>Atributika</li>
-                            <li>Apvalus stalas(-ai)</li>
-                            <li>Svečių vardų kortelės</li>
+                            <li data-tables="1">Stalo dekoravimas</li>
+                            <li data-tables="2">Stalų dekoravimas</li>
+                            <li>Žaidimo organizavimas</li>
                         </ul>
                         
                         <p class="section-title">Pasirinktinai:</p>
@@ -266,22 +298,310 @@
             
         </div>
 
-        <div class="services-articles-links">
-            <a href="straipsniai/kaip-vyksta-renginys.html">Renginio programa</a>
-            <a href="straipsniai/mafija-zaidimas-taisykles.html">Žaidimo taisyklės</a>
-        </div>
     </div>
 </section>
 
+    <!-- Врезка между главами: тёмный экран с одной фразой. Он делит страницу
+         на части и держит ритм — после него белая секция читается как новая глава. -->
+    <section class="chapter-break chapter-break-1" aria-hidden="true">
+        <p>Pirmasis Mafijos klubas Lietuvoje</p>
+        <p class="chapter-break-note">Nuo 2015 metų</p>
+    </section>
 
+    <!-- Kur vyksta -->
+    <section class="place-section" id="vieta">
+        <div class="container place-layout">
+            <div class="place-media scroll-reveal">
+                <!-- Постера нет намеренно: #t=0.5 показывает кадр с половины
+                     секунды, preload="metadata" не тянет весь файл. -->
+                <video id="placeVideo" preload="metadata" muted playsinline loop
+                       src="video/mafiainlt-2026.mp4#t=0.5"
+                       aria-label="Mafijos žaidimo vakaro vaizdo įrašas"></video>
+                <button type="button" class="place-video-btn" aria-label="Paleisti vaizdo įrašą">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+                </button>
+            </div>
 
+            <div class="place-info scroll-reveal">
+                <h2>Kur vyksta</h2>
+                <p>Atvažiuojame į jūsų pasirinktą vietą: restoraną, sodybą, biurą ar namus — arba teikiame planavimo paslaugą: pagal svečių skaičių ir biudžetą surandame jums tinkamą erdvę.</p>
+
+                <div class="dial">
+                    <div class="dial-cities" aria-hidden="true">
+                        <span style="left: 0">Vilnius</span>
+                        <span style="left: 32.3%">Kaunas</span>
+                        <span style="left: 69.4%">Šiauliai</span>
+                        <span style="left: 100%">Klaipėda</span>
+                    </div>
+                    <input type="range" id="distanceSlider" class="dial-range" min="0" max="310" step="5" value="0"
+                           aria-label="Atstumas nuo Vilniaus kilometrais">
+                    <p class="dial-foot"><span><span id="distanceKm">0</span> km · kelionės išlaidos</span><span class="dial-price"><span id="distanceFee">0</span> €</span></p>
+                </div>
+
+                <div class="dial">
+                    <div class="dial-head">
+                        <span class="dial-label">Dekoravimas</span>
+                        <div class="dial-toggle" role="group" aria-label="Stalų skaičius">
+                            <span class="dial-toggle-pill" aria-hidden="true"></span>
+                            <button type="button" class="dial-toggle-btn is-on" data-tables="1">1 stalas</button>
+                            <button type="button" class="dial-toggle-btn" data-tables="2">2 stalai</button>
+                        </div>
+                    </div>
+                    <input type="range" id="decorSlider" class="dial-range" min="1" max="4" step="1" value="1"
+                           aria-label="Dekoravimo apimtis">
+                    <p class="dial-foot"><span id="decorNote">Žvakės ir gėlių kompozicija</span><span class="dial-price"><span id="decorFee">200</span> €</span></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Kaip vyksta vakaras -->
+    <section class="flow-section" id="kaip-vyksta">
+        <div class="container flow-layout">
+            <div class="flow-aside scroll-reveal">
+                <h2>Kaip vyksta mafijos žaidimo vakaras</h2>
+            </div>
+
+            <div class="strip scroll-reveal">
+            <ol class="strip-track flow-list">
+                <li class="flow-step">
+                    <div class="flow-body">
+                        <div class="flow-head">
+                            <h3>Svečių susirinkimas</h3>
+                            <span class="flow-time">30 min</span>
+                        </div>
+                        <p>Dalyviai renkasi prie užkandžių ir lengvų gėrimų.</p>
+                    </div>
+                </li>
+                <li class="flow-step">
+                    <div class="flow-body">
+                        <div class="flow-head">
+                            <h3>Vakarienė</h3>
+                            <span class="flow-time">~40 min</span>
+                        </div>
+                        <p>Svečiai vakarieniauja.</p>
+                    </div>
+                </li>
+
+                <li class="flow-step">
+                    <div class="flow-body">
+                        <div class="flow-head">
+                            <h3>Pradžia</h3>
+                            <span class="flow-time">~15 min</span>
+                        </div>
+                        <p>Kiekvieną svečią kviečiame prie stalo individualiai, atkreipdami dėmesį į jo autentiškus bruožus.</p>
+                    </div>
+                </li>
+
+                <li class="flow-step">
+                    <div class="flow-body">
+                        <div class="flow-head">
+                            <h3>Pirmoji sesija</h3>
+                            <span class="flow-time">60 min</span>
+                        </div>
+                        <p>Taisykles paaiškiname prieš pradedant, o sesijos metu primename vaidmenų funkcijas.</p>
+                    </div>
+                </li>
+
+                <li class="flow-step">
+                    <div class="flow-body">
+                        <div class="flow-head">
+                            <h3>Pertrauka</h3>
+                            <span class="flow-time">~15 min</span>
+                        </div>
+                        <p>Skiriame laiko įspūdžiams pasidalinti.</p>
+                    </div>
+                </li>
+                <li class="flow-step">
+                    <div class="flow-body">
+                        <div class="flow-head">
+                            <h3>Antroji ir trečioji sesijos</h3>
+                            <span class="flow-time">~40 min kiekviena</span>
+                        </div>
+                        <p>Kviečiame tuos, kurie dar nežaidė, ir tuos, kurie pirmieji iškrito.</p>
+                    </div>
+                </li>
+
+                <li class="flow-step">
+                    <div class="flow-body">
+                        <div class="flow-head">
+                            <h3>Pabaiga</h3>
+                            <span class="flow-time">~15 min</span>
+                        </div>
+                        <p>Vedėjas grįžta prie ypatingų vakaro akimirkų ir įteikia svečiams nominacijas.</p>
+                    </div>
+                </li>
+                <li class="flow-step flow-step-article">
+                    <a class="flow-article" href="straipsniai/kaip-vyksta-renginys.html">
+                        <img loading="lazy" src="images/gallery/gallery-14.webp" alt="Mafijos žaidimo vakaras">
+                        <span class="flow-article-title">Išsamus renginio programos aprašymas<span class="flow-article-more">Skaityti</span></span>
+                    </a>
+                </li>
+            </ol>
+                <div class="strip-controls">
+                    <div class="strip-progress" aria-hidden="true"><span></span></div>
+                    <div class="strip-arrows">
+                        <button type="button" class="strip-arrow strip-prev" aria-label="Ankstesnis žingsnis" disabled>
+                            <svg viewBox="0 0 24 12" aria-hidden="true"><path d="M7 1 1 6l6 5M1 6h23"/></svg>
+                        </button>
+                        <button type="button" class="strip-arrow strip-next" aria-label="Kitas žingsnis">
+                            <svg viewBox="0 0 24 12" aria-hidden="true"><path d="M17 1l6 5-6 5M23 6H0"/></svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="chapter-break chapter-break-2" aria-hidden="true">
+        <p>500+ organizuotų renginių</p>
+    </section>
+
+    <!-- Kam tinka -->
+    <section class="occasions-section" id="progos">
+        <div class="container occasions-layout">
+            <div class="occasions-aside scroll-reveal">
+                <h2>Kam tinka mafijos žaidimas</h2>
+            </div>
+            <div class="occasions-strip strip scroll-reveal">
+                <div class="strip-track occasions-track">
+                <article class="occasion">
+                    <h3>Įmonių renginiai</h3>
+                    <p>Neformali aplinka su įtraukiančia veikla pagal Olego metodiką padeda atsipalaiduoti ir susipažinti artimiau.</p>
+                </article>
+                <article class="occasion">
+                    <h3>Gimtadieniai ir jubiliejai</h3>
+                    <p>Vakaras turi programą. Po žaidimo lieka dalintis įspūdžiais ir šokti.</p>
+                </article>
+                <article class="occasion">
+                    <h3>Bernvakariai ir mergvakariai</h3>
+                    <p>Mūsų renginio formatas padeda susipažinti tiems, kas dar nėra susipažinę.</p>
+                </article>
+                <article class="occasion">
+                    <h3>Draugų vakarai</h3>
+                    <p>Galimybė atkurti ryšį ir pamatyti vienas kitą iš naujos perspektyvos.</p>
+                </a>
+                </div>
+                <div class="strip-controls">
+                    <div class="strip-progress" aria-hidden="true"><span></span></div>
+                    <div class="strip-arrows">
+                        <button type="button" class="strip-arrow strip-prev" aria-label="Ankstesnė proga" disabled>
+                            <svg viewBox="0 0 24 12" aria-hidden="true"><path d="M7 1 1 6l6 5M1 6h23"/></svg>
+                        </button>
+                        <button type="button" class="strip-arrow strip-next" aria-label="Kita proga">
+                            <svg viewBox="0 0 24 12" aria-hidden="true"><path d="M17 1l6 5-6 5M23 6H0"/></svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Kiek trunka ir kiek dalyvių -->
+    <section class="facts-section" id="trukme">
+        <div class="container facts-layout">
+            <div class="facts-aside scroll-reveal">
+                <h2><span class="h-full">Kiek trunka ir kiek dalyvių</span><span class="h-short">Kiek trunka</span></h2>
+            </div>
+
+            <div class="facts-main scroll-reveal">
+                <!-- Три цифры в ряд, без ленты: их мало, и все они помещаются
+                     в один экран. Пояснения убраны — они пересказывали то, что
+                     и так сказано в программе вечера. -->
+                <div class="facts-row">
+                    <div class="fact">
+                        <span class="fact-label">Programos trukmė</span>
+                        <span class="fact-num"><span class="fact-count" data-count="3">3</span> val.</span>
+                    </div>
+                    <div class="fact">
+                        <span class="fact-label">Žaidimo sesijos</span>
+                        <span class="fact-num"><span class="fact-count" data-count="3">3</span></span>
+                    </div>
+                    <div class="fact">
+                        <span class="fact-label">Dalyvių</span>
+                        <span class="fact-num" id="guestsNum">8–30</span>
+                        <div class="dial-toggle fact-toggle" role="group" aria-label="Stalų skaičius">
+                            <span class="dial-toggle-pill" aria-hidden="true"></span>
+                            <button type="button" class="dial-toggle-btn is-on" data-guests="8–30">1 stalas</button>
+                            <button type="button" class="dial-toggle-btn" data-guests="20–60">2 stalai</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Отзыв стоит сразу под цифрами: они говорят, сколько это
+                     длится, он — как это ощущается. -->
+                <!-- Весь отзыв — ссылка на остальные: подпись «Visi atsiliepimai»
+                     занимала строку, а пульсирующая точка говорит то же самое
+                     и не спорит с текстом. -->
+                <a class="facts-review" href="apie-mus.html#atsiliepimai">
+                    <span class="facts-review-head">
+                        <img loading="lazy" src="images/reviews/review-10.webp" alt="Atsiliepimas">
+                        <span class="facts-review-who">
+                            <span class="facts-review-name">Jūratė</span>
+                            <span class="facts-review-stars" aria-label="Įvertinimas 5 iš 5">★★★★★</span>
+                        </span>
+                        <span class="facts-review-dot" aria-hidden="true"></span>
+                    </span>
+                    <span class="facts-review-text">„Didžioji dalis šventės dalyvių nebuvo pažįstamos, tačiau šio žaidimo dėka mes visos įsitraukėme, kūrėme gyvenimiškas istorijas. Įtrauku buvo žaisti, bet ne mažiau įdomu ir iš šalies stebėti žaidimą.“</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Последняя врезка ведёт в расчёт: дальше человек уже не читает, а считает -->
+    <section class="chapter-break chapter-break-3">
+        <p>Rezervacija per mūsų kalendorių</p>
+        <a class="chapter-break-cta" href="#calculator">Patikrinti užimtumą</a>
+    </section>
+
+    <!-- Vedėjai -->
+    <section class="host-section" id="vedejai">
+        <div class="container">
+            <h2 class="section-heading scroll-reveal">Mafijos žaidimo vedėjai</h2>
+            <div class="strip hosts-strip scroll-reveal">
+                <div class="strip-track hosts-panels">
+                    <a class="host-panel" href="apie-mus.html">
+                        <span class="host-media">
+                            <img loading="lazy" src="images/team/vedejas-1.webp" alt="Mafijos žaidimo vedėjas Oleg Čeklu">
+                            <span class="host-caption">
+                                <span class="host-name">Oleg Čeklu</span>
+                                <span class="host-role">Klubo įkūrėjas</span>
+                            </span>
+                        </span>
+                        <span class="host-panel-text">Kūrybinis prodiuseris ir psichodramos praktikas. Jo vedamos sesijos orientuotos į intuicijos atskleidimą, kuri reiškiasi per fizinius pojūčius.</span>
+                    </a>
+                    <a class="host-panel" href="apie-mus.html">
+                        <span class="host-media">
+                            <img loading="lazy" src="images/team/vedejas-2.webp" alt="Mafijos žaidimo vedėjas Aleksandr Kanajev">
+                            <span class="host-caption">
+                                <span class="host-name">Aleksandr Kanajev</span>
+                                <span class="host-role">Klubo koordinatorius</span>
+                            </span>
+                        </span>
+                        <span class="host-panel-text">Teatro ir kino aktorius. Jo vedamose sesijose dėmesys skiriamas aktorinių metodų taikymui.</span>
+                    </a>
+                </div>
+                <div class="strip-controls">
+                    <div class="strip-progress" aria-hidden="true"><span></span></div>
+                    <div class="strip-arrows">
+                        <button type="button" class="strip-arrow strip-prev" aria-label="Ankstesnis" disabled>
+                            <svg viewBox="0 0 24 12" aria-hidden="true"><path d="M7 1 1 6l6 5M1 6h23"/></svg>
+                        </button>
+                        <button type="button" class="strip-arrow strip-next" aria-label="Kitas">
+                            <svg viewBox="0 0 24 12" aria-hidden="true"><path d="M17 1l6 5-6 5M23 6H0"/></svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <!-- Calculator Section -->
 <section class="calculator" id="calculator">
     <div class="container">
         <div style="text-align: center; margin-bottom: 4rem;">
-            <h2 style="margin-bottom: 0.5rem;">Sukurkite savo renginį</h2>
-            <p style="color: #666; font-size: 1.1rem;">ir sužinokite tikslią kainą </p>
+            <h2 style="margin-bottom: 0.5rem;">Pasirinkite norimas paslaugas</h2>
+            <p class="calc-lead">patikrinkite užimtumą<span class="calc-lead-br"> </span>ir sužinokite tikslią kainą</p>
         </div>
     </div>
     
@@ -318,7 +638,7 @@
     </div>
     <!-- Подпись под полосой — только телефон, заполняется из calculator-v2.js -->
     <div class="progress-caption">
-        <button id="back-btn" class="calc-back-btn" type="button" style="display: none;">← Atgal</button>
+        <button id="back-btn" class="calc-back-btn" type="button" style="display: none;" aria-label="Atgal">←</button>
         <span class="progress-caption-count"></span>
     </div>
 </div>
@@ -330,7 +650,7 @@
 
             <!-- Step 1: Service Selection -->
             <div class="calculator-step active" id="step-service">
-                <label style="display: block; font-weight: 600; margin-bottom: 1rem; font-size: 1.1rem;">Pasirinkite paslaugą</label>
+                
                <div class="service-options" style="display: flex; flex-direction: column; gap: 1rem; max-width: 500px; margin: 0 auto;">
     <div class="service-option choice-card" data-service="zaidimo">
         <div class="choice-indicator"></div>
@@ -349,26 +669,26 @@
 
             <!-- Step 2: Calendar -->
             <div class="calculator-step" id="step-calendar">
-                <label style="display: block; font-weight: 600; margin-bottom: 1rem; font-size: 1.1rem;">Pasirinkite datą</label>
+                
                 <div id="calculator-calendar" style="max-width: 400px; margin: 0 auto;"></div>
             </div>
 
             <!-- Step 3: Tables (for zaidimo/renginio) -->
             <div class="calculator-step" id="step-tables">
-                <label style="display: block; font-weight: 600; margin-bottom: 1rem; font-size: 1.1rem;">Žaidimo stalų kiekis</label>
+                
                 <div class="table-options" style="display: flex; flex-direction: column; gap: 1rem; max-width: 500px; margin: 0 auto;">
                     <div class="table-option choice-card" data-tables="1">
                         <div class="choice-indicator"></div>
                         <div class="choice-content">
                             <h4>1 stalas</h4>
-                            <p>planuojama nuo 9 iki 30 svečių</p>
+                            <p>Nuo 8 iki 30 svečių</p>
                         </div>
                     </div>
                     <div class="table-option choice-card" data-tables="2">
                         <div class="choice-indicator"></div>
                         <div class="choice-content">
                             <h4>2 stalai</h4>
-                            <p>planuojama nuo 18 iki 60 svečių</p>
+                            <p>Nuo 20 iki 60 svečių</p>
                         </div>
                     </div>
                 </div>
@@ -376,7 +696,7 @@
 
             <!-- Step 5: Location (for zaidimo) -->
             <div class="calculator-step" id="step-location">
-    <label style="display: block; font-weight: 600; margin-bottom: 1rem; font-size: 1.1rem;">Lokacija</label>
+    
     <div class="location-options" style="display: flex; flex-direction: column; gap: 1rem; max-width: 500px; margin: 0 auto;">
         <div class="service-option choice-card">
             <div class="choice-indicator"></div>
@@ -395,37 +715,25 @@
     </div>
     
     <!-- Distance options (shown when "Už Vilniaus ribų" selected) -->
+    <!-- Расстояние: километр к евро, как в блоке «Kur vyksta» выше.
+         Четыре готовых диапазона убраны — они считали иначе, чем страница,
+         и человек видел две разные цены за одну дорогу. -->
     <div id="distance-options" style="display: none; margin-top: 2rem;">
-        <label style="display: block; font-weight: 600; margin-bottom: 1rem; font-size: 1.1rem;">Atstumas nuo Vilniaus</label>
-        <div style="display: flex; flex-direction: column; gap: 1rem; max-width: 500px; margin: 0 auto;">
-            <div class="distance-option choice-card" data-distance="50">
-                <div class="choice-indicator"></div>
-                <div class="choice-content">
-                    <h4>50-100 km</h4>
-                    <p>+50 €</p>
-                </div>
+        <div class="calc-dial">
+            <div class="calc-dial-head">
+                <label class="calc-dial-label" for="calcDistance">Atstumas nuo Vilniaus</label>
+                <span class="calc-dial-value"><span id="calcDistanceKm">0</span> km · <span id="calcDistanceFee">0</span> €</span>
             </div>
-            <div class="distance-option choice-card" data-distance="100">
-                <div class="choice-indicator"></div>
-                <div class="choice-content">
-                    <h4>101-200 km</h4>
-                    <p>+100 €</p>
-                </div>
+            <div class="dial-cities" aria-hidden="true">
+                <span style="left: 0">Vilnius</span>
+                <span style="left: 32.3%">Kaunas</span>
+                <span style="left: 69.4%">Šiauliai</span>
+                <span style="left: 100%">Klaipėda</span>
             </div>
-            <div class="distance-option choice-card" data-distance="150">
-                <div class="choice-indicator"></div>
-                <div class="choice-content">
-                    <h4>201-300 km</h4>
-                    <p>+150 €</p>
-                </div>
-            </div>
-            <div class="distance-option choice-card" data-distance="250">
-                <div class="choice-indicator"></div>
-                <div class="choice-content">
-                    <h4>301-400 km</h4>
-                    <p>+250 €</p>
-                </div>
-            </div>
+            <input type="range" id="calcDistance" class="dial-range" min="0" max="310" step="5" value="0"
+                   aria-label="Atstumas nuo Vilniaus kilometrais">
+            <p class="calc-dial-note">Kelionės išlaidos: 1 km = 1 €</p>
+            <button type="button" id="distance-next" class="calc-next">Toliau →</button>
         </div>
     </div>
 </div>
@@ -474,6 +782,43 @@
     </div>
 </section>
 
+    <!-- Статьи стоят после расчёта: человек уже всё посмотрел, и это
+         единственный оставшийся шаг вглубь. Для поиска они тоже полезнее
+         внизу — ближе к концу страницы, но в том же документе. -->
+    <section class="articles-section">
+        <div class="container">
+        <div class="strip article-strip scroll-reveal">
+            <div class="strip-track article-track">
+                <a class="article-tile" href="straipsniai/kaip-vyksta-renginys.html">
+                    <img loading="lazy" src="images/gallery/gallery-2.webp" alt="Mafijos žaidimo renginys">
+                    <span class="article-tile-body">
+                        <span class="article-tile-title">Kaip vyksta renginys</span>
+                        <span class="article-tile-more">Skaityti</span>
+                    </span>
+                </a>
+                <a class="article-tile" href="straipsniai/mafija-zaidimas-taisykles.html">
+                    <img loading="lazy" src="images/gallery/gallery-18.webp" alt="Mafijos žaidimo taisyklės">
+                    <span class="article-tile-body">
+                        <span class="article-tile-title">Mafijos žaidimo taisyklės</span>
+                        <span class="article-tile-more">Skaityti</span>
+                    </span>
+                </a>
+            </div>
+            <div class="strip-controls">
+                <div class="strip-progress" aria-hidden="true"><span></span></div>
+                <div class="strip-arrows">
+                    <button type="button" class="strip-arrow strip-prev" aria-label="Ankstesnis" disabled>
+                        <svg viewBox="0 0 24 12" aria-hidden="true"><path d="M7 1 1 6l6 5M1 6h23"/></svg>
+                    </button>
+                    <button type="button" class="strip-arrow strip-next" aria-label="Kitas">
+                        <svg viewBox="0 0 24 12" aria-hidden="true"><path d="M17 1l6 5-6 5M23 6H0"/></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        </div>
+    </section>
+
     <!-- Footer -->
 <footer class="footer">
     <div class="container" style="text-align: center; padding: 3rem 0;">
@@ -484,11 +829,11 @@
             <a href="https://www.instagram.com/mafiainlt/" target="_blank" aria-label="Instagram">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
             </a>
-            <a href="https://www.linkedin.com/company/mafiainlt" target="_blank" aria-label="LinkedIn">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+            <a href="https://wa.me/message/JYMK2QV2GTTYL1" target="_blank" rel="noopener" aria-label="WhatsApp">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884a9.82 9.82 0 0 1 6.988 2.896 9.82 9.82 0 0 1 2.893 6.994c-.003 5.45-4.437 9.885-9.885 9.885M20.52 3.449C18.24 1.245 15.24 0 12.045 0 5.463 0 .104 5.359.101 11.942c0 2.096.547 4.142 1.588 5.945L0 24l6.305-1.654a11.9 11.9 0 0 0 5.683 1.448h.005c6.582 0 11.941-5.359 11.944-11.945A11.86 11.86 0 0 0 20.52 3.45"/></svg>
             </a>
         </div>
-        <p style="margin: 2rem auto 0; padding-top: 2rem; border-top: 1px solid #e0e0e0; max-width: 50%;">&copy; 2026 MafiaInLT ® <span class="footer-sep">·</span> <a class="footer-legal" href="privatumo-politika.html">Privatumo politika</a></p>
+        <p style="margin: 2rem auto 0; max-width: 50%;">&copy; 2026 MafiaInLT ® <span class="footer-sep">·</span> <a class="footer-legal" href="privatumo-politika.html">Privatumo politika</a></p>
     </div>
 </footer>
 

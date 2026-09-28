@@ -11,6 +11,9 @@
 /* Синий блик, которым Chrome и Safari отвечают на тап, ломает монохром:
    гасим его на всей странице (наследуется вниз), а отклик на касание
    даём своими :active-состояниями ниже */
+/* На html никакого overflow: и hidden, и clip обрезают контекст так, что
+   sticky-шапка перестаёт липнуть. Боковое качание лечится по месту —
+   поиском элемента, который вылезает, а не запретом на корне. */
 html {
     -webkit-tap-highlight-color: transparent;
 }
@@ -393,6 +396,10 @@ img {
 }
 
 .hero-services {
+    /* Высота была инлайновым style на <section>: такой стиль перебивает
+       любой медиазапрос, и подобрать её под телефон было нечем. */
+    height: 50vh;
+    min-height: 400px;
     background-image: url('../images/hero/hero-services.webp');
     background-size: 110% auto;
     animation: zoomOut 3s ease-out forwards;
@@ -1333,6 +1340,7 @@ section {
    калькулятора. */
 .services-cards-section {
     padding: 6rem 0;
+    background-color: #fff;
 }
 
 .calculator {
@@ -1991,6 +1999,20 @@ section {
     border-top: 1px solid #e0e0e0;
 }
 
+/* Подвал на телефоне узкий: три ссылки и строка копирайта не должны
+   растягиваться на всю ширину экрана. */
+@media (max-width: 768px) {
+    .footer .container {
+        padding-top: 2.2rem !important;
+        padding-bottom: 2.2rem !important;
+    }
+
+    .footer p {
+        max-width: 100% !important;
+        font-size: 0.72rem;
+    }
+}
+
 .footer-social-links {
     display: flex;
     justify-content: center;
@@ -2330,7 +2352,7 @@ section {
         /* ниже десктопных 640: карточка вместе с полосой «Paslaugų sąrašas»
            должна помещаться в экран телефона с адресной строкой браузера —
            иначе подсказку о тапе просто не видно */
-        height: 600px;
+        height: 540px;
     }
 
     /* Оборот на мобильном плотнее: те же размеры шрифтов,
@@ -2538,7 +2560,10 @@ section {
 /* Flip Cards - Desktop */
 .service-flip-card {
     perspective: 1000px;
-    height: 640px;
+    /* Списки на обороте сократились (у мероприятия вместо девяти пунктов
+       пять), поэтому высоту убавили — карточка целиком помещается в экран
+       ноутбука вместе с шапкой. */
+    height: 560px;
     cursor: pointer;
 }
 
@@ -3146,8 +3171,13 @@ section {
    сайту это не подходило.
    =========================== */
 
+/* Ячейки калькулятора говорят тем же языком, что вся страница: прямые
+   углы вместо скруглений, волосяная рамка, заливка слева направо на
+   ховере — как у кнопок-полос и карточек статей. */
 .choice-card {
     position: relative;
+    isolation: isolate;
+    overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: flex-start;
@@ -3156,20 +3186,56 @@ section {
     max-width: 460px;
     margin: 0 auto;
     padding: 1.05rem 1.5rem;
-    border: 1px solid #e6e6e6;
-    border-radius: 8px;
+    border: 1px solid #e8e8e8;
+    border-radius: 2px;
     background: #ffffff;
     text-align: left;
     cursor: pointer;
     transition: border-color 0.28s ease, background-color 0.28s ease;
 }
 
-.choice-card:hover {
-    border-color: #b4b4b4;
+/* Заливка едет слева направо тем же жестом и той же кривой, что у полос.
+   inset: -1px, а не 0: псевдоэлемент считается по padding-box, и на
+   дробной ширине справа оставалась щель в пиксель. */
+.choice-card::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    z-index: -1;
+    background-color: #f4f4f4;
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 0.45s cubic-bezier(0.33, 1, 0.68, 1);
 }
 
+@media (hover: hover) {
+    .choice-card:hover {
+        border-color: #cfcfcf;
+    }
+
+    .choice-card:hover::before {
+        transform: scaleX(1);
+    }
+}
+
+/* На тач-экранах заливка не успевает за касанием — вместо неё нажатие */
+@media (hover: none) {
+    .choice-card:active {
+        transform: scale(0.99);
+        background-color: #f7f7f7;
+        transition: transform 0.08s ease, background-color 0.08s ease;
+    }
+}
+
+/* Выбранная ячейка залита целиком: видно с одного взгляда, где ты уже
+   определился, даже не читая содержимое. */
 .choice-card.selected {
-    border-color: #000000;
+    border-color: #111;
+}
+
+.choice-card.selected::before {
+    transform: scaleX(1);
+    background-color: #f4f4f4;
 }
 
 /* ===========================
@@ -3391,6 +3457,12 @@ section {
     background: #000000;
     border-radius: 50%;
     z-index: 0;
+}
+
+/* Галочку у дополнительных услуг рисует сам input (см. правило ниже),
+   поэтому у кружка-индикатора её гасим — иначе видно две. */
+.service-item .service-checkbox::after {
+    content: none;
 }
 
 .service-item .service-checkbox input[type="checkbox"]:checked::after {
@@ -4190,4 +4262,2258 @@ section {
         height: 200px;
     }
 
+}
+
+/* ============================================
+   HERO СТРАНИЦЫ УСЛУГ: строка городов под H1
+   ============================================ */
+
+/* Появляется следом за заголовком: та же анимация, задержка больше,
+   чтобы строка не ехала с ним наперегонки. */
+.hero-services .hero-tagline {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeSlideUp 1s ease forwards;
+    animation-delay: 0.75s;
+    font-size: 0.78rem;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.78);
+    margin: 0;
+}
+
+/* ============================================
+   КАК ПРОХОДИТ ВЕЧЕР: лента шагов
+   ============================================ */
+
+/* Программа разворачивается так же, как поводы: заголовок слева,
+   лента справа. Два раздела подряд с одинаковой раскладкой — это ритм,
+   а не повтор: глаз уже знает, где искать. */
+.flow-layout {
+    display: grid;
+    grid-template-columns: 0.8fr 1.6fr;
+    gap: 0;
+    align-items: start;
+    max-width: 1100px;
+}
+
+.flow-aside {
+    padding-right: 4.5rem;
+}
+
+.flow-aside h2 {
+    max-width: 11ch;
+    margin: 0;
+    text-align: left;
+}
+
+.flow-layout .strip {
+    padding-left: 4.5rem;
+    border-left: 1px solid #e8e8e8;
+}
+
+.flow-section {
+    padding: 6rem 0;
+    background-color: #f8f8f8;
+}
+
+.flow-lead {
+    max-width: 62ch;
+    margin: 0 auto 4rem;
+    text-align: center;
+    color: #5a5a5a;
+    line-height: 1.95;
+}
+
+.flow-list {
+    position: relative;
+    max-width: none;
+    margin: 0 auto;
+    padding: 0;
+    list-style: none;
+}
+
+/* Шаг занимает ленту целиком, поэтому номер уже не метка на оси,
+   а полноценный элемент разворота. */
+.flow-step {
+    position: relative;
+    padding: 0;
+}
+
+/* Время у правого края, название у левого — как было до центрирования:
+   так шаг читается как строка расписания. */
+.flow-step .flow-head {
+    justify-content: space-between;
+}
+
+.flow-step p {
+    max-width: 52ch;
+}
+
+/* Шестой шаг — не шаг вечера, а выход из него: тот же формат карточки,
+   но ведёт в статью. */
+.flow-step-article .occasion-link {
+    margin-top: 1.6rem;
+}
+
+.flow-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1.2rem;
+    margin-bottom: 0.5rem;
+}
+
+.flow-body h3 {
+    margin: 0;
+    font-size: 1.05rem;
+    font-weight: 400;
+    letter-spacing: 0.01em;
+    color: #111;
+}
+
+.flow-body p {
+    margin: 0;
+    color: #666;
+    font-size: 0.95rem;
+    line-height: 1.85;
+}
+
+/* Длительность — подпись, а не заголовок: тот же язык, что у полос-кнопок,
+   но тише по цвету. */
+.flow-time {
+    flex-shrink: 0;
+    font-size: 0.66rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #9a9a9a;
+    white-space: nowrap;
+}
+
+.flow-note {
+    max-width: 62ch;
+    margin: 3.5rem auto 0;
+    text-align: center;
+    color: #777;
+    font-size: 0.92rem;
+    line-height: 1.85;
+}
+
+/* Золото приглушённое — то же, что у текстовых ссылок в статьях и
+   на «apie-mus»: фирменное #c9a84c на белом даёт контраст 2.3:1. */
+.flow-note a {
+    color: #9a7b1f;
+    text-decoration: none;
+}
+
+@media (hover: hover) {
+    .flow-note a:hover {
+        color: var(--text-color);
+    }
+}
+
+@media (max-width: 768px) {
+    /* Заголовок страницы теперь длинный: 3.5rem от .hero-services
+       на телефоне не помещается. Правило стоит ниже базового —
+       медиазапрос специфичности не добавляет. */
+    .hero-services h1 {
+        font-size: 1.95rem;
+        line-height: 1.3;
+    }
+
+    .hero-services .hero-tagline {
+        font-size: 0.72rem;
+        letter-spacing: 0.2em;
+    }
+
+    .flow-section {
+        padding: 4rem 0;
+    }
+
+    .flow-lead {
+        margin-bottom: 3rem;
+        text-align: left;
+    }
+
+    /* Длительность уходит под заголовок: рядом с ним на узком экране
+       остаётся 4–5 знаков, и заголовок ломается посреди слова. */
+    /* Время рядом с названием, а не под ним: вторая строка на каждом
+       шаге давала лишний шум. */
+    .flow-head {
+        flex-direction: row;
+        align-items: baseline;
+        justify-content: flex-start;
+        gap: 0.7rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .flow-step {
+        grid-template-columns: 24px 1fr;
+        gap: 0 1.1rem;
+        padding-bottom: 2.2rem;
+    }
+
+    .flow-note {
+        text-align: left;
+    }
+}
+
+/* ============================================
+   PASLAUGOS: KAM TINKA / TRUKMĖ / VIETA / KAINA / VEDĖJAS
+   ============================================ */
+
+/* --- Kam tinka: четыре повода, каждый под своей линией --- */
+/* Ритм теперь задают тёмные врезки: после каждой идёт светлая секция,
+   а следующая за ней — серая. Серый сразу после чёрного выглядит грязно. */
+.occasions-section {
+    padding: 6rem 0;
+    background-color: #fff;
+}
+
+/* Заголовок стоит слева и не уезжает, пока справа идут поводы.
+   Так раздел читается как один разворот, а не как четыре плитки. */
+.occasions-layout {
+    display: grid;
+    grid-template-columns: 0.8fr 1.6fr;
+    gap: 0;
+    align-items: start;
+    max-width: 1100px;
+}
+
+/* Колонка обозначена линией, а не пустотой: сетка видна, и страница
+   держится на ней, а не на глазок расставленных отступах. */
+.occasions-strip {
+    /* Без min-width: 0 колонка грида растягивается под содержимое ленты,
+       и страница уезжает вбок: у grid-элементов min-width по умолчанию auto. */
+    min-width: 0;
+    padding-left: 4.5rem;
+    border-left: 1px solid #e8e8e8;
+}
+
+/* ЛЕНТЫ: один пункт за раз.
+   Пункт занимает ширину целиком и переключается стрелкой или свайпом.
+   Половинчатый обрез соседней карточки пробовали — он подсказывал, что
+   лента длиннее, но сам пункт становился теснее и читался хуже. */
+.strip {
+    min-width: 0;
+}
+
+.strip-track {
+    display: flex;
+    gap: 0;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+}
+
+.strip-track::-webkit-scrollbar {
+    display: none;
+}
+
+.strip-track > * {
+    flex: 0 0 100%;
+    scroll-snap-align: start;
+}
+
+.occasions-track .occasion {
+    padding: 0;
+    border-bottom: 0;
+}
+
+/* Строка под лентой: полоса, счётчик и стрелки. Одного обреза карточки
+   мало — по нему не видно, сколько всего поводов и что их можно листать. */
+/* На десктопе лентой управляют стрелки, точки не нужны */
+.strip-dots {
+    display: none;
+}
+
+.strip-controls {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    margin-top: 2.5rem;
+}
+
+.strip-progress {
+    position: relative;
+    flex: 1;
+    height: 1px;
+    background-color: #ececec;
+}
+
+.strip-progress span {
+    position: absolute;
+    left: 0;
+    top: -0.5px;
+    height: 2px;
+    width: 50%;
+    background-color: #111;
+    transition: transform 0.18s linear;
+}
+
+.strip-arrows {
+    display: flex;
+    gap: 0.9rem;
+}
+
+.strip-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: #111;
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+}
+
+.strip-arrow svg {
+    width: 24px;
+    height: 12px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1;
+    /* Стрелка одной линией, без наконечника-треугольника: тот же язык,
+       что у ссылок с чертой на остальной странице. */
+    stroke-linecap: square;
+}
+
+.strip-arrow:disabled {
+    opacity: 0.22;
+    cursor: default;
+}
+
+@media (hover: hover) {
+    .strip-arrow:not(:disabled):hover {
+        opacity: 0.5;
+    }
+}
+
+@media (hover: none) {
+    .strip-arrow:not(:disabled):active {
+        opacity: 0.45;
+    }
+}
+
+.occasions-aside {
+    padding-right: 4.5rem;
+}
+
+.occasions-aside {
+    padding-right: 4.5rem;
+}
+
+.occasions-aside h2 {
+    max-width: 11ch;
+    margin: 0;
+    text-align: left;
+}
+
+
+
+/* Линий над карточками нет: в ленте, где виден один повод за раз, полоса
+   сверху отделяла его не от соседа, а от заголовка раздела. */
+.occasion {
+    position: relative;
+}
+
+/* Линия над карточкой дочерчивается слева направо — тот же жест,
+   что у кнопок-полос, только без заливки: карточка не кликабельна. */
+.occasion::before {
+    content: '';
+    position: absolute;
+    top: -1px;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background-color: #111;
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 0.5s cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+@media (hover: hover) {
+    .occasion:hover::before {
+        transform: scaleX(1);
+    }
+}
+
+/* Ярлык над вопросом: он же поисковый запрос («Įmonių renginiai»),
+   и он же подсказывает, чей это случай, до того как прочитан вопрос. */
+.occasion-tag {
+    margin: 0 0 0.9rem;
+    font-size: 0.66rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: #a0a0a0;
+}
+
+/* Заголовок повода — вопрос от лица гостя, а не ярлык услуги.
+   Человек ищет в списке свою ситуацию, а не название категории. */
+.occasion h3 {
+    margin: 0 0 0.75rem;
+    font-size: 1.15rem;
+    font-weight: 400;
+    line-height: 1.3;
+}
+
+/* Своя ссылка у каждого блока: человек узнал свой случай — ему есть
+   куда нажать, не долистывая до общего призыва внизу страницы. */
+.occasion-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    margin-top: 1.4rem;
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #111;
+    text-decoration: none;
+}
+
+.occasion-link::after {
+    content: '';
+    width: 22px;
+    height: 1px;
+    background-color: #111;
+    transition: width 0.4s cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+@media (hover: hover) {
+    .occasion-link:hover::after {
+        width: 44px;
+    }
+}
+
+@media (hover: none) {
+    .occasion-link:active {
+        opacity: 0.72;
+    }
+}
+
+.occasion p {
+    max-width: 52ch;
+    margin: 0;
+    font-size: 0.95rem;
+    line-height: 1.65;
+    color: #666;
+}
+
+/* Элементы внутри раздела проявляются по очереди, с шагом 90мс.
+   Одновременная вспышка всего блока выглядит как перезагрузка страницы,
+   очередь — как перелистывание. */
+.stagger > * {
+    opacity: 0;
+    transform: translateY(14px);
+    transition: opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+                transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.stagger.visible > * {
+    opacity: 1;
+    transform: none;
+}
+
+.stagger.visible > *:nth-child(1) { transition-delay: 0s; }
+.stagger.visible > *:nth-child(2) { transition-delay: 0.09s; }
+.stagger.visible > *:nth-child(3) { transition-delay: 0.18s; }
+.stagger.visible > *:nth-child(4) { transition-delay: 0.27s; }
+.stagger.visible > *:nth-child(5) { transition-delay: 0.36s; }
+
+@media (prefers-reduced-motion: reduce) {
+    .stagger > * {
+        opacity: 1;
+        transform: none;
+        transition: none;
+    }
+}
+
+/* --- Строка доверия под героем --- */
+
+/* --- Якорная строка: страница длинная, это её оглавление --- */
+/* Строка разделов липкая: это навигация по длинной странице, ради неё
+   она и сделана. Липкость с неё сняли по ошибке вместе с заголовками. */
+.page-anchors {
+    position: sticky;
+    /* Минус пиксель: высота шапки бывает дробной, и на десктопе между
+       двумя липкими полосами просвечивала страница. */
+    top: calc(var(--header-h, 0px) - 1px);
+    z-index: 900;
+    border-bottom: 1px solid #ededed;
+    background-color: #fff;
+}
+
+/* Текущий раздел: то же подчёркивание, что на ховере, только не по наведению.
+   Цвет вместо жирности — шрифт Alata идёт одним весом. */
+.page-anchors a.current {
+    color: #111;
+}
+
+.page-anchors a.current::after {
+    transform: scaleX(1);
+}
+
+.page-anchors .container {
+    display: flex;
+    justify-content: center;
+    gap: 2.5rem;
+    padding-top: 1.1rem;
+    padding-bottom: 1.1rem;
+}
+
+/* Полоса чтения по верхней кромке: она же индикатор того, сколько
+   страницы пройдено. Ширину двигает main.js. */
+.page-anchors-progress {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 2px;
+    width: 0;
+    background-color: #111;
+    transition: width 0.12s linear;
+}
+
+.page-anchors a {
+    position: relative;
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #8a8a8a;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: color 0.3s ease;
+}
+
+/* Подчёркивание растёт из центра — тот же приём, что у полос-кнопок,
+   только тоньше: пункт не должен спорить с шапкой над ним. */
+.page-anchors a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -4px;
+    height: 1px;
+    background-color: #111;
+    transform: scaleX(0);
+    transition: transform 0.35s cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+@media (hover: hover) {
+    .page-anchors a:hover {
+        color: #111;
+    }
+
+    .page-anchors a:hover::after {
+        transform: scaleX(1);
+    }
+}
+
+@media (hover: none) {
+    .page-anchors a:active {
+        opacity: 0.72;
+    }
+}
+
+/* --- KUR VYKSTA: видео отдельно, сведения отдельно --- */
+/* Карточка заезжает на видео: два прямоугольника рядом читались как
+   таблица, наложение собирает их в один объект. */
+.place-layout {
+    display: grid;
+    grid-template-columns: 0.75fr 1fr;
+    gap: 0;
+    align-items: center;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.place-info {
+    z-index: 1;
+    /* Без min-width: 0 колонка грида не сжимается меньше содержимого —
+       капсула и ползунок держали её шире экрана на узких телефонах. */
+    min-width: 0;
+    margin-left: -5rem;
+    padding: 3.5rem;
+    background-color: #fff;
+}
+
+/* Контейнер по размеру кадра, без подложки: раньше видео лежало на чёрном
+   и по краям оставались поля от contain. */
+/* Видео приподнято над страницей: мягкая тень плюс тонкая рамка вокруг —
+   без них кадр выглядел вклеенным в белое поле. */
+/* Без подложки: и белая, и чёрная рамка спорили с карточкой текста,
+   которая на видео заезжает. Кадр держит одна тень — она же отделяет
+   его от белого поля страницы. */
+.place-media {
+    position: relative;
+    width: fit-content;
+    margin: 0 auto;
+    box-shadow: 0 34px 70px -30px rgba(0, 0, 0, 0.45);
+}
+
+
+
+.place-media video {
+    display: block;
+    width: auto;
+    height: 70vh;
+    max-height: 640px;
+    aspect-ratio: 9 / 16;
+    object-fit: cover;
+}
+
+.place-info h2 {
+    margin: 0 0 1.4rem;
+    text-align: left;
+}
+
+.place-info > p {
+    max-width: 48ch;
+    margin: 0 0 3rem;
+    font-size: 0.95rem;
+    line-height: 1.75;
+    color: #666;
+}
+
+/* --- Ползунки: цифра меняется под пальцем --- */
+.dial + .dial {
+    margin-top: 2.8rem;
+}
+
+.dial-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.2rem;
+}
+
+/* Подпись и сумма под ползунком, одной строкой и одним кеглем: цена —
+   часть условия, а не заголовок. Крупная цифра перетягивала на себя
+   весь блок. */
+.dial-foot {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1.5rem;
+    /* Запас под две строки: подписи ступеней декора разной длины */
+    min-height: 2.6em;
+    margin: 1rem 0 0;
+    font-size: 0.82rem;
+    line-height: 1.3;
+    color: #8a8a8a;
+}
+
+.dial-price {
+    font-variant-numeric: tabular-nums;
+    color: #111;
+    white-space: nowrap;
+}
+
+/* Переключатель столов: две подписи, активная подчёркнута. Рамок и
+   заливок нет — это выбор, а не кнопка действия. */
+/* Капсула: две половины, чёрная подложка переезжает под активную.
+   Подложка отдельным элементом, а не фоном кнопки, — иначе переход
+   был бы мгновенным перекрашиванием вместо движения. */
+.dial-toggle {
+    position: relative;
+    display: flex;
+    padding: 3px;
+    border: 1px solid #e8e8e8;
+    border-radius: 100px;
+    background-color: #fafafa;
+}
+
+.dial-toggle-pill {
+    position: absolute;
+    top: 3px;
+    bottom: 3px;
+    left: 3px;
+    width: calc(50% - 3px);
+    border-radius: 100px;
+    background-color: #111;
+    transition: transform 0.45s cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+.dial-toggle.is-second .dial-toggle-pill {
+    transform: translateX(100%);
+}
+
+.dial-toggle-btn {
+    position: relative;
+    z-index: 1;
+    padding: 0.5rem 1.1rem;
+    border: 0;
+    border-radius: 100px;
+    background: none;
+    font-family: inherit;
+    font-size: 0.66rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    color: #8a8a8a;
+    cursor: pointer;
+    transition: color 0.35s ease;
+}
+
+.dial-toggle-btn.is-on {
+    color: #fff;
+}
+
+.dial-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: #a0a0a0;
+}
+
+/* Сумма крупная и табличная: при движении ползунка цифры не должны
+   расползаться по ширине. */
+/* Города стоят на своих километрах, а не через равные промежутки:
+   Kaunas это 100 км из 310 до Klaipėdos, то есть треть шкалы. */
+.dial-cities {
+    position: relative;
+    height: 1rem;
+    margin-bottom: 0.7rem;
+    font-size: 0.68rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #b0b0b0;
+}
+
+.dial-cities span {
+    position: absolute;
+    top: 0;
+    transform: translateX(-50%);
+    white-space: nowrap;
+}
+
+.dial-cities span:first-child {
+    transform: none;
+}
+
+.dial-cities span:last-child {
+    transform: translateX(-100%);
+}
+
+.dial-range {
+    display: block;
+    width: 100%;
+    height: 2px;
+    margin: 0;
+    -webkit-appearance: none;
+    appearance: none;
+    background-color: #e4e4e4;
+    background-image: linear-gradient(#111, #111);
+    background-repeat: no-repeat;
+    background-size: 0% 100%;
+    cursor: pointer;
+}
+
+/* Пройденная часть закрашивается через background-size — её двигает
+   main.js. Псевдоэлемент ::-moz-range-progress тут не годится: в вебките
+   его нет, а два разных механизма разъезжаются. */
+.dial-range::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border: 0;
+    border-radius: 50%;
+    background-color: #111;
+    box-shadow: 0 0 0 0 rgba(17, 17, 17, 0.12);
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.dial-range::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    border: 0;
+    border-radius: 50%;
+    background-color: #111;
+}
+
+.dial-range:hover::-webkit-slider-thumb,
+.dial-range:focus-visible::-webkit-slider-thumb {
+    box-shadow: 0 0 0 8px rgba(17, 17, 17, 0.08);
+}
+
+.dial-range:active::-webkit-slider-thumb {
+    transform: scale(1.12);
+}
+
+/* --- Шестой слайд программы: фото, заголовок выезжает на ховере --- */
+.flow-article {
+    position: relative;
+    display: block;
+    overflow: hidden;
+    text-decoration: none;
+}
+
+.flow-article img {
+    display: block;
+    width: 100%;
+    /* Высоту держит самый высокий слайд, а это фото: 170px растягивали
+       ленту, и под короткими шагами оставалась пустота. 128px — примерно
+       высота текстового шага. */
+    height: 128px;
+    object-fit: cover;
+    filter: grayscale(100%);
+    transition: filter 0.7s ease, transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.flow-article::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0) 60%);
+}
+
+.flow-article-title {
+    position: absolute;
+    left: 1.4rem;
+    right: 1.4rem;
+    bottom: 1rem;
+    z-index: 1;
+    color: #fff;
+    font-size: 1.15rem;
+    transform: translateY(8px);
+    opacity: 0.9;
+    transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.5s ease;
+}
+
+.flow-article-more {
+    display: block;
+    margin-top: 0.3rem;
+    font-size: 0.66rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.65);
+}
+
+@media (hover: hover) {
+    .flow-article:hover img {
+        filter: grayscale(0%);
+        transform: scale(1.04);
+    }
+
+    .flow-article:hover .flow-article-title {
+        transform: none;
+        opacity: 1;
+    }
+}
+
+/* Шаг-статья не размечается как шаг: у него нет колонки под номер */
+.flow-step-article {
+    display: block;
+}
+
+/* Длинный и короткий вариант заголовка: на телефоне «Kiek trunka ir kiek
+   dalyvių» занимает три строки, а вместимость там всё равно скрыта. */
+.h-short {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .h-full {
+        display: none;
+    }
+
+    .h-short {
+        display: inline;
+    }
+}
+
+/* Короткая линия над заголовком раздела: без неё заголовок висит в
+   пустой колонке и выглядит недоделанным. Это метка, а не украшение —
+   тот же приём, что у линий колонок. */
+.calculator h2,
+.occasions-aside h2,
+.flow-aside h2,
+.facts-aside h2,
+.place-info h2 {
+    position: relative;
+    padding-top: 1.6rem;
+}
+
+.occasions-aside h2::before,
+.flow-aside h2::before,
+.facts-aside h2::before,
+.place-info h2::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 28px;
+    height: 2px;
+    background-color: #111;
+}
+
+/* --- Kiek trunka: три цифры, серая подложка отделяет от соседних секций --- */
+.facts-section {
+    padding: 6rem 0;
+    background-color: #f8f8f8;
+}
+
+/* Тот же разворот, что у поводов и программы: заголовок слева стоит,
+   справа идут цифры и всё, что к ним относится. */
+.facts-layout {
+    display: grid;
+    grid-template-columns: 0.8fr 1.6fr;
+    gap: 0;
+    align-items: start;
+    max-width: 1100px;
+}
+
+.facts-aside {
+    padding-right: 4.5rem;
+}
+
+/* Линии колонки здесь нет намеренно: в разделе уже есть метка над
+   заголовком и полоса под лентой. Третья линия на одном экране
+   превращала раздел в сетку из обрывков — остался только отступ. */
+.facts-layout .strip {
+    min-width: 0;
+    padding-left: 4.5rem;
+}
+
+.facts-aside h2 {
+    max-width: 11ch;
+    margin: 0;
+    text-align: left;
+}
+
+/* Цифры разложены по слайдам той же ленты, что поводы и программа:
+   раздел перестал быть таблицей и читается по одному факту за раз. */
+/* Три цифры в ряд: их мало, свайп для такого — лишний жест.
+   Метка сверху, число под ней, капсула столов только у третьей. */
+.facts-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+}
+
+.fact {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.45rem;
+}
+
+.fact-label {
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #8a8a8a;
+}
+
+.fact-num {
+    font-size: 2.4rem;
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+    letter-spacing: -0.01em;
+}
+
+.fact-toggle {
+    margin-top: 0.8rem;
+}
+
+/* --- Отзыв под лентой: появляется, когда лента долистана --- */
+/* Отзыв — ссылка целиком. Подпись «Visi atsiliepimai» занимала строку,
+   пульсирующая точка говорит то же самое и не спорит с текстом. */
+.facts-review {
+    display: block;
+    margin: 3rem 0 0;
+    padding-top: 2.5rem;
+    border-top: 1px solid #e8e8e8;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.facts-review-head {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.1rem;
+}
+
+.facts-review-head img {
+    width: 44px;
+    height: 44px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.facts-review-who {
+    display: block;
+}
+
+.facts-review-name {
+    display: block;
+    font-size: 0.95rem;
+    color: #111;
+}
+
+.facts-review-stars {
+    display: block;
+    margin-top: 0.15rem;
+    font-size: 0.68rem;
+    letter-spacing: 0.22em;
+    color: #111;
+}
+
+/* Точка пульсирует медленно и еле заметно: это приглашение, а не сигнал
+   тревоги. Кольцо расходится от неё и гаснет. */
+.facts-review-dot {
+    position: relative;
+    flex-shrink: 0;
+    width: 8px;
+    height: 8px;
+    margin-left: auto;
+    border-radius: 50%;
+    background-color: #111;
+}
+
+.facts-review-dot::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background-color: #111;
+    animation: reviewPulse 2.4s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+}
+
+@keyframes reviewPulse {
+    0% { transform: scale(1); opacity: 0.45; }
+    70% { transform: scale(3.2); opacity: 0; }
+    100% { transform: scale(3.2); opacity: 0; }
+}
+
+.facts-review-text {
+    display: block;
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: #333;
+}
+
+@media (hover: hover) {
+    .facts-review:hover .facts-review-dot::after {
+        animation-duration: 1.4s;
+    }
+
+    .facts-review:hover .facts-review-text {
+        color: #111;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .facts-review-dot::after {
+        animation: none;
+        opacity: 0.25;
+    }
+}
+
+/* --- Отзыв последним слайдом --- */
+.fact-review-lead {
+    margin: 0 0 1.4rem;
+    font-size: 0.92rem;
+    color: #666;
+}
+
+.fact-review {
+    padding: 1.8rem;
+    border: 1px solid #e8e8e8;
+    background-color: #fff;
+}
+
+.fact-review-head {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.2rem;
+}
+
+.fact-review-head img {
+    width: 48px;
+    height: 48px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.fact-review-name {
+    display: block;
+    font-size: 0.95rem;
+    color: #111;
+}
+
+/* Звёзды мельче имени: это подпись к отзыву, а не его заголовок */
+.fact-review-stars {
+    display: block;
+    margin-top: 0.15rem;
+    font-size: 0.7rem;
+    letter-spacing: 0.22em;
+    color: #111;
+}
+
+.fact-review blockquote {
+    max-width: 46ch;
+    margin: 0 0 1.4rem;
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: #333;
+}
+
+/* Цитата гостя вместо нашего объяснения: то же самое, сказанное тем,
+   кто там был, весит больше. */
+/* Метка идёт первой, цифра под ней: сначала читаем, о чём речь, потом
+   видим величину. В обратном порядке четыре числа сливались в ряд цифр
+   без смысла. */
+/* Линия по левому краю каждой колонки, кроме первой: четыре значения
+   читаются как таблица, а не как набор цифр. */
+/* Линия между колонками прорисовывается сверху вниз вместе с появлением
+   блока — цифры собираются в таблицу на глазах, а не возникают готовыми. */
+/* В сетке 2×2 третья ячейка открывает ряд: линия слева повисла бы */
+/* Подпись догоняет цифру: она появляется, когда счётчик уже отсчитал */
+@keyframes factLabel {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .fact + .fact::before {
+        transform: scaleY(1);
+        transition: none;
+    }
+
+    .facts-row.visible .fact-label {
+        animation: none;
+    }
+}
+
+.fact-num {
+    font-size: 2.4rem;
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+    letter-spacing: -0.01em;
+}
+
+.fact-label {
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #8a8a8a;
+}
+
+/* Надзаголовок: мелкий капс с разрядкой. Даёт разделу имя, не превращая
+   страницу в пронумерованный список. */
+.eyebrow {
+    margin: 0 0 1.2rem;
+    font-size: 0.68rem;
+    letter-spacing: 0.34em;
+    text-transform: uppercase;
+    color: #a0a0a0;
+}
+
+/* --- Kur vyksta: фото и карточка текста внахлёст --- */
+.place-section {
+    padding: 6rem 0;
+    background-color: #f8f8f8;
+}
+
+/* Фото занимает больше половины, карточка текста заезжает на него.
+   Наложение убирает ощущение таблицы: блок читается как разворот журнала. */
+/* Вертикальное видео вместо фото: снято 9:16, так и показываем. */
+/* Кадр 9:16 показываем целиком. Ограничение по высоте раньше стояло на
+   самом видео, и object-fit срезал его до квадрата — теперь высоту задаёт
+   контейнер, а видео вписывается в неё, сохраняя пропорцию. */
+.place-video {
+    display: flex;
+    justify-content: center;
+    max-height: 78vh;
+}
+
+/* Матовое стекло: кнопка не закрашивает кадр, а подсвечивает его через
+   размытие. Фолбэк для браузеров без backdrop-filter — полупрозрачный
+   белый, он там же в background. */
+.place-video-btn {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 82px;
+    height: 82px;
+    padding: 0;
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.14);
+    backdrop-filter: blur(14px) saturate(140%);
+    -webkit-backdrop-filter: blur(14px) saturate(140%);
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.4s ease, transform 0.4s cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+.place-video-btn svg {
+    width: 26px;
+    height: 26px;
+    margin-left: 3px;
+    fill: currentColor;
+}
+
+.place-video.playing .place-video-btn {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+}
+
+@media (hover: hover) {
+    .place-video-btn:hover {
+        background-color: rgba(255, 255, 255, 0.24);
+        transform: translate(-50%, -50%) scale(1.06);
+    }
+}
+
+@media (hover: none) {
+    .place-video-btn:active {
+        transform: translate(-50%, -50%) scale(0.97);
+        transition-duration: 0.08s;
+    }
+}
+
+/* --- Ползунок расстояния: цифра из калькулятора, но потрогать её можно
+       здесь, не доходя до формы --- */
+
+/* --- Переключатель столов внутри флип-карточки ---
+   Та же капсула, что у ползунков, только мельче: на обороте карточки
+   мало места, а выбор должен читаться с первого взгляда. */
+.flip-tables {
+    /* Во всю ширину оборота, половины равные: раньше капсула тянулась,
+       а кнопки оставались по ширине текста — нажималась только левая
+       часть, и подписи жались друг к другу посередине. */
+    display: flex;
+    width: 100%;
+    margin: 0 0 1.2rem;
+}
+
+.flip-tables .dial-toggle-btn {
+    flex: 1 1 50%;
+    padding: 0.45rem 0.5rem;
+    font-size: 0.58rem;
+    letter-spacing: 0.1em;
+    text-align: center;
+}
+
+/* Пункты, которые зависят от числа столов: показываем только нужные */
+.services-list li[data-tables] {
+    display: none;
+}
+
+.service-flip-card:not(.is-two) .services-list li[data-tables="1"],
+.service-flip-card.is-two .services-list li[data-tables="2"] {
+    display: list-item;
+}
+
+/* --- Декор в списке услуг: шкала вместо галочки --- */
+.service-dial {
+    /* Ширина и высота фиксированы: подписи ступеней разной длины, и без
+       запаса под две строки ячейка прыгала при каждом движении ползунка. */
+    width: 100%;
+    max-width: 460px;
+    margin: 0 auto;
+    padding: 1.4rem 1.5rem;
+    border: 1px solid #e8e8e8;
+    border-radius: 2px;
+    background-color: #fff;
+}
+
+.service-dial-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.2rem;
+}
+
+.service-dial-value {
+    font-variant-numeric: tabular-nums;
+    color: #111;
+    white-space: nowrap;
+}
+
+.service-dial-note {
+    /* Две строки заранее: самая длинная подпись переносится, короткая нет,
+       и без запаса ячейка меняла высоту на ходу. */
+    min-height: 2.6em;
+    margin: 0.9rem 0 0;
+    font-size: 0.78rem;
+    line-height: 1.3;
+    color: #8a8a8a;
+}
+
+/* --- Ползунок расстояния внутри калькулятора ---
+   Оформление своё, а не от .dial: в калькуляторе всё по центру и крупнее,
+   поэтому подпись и сумма стоят в строку над дорожкой. */
+.calc-dial {
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.calc-dial-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.4rem;
+}
+
+.calc-dial-label {
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.calc-dial-value {
+    font-variant-numeric: tabular-nums;
+    font-size: 0.95rem;
+    color: #111;
+    white-space: nowrap;
+}
+
+.calc-dial-note {
+    margin: 1rem 0 0;
+    font-size: 0.82rem;
+    color: #8a8a8a;
+    text-align: center;
+}
+
+/* Статьи переехали под калькулятор — своя секция с воздухом вокруг */
+.articles-section {
+    padding: 5rem 0 6rem;
+    background-color: #fff;
+}
+
+@media (max-width: 768px) {
+    .articles-section {
+        padding: 3.5rem 0 4rem;
+    }
+}
+
+/* --- Статьи: горизонтальные плитки, как последний слайд программы ---
+   На десктопе стоят в ряд, на телефоне превращаются в ленту. */
+.article-strip {
+    max-width: 1100px;
+    margin: 4rem auto 0;
+}
+
+.article-track {
+    gap: 1.5rem;
+}
+
+.article-track .article-tile {
+    flex: 0 0 calc(50% - 0.75rem);
+}
+
+.article-tile {
+    position: relative;
+    display: block;
+    overflow: hidden;
+    text-decoration: none;
+}
+
+.article-tile img {
+    display: block;
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    filter: grayscale(100%);
+    transition: filter 0.7s ease, transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.article-tile::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.72), rgba(0, 0, 0, 0) 62%);
+}
+
+.article-tile-body {
+    position: absolute;
+    left: 1.6rem;
+    right: 1.6rem;
+    bottom: 1.3rem;
+    z-index: 1;
+    color: #fff;
+}
+
+.article-tile-title {
+    display: block;
+    font-size: 1.15rem;
+}
+
+.article-tile-more {
+    display: block;
+    margin-top: 0.3rem;
+    font-size: 0.68rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.65);
+}
+
+@media (hover: hover) {
+    .article-tile:hover img {
+        filter: grayscale(0%);
+        transform: scale(1.04);
+    }
+}
+
+/* На десктопе ряд из двух плиток — листать нечего */
+@media (min-width: 769px) {
+    .article-strip .strip-controls {
+        display: none;
+    }
+
+    .article-track {
+        overflow: visible;
+    }
+}
+
+/* --- Подводка под карточками услуг: цены на них, поэтому здесь
+       только условие и дорога в скачиваемый расчёт --- */
+
+
+
+/* --- Vedėjas: фото и текст, кнопка-полоса ведёт на «о нас» --- */
+.host-section {
+    padding: 6rem 0;
+    background-color: #fff;
+}
+
+/* Портреты крупные и вытянутые, подпись под ними — как в каталоге:
+   карточка с рамкой здесь превратила бы людей в товар. */
+/* Панели раздвигаются под курсором: активная забирает место у соседней,
+   и внутри неё проявляется текст. В покое видно только имя — раздел
+   держится на фотографиях, а не на двух колонках текста. */
+/* Панели высокие и узкие: под курсором меняется только ширина,
+   высота держится постоянной — иначе соседние секции подпрыгивают. */
+.hosts-strip {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.hosts-panels {
+    gap: 1rem;
+}
+
+/* На десктопе панели делят ширину и раздвигаются под курсором, на
+   телефоне это лента по одному портрету — там свайп привычнее. */
+@media (min-width: 769px) {
+    /* На десктопе подпись и описание лежат на кадре, как было до правок
+       для телефона: фото занимает всю панель, текст выезжает снизу, а имя
+       поднимается, освобождая ему место. */
+    .host-media {
+        position: absolute;
+        inset: 0;
+    }
+
+    .host-panel img {
+        position: absolute;
+        inset: 0;
+    }
+
+    .host-caption {
+        z-index: 2;
+        transition: bottom 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .host-panel-text {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 2;
+        max-width: none;
+        padding: 0 1.4rem 1.4rem;
+        /* Место под три строки держится всегда: описания у ведущих разной
+           длины, а текст прижат к низу панели — без резерва короткий
+           начинался ниже, и зазор от звания до текста у двоих разъезжался. */
+        min-height: 4.9rem;
+        color: rgba(255, 255, 255, 0.92);
+    }
+
+    .host-panel:hover .host-caption,
+    .host-panel:focus-visible .host-caption {
+        bottom: 4.6rem;
+    }
+
+    .hosts-panels {
+        overflow: visible;
+        height: 460px;
+    }
+
+    .hosts-panels .host-panel {
+        flex: 1;
+    }
+
+    .hosts-panels .host-media {
+        height: 460px;
+    }
+
+    .hosts-strip .strip-controls {
+        display: none;
+    }
+}
+
+.host-panel {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    text-decoration: none;
+    cursor: pointer;
+    transition: flex 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Фото и подпись живут в своём контейнере, описание — под ним. Раньше
+   описание лежало внутри блока с фото, и на телефоне под него подставлялась
+   белая подложка прямо поверх кадра. */
+.host-media {
+    position: relative;
+    display: block;
+    overflow: hidden;
+}
+
+.host-panel img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(100%);
+    transition: filter 0.75s ease;
+}
+
+.host-caption {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 1.4rem;
+    color: #fff;
+}
+
+.host-name {
+    display: block;
+    font-size: 1.15rem;
+}
+
+/* Затемнение снизу: имя лежит на фотографии, и без подложки оно тонет
+   на светлых кадрах. */
+.host-media::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.72) 0%, rgba(0, 0, 0, 0.12) 45%, rgba(0, 0, 0, 0) 70%);
+}
+
+.host-panel-body {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+    padding: 1.4rem;
+    color: #fff;
+}
+
+.host-caption .host-name {
+    margin-bottom: 0.3rem;
+    font-weight: 400;
+    color: #fff;
+}
+
+.host-caption .host-role {
+    display: block;
+    margin: 0;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+/* Текст появляется только у раскрытой панели: в узкой он всё равно
+   не прочитался бы, а высота панели из-за него прыгала бы. */
+/* Текст под фото, поэтому цвет обычный: на белом поле, а не на кадре */
+.host-panel-text {
+    display: block;
+    max-width: 44ch;
+    margin: 0;
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    font-size: 0.92rem;
+    line-height: 1.7;
+    color: #666;
+    transition: max-height 0.75s cubic-bezier(0.22, 1, 0.36, 1),
+                opacity 0.5s ease,
+                margin-top 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (hover: hover) {
+    .hosts-panels:hover .host-panel {
+        flex: 0.75;
+    }
+
+    .hosts-panels .host-panel:hover,
+    .hosts-panels .host-panel:focus-visible {
+        flex: 2;
+    }
+
+    /* Только цвет: масштаб растягивал кадр и по вертикали, из-за чего
+       панель выглядела раскрывающейся в обе стороны. */
+    .host-panel:hover img,
+    .host-panel:focus-visible img {
+        filter: grayscale(0%);
+    }
+
+    .host-panel:hover .host-panel-text,
+    .host-panel:focus-visible .host-panel-text {
+        max-height: 10rem;
+        margin-top: 1.1rem;
+        opacity: 1;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .host-panel,
+    .host-panel img,
+    .host-panel-text {
+        transition: none;
+    }
+}
+
+/* Портрет держим в одной пропорции у обоих: снимки разные,
+   и без object-fit карточки разъезжаются по высоте. */
+.host-photo {
+    overflow: hidden;
+    margin-bottom: 1.6rem;
+}
+
+.host-photo img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    object-fit: cover;
+    filter: grayscale(100%);
+    transition: filter 0.6s ease;
+}
+
+.host-card h3 {
+    margin: 0 0 0.5rem;
+    font-size: 1.15rem;
+    font-weight: 400;
+}
+
+.host-role {
+    margin: 0 0 1rem;
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #8a8a8a;
+}
+
+.host-card p {
+    max-width: 40ch;
+    margin: 0;
+    font-size: 0.92rem;
+    line-height: 1.7;
+    color: #666;
+}
+
+.host-cta {
+    display: flex;
+    justify-content: center;
+    margin-top: 2.5rem;
+}
+
+@media (hover: hover) {
+    .host-card:hover .host-photo img {
+        filter: grayscale(0%);
+    }
+}
+
+/* --- Телефон: всё в колонку, цифры мельче --- */
+@media (max-width: 768px) {
+    .occasions-section,
+    .host-section {
+        padding: 4rem 0 3.5rem;
+    }
+
+    .place-section {
+        padding: 4rem 0;
+    }
+
+    .facts-section {
+        padding: 3.5rem 0;
+    }
+
+    /* Пять пунктов в ряд на телефоне не помещаются — становятся лентой.
+       Те же правила, что у лент карточек: без scroll-padding первый
+       пункт прилипает к краю экрана. */
+    /* Ниже 11px подписи не читаются, а зона нажатия должна быть
+       не меньше 36px — палец в мелкую кнопку не попадает. */
+    .dial-toggle-btn {
+        min-height: 36px;
+        padding: 0.55rem 0.9rem;
+        font-size: 0.7rem;
+    }
+
+    .page-anchors .container {
+        justify-content: flex-start;
+        gap: 1.6rem;
+        overflow-x: auto;
+        scroll-padding-left: 20px;
+        overscroll-behavior-x: contain;
+        scrollbar-width: none;
+    }
+
+    .page-anchors .container::-webkit-scrollbar {
+        display: none;
+    }
+
+    /* Зона нажатия по высоте строки: сама надпись 17px, палец мимо */
+    .page-anchors a {
+        display: flex;
+        align-items: center;
+        min-height: 40px;
+        font-size: 0.72rem;
+        letter-spacing: 0.1em;
+    }
+
+    /* Отступ и линия колонки — десктопная раскладка; на телефоне они
+       съедали 72px ширины, и лента поводов оказывалась уже экрана.
+       Правило терялось уже дважды при чистках — не удалять. */
+    /* Липкость на телефоне только мешает: заголовок ехал вместе с лентой
+       и съедал верх экрана. Отступ и линия колонки — тоже десктопные.
+       Правило терялось дважды при чистках — не удалять. */
+    /* Привычный для телефона вид ленты: точки вместо полосы со стрелками.
+       Полоса и стрелки прячутся, точки собирает main.js. */
+    .strip-controls {
+        justify-content: center;
+        gap: 0;
+        margin-top: 1.6rem;
+    }
+
+    .strip-progress {
+        display: none;
+    }
+
+    /* Точки под лентой и так объясняют, что здесь свайп — стрелки
+       на телефоне только занимают место. Правило уже терялось однажды. */
+    .strip-arrows {
+        display: none;
+    }
+
+    /* Ведущие на телефоне: лента по одному портрету, имя и звание лежат
+       на фото. Правила привязаны к ширине экрана, а не к hover: none —
+       так они предсказуемы и на планшете с мышью. */
+    /* Плитка статьи на телефоне во всю ширину ленты: половинная
+       ширина — десктопная раскладка ряда из двух. */
+    .article-track .article-tile {
+        flex: 0 0 100%;
+    }
+
+    .article-track {
+        gap: 1rem;
+    }
+
+    .hosts-panels .host-panel {
+        flex: 0 0 100%;
+        height: auto;
+    }
+
+    .host-panel img {
+        position: static;
+        height: auto;
+        aspect-ratio: 4 / 5;
+        /* На планшете 4:5 от 713px давало портрет в 891px — выше экрана.
+           Режем по высоте окна, кадр обрезается по бокам. */
+        max-height: 58vh;
+        object-fit: cover;
+        filter: grayscale(0%);
+    }
+
+    .host-panel-body {
+        padding: 1.2rem;
+    }
+
+    /* Фото фиксированной высоты, имя и звание на кадре, описание под ним */
+    .hosts-panels .host-panel {
+        flex: 0 0 100%;
+        height: auto;
+    }
+
+    .host-media {
+        height: auto;
+    }
+
+    .host-panel img {
+        height: auto;
+        aspect-ratio: 4 / 5;
+        max-height: 58vh;
+        filter: grayscale(0%);
+    }
+
+    /* Имя и звание лежат на кадре, поэтому белые: тёмный текст на фото
+       не читался вовсе. */
+    .host-caption {
+        padding: 1.1rem 1.2rem;
+    }
+
+    .host-caption .host-name {
+        color: #fff;
+    }
+
+    .host-caption .host-role {
+        color: rgba(255, 255, 255, 0.85);
+    }
+
+    /* Описание под фото: 0.86rem было мелко для сплошного текста */
+    .host-panel-text {
+        max-height: none;
+        margin-top: 1rem;
+        opacity: 1;
+        font-size: 0.95rem;
+        line-height: 1.6;
+        color: #666;
+    }
+
+    /* После калькулятора до статей было почти два пустых экрана */
+    .articles-section {
+        padding-top: 2rem;
+    }
+
+    .strip-dots {
+        display: flex;
+        gap: 0.55rem;
+    }
+
+    .strip-dot {
+        width: 7px;
+        height: 7px;
+        padding: 0;
+        border: 0;
+        border-radius: 50%;
+        background-color: #dadada;
+        cursor: pointer;
+        transition: background-color 0.35s ease, transform 0.35s ease;
+    }
+
+    .strip-dot.is-on {
+        background-color: #111;
+        transform: scale(1.3);
+    }
+
+    .occasions-aside {
+        position: static;
+    }
+
+    .occasions-aside,
+    .occasions-strip {
+        padding: 0;
+        border: 0;
+    }
+
+    /* Заголовок в две строки: одной он растягивается на всю ширину и
+       спорит с лентой под ним. */
+    .occasions-aside h2,
+    .flow-aside h2,
+    .facts-aside h2 {
+        max-width: 15ch;
+    }
+
+    /* То же у блока цифр: лента внутри .facts-layout держала отступ
+       и линию колонки, из-за чего была уже остальных на 90px */
+    .facts-aside,
+    .facts-layout .strip {
+        padding: 0;
+        border: 0;
+    }
+
+    /* Капсула внутри карточки: .flip-tables перебивает общее правило
+       медиазапроса, поэтому размер задаём тем же селектором */
+    .flip-tables .dial-toggle-btn {
+        min-height: 34px;
+        padding: 0.5rem 0.6rem;
+        font-size: 0.68rem;
+    }
+
+    .facts-layout,
+    .facts-layout,
+    .occasions-layout,
+    .flow-layout {
+        grid-template-columns: 1fr;
+        gap: 2.2rem;
+    }
+
+    .flow-aside {
+        position: static;
+        padding-right: 0;
+    }
+
+    .flow-aside h2 {
+        max-width: none;
+    }
+
+    .flow-layout .strip,
+    .facts-main {
+        padding-left: 0;
+        border-left: 0;
+    }
+
+    .facts-aside {
+        position: static;
+        padding-right: 0;
+    }
+
+    /* Блок «Kur vyksta» на телефоне: колонкой, наложение вертикальное.
+       Эти правила потерялись при чистке старых .place-text/.place-grid —
+       из-за чего карточка вылезала за экран на два десятка пикселей. */
+    .article-rows {
+        margin-top: 3rem;
+    }
+
+    .article-row {
+        padding: 1.5rem 0;
+    }
+
+    .article-row-title {
+        font-size: 1.1rem;
+    }
+
+    .place-layout {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+
+    /* Боковые margin здесь лишние: колонка уже внутри .container с его
+       паддингами, и 20px с каждой стороны выталкивали карточку за экран. */
+    .place-info {
+        margin: -3rem 0 0;
+        padding: 1.8rem;
+    }
+
+    .place-media video {
+        height: 58vh;
+    }
+
+    .facts-aside h2 {
+        max-width: none;
+    }
+
+    /* Метки и подписи на телефоне не должны падать ниже 11px: ниже этого
+       капс с разрядкой читается уже с трудом. Поднимаем весь ряд. */
+    .section-title,
+    .flow-time,
+    .flow-article-more,
+    .facts-review-stars,
+    .dial-toggle-btn {
+        font-size: 0.72rem;
+    }
+
+    /* Подписи на обороте карточки: 10.9px капсом с разрядкой на телефоне
+       уже на грани читаемости */
+    .service-flip-back .section-title {
+        font-size: 0.74rem;
+    }
+
+    /* Текстовые ссылки-строки: сама надпись 22px, пальцу нужно больше */
+    .occasion-link {
+        padding: 0.35rem 0;
+    }
+
+    /* Ссылка в подвале — маленькая цель для пальца */
+    .footer-legal {
+        display: inline-block;
+        padding: 0.4rem 0;
+    }
+
+    /* На телефоне остаются две цифры в строку: третья с капсулой столов
+       делала блок пёстрым, а вместимость и так написана на карточках услуг. */
+    .facts-row {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.2rem;
+    }
+
+    .fact:nth-child(3) {
+        display: none;
+    }
+
+    .fact-num {
+        font-size: 1.9rem;
+    }
+
+    .facts-track .fact-slide {
+        padding-right: 0;
+    }
+
+    .fact-review {
+        padding: 1.4rem;
+    }
+}
+
+    /* ОДНА ШКАЛА НА СТРАНИЦУ.
+   До этого кегли расходились: заголовки 3.1rem, фразы врезок 3.6rem,
+   поводы 1.95rem — на прокрутке это читалось как дёрганье. Теперь
+   ступеней четыре и они общие: заголовок раздела, подзаголовок,
+   текст, метка. Врезки берут тот же заголовочный кегль. */
+.occasions-aside h2,
+.flow-aside h2,
+.facts-aside h2,
+.flow-section .section-heading,
+.facts-section .section-heading,
+.place-info h2,
+.host-section .section-heading,
+.services-cards-section .section-heading,
+.chapter-break p {
+    font-size: clamp(1.75rem, 2.6vw, 2.4rem);
+    font-weight: 400;
+    line-height: 1.18;
+    letter-spacing: -0.005em;
+}
+
+/* ============================================
+   PASLAUGOS: ГЛАВЫ И ТЁМНЫЕ ВРЕЗКИ
+   ============================================
+   Страница длинная, и ровный ряд светлых секций читается как один
+   бесконечный текст. Врезки режут её на части: после тёмного экрана
+   с одной фразой следующая секция воспринимается как новая глава. */
+
+.chapter-break {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 58vh;
+    padding: 4rem 20px;
+    text-align: center;
+    background-color: #0a0a0a;
+    background-size: cover;
+    background-position: center;
+    /* Фон стоит на месте, пока текст едет мимо — за счёт этого врезка
+       читается как остановка, а не как ещё один проезжающий блок. */
+    background-attachment: fixed;
+}
+
+.chapter-break::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.66);
+}
+
+.chapter-break p {
+    position: relative;
+    max-width: 24ch;
+    margin: 0;
+    color: #fff;
+    /* Размер тянется за шириной экрана: на телефоне фраза не должна
+       разваливаться на пять строк, на десктопе — теряться в темноте. */
+    letter-spacing: -0.005em;
+}
+
+/* Тихая строка под фразой: усиливает факт, но не спорит с ним.
+   Это не второй заголовок, а сноска — отсюда и размер, и прозрачность. */
+.chapter-break .chapter-break-note {
+    position: relative;
+    margin: 1.4rem 0 0;
+    /* В одну строку при любой ширине: с разрядкой 0.26em строка
+       переносилась на узком экране и читалась как обрывок */
+    white-space: nowrap;
+    font-size: 0.7rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.chapter-break-1 {
+    background-image: url('../images/gallery/gallery-4.webp');
+}
+
+.chapter-break-2 {
+    background-image: url('../images/gallery/gallery-13.webp');
+}
+
+.chapter-break-3 {
+    background-image: url('../images/gallery/gallery-20.webp');
+}
+
+/* Кнопка последней врезки — инверсия полосы: на тёмном заливка идёт белым */
+.chapter-break-cta {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    display: inline-block;
+    margin-top: 2.5rem;
+    padding: 0.9rem 2.2rem;
+    border: 1px solid rgba(255, 255, 255, 0.55);
+    color: #fff;
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: color 0.22s ease;
+}
+
+.chapter-break-cta::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    z-index: -1;
+    background-color: #fff;
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 0.42s cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+@media (hover: hover) {
+    .chapter-break-cta:hover {
+        color: #111;
+        transition: color 0.3s ease 0.12s;
+    }
+
+    .chapter-break-cta:hover::before {
+        transform: scaleX(1);
+        transition-duration: 0.55s;
+    }
+}
+
+@media (hover: none) {
+    .chapter-break-cta:active {
+        transform: scale(0.985);
+        background-color: rgba(255, 255, 255, 0.12);
+        transition: transform 0.08s ease, background-color 0.08s ease;
+    }
+}
+
+@media (max-width: 768px) {
+    /* Врезки на телефоне убраны: прокрутка там дешёвая, а три тёмных
+       экрана по половине высоты добавляли полтора экрана пустоты. */
+    .chapter-break {
+        display: none;
+    }
+
+    .chapter-break-hidden {
+        min-height: 46vh;
+        padding: 3.5rem 20px;
+        /* На iOS фиксированный фон дёргается и рвёт прокрутку — там
+           врезка просто едет вместе со страницей. */
+        background-attachment: scroll;
+    }
+
+    .chapter-break p {
+        max-width: 16ch;
+    }
+
+    .chapter-break-cta {
+        margin-top: 2rem;
+        width: 100%;
+        max-width: 320px;
+    }
+
+    }
+
+/* Кому движение мешает — фон никуда не едет */
+@media (prefers-reduced-motion: reduce) {
+    .chapter-break {
+        background-attachment: scroll;
+    }
+}
+
+/* Совсем узкие экраны (320px, старые iPhone SE): капсула и ползунки
+   не помещались в строку и распирали блок «Kur vyksta». */
+@media (max-width: 360px) {
+    .dial-toggle-btn {
+        min-height: 34px;
+        padding: 0.5rem 0.6rem;
+        font-size: 0.66rem;
+        letter-spacing: 0.06em;
+    }
+
+    .place-info {
+        padding: 1.4rem;
+    }
+
+    .dial-cities {
+        font-size: 0.66rem;
+        letter-spacing: 0.06em;
+    }
+}
+
+/* ============================================
+   КАЛЬКУЛЯТОР: ТИШЕ И КОМПАКТНЕЕ
+   ============================================
+   Шагов шесть, и на каждом было по три служебных элемента: счётчик
+   «3 / 6», подпись «Pasirinkite datą» и полоса под шапкой. Всё это
+   повторяло то, что человек и так видит перед собой. */
+
+/* Счётчик шагов убран: полоса прогресса над ним показывает то же самое */
+.progress-caption-count {
+    display: none;
+}
+
+/* «Назад» — только стрелка, без слова */
+.calc-back-btn {
+    padding: 0.4rem 0.6rem;
+    font-size: 1.1rem;
+    line-height: 1;
+}
+
+/* Подзаголовок: на телефоне вторая половина уходит на свою строку */
+.calc-lead {
+    color: #666;
+    font-size: 1.05rem;
+}
+
+/* Разделительные линии внутри калькулятора и под ним */
+.calculator .included-items,
+.calc-summary-block {
+    border-top: 0;
+}
+
+.progress-caption {
+    border-bottom: 0;
+}
+
+/* Полоса перед статьями: секция калькулятора и так на сером фоне,
+   граница между ними читается сменой фона */
+.articles-section {
+    border-top: 0;
+}
+
+@media (max-width: 768px) {
+    .calc-lead-br {
+        display: block;
+        height: 0;
+    }
+
+    /* Ячейки шагов вплотную к краю контейнера: боковые отступы на
+       телефоне съедали ширину дважды — у секции и у самой ячейки */
+    .calculator-step {
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .choice-card {
+        max-width: none;
+    }
+
+    .articles-section {
+        padding-top: 1.5rem;
+    }
 }

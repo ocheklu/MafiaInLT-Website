@@ -369,11 +369,11 @@ function transitionToStep(currentStepId, nextStepId, progressStep) {
 const prices = {
     zaidimo: {
         1: 600,
-        2: 1200
+        2: 1500
     },
     renginio: {
-        1: 1200,
-        2: 2200
+        1: 1500,
+        2: 2400
     },
     atributika: 150
 };
@@ -606,33 +606,40 @@ document.querySelector('#step-location .location-options').querySelectorAll('.se
     });
 });
 
-// Distance selection (buttons instead of dropdown)
-document.querySelectorAll('.distance-option').forEach(option => {
-    option.addEventListener('click', function() {
-        if (isTransitioning) return;
+// Расстояние тянется ползунком: километр к евро, как и в блоке «Kur vyksta»
+// выше по странице. Раньше здесь были четыре готовых диапазона (50-100 км =
+// +50 € и так далее) — они не совпадали с формулой на странице, и человек
+// видел две разные цены за одну и ту же дорогу.
+const calcDistance = document.getElementById('calcDistance');
+if (calcDistance) {
+    const calcDistanceKm = document.getElementById('calcDistanceKm');
+    const calcDistanceFee = document.getElementById('calcDistanceFee');
 
-        const newDistance = parseInt(this.dataset.distance);
+    const updateCalcDistance = function () {
+        const value = parseInt(calcDistance.value, 10);
+        calculatorState.distance = value;
+        calcDistanceKm.textContent = value;
+        calcDistanceFee.textContent = value;
+        // Закрашиваем пройденную часть дорожки: у range нет способа,
+        // одинакового во всех браузерах
+        calcDistance.style.backgroundSize = (value / parseFloat(calcDistance.max)) * 100 + '% 100%';
+        updatePriceBar();
+    };
 
-        // Reset only if distance was already chosen AND it's different
-        if (calculatorState.completedSteps.some(s => s > 4) && calculatorState.distance !== newDistance) {
-            resetStepsAfter(4);
-        }
-        
-        // Remove selected class from all
-        document.querySelectorAll('.distance-option').forEach(opt => {
-            opt.classList.remove('selected');
+    updateCalcDistance();
+    calcDistance.addEventListener('input', updateCalcDistance);
+
+    // Раньше шаг закрывался кликом по одному из диапазонов. У ползунка
+    // такого момента нет — «готово» человек говорит кнопкой.
+    const distanceNext = document.getElementById('distance-next');
+    if (distanceNext) {
+        distanceNext.addEventListener('click', function () {
+            if (isTransitioning) return;
+            transitionToStep('step-location', 'step-services', 5);
+            setTimeout(function () { showServicesStep(); }, 600);
         });
-        
-        // Add selected to clicked
-        this.classList.add('selected');
-        
-        calculatorState.distance = newDistance;
-        
-        // Transition to services
-        transitionToStep('step-location', 'step-services', 5);
-        setTimeout(() => showServicesStep(), 600);
-    });
-});
+    }
+}
 
 // Количество суток для атрибутики считается из диапазона дат в календаре
 // (см. initCalculatorCalendar), отдельного шага с выпадающим списком нет.
@@ -651,17 +658,18 @@ function showServicesStep() {
                 { name: 'Atributika', included: true },
                 { name: 'Apvalus stalas su staltiese', included: true },
                 { name: 'Svečių vardų kortelės', included: true },
-                { name: 'Stalo dekoravimas', price: 200 },
+                { name: 'Dekoravimas', dial: true, steps: [0, 200, 400, 600, 800], base: 0 },
                 { name: 'Vietos paieška ir rezervacija', price: 50 }
             ];
         } else {
             services = [
                 { name: '6 mafijos sesijos', included: true },
+                { name: 'Koordinavimo paslauga', included: true },
                 { name: 'Vedėjų paslaugos', included: true },
                 { name: 'Atributika', included: true },
-                { name: 'Apvalus stalai su staltiese', included: true },
+                { name: 'Apvalūs stalai su staltiese', included: true },
                 { name: 'Svečių vardų kortelės', included: true },
-                { name: 'Stalų dekoravimas', price: 400 },
+                { name: 'Dekoravimas', dial: true, steps: [0, 400, 800, 1200, 1600], base: 0 },
                 { name: 'Vietos paieška ir rezervacija', price: 50 }
             ];
         }
@@ -670,13 +678,20 @@ function showServicesStep() {
             { name: 'Vietos paieška ir rezervacija', included: true },
             { name: 'Programos planavimas', included: true },
             { name: 'Renginio koordinavimas vietoje', included: true },
-            { name: 'Stalo dekoravimas', included: true },
             { name: calculatorState.tables === 1 ? '3 mafijos sesijos' : '6 mafijos sesijos', included: true },
-            { name: 'Vedėjo paslaugos', included: true },
+            { name: calculatorState.tables === 1 ? 'Vedėjo paslaugos' : 'Vedėjų paslaugos', included: true },
             { name: 'Atributika', included: true },
-            { name: calculatorState.tables === 1 ? 'Apvalus stalas su staltiese' : 'Apvalus stalai su staltiese', included: true },
+            { name: calculatorState.tables === 1 ? 'Apvalus stalas su staltiese' : 'Apvalūs stalai su staltiese', included: true },
             { name: 'Svečių vardų kortelės', included: true },
-            { name: 'Erdvės dekoravimas', price: 400 },
+            {
+                name: 'Dekoravimas',
+                dial: true,
+                // Первая ступень — декор столов, он уже в цене мероприятия
+                // (250 € за стол). Дальше ступени те же, что у игры, и в
+                // доплату идёт только разница с включённым минимумом.
+                steps: calculatorState.tables === 1 ? [250, 400, 600, 800] : [500, 800, 1200, 1600],
+                base: calculatorState.tables === 1 ? 250 : 500
+            },
             { name: 'Foto paslaugos (3 val.)', price: 600 },
             { name: 'Video paslaugos (3 val.)', price: 600 }
         ];
@@ -705,6 +720,74 @@ function showServicesStep() {
         const serviceDiv = document.createElement('div');
         serviceDiv.className = 'service-item choice-card';
         
+        if (service.dial) {
+            // Декор тянется шкалой, а не галочкой: вариантов несколько,
+            // и человеку проще двигать ползунок, чем читать список сумм.
+            // Четыре ступени, те же, что в блоке «Kur vyksta» на странице.
+            // Ползунок ходит по номеру ступени: цена ступени зависит от
+            // числа столов, а описание — нет.
+            const DECOR_LEVELS = [
+                'Be dekoro',
+                'Žvakės ir gėlių kompozicija',
+                'Platesnė kompozicija, daugiau žvakių',
+                'Dekoras, smulkūs akcentai ir įėjimo zona',
+                'Konceptualus visos erdvės dekoravimas su apšvietimu'
+            ];
+
+            const saved = calculatorState.additionalServices.find(s => s.name === service.name);
+            const startLevel = service.steps.indexOf(service.base);
+            const savedValue = saved ? saved.price + service.base : service.base;
+            const level = Math.max(startLevel, service.steps.indexOf(savedValue));
+            const value = service.steps[level];
+
+            serviceDiv.className = 'service-item service-dial';
+            serviceDiv.innerHTML = `
+                <div class="service-dial-head">
+                    <span class="service-name">${svcName(service.name)}</span>
+                    <span class="service-dial-value"><span class="service-dial-sum">${value}</span> €</span>
+                </div>
+                <input type="range" class="dial-range service-dial-range"
+                       min="0" max="${service.steps.length - 1}" step="1" value="${level}"
+                       data-name="${service.name}"
+                       aria-label="${svcName(service.name)}">
+                <p class="service-dial-note">${DECOR_LEVELS[service.base ? level + 1 : level]}</p>
+            `;
+
+            servicesList.appendChild(serviceDiv);
+
+            const range = serviceDiv.querySelector('.service-dial-range');
+            const sum = serviceDiv.querySelector('.service-dial-sum');
+
+            const note = serviceDiv.querySelector('.service-dial-note');
+
+            const updateDial = function () {
+                const currentLevel = parseInt(range.value, 10);
+                const current = service.steps[currentLevel];
+                const extra = current - service.base;
+                sum.textContent = current;
+                if (note) {
+                    // У мероприятия первая ступень — это уже второй уровень
+                    // описания: «Be dekoro» там не бывает.
+                    note.textContent = DECOR_LEVELS[service.base ? currentLevel + 1 : currentLevel] +
+                        (service.base && current <= service.base ? ' · įskaičiuota' : '');
+                }
+                range.style.backgroundSize =
+                    (currentLevel / (service.steps.length - 1)) * 100 + '% 100%';
+
+                // В доплату уходит только то, что сверх включённого минимума
+                calculatorState.additionalServices =
+                    calculatorState.additionalServices.filter(s => s.name !== service.name);
+                if (extra > 0) {
+                    calculatorState.additionalServices.push({ name: service.name, price: extra });
+                }
+                updatePriceBar();
+            };
+
+            updateDial();
+            range.addEventListener('input', updateDial);
+            return;
+        }
+
         if (service.included) {
             serviceDiv.innerHTML = `
                 <div class="choice-indicator service-included"></div>

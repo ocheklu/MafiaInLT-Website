@@ -543,4 +543,384 @@ window.addEventListener('click', function(e) {
     }
 });
 
+// ===========================
+// ЯКОРНАЯ СТРОКА СТРАНИЦЫ
+// ===========================
+// Строка разделов липнет под шапкой. Высота шапки разная на телефоне
+// и на десктопе, поэтому держим её в CSS-переменной, а не числом в стилях:
+// иначе строка либо налезает на шапку, либо висит под ней с зазором.
 
+(function () {
+    const nav = document.querySelector('.page-anchors');
+    if (!nav) return;
+
+    const header = document.querySelector('.navbar');
+
+    function setHeaderHeight() {
+        const h = header ? Math.round(header.getBoundingClientRect().height) : 0;
+        document.documentElement.style.setProperty('--header-h', h + 'px');
+    }
+
+    setHeaderHeight();
+    window.addEventListener('resize', setHeaderHeight);
+    window.addEventListener('load', setHeaderHeight);
+
+    // Подсветка раздела, который сейчас на экране.
+    const links = Array.prototype.slice.call(nav.querySelectorAll('a'));
+    const sections = new Map();
+
+    links.forEach(function (link) {
+        const target = document.querySelector(link.getAttribute('href'));
+        if (target) sections.set(target, link);
+    });
+
+    if (!sections.size || !('IntersectionObserver' in window)) return;
+
+    // Полоса наблюдения — середина экрана: раздел считается текущим,
+    // когда дошёл до неё, а не когда только показался снизу.
+    const observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+            if (!entry.isIntersecting) return;
+            links.forEach(function (link) { link.classList.remove('current'); });
+            const link = sections.get(entry.target);
+            if (link) link.classList.add('current');
+        });
+    }, { rootMargin: '-45% 0px -50% 0px' });
+
+    sections.forEach(function (link, section) { observer.observe(section); });
+})();
+
+// ===========================
+// СЧЁТЧИК ЧИСЕЛ
+// ===========================
+// Числа в разделе «Kiek trunka» отсчитываются от нуля, когда доезжают
+// до экрана. Считаем не текстом, а числом: у «~3» префикс живёт в
+// data-prefix, иначе он пересчитывался бы вместе со значением.
+
+(function () {
+    const counters = document.querySelectorAll('.fact-count');
+    if (!counters.length) return;
+
+    // Уважаем системную настройку: кому анимации мешают, тот видит готовое число
+    const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (still || !('IntersectionObserver' in window)) return;
+
+    function run(el) {
+        const target = parseInt(el.getAttribute('data-count'), 10);
+        const prefix = el.getAttribute('data-prefix') || '';
+        if (!target) return;
+
+        const duration = 900;
+        const start = performance.now();
+
+        const step = (now) => {
+            const p = Math.min(1, (now - start) / duration);
+            // ease-out-cubic: цифры разгоняются сразу, тормозят у цели
+            const eased = 1 - Math.pow(1 - p, 3);
+            el.textContent = prefix + Math.round(target * eased);
+            if (p < 1) requestAnimationFrame(step);
+            else el.textContent = prefix + target;
+        };
+
+        el.textContent = prefix + '0';
+        requestAnimationFrame(step);
+    }
+
+    const observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+            if (!entry.isIntersecting) return;
+            run(entry.target);
+            observer.unobserve(entry.target);
+        });
+    }, { rootMargin: '0px 0px -20% 0px' });
+
+    counters.forEach(function (el) { observer.observe(el); });
+})();
+
+// ===========================
+// ЛЕНТЫ С ПЕРЕЛИСТЫВАНИЕМ
+// ===========================
+// Пункт занимает ширину целиком: следующий приходит по стрелке или свайпу,
+// по одному. Полоса под лентой показывает, где мы внутри неё.
+
+(function () {
+    document.querySelectorAll('.strip').forEach(function (strip) {
+        const track = strip.querySelector('.strip-track');
+        const controls = strip.querySelector('.strip-controls');
+        if (!track || !controls) return;
+
+        const bar = controls.querySelector('.strip-progress span');
+        const prev = controls.querySelector('.strip-prev');
+        const next = controls.querySelector('.strip-next');
+        const items = track.children;
+        if (!items.length) return;
+
+        // Точки для телефона: на десктопе они скрыты стилями, но собираем
+        // их всегда — так не нужно ловить смену ширины окна.
+        const dots = document.createElement('div');
+        dots.className = 'strip-dots';
+        for (let i = 0; i < items.length; i++) {
+            const dot = document.createElement('button');
+            dot.type = 'button';
+            dot.className = 'strip-dot' + (i === 0 ? ' is-on' : '');
+            dot.setAttribute('aria-label', (i + 1) + ' iš ' + items.length);
+            dot.addEventListener('click', function () {
+                track.scrollTo({ left: items[i].offsetLeft - track.offsetLeft, behavior: 'smooth' });
+            });
+            dots.appendChild(dot);
+        }
+        controls.insertBefore(dots, controls.firstChild);
+
+        function step() {
+            return items[0].getBoundingClientRect().width;
+        }
+
+        function update() {
+            const max = track.scrollWidth - track.clientWidth;
+            const visible = track.clientWidth / track.scrollWidth;
+            const passed = max > 0 ? track.scrollLeft / max : 0;
+
+            bar.style.width = (visible * 100) + '%';
+            bar.style.transform = 'translateX(' + (passed * (100 / visible - 100)) + '%)';
+
+            // Крайняя стрелка гаснет: конец списка должен чувствоваться,
+            // иначе человек листает по кругу и теряет место
+            prev.disabled = track.scrollLeft < 4;
+            next.disabled = track.scrollLeft > max - 4;
+
+            // Активная точка — та, чей пункт ближе всего к левому краю
+            const step = items[0].getBoundingClientRect().width;
+            const index = step ? Math.round(track.scrollLeft / step) : 0;
+            dots.childNodes.forEach(function (dot, i) {
+                dot.classList.toggle('is-on', i === Math.min(index, items.length - 1));
+            });
+        }
+
+        prev.addEventListener('click', function () {
+            track.scrollBy({ left: -step(), behavior: 'smooth' });
+        });
+
+        next.addEventListener('click', function () {
+            track.scrollBy({ left: step(), behavior: 'smooth' });
+        });
+
+        update();
+        track.addEventListener('scroll', update, { passive: true });
+        window.addEventListener('resize', update);
+        window.addEventListener('load', update);
+    });
+})();
+
+// ===========================
+// ВИДЕО В РАЗДЕЛЕ «KUR VYKSTA»
+// ===========================
+// Файл тяжёлый (17 МБ), поэтому preload="metadata": браузер тянет только
+// заголовок и показывает кадр с #t=0.5. Само видео грузится по нажатию.
+
+(function () {
+    const wrap = document.querySelector('.place-video');
+    if (!wrap) return;
+
+    const video = wrap.querySelector('video');
+    const button = wrap.querySelector('.place-video-btn');
+    if (!video || !button) return;
+
+    button.addEventListener('click', function () {
+        wrap.classList.add('playing');
+        video.setAttribute('controls', '');
+        video.play();
+    });
+
+    // Кончилось или остановили — кнопка возвращается
+    video.addEventListener('pause', function () {
+        if (!video.ended) return;
+        wrap.classList.remove('playing');
+        video.removeAttribute('controls');
+    });
+})();
+
+// ===========================
+// ПОЛЗУНКИ РАССТОЯНИЯ И ДЕКОРА
+// ===========================
+// Расстояние: километр к евро. Декор: потолок зависит от числа столов —
+// один стол до 800 €, два до 1600 €, поэтому при переключении меняется
+// и максимум ползунка, и текущее значение (доля сохраняется).
+
+(function () {
+    // У input[type=range] нет способа закрасить пройденную часть, одинакового
+    // во всех браузерах, поэтому двигаем фоновый градиент.
+    function paint(el) {
+        const min = parseFloat(el.min);
+        const max = parseFloat(el.max);
+        const share = ((parseFloat(el.value) - min) / (max - min)) * 100;
+        el.style.backgroundSize = share + '% 100%';
+    }
+
+    const distance = document.getElementById('distanceSlider');
+    if (distance) {
+        const km = document.getElementById('distanceKm');
+        const fee = document.getElementById('distanceFee');
+
+        const update = function () {
+            km.textContent = distance.value;
+            fee.textContent = distance.value;
+            paint(distance);
+        };
+
+        update();
+        distance.addEventListener('input', update);
+    }
+
+    const decor = document.getElementById('decorSlider');
+    if (!decor) return;
+
+    const fee = document.getElementById('decorFee');
+    const note = document.getElementById('decorNote');
+    // Только кнопки своей капсулы: querySelectorAll по всей странице
+    // цеплял и переключатели в карточках услуг, и в блоке цифр, из-за чего
+    // индекс кнопки не совпадал и цена ступени не удваивалась.
+    const buttons = decor.closest('.dial').querySelectorAll('.dial-toggle-btn');
+
+    // Четыре ступени, одинаковые и здесь, и в калькуляторе. Ползунок ходит
+    // по номеру ступени, а не по сумме: тогда при переключении столов
+    // выбранный уровень остаётся тем же, меняется только цена.
+    const DECOR_LEVELS = [
+        'Žvakės ir gėlių kompozicija',
+        'Platesnė kompozicija, daugiau žvakių',
+        'Dekoras, smulkūs akcentai ir įėjimo zona',
+        'Konceptualus visos erdvės dekoravimas su apšvietimu'
+    ];
+
+    // Стол стоит 200 € за ступень, два стола — 400 €
+    let stepPrice = 200;
+
+    function update() {
+        const level = parseInt(decor.value, 10);
+        fee.textContent = level * stepPrice;
+        note.textContent = DECOR_LEVELS[level - 1];
+        paint(decor);
+    }
+
+    buttons.forEach(function (button, index) {
+        button.addEventListener('click', function () {
+            buttons.forEach(function (b) { b.classList.remove('is-on'); });
+            button.classList.add('is-on');
+            button.parentElement.classList.toggle('is-second', index === 1);
+            stepPrice = index === 1 ? 400 : 200;
+            update();
+        });
+    });
+
+    update();
+    decor.addEventListener('input', update);
+})();
+
+// ===========================
+// ПОЛОСА ЧТЕНИЯ
+// ===========================
+// Тонкая линия по кромке строки разделов показывает, сколько страницы
+// пройдено. Считаем от низа экрана, а не от верха: иначе полоса не
+// доходит до конца, когда упираешься в подвал.
+
+(function () {
+    const bar = document.querySelector('.page-anchors-progress');
+    if (!bar) return;
+
+    let ticking = false;
+
+    function update() {
+        const doc = document.documentElement;
+        const max = doc.scrollHeight - window.innerHeight;
+        const share = max > 0 ? Math.min(1, window.scrollY / max) : 0;
+        bar.style.width = (share * 100) + '%';
+        ticking = false;
+    }
+
+    // Кадр на прокрутку, а не пересчёт на каждое событие
+    window.addEventListener('scroll', function () {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(update);
+    }, { passive: true });
+
+    window.addEventListener('resize', update);
+    update();
+})();
+
+// ===========================
+// КАПСУЛА УЧАСТНИКОВ
+// ===========================
+// Тот же переключатель столов, что у декора, но здесь он меняет не цену,
+// а число гостей: один стол это 8-30 человек за вечер, два — 30-60.
+
+(function () {
+    const toggle = document.querySelector('.fact-toggle');
+    const number = document.getElementById('guestsNum');
+    if (!toggle || !number) return;
+
+    const buttons = toggle.querySelectorAll('.dial-toggle-btn');
+
+    buttons.forEach(function (button, index) {
+        button.addEventListener('click', function () {
+            buttons.forEach(function (b) { b.classList.remove('is-on'); });
+            button.classList.add('is-on');
+            toggle.classList.toggle('is-second', index === 1);
+            number.textContent = button.getAttribute('data-guests');
+        });
+    });
+})();
+
+// ===========================
+// ОТЗЫВ ПОД ЛЕНТОЙ ЦИФР
+// ===========================
+// Внутри ленты отзыв растягивал все слайды по своей высоте, поэтому он
+// живёт под ней и проявляется, когда долистали до последнего факта.
+
+(function () {
+    const track = document.querySelector('.facts-track');
+    const review = document.getElementById('factsReview');
+    if (!track || !review) return;
+
+    function update() {
+        const max = track.scrollWidth - track.clientWidth;
+        const atEnd = max <= 0 || track.scrollLeft > max - 8;
+        review.classList.toggle('is-open', atEnd);
+    }
+
+    update();
+    track.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update);
+})();
+
+// ===========================
+// СТОЛЫ В КАРТОЧКАХ УСЛУГ
+// ===========================
+// На обороте карточки выбирается один стол или два: меняются цена,
+// вместимость и состав услуг. Данные лежат на самих кнопках, чтобы
+// цифры правились в разметке, а не в скрипте.
+
+(function () {
+    document.querySelectorAll('.service-flip-card .flip-tables').forEach(function (toggle) {
+        const card = toggle.closest('.service-flip-card');
+        const back = toggle.closest('.service-flip-back');
+        const price = back.querySelector('.flip-price');
+        const capacity = back.querySelector('.flip-capacity');
+        const buttons = toggle.querySelectorAll('.dial-toggle-btn');
+
+        buttons.forEach(function (button, index) {
+            button.addEventListener('click', function (event) {
+                // Карточка переворачивается по клику на себя — этот клик
+                // до неё доходить не должен, иначе выбор закрывает оборот
+                event.stopPropagation();
+
+                buttons.forEach(function (b) { b.classList.remove('is-on'); });
+                button.classList.add('is-on');
+                toggle.classList.toggle('is-second', index === 1);
+                card.classList.toggle('is-two', index === 1);
+
+                if (price) price.textContent = button.getAttribute('data-price');
+                if (capacity) capacity.textContent = button.getAttribute('data-capacity');
+            });
+        });
+    });
+})();
