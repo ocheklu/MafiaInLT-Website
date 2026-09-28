@@ -6544,14 +6544,17 @@ section {
    ВОПРОСЫ НА СТРАНИЦЕ УСЛУГ
    =========================== */
 
-/* Общий FAQ — серые коробки с радиусом 8px, язык старых страниц.
-   Здесь тот же аккордеон (классы нужны обработчику в main.js), но
-   оформление страницы услуг: волосяные линии, радиус 2px, без плашек.
-   Блок стоит в конце файла намеренно — базовые правила .faq-* лежат
-   выше, а медиазапрос специфичности не добавляет. */
+/* Общий FAQ — серые коробки с радиусом 8px, язык старых страниц. Здесь
+   тот же аккордеон (классы нужны обработчику в main.js), но оформление
+   страницы услуг: светлая полоса в самом низу, волосяные линии, отступ
+   слева под метку. Блок стоит в конце файла намеренно — базовые правила
+   .faq-* лежат выше, а медиазапрос специфичности не добавляет. */
 .page-faq {
-    padding: 4.5rem 0 0;
-    background-color: #fff;
+    padding: 5.5rem 0 5rem;
+    /* Секция последняя перед подвалом: светлая полоса отделяет её от
+       белых статей выше и от чёрного подвала ниже. */
+    background-color: #fafafa;
+    border-top: 1px solid #f0f0f0;
 }
 
 .page-faq .faq-wrapper {
@@ -6562,36 +6565,88 @@ section {
 .page-faq .faq-item {
     margin-bottom: 0;
     border: 0;
-    border-top: 1px solid #ececec;
+    border-top: 1px solid #e6e6e6;
     border-radius: 0;
 }
 
 .page-faq .faq-item:last-child {
-    border-bottom: 1px solid #ececec;
+    border-bottom: 1px solid #e6e6e6;
 }
 
 .page-faq .faq-question {
-    padding: 1.35rem 2.5rem 1.35rem 0;
+    position: relative;
+    padding: 1.55rem 3.2rem 1.55rem 2.2rem;
     background-color: transparent;
-    font-size: 1.02rem;
+    font-size: 1.04rem;
     font-weight: 400;
     line-height: 1.5;
-    color: var(--text-color);
-    gap: 1.5rem;
+    color: #1a1a1a;
+    transition: color 0.35s ease;
 }
 
-.page-faq .faq-question::after {
+/* Метка слева: короткая золотая линия выезжает из края. Тот же приём,
+   что у кнопок-полос, только в миниатюре — поэтому и отступ 2.2rem,
+   текст больше не прибит к краю. */
+.page-faq .faq-question::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 14px;
+    height: 1px;
+    background-color: #9a7b1f;
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.page-faq .faq-question.active {
+    color: #000;
+}
+
+.page-faq .faq-question.active::before {
+    transform: scaleX(1);
+}
+
+/* Плюс нарисован двумя градиентами, а не символом: у открытого вопроса
+   вертикальная линия сжимается в ноль и плюс плавно становится минусом.
+   Со знаками − и + такого перехода не сделать. */
+.page-faq .faq-question::after,
+.page-faq .faq-question.active::after {
+    content: '';
     flex: 0 0 auto;
-    font-size: 1.2rem;
-    font-weight: 300;
-    color: #9a7b1f;
+    width: 13px;
+    height: 13px;
+    background-image: linear-gradient(#9a7b1f, #9a7b1f), linear-gradient(#9a7b1f, #9a7b1f);
+    background-repeat: no-repeat;
+    background-position: center center, center center;
+    background-size: 13px 1px, 1px 13px;
+    transition: background-size 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.page-faq .faq-question.active::after {
+    background-size: 13px 1px, 1px 0;
+}
+
+/* Раскрытие: высоту ставит main.js, поэтому здесь только кривая и время */
+.page-faq .faq-answer {
+    transition: max-height 0.6s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .page-faq .faq-answer-content {
-    padding: 0 2.5rem 1.5rem 0;
+    padding: 0 3.2rem 1.7rem 2.2rem;
     color: #555;
     font-size: 0.95rem;
     line-height: 1.75;
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 0.45s ease 0.08s,
+                transform 0.55s cubic-bezier(0.22, 1, 0.36, 1) 0.08s;
+}
+
+.page-faq .faq-question.active + .faq-answer .faq-answer-content {
+    opacity: 1;
+    transform: none;
 }
 
 .page-faq .faq-answer-content p {
@@ -6602,24 +6657,29 @@ section {
     margin-bottom: 0;
 }
 
+/* Жирного начертания у Alata нет — браузер рисовал бы его синтетически,
+   поэтому выделение держится цветом. */
 .page-faq .faq-answer-content strong {
     font-weight: 400;
-    color: var(--text-color);
+    color: #1a1a1a;
 }
 
 .page-faq .faq-answer-content a {
     color: #9a7b1f;
 }
 
-/* Наведение — только там, где есть курсор: на тапе заливка не успевает */
 @media (hover: hover) {
     .page-faq .faq-question:hover {
         background-color: transparent;
         color: #000;
     }
+
+    .page-faq .faq-question:hover::before {
+        transform: scaleX(1);
+    }
 }
 
-/* У кнопки нет своего фона, поэтому отклик на тап — яркостью */
+/* На тапе заливки нет — отклик яркостью: у кнопки своего фона нет */
 @media (hover: none) {
     .page-faq .faq-question:active {
         background-color: transparent;
@@ -6629,16 +6689,46 @@ section {
 
 @media (max-width: 768px) {
     .page-faq {
-        padding-top: 2.5rem;
+        padding: 3.2rem 0 3rem;
     }
 
     .page-faq .faq-question {
-        padding: 1.15rem 2rem 1.15rem 0;
-        font-size: 0.96rem;
+        padding: 1.25rem 2.2rem 1.25rem 1.3rem;
+        font-size: 0.97rem;
+    }
+
+    .page-faq .faq-question::before {
+        width: 9px;
+    }
+
+    .page-faq .faq-question::after,
+    .page-faq .faq-question.active::after {
+        width: 11px;
+        height: 11px;
+        background-size: 11px 1px, 1px 11px;
+    }
+
+    .page-faq .faq-question.active::after {
+        background-size: 11px 1px, 1px 0;
     }
 
     .page-faq .faq-answer-content {
-        padding: 0 1rem 1.25rem 0;
+        padding: 0 1.3rem 1.4rem 1.3rem;
         font-size: 0.92rem;
+        line-height: 1.7;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .page-faq .faq-question::before,
+    .page-faq .faq-question::after,
+    .page-faq .faq-answer,
+    .page-faq .faq-answer-content {
+        transition: none;
+    }
+
+    .page-faq .faq-answer-content {
+        opacity: 1;
+        transform: none;
     }
 }
