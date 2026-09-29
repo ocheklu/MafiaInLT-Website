@@ -6784,9 +6784,15 @@ section {
     border-top: 1px solid #e8e8e8;
 }
 
-.facts-review-strip .strip-progress,
-.facts-review-strip .strip-arrows {
+.facts-review-strip .strip-progress {
     display: none;
+}
+
+/* Стрелки нужны на десктопе: мышью не свайпнёшь, а точки только
+   показывают место. На телефоне их гасит общее правило — там свайп.
+   Уходят вправо, точки остаются слева. */
+.facts-review-strip .strip-arrows {
+    margin-left: auto;
 }
 
 .facts-review-strip .strip-controls {
