@@ -5224,14 +5224,13 @@ section {
     margin-top: 0.8rem;
 }
 
-/* --- Отзыв под лентой: появляется, когда лента долистана --- */
-/* Отзыв — ссылка целиком. Подпись «Visi atsiliepimai» занимала строку,
-   пульсирующая точка говорит то же самое и не спорит с текстом. */
+/* --- Отзывы: лента из трёх --- */
+/* Отзыв — ссылка целиком, ведёт ко всем остальным. Отступ и линия сверху
+   лежат на ленте, а не на карточке: иначе линия рисовалась бы у каждого
+   отзыва внутри полосы прокрутки. */
 .facts-review {
     display: block;
-    margin: 3rem 0 0;
-    padding-top: 2.5rem;
-    border-top: 1px solid #e8e8e8;
+    margin: 0;
     text-decoration: none;
     cursor: pointer;
 }
@@ -5268,33 +5267,6 @@ section {
     color: #111;
 }
 
-/* Точка пульсирует медленно и еле заметно: это приглашение, а не сигнал
-   тревоги. Кольцо расходится от неё и гаснет. */
-.facts-review-dot {
-    position: relative;
-    flex-shrink: 0;
-    width: 8px;
-    height: 8px;
-    margin-left: auto;
-    border-radius: 50%;
-    background-color: #111;
-}
-
-.facts-review-dot::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: 50%;
-    background-color: #111;
-    animation: reviewPulse 2.4s cubic-bezier(0.22, 1, 0.36, 1) infinite;
-}
-
-@keyframes reviewPulse {
-    0% { transform: scale(1); opacity: 0.45; }
-    70% { transform: scale(3.2); opacity: 0; }
-    100% { transform: scale(3.2); opacity: 0; }
-}
-
 .facts-review-text {
     display: block;
     font-size: 0.95rem;
@@ -5303,19 +5275,8 @@ section {
 }
 
 @media (hover: hover) {
-    .facts-review:hover .facts-review-dot::after {
-        animation-duration: 1.4s;
-    }
-
     .facts-review:hover .facts-review-text {
         color: #111;
-    }
-}
-
-@media (prefers-reduced-motion: reduce) {
-    .facts-review-dot::after {
-        animation: none;
-        opacity: 0.25;
     }
 }
 
@@ -6805,5 +6766,107 @@ section {
     .article-tile img,
     .flow-article img {
         filter: none;
+    }
+}
+
+/* ===========================
+   ЛЕНТА ОТЗЫВОВ
+   =========================== */
+
+/* Три отзыва в общей ленте: разметка и обработчик те же, что у остальных
+   лент страницы, поэтому свайп, точки и угасание соседей достались даром.
+   Показываем только точки: полоса прогресса добавила бы ещё одну линию в
+   секцию, которую мы как раз чистили от лишних линий, а стрелки в узкой
+   колонке цифр не помещаются. */
+.facts-review-strip {
+    margin: 3rem 0 0;
+    padding-top: 2.5rem;
+    border-top: 1px solid #e8e8e8;
+}
+
+.facts-review-strip .strip-progress,
+.facts-review-strip .strip-arrows {
+    display: none;
+}
+
+.facts-review-strip .strip-controls {
+    margin-top: 1.4rem;
+}
+
+/* Точки здесь нужны и на десктопе — в общих стилях они только для
+   телефона, поэтому оформление повторено рядом. */
+.facts-review-strip .strip-dots {
+    display: flex;
+    gap: 0.55rem;
+}
+
+.facts-review-strip .strip-dot {
+    width: 7px;
+    height: 7px;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background-color: #dadada;
+    cursor: pointer;
+    transition: background-color 0.35s ease, transform 0.35s ease;
+}
+
+.facts-review-strip .strip-dot.is-on {
+    background-color: #111;
+    transform: scale(1.3);
+}
+
+/* Высоту ленты держит самый длинный отзыв, остальные тянутся за ним —
+   иначе точки прыгали бы вверх-вниз при переключении. */
+.facts-review-track {
+    align-items: stretch;
+}
+
+@media (max-width: 768px) {
+    .facts-review-strip {
+        margin-top: 2rem;
+        padding-top: 1.8rem;
+    }
+
+    .facts-review-strip .strip-controls {
+        margin-top: 1.1rem;
+    }
+}
+
+/* ===========================
+   ТЕЛЕФОН: СТАТЬИ ПОД КАЛЬКУЛЯТОРОМ
+   =========================== */
+
+/* На десктопе секции разделены тёмными врезками, и светлый фон от белого
+   отличать не нужно. На телефоне врезки скрыты, а #f8f8f8 и #fff — это семь
+   единиц яркости: ведущие, калькулятор и статьи читались одной светлой
+   простынёй. Поэтому на телефоне серый один и заметный, белый чистый, и
+   секции идут через один. */
+.articles-heading {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .place-section,
+    .flow-section,
+    .facts-section,
+    .calculator,
+    .page-faq {
+        background-color: #f1f1f1;
+    }
+
+    .services-cards-section,
+    .occasions-section,
+    .host-section,
+    .articles-section {
+        background-color: #fff;
+    }
+
+    /* Над статьями нужен заголовок: они идут сразу за калькулятором, и без
+       него это просто продолжение того же блока. На десктопе плитки в ряд
+       читаются отдельным блоком сами. */
+    .articles-heading {
+        display: block;
+        margin-bottom: 1.4rem;
     }
 }

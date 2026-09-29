@@ -604,20 +604,54 @@
 
                 <!-- Отзыв стоит сразу под цифрами: они говорят, сколько это
                      длится, он — как это ощущается. -->
-                <!-- Весь отзыв — ссылка на остальные: подпись «Visi atsiliepimai»
-                     занимала строку, а пульсирующая точка говорит то же самое
-                     и не спорит с текстом. -->
-                <a class="facts-review" href="apie-mus.html#atsiliepimai">
-                    <span class="facts-review-head">
-                        <img loading="lazy" src="images/reviews/review-10.webp" alt="Atsiliepimas">
-                        <span class="facts-review-who">
-                            <span class="facts-review-name">Jūratė</span>
-                            <span class="facts-review-stars" aria-label="Įvertinimas 5 iš 5">★★★★★</span>
+                <!-- Каждый отзыв — ссылка на остальные. Пульсирующая точка
+                     убрана: теперь на то, что здесь есть что листать,
+                     показывают точки ленты. -->
+                <div class="strip facts-review-strip">
+                    <div class="strip-track facts-review-track">
+                    <a class="facts-review" href="apie-mus.html#atsiliepimai">
+                        <span class="facts-review-head">
+                            <img loading="lazy" src="images/reviews/review-10.webp" alt="Atsiliepimas: Jūratė">
+                            <span class="facts-review-who">
+                                <span class="facts-review-name">Jūratė</span>
+                                <span class="facts-review-stars" aria-label="Įvertinimas 5 iš 5">★★★★★</span>
+                            </span>
                         </span>
-                        <span class="facts-review-dot" aria-hidden="true"></span>
-                    </span>
-                    <span class="facts-review-text">„Didžioji dalis šventės dalyvių nebuvo pažįstamos, tačiau šio žaidimo dėka mes visos įsitraukėme, kūrėme gyvenimiškas istorijas. Įtrauku buvo žaisti, bet ne mažiau įdomu ir iš šalies stebėti žaidimą.“</span>
-                </a>
+                        <span class="facts-review-text">„Didžioji dalis šventės dalyvių nebuvo pažįstamos, tačiau šio žaidimo dėka mes visos įsitraukėme, kūrėme gyvenimiškas istorijas. Įtrauku buvo žaisti, bet ne mažiau įdomu ir iš šalies stebėti žaidimą.“</span>
+                    </a>
+                    <a class="facts-review" href="apie-mus.html#atsiliepimai">
+                        <span class="facts-review-head">
+                            <img loading="lazy" src="images/reviews/review-8.webp" alt="Atsiliepimas: Vaiva">
+                            <span class="facts-review-who">
+                                <span class="facts-review-name">Vaiva</span>
+                                <span class="facts-review-stars" aria-label="Įvertinimas 5 iš 5">★★★★★</span>
+                            </span>
+                        </span>
+                        <span class="facts-review-text">„Buvo įdomu pažinti komandos narius kituose vaidmenyse! Dar ir dar norėjosi grįžti prie to tobulai dekoruoti stalo!“</span>
+                    </a>
+                    <a class="facts-review" href="apie-mus.html#atsiliepimai">
+                        <span class="facts-review-head">
+                            <img loading="lazy" src="images/reviews/review-13.webp" alt="Atsiliepimas: Kornelija">
+                            <span class="facts-review-who">
+                                <span class="facts-review-name">Kornelija</span>
+                                <span class="facts-review-stars" aria-label="Įvertinimas 5 iš 5">★★★★★</span>
+                            </span>
+                        </span>
+                        <span class="facts-review-text">„Vedėjas Olegas užtikrintai ir ramiai veda per žaidimą. Įdomus ir išdirbtas žaidimas su dideliu akcentu ne į žodžius, bet jauseną ir intuiciją.“</span>
+                    </a>
+                    </div>
+                    <div class="strip-controls">
+                        <div class="strip-progress" aria-hidden="true"><span></span></div>
+                        <div class="strip-arrows">
+                            <button type="button" class="strip-arrow strip-prev" aria-label="Ankstesnis atsiliepimas" disabled>
+                                <svg viewBox="0 0 24 12" aria-hidden="true"><path d="M7 1 1 6l6 5M1 6h23"/></svg>
+                            </button>
+                            <button type="button" class="strip-arrow strip-next" aria-label="Kitas atsiliepimas">
+                                <svg viewBox="0 0 24 12" aria-hidden="true"><path d="M17 1l6 5-6 5M23 6H0"/></svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -862,6 +896,7 @@
          внизу — ближе к концу страницы, но в том же документе. -->
     <section class="articles-section">
         <div class="container">
+        <h2 class="section-heading articles-heading scroll-reveal">Informacija</h2>
         <div class="strip article-strip scroll-reveal">
             <div class="strip-track article-track">
                 <a class="article-tile" href="straipsniai/kaip-vyksta-renginys.html">
