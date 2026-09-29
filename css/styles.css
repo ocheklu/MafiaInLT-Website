@@ -6747,3 +6747,32 @@ section {
         transform: none;
     }
 }
+
+/* ===========================
+   ВИДЕО НА ПОЛНЫЙ ЭКРАН
+   =========================== */
+
+/* Кадр вертикальный (608×1080), и на странице он держится через
+   aspect-ratio 9/16 с object-fit: cover. В полном экране Chrome своими
+   !important растягивает элемент на весь экран, а cover от нашего правила
+   остаётся — вертикальное видео обрезалось сверху и снизу и выглядело
+   горизонтальным. Поэтому в полном экране: contain и никакой пропорции.
+   Селекторы разложены по отдельным правилам намеренно — незнакомый
+   префиксный селектор в общем списке гасит правило целиком. */
+.place-media video:fullscreen {
+    width: 100%;
+    height: 100%;
+    max-height: none;
+    aspect-ratio: auto;
+    object-fit: contain;
+    background-color: #000;
+}
+
+.place-media video:-webkit-full-screen {
+    width: 100%;
+    height: 100%;
+    max-height: none;
+    aspect-ratio: auto;
+    object-fit: contain;
+    background-color: #000;
+}
