@@ -675,6 +675,10 @@ window.addEventListener('click', function(e) {
             return items[0].getBoundingClientRect().width;
         }
 
+        // При «уменьшить движение» слайды остаются в полную силу
+        const fadeOff = window.matchMedia &&
+            window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
         function update() {
             const max = track.scrollWidth - track.clientWidth;
             const visible = track.clientWidth / track.scrollWidth;
@@ -694,6 +698,21 @@ window.addEventListener('click', function(e) {
             dots.childNodes.forEach(function (dot, i) {
                 dot.classList.toggle('is-on', i === Math.min(index, items.length - 1));
             });
+
+            // Уходящий слайд гаснет, приходящий проявляется. Пункт занимает
+            // ширину целиком, поэтому во время свайпа на экране всегда два, и
+            // текст одного читался поверх другого. Прозрачность считаем от
+            // смещения, а не переключаем классом: иначе на середине жеста
+            // был бы щелчок. Свой transition не нужен — значение ставится
+            // каждый кадр прокрутки.
+            if (!fadeOff && step) {
+                for (let i = 0; i < items.length; i++) {
+                    const shift = Math.abs(
+                        items[i].offsetLeft - items[0].offsetLeft - track.scrollLeft
+                    ) / step;
+                    items[i].style.opacity = Math.max(0.1, 1 - shift * 1.7);
+                }
+            }
         }
 
         prev.addEventListener('click', function () {
@@ -739,9 +758,9 @@ window.addEventListener('click', function(e) {
         if (started && started.catch) started.catch(function () {});
     });
 
-    // Кончилось или остановили — кнопка возвращается
+    // Остановили — контролы уходят вместе с паузой: на телефоне они
+    // перекрывают кадр, а снизу их подрезает карточка текста.
     video.addEventListener('pause', function () {
-        if (!video.ended) return;
         wrap.classList.remove('playing');
         video.removeAttribute('controls');
     });
