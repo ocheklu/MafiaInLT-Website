@@ -705,13 +705,22 @@ window.addEventListener('click', function(e) {
             // смещения, а не переключаем классом: иначе на середине жеста
             // был бы щелчок. Свой transition не нужен — значение ставится
             // каждый кадр прокрутки.
-            if (!fadeOff && step) {
-                for (let i = 0; i < items.length; i++) {
-                    const shift = Math.abs(
-                        items[i].offsetLeft - items[0].offsetLeft - track.scrollLeft
-                    ) / step;
-                    items[i].style.opacity = Math.max(0.1, 1 - shift * 1.7);
+            // Гасить можно только там, где пункт занимает ленту целиком и
+            // её действительно листают. У ведущих на десктопе обе панели
+            // стоят рядом и лента не прокручивается: смещение второй панели
+            // равнялось её ширине, и она гасла до 0.1 — Александр оказался
+            // на белом фоне. То же было бы с плитками статей в ряд.
+            const scrollable = track.scrollWidth - track.clientWidth > 4;
+            const oneAtATime = step >= track.clientWidth - 4;
+            for (let i = 0; i < items.length; i++) {
+                if (fadeOff || !step || !scrollable || !oneAtATime) {
+                    items[i].style.opacity = '';
+                    continue;
                 }
+                const shift = Math.abs(
+                    items[i].offsetLeft - items[0].offsetLeft - track.scrollLeft
+                ) / step;
+                items[i].style.opacity = Math.max(0.1, 1 - shift * 1.7);
             }
         }
 
