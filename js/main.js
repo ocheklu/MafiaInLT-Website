@@ -714,11 +714,15 @@ window.addEventListener('click', function(e) {
 // ===========================
 // ВИДЕО В РАЗДЕЛЕ «KUR VYKSTA»
 // ===========================
-// Файл тяжёлый (17 МБ), поэтому preload="metadata": браузер тянет только
-// заголовок и показывает кадр с #t=0.5. Само видео грузится по нажатию.
+// preload="metadata": браузер тянет только заголовок и показывает кадр
+// с #t=0.5. Само видео (3,5 МБ) грузится по нажатию.
+//
+// Контейнер — .place-media. Раньше здесь искался .place-video: класс
+// переименовали, когда переразбирали блок, и кнопка молча перестала
+// работать — обработчик не навешивался вообще.
 
 (function () {
-    const wrap = document.querySelector('.place-video');
+    const wrap = document.querySelector('.place-media');
     if (!wrap) return;
 
     const video = wrap.querySelector('video');
@@ -728,7 +732,11 @@ window.addEventListener('click', function(e) {
     button.addEventListener('click', function () {
         wrap.classList.add('playing');
         video.setAttribute('controls', '');
-        video.play();
+        // Кадр в покое немой, но нажатие — это жест пользователя, звук
+        // после него разрешён.
+        video.muted = false;
+        const started = video.play();
+        if (started && started.catch) started.catch(function () {});
     });
 
     // Кончилось или остановили — кнопка возвращается

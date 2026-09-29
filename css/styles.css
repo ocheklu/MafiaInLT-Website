@@ -5432,12 +5432,6 @@ section {
 /* Кадр 9:16 показываем целиком. Ограничение по высоте раньше стояло на
    самом видео, и object-fit срезал его до квадрата — теперь высоту задаёт
    контейнер, а видео вписывается в неё, сохраняя пропорцию. */
-.place-video {
-    display: flex;
-    justify-content: center;
-    max-height: 78vh;
-}
-
 /* Матовое стекло: кнопка не закрашивает кадр, а подсвечивает его через
    размытие. Фолбэк для браузеров без backdrop-filter — полупрозрачный
    белый, он там же в background. */
@@ -5469,7 +5463,7 @@ section {
     fill: currentColor;
 }
 
-.place-video.playing .place-video-btn {
+.place-media.playing .place-video-btn {
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.4s ease;
