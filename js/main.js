@@ -405,7 +405,11 @@ document.addEventListener('DOMContentLoaded', function() {
         // секунду. К 2.6s заголовок вступает следом за ним, а не
         // вперёд него. За всем, что ниже сгиба, следим с самого начала —
         // туда всё равно надо доскроллить.
-        const HERO_MS = 2600;
+        // Ждать есть смысл только там, где hero действительно едет. На
+        // странице контактов его нет вовсе — содержимое начинается сразу под
+        // шапкой, и эти 2.6s превращались в пустой экран: первый блок ждал
+        // таймера, хотя ждать было нечего.
+        const HERO_MS = document.querySelector('.hero') ? 2600 : 0;
         const early = [];
 
         revealElements.forEach(el => {
@@ -1018,3 +1022,91 @@ window.addEventListener('click', function(e) {
         timer = setTimeout(measure, 150);
     });
 })();
+
+
+// ===========================
+// Копирование адреса почты
+// ===========================
+//
+// Иконка-конверт вместо mailto: открывает копирование. Ссылка mailto полезна
+// только тому, у кого настроен почтовый клиент; у остальных клик открывает
+// пустое окно Outlook или не делает ничего — адрес при этом остаётся
+// недоступным, потому что в иконке его не выделить. Поэтому клик по конверту
+// кладёт адрес в буфер, а mailto остаётся запасным путём при отказе буфера.
+//
+// Текстовая ссылка с самим адресом (Bendras el. paštas на контактах) работает
+// как обычный mailto: там адрес виден и выделяется мышью.
+document.addEventListener('DOMContentLoaded', function() {
+    const SAID = {
+        lt: 'Nukopijuota',
+        ru: 'Скопировано',
+        en: 'Copied'
+    };
+    const said = SAID[(document.documentElement.lang || 'lt').slice(0, 2)] || SAID.lt;
+
+    // Буфер через Clipboard API, а при отказе — через скрытое поле.
+    // Clipboard API недоступен на file:// и в старых браузерах, а страницу
+    // открывают и с диска.
+    const toClipboard = (text) => {
+        if (navigator.clipboard && window.isSecureContext) {
+            return navigator.clipboard.writeText(text);
+        }
+        return new Promise((resolve, reject) => {
+            const ta = document.createElement('textarea');
+            ta.value = text;
+            ta.setAttribute('readonly', '');
+            ta.style.position = 'fixed';
+            ta.style.top = '-1000px';
+            ta.style.opacity = '0';
+            document.body.appendChild(ta);
+            ta.select();
+            ta.setSelectionRange(0, text.length);   // iOS не выделяет по select()
+            let ok = false;
+            try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+            ta.remove();
+            ok ? resolve() : reject();
+        });
+    };
+
+    // Подсказка висит на fixed: иконка почты стоит и в подвале, и внутри
+    // .contact-line, у которых свои контексты наложения — абсолютная
+    // подсказка обрезалась бы родителем.
+    let current = null;
+
+    const showToast = (el, text) => {
+        if (current) current.remove();
+
+        const tip = document.createElement('div');
+        tip.className = 'copy-toast';
+        tip.textContent = text;
+        tip.setAttribute('role', 'status');
+        document.body.appendChild(tip);
+        current = tip;
+
+        const r = el.getBoundingClientRect();
+        tip.style.left = (r.left + r.width / 2) + 'px';
+        tip.style.top = r.top + 'px';
+
+        requestAnimationFrame(() => tip.classList.add('visible'));
+
+        setTimeout(() => {
+            tip.classList.remove('visible');
+            setTimeout(() => { tip.remove(); if (current === tip) current = null; }, 300);
+        }, 1600);
+    };
+
+    document.addEventListener('click', function(e) {
+        const link = e.target.closest('a[href^="mailto:"]');
+        if (!link || !link.querySelector('svg')) return;   // только иконки
+
+        const addr = link.getAttribute('href').replace(/^mailto:/i, '').split('?')[0];
+        if (!addr) return;
+
+        e.preventDefault();
+
+        toClipboard(addr)
+            .then(() => showToast(link, said))
+            // буфер не дался — отдаём клик почтовому клиенту, как было
+            .catch(() => { window.location.href = link.getAttribute('href'); });
+    });
+});
