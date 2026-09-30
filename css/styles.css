@@ -2148,8 +2148,20 @@ section {
     background: #c9c9c9;
 }
 
+/* Заголовок секции вопросов. Размер задан здесь, потому что класс
+   .section-title, который на нём стоял раньше, в мобильном блоке отдан
+   мелким меткам капсом (0.72rem) — и заголовок оказывался вдвое мельче
+   самих вопросов. */
 .faq-title {
     color: #C19A6B;
+    font-size: 2rem;
+    text-align: center;
+}
+
+@media (max-width: 768px) {
+    .faq-title {
+        font-size: 1.5rem;
+    }
 }
 
 /* ===========================
@@ -6532,6 +6544,13 @@ section {
        белых статей выше и от чёрного подвала ниже. */
     background-color: #fafafa;
     border-top: 1px solid #f0f0f0;
+}
+
+/* На контактах секция вопросов держит свой бежевый фон: .page-faq даёт
+   #fafafa под светлые статьи страницы услуг, а здесь рядом нет ничего
+   белого, и полоса выглядела бы выцветшей. */
+.faq-section.page-faq {
+    background-color: #ede7dc;
 }
 
 .page-faq .faq-wrapper {
