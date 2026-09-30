@@ -7003,3 +7003,142 @@ section {
         transform: translate(-50%, calc(-100% - 10px));
     }
 }
+
+/* Отзывы на главной — лента. Раньше тут стоял один отзыв; четыре подряд
+   столбиком растянули бы страницу, а витрине нужен объём, а не длина.
+   Разметка та же, что у ленты на странице услуг, поэтому свайп, точки и
+   стрелки достались от общего обработчика без нового JS. */
+.testimonial-strip {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.testimonial-slide {
+    flex: 0 0 100%;
+    scroll-snap-align: start;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* Высоту держит самый длинный отзыв — иначе точки прыгали бы при
+       переключении. Содержимое при этом по центру: space-between отрывал
+       автора к нижнему краю, и у коротких отзывов фото висело далеко от
+       текста. */
+    justify-content: center;
+    text-align: center;
+    text-decoration: none;
+    color: inherit;
+    padding: 0 0.5rem;
+}
+
+/* Текст остаётся <span> внутри ссылки: <p> внутри <a> разрешён, но у нас
+   вся карточка кликабельна, и блочная разметка тут ни к чему. */
+.testimonial-slide .testimonial-text {
+    display: block;
+    font-size: 1.3rem;
+    line-height: 1.8;
+    margin-bottom: 2rem;
+    font-style: italic;
+    color: #333;
+}
+
+.testimonial-slide .testimonial-author {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+}
+
+/* Рамка золотая, а не чёрная: на белом фоне чёрное кольцо читалось как
+   траурное и перетягивало взгляд с лица. Тот же #C19A6B, что у иконок
+   соцсетей на странице контактов. */
+.testimonial-slide .author-photo {
+    flex: 0 0 auto;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px solid #C19A6B;
+}
+
+.testimonial-slide .author-info {
+    text-align: left;
+}
+
+.testimonial-slide .author-name {
+    display: block;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #000;
+}
+
+/* Вместо города — профессия: она говорит о человеке больше, чем «Vilnius»,
+   и не повторяет то, что и так есть в остальных блоках страницы. */
+.testimonial-slide .author-role {
+    display: block;
+    margin-top: 0.2rem;
+    font-size: 0.9rem;
+    color: #888;
+}
+
+.testimonial-strip .strip-progress {
+    display: none;
+}
+
+.testimonial-strip .strip-controls {
+    margin-top: 2rem;
+}
+
+/* Точки по центру, под фото автора: слева они читались как начало строки,
+   а не как указатель места в ленте. Стрелки при этом вынуты из потока и
+   прижаты вправо — иначе они сдвигали бы точки с середины. */
+.testimonial-strip .strip-controls {
+    position: relative;
+    justify-content: center;
+}
+
+/* Стрелки — для десктопа: мышью не свайпнёшь. На телефоне их гасит общее
+   правило, там остаётся свайп и точки. */
+.testimonial-strip .strip-arrows {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+/* Точки нужны и на десктопе — в общих стилях они только для телефона. */
+.testimonial-strip .strip-dots {
+    display: flex;
+    gap: 0.55rem;
+}
+
+.testimonial-strip .strip-dot {
+    width: 7px;
+    height: 7px;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: #d6d6d6;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.testimonial-strip .strip-dot.is-on {
+    background: #111;
+}
+
+@media (max-width: 768px) {
+    .testimonial-slide .testimonial-text {
+        font-size: 1.05rem;
+        line-height: 1.7;
+        margin-bottom: 2rem;
+    }
+
+    .testimonial-slide .author-photo {
+        width: 64px;
+        height: 64px;
+    }
+
+    .testimonial-strip .strip-controls {
+        margin-top: 1.4rem;
+    }
+}
