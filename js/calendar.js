@@ -148,6 +148,7 @@ class Calendar {
             else if (!this.isRangeMode && typeof isDateBlocked !== 'undefined' && isDateBlocked(dateString)) {
                 dayElement.classList.add('blocked');
                 dayElement.title = this.l10n.dateTaken;
+                dayElement.addEventListener("click", () => this.showHint(dayElement, this.l10n.dateTaken));
             }
             // Проверяем, выбрана ли дата
             else if (this.selectedDate && this.formatDate(this.selectedDate) === dateString) {
@@ -187,14 +188,81 @@ class Calendar {
                 !dayElement.classList.contains("disabled") && !dayElement.classList.contains("blocked")) {
                 dayElement.classList.add("pending");
                 if (!dayElement.title) dayElement.title = this.l10n.dateRequested;
+                dayElement.addEventListener("click", () => this.showHint(dayElement, this.l10n.dateRequested));
             }
 
             grid.appendChild(dayElement);
         }
         
         this.container.appendChild(grid);
+
+        this.renderLegend();
     }
     
+    // Легенда под сеткой. Нужна потому, что подсказка по тапу работает
+    // только для того, кто догадался нажать: чёрный квадрат ещё можно
+    // принять за кнопку, а день с запросом от свободного на глаз почти
+    // не отличим. В режиме диапазона (аренда атрибутики) занятых дней
+    // нет вовсе — там легенды не показываем.
+    renderLegend() {
+        if (this.isRangeMode) return;
+
+        const hasBlocked = typeof blockedDates !== "undefined" && blockedDates.length > 0;
+        const hasPending = typeof pendingDates !== "undefined" && pendingDates.length > 0;
+        if (!hasBlocked && !hasPending) return;
+
+        const box = document.createElement("div");
+        box.className = "calendar-legend";
+
+        const item = (kind, text) => {
+            const row = document.createElement("span");
+            row.className = "calendar-legend-item";
+            const mark = document.createElement("i");
+            mark.className = "calendar-legend-mark is-" + kind;
+            row.appendChild(mark);
+            row.appendChild(document.createTextNode(text));
+            return row;
+        };
+
+        if (hasBlocked) box.appendChild(item("booked", this.l10n.dateTaken));
+        if (hasPending) box.appendChild(item("pending", this.l10n.dateRequested));
+
+        this.container.appendChild(box);
+    }
+
+    // Подсказка по тапу: на телефоне нативный title не показывается,
+    // а занятую дату и дату с запросом объяснить надо. Пузырёк тот же,
+    // что у копирования почты (.copy-toast в styles.css).
+    showHint(el, text) {
+        if (Calendar._hint) Calendar._hint.remove();
+
+        const tip = document.createElement("div");
+        tip.className = "copy-toast";
+        tip.textContent = text;
+        tip.setAttribute("role", "status");
+        document.body.appendChild(tip);
+        Calendar._hint = tip;
+
+        // Держим пузырёк в экране: у крайних дней центр ячейки
+        // уводит его за край, и текст обрезается
+        const r = el.getBoundingClientRect();
+        const half = Math.min(tip.offsetWidth / 2, window.innerWidth / 2 - 8);
+        let left = r.left + r.width / 2;
+        left = Math.max(half + 8, Math.min(left, window.innerWidth - half - 8));
+        tip.style.left = left + "px";
+        tip.style.top = r.top + "px";
+
+        requestAnimationFrame(() => tip.classList.add("visible"));
+
+        setTimeout(() => {
+            tip.classList.remove("visible");
+            setTimeout(() => {
+                tip.remove();
+                if (Calendar._hint === tip) Calendar._hint = null;
+            }, 300);
+        }, 1600);
+    }
+
     formatDate(date) {
         const year = date.getFullYear();
         const month = String(date.getMonth() + 1).padStart(2, '0');
