@@ -1452,7 +1452,7 @@ section {
     font-size: 0.9rem;
 }
 
-.calendar-day:hover:not(.blocked):not(.disabled) {
+.calendar-day:hover:not(.blocked):not(.disabled):not(.pending) {
     background-color: #f0f0f0;
 }
 
@@ -1466,36 +1466,32 @@ section {
     color: #2d6a4f;
 }
 
-/* Занятая дата — чёрный квадрат с крестиком вместо числа.
-   Цифру убираем сознательно: .selected тоже чёрная, и если оставить
-   в занятой белое число, свой выбор от чужой брони не отличить.
-   Штриховку (диагональные полосы на белом) пробовали 2026-09-08 —
-   слишком тихая, занятая дата терялась среди свободных. */
+/* Занятая дата — инверсия: белое число на чёрном квадрате плюс подсказка
+   на курсоре (атрибут title, текст в calendar.js). Крестик вместо числа жил
+   здесь до 2 октября 2026 и снят по просьбе владельца: число читается как
+   число, а не как запрещающий знак. Штриховку (диагональные полосы на белом)
+   пробовали 2026-09-08 — слишком тихая, занятая дата терялась среди свободных.
+   Важно: .selected тоже чёрная с белым числом, и на глаз они теперь похожи —
+   отличаются только курсором и подсказкой. */
 .calendar-day.blocked {
-    position: relative;
     background-color: var(--primary-color);
     border-color: var(--primary-color);
-    color: transparent;
+    color: var(--bg-color);
     cursor: not-allowed;
 }
 
-.calendar-day.blocked::before,
-.calendar-day.blocked::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 11px;
-    height: 1px;
-    background-color: var(--bg-color);
+/* Дата с незакрытым запросом — та же метка в полсилы: серая заливка,
+   число остаётся чёрным. Дата выбираемая, запрос — это ещё не бронь.
+   Защита :not(.selected) обязательна: класс .pending ставится поверх
+   остальных, и без неё он перебил бы собственный выбор пользователя. */
+.calendar-day.pending:not(.selected) {
+    background-color: rgba(0, 0, 0, 0.18);
+    border-color: rgba(0, 0, 0, 0.28);
+    color: var(--primary-color);
 }
 
-.calendar-day.blocked::before {
-    transform: translate(-50%, -50%) rotate(45deg);
-}
-
-.calendar-day.blocked::after {
-    transform: translate(-50%, -50%) rotate(-45deg);
+.calendar-day.pending:not(.selected):hover {
+    background-color: rgba(0, 0, 0, 0.26);
 }
 
 .calendar-day.disabled {

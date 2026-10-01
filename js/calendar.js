@@ -31,19 +31,22 @@ class Calendar {
                 months: ['Sausis', 'Vasaris', 'Kovas', 'Balandis', 'Gegužė', 'Birželis',
                          'Liepa', 'Rugpjūtis', 'Rugsėjis', 'Spalis', 'Lapkritis', 'Gruodis'],
                 weekDays: ['Pr', 'An', 'Tr', 'Kt', 'Pn', 'Št', 'Sk'],
-                dateTaken: 'Ši data užimta'
+                dateTaken: 'Ši data užimta',
+                dateRequested: 'Šiai datai yra užklausa'
             },
             ru: {
                 months: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь',
                          'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
                 weekDays: ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'],
-                dateTaken: 'Эта дата занята'
+                dateTaken: 'Эта дата занята',
+                dateRequested: 'На эту дату есть запрос'
             },
             en: {
                 months: ['January', 'February', 'March', 'April', 'May', 'June',
                          'July', 'August', 'September', 'October', 'November', 'December'],
                 weekDays: ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'],
-                dateTaken: 'This date is unavailable'
+                dateTaken: 'This date is unavailable',
+                dateRequested: 'This date has a pending request'
             }
         };
         this.l10n = L10N[lang] || L10N.lt;
@@ -177,6 +180,15 @@ class Calendar {
                 dayElement.addEventListener('click', () => this.selectDate(currentDayDate));
             }
             
+            // Незакрытый запрос — полупрозрачная метка поверх обычного дня.
+            // Ставится последней и ничего не отменяет: дата остаётся выбираемой,
+            // запрос — это ещё не бронь. Прошедшие и занятые дни не помечаем.
+            if (!this.isRangeMode && typeof isDatePending !== "undefined" && isDatePending(dateString) &&
+                !dayElement.classList.contains("disabled") && !dayElement.classList.contains("blocked")) {
+                dayElement.classList.add("pending");
+                if (!dayElement.title) dayElement.title = this.l10n.dateRequested;
+            }
+
             grid.appendChild(dayElement);
         }
         
