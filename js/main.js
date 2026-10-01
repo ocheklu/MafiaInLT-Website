@@ -372,7 +372,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // наблюдателя невидима — и проявлялась бы по одной прямо под пальцем
         // во время свайпа. Поэтому у таких карточек появление общее: вошла
         // в кадр одна — показываем всю ленту.
-        const stripOf = (el) => el.closest('.services-grid, .blog-preview-grid');
+        const stripOf = (el) => el.closest('.services-grid, .blog-preview-grid, .imonems-track');
 
         const io = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
@@ -1110,3 +1110,48 @@ document.addEventListener('DOMContentLoaded', function() {
             .catch(() => { window.location.href = link.getAttribute('href'); });
     });
 });
+
+
+// ===========================
+// Столы и цифры
+// ===========================
+//
+// Вместимость и длительность зависят от числа столов, и две строки подряд
+// («с одним столом так, с двумя этак») читались бы как условие в договоре.
+// Переключатель показывает сразу тот случай, который человеку нужен.
+// По умолчанию два стола: корпоративу чаще нужен больший формат.
+
+(function () {
+    const facts = document.querySelector('.imonems-panel');
+    if (!facts) return;
+
+    const buttons = facts.querySelectorAll('.imonems-toggle-btn');
+    const guests = facts.querySelector('[data-fact="guests"]');
+    const hours = facts.querySelector('[data-fact="hours"]');
+    if (!buttons.length || !guests || !hours) return;
+
+    const VALUES = {
+        '1': { guests: '8–30', hours: '3' },
+        '2': { guests: '20–60', hours: '3–4' }
+    };
+
+    function swap(el, text) {
+        if (el.textContent === text) return;
+        el.classList.add('is-swapping');
+        setTimeout(function () {
+            el.textContent = text;
+            el.classList.remove('is-swapping');
+        }, 200);
+    }
+
+    buttons.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            const v = VALUES[btn.dataset.tables];
+            if (!v) return;
+
+            buttons.forEach(function (b) { b.classList.toggle('is-on', b === btn); });
+            swap(guests, v.guests);
+            swap(hours, v.hours);
+        });
+    });
+})();

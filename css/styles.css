@@ -7142,3 +7142,341 @@ section {
         margin-top: 1.4rem;
     }
 }
+
+/* ═══ Mafija žaidimas įmonėms ═══════════════════════════════════════════ */
+
+.imonems-section {
+    padding: 6rem 0;
+    background-color: #f8f8f8;
+}
+
+.imonems-title {
+    font-size: 2.4rem;
+    margin: 0 0 1.2rem;
+    text-align: center;
+}
+
+.imonems-lead {
+    margin: 0 auto 3.5rem;
+    /* Ширина подобрана под длину абзаца: в 760px он ложился в четыре
+       строки, последняя оставалась короткой. */
+    max-width: 920px;
+    text-align: center;
+    color: #666;
+    line-height: 1.8;
+}
+
+.imonems-strip .strip-track {
+    gap: 2rem;
+}
+
+.imonems-card {
+    flex: 0 0 calc((100% - 4rem) / 3);
+    min-width: 0;
+    scroll-snap-align: start;
+    background: #fff;
+    border: 1px solid #ededed;
+    /* Тот же радиус, что у карточек услуг, — 10px. */
+    border-radius: 10px;
+    overflow: hidden;
+    text-align: center;
+}
+
+.imonems-card-media {
+    aspect-ratio: 3 / 2;
+    overflow: hidden;
+}
+
+.imonems-card-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (hover: hover) {
+    .imonems-card:hover .imonems-card-media img {
+        transform: scale(1.04);
+    }
+}
+
+/* Появляются по очереди — тем же шагом, что карточки услуг выше. */
+.imonems-track .scroll-reveal:nth-child(1) { transition-delay: 0s; }
+.imonems-track .scroll-reveal:nth-child(2) { transition-delay: 0.12s; }
+.imonems-track .scroll-reveal:nth-child(3) { transition-delay: 0.24s; }
+
+.imonems-card h3 {
+    margin: 1.5rem 1.5rem 0.7rem;
+    font-size: 1.15rem;
+}
+
+.imonems-card p {
+    margin: 0 1.5rem 1.8rem;
+    color: #666;
+    line-height: 1.7;
+}
+
+/* Стрелки и полоса прогресса на десктопе не нужны: три карточки стоят в ряд
+   целиком, прокручивать нечего. На телефоне лента едет свайпом, и там
+   включаются точки. */
+.imonems-strip .strip-controls {
+    display: none;
+}
+
+/* ── Столы, цифры и кнопка: одна капсула ───────────────────────────────
+   Всё живёт в общей оболочке, но внутри три разных по поведению зоны, и
+   каждая говорит о себе сама: переключатель — подложкой под выбранным
+   сегментом, числа — тем, что они просто текст, кнопка — тёмной заливкой.
+   Без этих различий капсула читалась бы как одна большая кнопка. */
+
+.imonems-panel {
+    display: flex;
+    justify-content: center;
+    margin: 3.5rem 0 0;
+}
+
+.imonems-capsule {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 5px;
+    background: #fff;
+    border: 1px solid #e3e3e3;
+    border-radius: 999px;
+    transition: border-color 0.3s ease;
+}
+
+@media (hover: hover) {
+    .imonems-capsule:hover {
+        border-color: #d8d8d8;
+    }
+}
+
+/* Переключатель */
+
+.imonems-toggle {
+    display: inline-flex;
+    padding: 3px;
+    background: #f0f0f0;
+    border-radius: 999px;
+}
+
+.imonems-toggle-btn {
+    padding: 0.5rem 1.1rem;
+    border: 0;
+    border-radius: 999px;
+    background: transparent;
+    color: #888;
+    font-family: inherit;
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.imonems-toggle-btn.is-on {
+    background: #fff;
+    color: #111;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.14);
+}
+
+@media (hover: hover) {
+    .imonems-toggle-btn:not(.is-on):hover {
+        color: #111;
+        background: rgba(255, 255, 255, 0.55);
+    }
+}
+
+@media (hover: none) {
+    .imonems-toggle-btn:active {
+        transform: scale(0.985);
+    }
+}
+
+/* Числа: внутри капсулы у них нет своей рамки — иначе получилось бы три
+   пилюли в пилюле. Отделены воздухом и тонкой чертой перед кнопкой. */
+
+.imonems-cells {
+    display: inline-flex;
+    align-items: center;
+    gap: 1.1rem;
+    padding: 0 0.9rem;
+}
+
+.imonems-cell {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.4rem;
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #999;
+    white-space: nowrap;
+}
+
+/* Число крупнее подписи, но тем же весом: шрифт Alata идёт одним
+   начертанием, жирности тут всё равно не получить. */
+.imonems-cell b {
+    font-size: 1.15rem;
+    font-weight: 400;
+    letter-spacing: 0;
+    color: #111;
+    transition: opacity 0.2s ease;
+}
+
+/* Место под «20–60»: у «8–30» на знак меньше, и без запаса строка дёргалась
+   при переключении. Только у гостей — часам хватает одной цифры. */
+.imonems-cell b[data-fact="guests"],
+.imonems-cell b[data-fact="hours"] {
+    display: inline-block;
+    text-align: center;
+}
+
+.imonems-cell b[data-fact="guests"] {
+    min-width: 5.6ch;
+}
+
+.imonems-cell b[data-fact="hours"] {
+    min-width: 3.4ch;
+}
+
+.imonems-cell b.is-swapping {
+    opacity: 0;
+}
+
+/* Кнопка: единственное тёмное пятно в капсуле — по нему и понятно, что
+   нажимать надо сюда. Полосой её не делаем: внутри скруглённой оболочки
+   прямоугольник смотрелся бы вставкой из другого набора. */
+
+/* Заливка идёт сдвигом собственного градиента, а не псевдоэлементом: у
+   кнопки свой тёмный фон, и ::before с z-index: -1 ушёл бы под него — та же
+   грабля, что была с пунктом Mafia Online в шапке. */
+.imonems-cta {
+    display: inline-block;
+    padding: 0.8rem 1.6rem;
+    border: 1px solid #111;
+    border-radius: 999px;
+    background-color: #111;
+    background-image: linear-gradient(90deg, #fff 0 50%, #111 50% 100%);
+    background-size: 200% 100%;
+    background-position: 100% 0;
+    color: #fff;
+    font-size: 0.75rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background-position 0.5s cubic-bezier(0.33, 1, 0.68, 1), color 0.3s ease 0.1s, transform 0.2s ease;
+}
+
+@media (hover: hover) {
+    .imonems-cta:hover {
+        background-position: 0 0;
+        color: #111;
+    }
+}
+
+@media (hover: none) {
+    .imonems-cta:active {
+        transform: scale(0.985);
+        background: #333;
+    }
+}
+
+@media (max-width: 768px) {
+    .imonems-section {
+        padding: 4rem 0;
+    }
+
+    .imonems-title {
+        font-size: 1.8rem;
+    }
+
+    .imonems-lead {
+        margin-bottom: 2.5rem;
+        font-size: 0.95rem;
+    }
+
+    /* Лента со свайпом — тем же приёмом, что услуги и статьи: выход за
+       контейнер, snap по левому краю, скрытая полоса прокрутки. */
+    .imonems-strip .strip-track {
+        gap: 1rem;
+        margin: 0 -20px;
+        padding: 0.5rem 26px 1rem;
+        scroll-padding-left: 26px;
+    }
+
+    .imonems-card {
+        flex: 0 0 82%;
+    }
+
+    .imonems-strip .strip-controls {
+        display: flex;
+        justify-content: center;
+        margin-top: 1.4rem;
+    }
+
+    .imonems-strip .strip-progress,
+    .imonems-strip .strip-arrows {
+        display: none;
+    }
+
+    .imonems-strip .strip-dots {
+        display: flex;
+        gap: 0.55rem;
+    }
+
+    .imonems-strip .strip-dot {
+        width: 7px;
+        height: 7px;
+        padding: 0;
+        border: 0;
+        border-radius: 50%;
+        background: #d6d6d6;
+    }
+
+    .imonems-strip .strip-dot.is-on {
+        background: #111;
+    }
+
+    /* На телефоне капсула разворачивается в столбик: в одну строку три зоны
+       не помещаются, а горизонтальная прокрутка здесь была бы хуже переноса.
+       Оболочка при этом растворяется — рамка вокруг столбика смотрелась бы
+       коробкой. */
+    .imonems-capsule {
+        flex-direction: column;
+        gap: 1rem;
+        padding: 0;
+        background: none;
+        border: 0;
+        box-shadow: none;
+    }
+
+    .imonems-cells {
+        gap: 0.9rem;
+        padding: 0;
+    }
+
+    .imonems-cell {
+        font-size: 0.68rem;
+    }
+
+    .imonems-cell b {
+        font-size: 1.05rem;
+    }
+
+    .imonems-cta {
+        width: 100%;
+        max-width: 320px;
+        text-align: center;
+        padding: 0.9rem 1.6rem;
+    }
+
+    /* Текст карточек на телефоне тоже по центру — вместе с заголовком. */
+    .imonems-card p {
+        text-align: center;
+    }
+
+}
