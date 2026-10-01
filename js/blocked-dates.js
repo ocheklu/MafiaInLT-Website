@@ -21,24 +21,6 @@ function isDateBlocked(dateString) {
     return blockedDates.includes(dateString);
 }
 
-// ===========================
-// ДАТЫ С НЕПОДТВЕРЖДЁННЫМ ЗАПРОСОМ
-// ===========================
-
-// Сюда пишем даты, на которые есть запрос, но бронь ещё не подтверждена.
-// В календаре они помечаются полупрозрачно и остаются доступными для выбора:
-// запрос — это ещё не бронь. Подтвердился — переносим строку в blockedDates,
-// отвалился — просто удаляем.
-const pendingDates = [
-    '2026-12-16',
-    '2026-12-19',
-];
-
-// Функция для проверки, есть ли на дату незакрытый запрос
-function isDatePending(dateString) {
-    return pendingDates.includes(dateString);
-}
-
 // Функция для добавления даты в список заблокированных
 function addBlockedDate(dateString) {
     if (!isDateBlocked(dateString)) {
@@ -59,5 +41,5 @@ function removeBlockedDate(dateString) {
 
 // Экспорт для использования в calendar.js
 if (typeof module !== 'undefined' && module.exports) {
-    module.exports = { blockedDates, isDateBlocked, pendingDates, isDatePending, addBlockedDate, removeBlockedDate };
+    module.exports = { blockedDates, isDateBlocked, addBlockedDate, removeBlockedDate };
 }

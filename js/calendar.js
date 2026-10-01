@@ -31,22 +31,19 @@ class Calendar {
                 months: ['Sausis', 'Vasaris', 'Kovas', 'Balandis', 'Gegužė', 'Birželis',
                          'Liepa', 'Rugpjūtis', 'Rugsėjis', 'Spalis', 'Lapkritis', 'Gruodis'],
                 weekDays: ['Pr', 'An', 'Tr', 'Kt', 'Pn', 'Št', 'Sk'],
-                dateTaken: 'Rezervuota',
-                dateRequested: 'Šiai datai turime užklausą'
+                dateTaken: 'Rezervuota'
             },
             ru: {
                 months: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь',
                          'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
                 weekDays: ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'],
-                dateTaken: 'Забронировано',
-                dateRequested: 'На эту дату есть запрос'
+                dateTaken: 'Забронировано'
             },
             en: {
                 months: ['January', 'February', 'March', 'April', 'May', 'June',
                          'July', 'August', 'September', 'October', 'November', 'December'],
                 weekDays: ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'],
-                dateTaken: 'Booked',
-                dateRequested: 'This date has a pending request'
+                dateTaken: 'Booked'
             }
         };
         this.l10n = L10N[lang] || L10N.lt;
@@ -181,58 +178,15 @@ class Calendar {
                 dayElement.addEventListener('click', () => this.selectDate(currentDayDate));
             }
             
-            // Незакрытый запрос — полупрозрачная метка поверх обычного дня.
-            // Ставится последней и ничего не отменяет: дата остаётся выбираемой,
-            // запрос — это ещё не бронь. Прошедшие и занятые дни не помечаем.
-            if (!this.isRangeMode && typeof isDatePending !== "undefined" && isDatePending(dateString) &&
-                !dayElement.classList.contains("disabled") && !dayElement.classList.contains("blocked")) {
-                dayElement.classList.add("pending");
-                if (!dayElement.title) dayElement.title = this.l10n.dateRequested;
-                dayElement.addEventListener("click", () => this.showHint(dayElement, this.l10n.dateRequested));
-            }
-
             grid.appendChild(dayElement);
         }
         
         this.container.appendChild(grid);
-
-        this.renderLegend();
     }
     
-    // Легенда под сеткой. Нужна потому, что подсказка по тапу работает
-    // только для того, кто догадался нажать: чёрный квадрат ещё можно
-    // принять за кнопку, а день с запросом от свободного на глаз почти
-    // не отличим. В режиме диапазона (аренда атрибутики) занятых дней
-    // нет вовсе — там легенды не показываем.
-    renderLegend() {
-        if (this.isRangeMode) return;
-
-        const hasBlocked = typeof blockedDates !== "undefined" && blockedDates.length > 0;
-        const hasPending = typeof pendingDates !== "undefined" && pendingDates.length > 0;
-        if (!hasBlocked && !hasPending) return;
-
-        const box = document.createElement("div");
-        box.className = "calendar-legend";
-
-        const item = (kind, text) => {
-            const row = document.createElement("span");
-            row.className = "calendar-legend-item";
-            const mark = document.createElement("i");
-            mark.className = "calendar-legend-mark is-" + kind;
-            row.appendChild(mark);
-            row.appendChild(document.createTextNode(text));
-            return row;
-        };
-
-        if (hasBlocked) box.appendChild(item("booked", this.l10n.dateTaken));
-        if (hasPending) box.appendChild(item("pending", this.l10n.dateRequested));
-
-        this.container.appendChild(box);
-    }
-
     // Подсказка по тапу: на телефоне нативный title не показывается,
-    // а занятую дату и дату с запросом объяснить надо. Пузырёк тот же,
-    // что у копирования почты (.copy-toast в styles.css).
+    // а занятую дату объяснить надо. Пузырёк тот же, что у копирования
+    // почты (.copy-toast в styles.css).
     showHint(el, text) {
         if (Calendar._hint) Calendar._hint.remove();
 

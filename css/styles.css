@@ -1452,7 +1452,7 @@ section {
     font-size: 0.9rem;
 }
 
-.calendar-day:hover:not(.blocked):not(.disabled):not(.pending) {
+.calendar-day:hover:not(.blocked):not(.disabled) {
     background-color: #f0f0f0;
 }
 
@@ -1480,61 +1480,9 @@ section {
     cursor: not-allowed;
 }
 
-/* Дата с незакрытым запросом — та же метка в полсилы: серая заливка,
-   число остаётся чёрным. Дата выбираемая, запрос — это ещё не бронь.
-   Защита :not(.selected) обязательна: класс .pending ставится поверх
-   остальных, и без неё он перебил бы собственный выбор пользователя. */
-.calendar-day.pending:not(.selected) {
-    background-color: rgba(0, 0, 0, 0.18);
-    border-color: rgba(0, 0, 0, 0.28);
-    color: var(--primary-color);
-}
-
-.calendar-day.pending:not(.selected):hover {
-    background-color: rgba(0, 0, 0, 0.26);
-}
-
 .calendar-day.disabled {
     color: #ccc;
     cursor: not-allowed;
-}
-
-/* Легенда под сеткой календаря. Объясняет две метки до того, как человек
-   что-то нажмёт: нативная подсказка при наведении на телефоне не
-   показывается, а подсказка по тапу доходит только до того, кто догадался
-   нажать. Квадратики повторяют заливку самих дней — отдельных цветов нет. */
-.calendar-legend {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.4rem 1.1rem;
-    margin-top: 0.9rem;
-    font-size: 0.72rem;
-    color: #666;
-}
-
-.calendar-legend-item {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.45rem;
-    line-height: 1.3;
-}
-
-.calendar-legend-mark {
-    flex: 0 0 auto;
-    width: 12px;
-    height: 12px;
-    border: 1px solid transparent;
-    border-radius: 2px;
-}
-
-.calendar-legend-mark.is-booked {
-    background-color: var(--primary-color);
-    border-color: var(--primary-color);
-}
-
-.calendar-legend-mark.is-pending {
-    background-color: rgba(0, 0, 0, 0.18);
-    border-color: rgba(0, 0, 0, 0.28);
 }
 
 .calendar-weekday {
