@@ -206,6 +206,7 @@
     border: 1px solid #ececec;
     border-radius: 10px;
 }
+.article-brief-title,
 .article-toc h2 {
     font-size: 0.8rem !important;
     margin: 0 0 1rem 0 !important;
@@ -236,6 +237,62 @@
 }
 .article-toc a:hover { border-bottom-color: #1a1a1a; }
 
+/* Konspektas: trumpas atsakymas prieš turinį.
+   Та же карточка, что у оглавления, но на полтона темнее — чтобы два блока
+   подряд читались как разные, а не как один длинный серый кусок. */
+.article-brief {
+    margin: 2.5rem 0 1.5rem;
+    padding: 1.75rem 1.75rem 1.5rem;
+    background: #f3f3f1;
+    border: 1px solid #e4e4e0;
+    border-radius: 10px;
+}
+/* Заголовок блока. `section h2` в styles.css центрирует заголовки секций —
+   здесь это не нужно, поэтому выравнивание задано явно. Выделяется не размером
+   и не цветом, а тем, что чернила темнее меток строк, плюс короткая черта. */
+.article-brief-title {
+    text-align: left;
+    color: #4f4f49 !important;
+    letter-spacing: 0.16em;
+}
+.article-brief-title::after {
+    content: "";
+    display: block;
+    width: 26px;
+    height: 1px;
+    margin-top: 0.55rem;
+    background: #cdcdc6;
+}
+.article-brief-list {
+    margin: 0;
+    padding: 0;
+}
+.article-brief-row {
+    display: grid;
+    grid-template-columns: 10rem 1fr;
+    gap: 0 1.5rem;
+    padding: 0.8rem 0;
+    border-top: 1px solid #e4e4e0;
+}
+.article-brief-row:first-child { border-top: none; padding-top: 0.2rem; }
+.article-brief-row:last-child { padding-bottom: 0.2rem; }
+.article-brief dt {
+    margin: 0;
+    padding-top: 0.25rem;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: #8d8d87;
+    line-height: 1.55;
+}
+.article-brief dd {
+    margin: 0;
+    min-width: 0;
+    font-weight: 300;
+    font-size: 1rem;
+    line-height: 1.65;
+    color: #2c2c2c;
+}
 /* Nuotraukos */
 .article-figure {
     margin: 2.75rem 0;
@@ -441,6 +498,9 @@
 
 @media (max-width: 768px) {
     .article-toc ol { columns: 1; }
+    .article-brief { padding: 1.4rem 1.2rem 1.2rem; }
+    .article-brief-row { grid-template-columns: 1fr; gap: 0.2rem; padding: 0.75rem 0; }
+    .article-brief dt { padding-top: 0; line-height: 1.4; }
     .roles-grid,
     .roles-grid.roles-grid-5 { grid-template-columns: repeat(2, 1fr); }
     .article-figure { margin: 2rem -1rem; }
@@ -538,6 +598,31 @@
 
             <p>Žemiau surasite pilną instrukciją: kaip organizuoti žaidimą, kokius personažus įtraukti ir kiek jis truks. Taip pat pasidalinsiu vedėjo klaidomis ir papasakosiu, kaip išlaikyti žaidimo dinamiką.</p>
 
+            <section class="article-brief" aria-label="Trumpai">
+                <h2 class="article-brief-title">Trumpai</h2>
+                <dl class="article-brief-list">
+                    <div class="article-brief-row">
+                        <dt>Tikslas</dt>
+                        <dd>Mafija siekia eliminuoti visus taikiuosius, taikieji — išsiaiškinti, kas yra Mafija, ir eliminuoti ją balsavimo metu. Žaidimas tęsiasi tol, kol viena iš pusių visiškai eliminuojama: lygiųjų nebūna.</dd>
+                    </div>
+                    <div class="article-brief-row">
+                        <dt>Komandos</dt>
+                        <dd>Vaidmenys dalijami slapta, vokuose. Vokuose visada yra Mafija ir Taikieji.</dd>
+                    </div>
+                    <div class="article-brief-row">
+                        <dt>Žaidėjų skaičius ir personažai</dt>
+                        <dd>Optimalu dešimt: 3 Mafijos, Daktaras, Šerifas, Advokatas ir 4 įprasti taikieji.</dd>
+                    </div>
+                    <div class="article-brief-row">
+                        <dt>Fazės</dt>
+                        <dd>Diena — prisistatymas, įtarimų ratas, laisva diskusija ir balsavimas. Naktis — pažadinama Mafija, Daktaras, Šerifas ir Advokatas.</dd>
+                    </div>
+                    <div class="article-brief-row">
+                        <dt>Trukmė</dt>
+                        <dd>~40 min.</dd>
+                    </div>
+                </dl>
+            </section>
             <nav class="article-toc" aria-label="Straipsnio turinys">
                 <h2>Straipsnio turinys</h2>
                 <ol>
