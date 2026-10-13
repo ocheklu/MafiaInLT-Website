@@ -10,6 +10,7 @@
     <meta property="og:description" content="Mafijos žaidimo organizavimo paslaugos Vilniuje, Kaune ir Klaipėdoje. Žaidimo organizavimas, renginio organizavimas ir atributikos nuoma.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://mafiain.lt/paslaugos.html">
+    <meta property="og:locale" content="lt_LT">
     <meta property="og:image" content="https://mafiain.lt/images/og/og-cover-liveclub.jpg">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
@@ -103,14 +104,19 @@
 
     <!-- Favicon -->
     <link rel="canonical" href="https://mafiain.lt/paslaugos.html">
+    <link rel="alternate" hreflang="lt" href="https://mafiain.lt/paslaugos.html">
+    <link rel="alternate" hreflang="ru" href="https://mafiain.lt/ru/paslaugos.html">
+    <link rel="alternate" hreflang="en" href="https://mafiain.lt/en/paslaugos.html">
+    <link rel="alternate" hreflang="x-default" href="https://mafiain.lt/paslaugos.html">
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="manifest" href="/site.webmanifest">
     
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Alata&display=swap" rel="stylesheet">
+    <!-- Шрифт свой, не с Google: preload догоняет @font-face в styles.css.
+         crossorigin обязателен даже для своего домена — без него файл скачается дважды. -->
+    <link rel="preload" href="fonts/alata-latin.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="fonts/alata-latin-ext.woff2" as="font" type="font/woff2" crossorigin>
     
 <link rel="preload" as="image" href="images/hero/hero-services.webp" type="image/webp" fetchpriority="high">
 <link rel="stylesheet" href="css/styles.css">
@@ -194,13 +200,26 @@
                 </ul>
                 
                 <div class="language-switcher">
-                    <button class="lang-btn active" data-lang="lt">LT</button>
-                    <button class="lang-btn" data-lang="ru">RU</button>
-                    <button class="lang-btn" data-lang="en">EN</button>
+                    <div class="lang-row">
+                        <div class="lang-codes" id="langCodes">
+                            <button class="lang-btn active" data-lang="lt">LT</button>
+                            <button class="lang-btn" data-lang="ru">RU</button>
+                            <button class="lang-btn" data-lang="en">EN</button>
+                        </div>
+                        <button class="lang-trigger" aria-expanded="false" aria-controls="langCodes" aria-label="Kalba">
+                            <svg class="lang-globe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
+                                <circle cx="12" cy="12" r="9" />
+                                <path d="M3 12h18" />
+                                <path d="M12 3c2.5 2.4 3.9 5.6 3.9 9s-1.4 6.6-3.9 9c-2.5-2.4-3.9-5.6-3.9-9s1.4-6.6 3.9-9z" />
+                            </svg>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
     </nav>
+
+<main>
 
     <!-- Hero Section -->
     <section class="hero hero-services">
@@ -461,7 +480,7 @@
                 <li class="flow-step">
                     <div class="flow-body">
                         <div class="flow-head">
-                            <h3>Pradžia</h3>
+                            <h3>Programos pradžia</h3>
                             <span class="flow-time">~15 min</span>
                         </div>
                         <p>Kiekvieną svečią kviečiame prie stalo individualiai, atkreipdami dėmesį į jo autentiškus bruožus.</p>
@@ -999,7 +1018,10 @@
         </div>
     </section>
 
+</main>
+
     <!-- Footer -->
+
 <footer class="footer">
     <div class="container" style="text-align: center; padding: 3rem 0;">
         <div class="footer-social-links">

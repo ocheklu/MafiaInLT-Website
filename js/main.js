@@ -76,9 +76,49 @@ document.addEventListener('DOMContentLoaded', function() {
             const lang = this.getAttribute('data-lang');
             if (lang === PAGE_LANG) return;
             localStorage.setItem('selectedLanguage', lang);
-            window.location.href = langHref(lang);
+            const href = langHref(lang);
+
+            // Кому анимации мешают — уходим сразу, без затухания.
+            const calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            if (calm) {
+                window.location.href = href;
+                return;
+            }
+
+            const root = document.documentElement;
+            root.classList.add('lang-leaving');
+            setTimeout(() => { window.location.href = href; }, 170);
+
+            // Страховка: если переход не случился вовсе (файла нет, заблокирован),
+            // возвращаем страницу — иначе человек остался бы смотреть в пустоту.
+            setTimeout(() => { root.classList.remove('lang-leaving'); }, 2500);
         });
     });
+    // Глобус открывает список языков. Своего состояния он не хранит:
+    // клик по языку уводит на другую страницу, и кнопка собирается там заново.
+    const switcher = document.querySelector('.language-switcher');
+    const langTrigger = switcher && switcher.querySelector('.lang-trigger');
+
+    if (langTrigger) {
+        const closeLangMenu = () => {
+            switcher.classList.remove('open');
+            langTrigger.setAttribute('aria-expanded', 'false');
+        };
+
+        langTrigger.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const open = switcher.classList.toggle('open');
+            langTrigger.setAttribute('aria-expanded', open ? 'true' : 'false');
+        });
+
+        document.addEventListener('click', function(e) {
+            if (!switcher.contains(e.target)) closeLangMenu();
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeLangMenu();
+        });
+    }
 });
 
 // Строит ссылку на текущую страницу в другой языковой версии.
@@ -88,16 +128,21 @@ function langHref(targetLang) {
     let file = path.split('/').pop();
     if (!file || !file.includes('.')) file = 'index.html';
 
-    const inLangDir = /\/(ru|en)\/[^\/]*$/.test(path);
+    // Где мы находимся: в языковой папке и/или в блоге.
+    const inLangDir = /\/(ru|en)\//.test(path);
     const inBlog = /\/straipsniai\//.test(path);
-    const prefix = (inLangDir || inBlog) ? '../' : '';
 
-    // Блог пока только на литовском — с него ведём на главную нужного языка
+    /* Блог переведён, поэтому со статьи ведём на ту же статью.
+       Путь считаем от текущей папки до корня сайта: из /straipsniai/ это
+       один уровень, из /ru/straipsniai/ — два. */
     if (inBlog) {
-        return targetLang === 'lt' ? prefix + 'index.html' : prefix + targetLang + '/index.html';
+        const up = inLangDir ? '../../' : '../';
+        const dir = targetLang === 'lt' ? '' : targetLang + '/';
+        return up + dir + 'straipsniai/' + file;
     }
 
-    return targetLang === 'lt' ? prefix + file : prefix + targetLang + '/' + file;
+    const up = inLangDir ? '../' : '';
+    return targetLang === 'lt' ? up + file : up + targetLang + '/' + file;
 }
 
 function updateLanguageUI(lang) {
@@ -824,12 +869,28 @@ window.addEventListener('click', function(e) {
     // Четыре ступени, одинаковые и здесь, и в калькуляторе. Ползунок ходит
     // по номеру ступени, а не по сумме: тогда при переключении столов
     // выбранный уровень остаётся тем же, меняется только цена.
-    const DECOR_LEVELS = [
-        'Žvakės ir gėlių kompozicija',
-        'Platesnė kompozicija, daugiau žvakių',
-        'Dekoras, smulkūs akcentai ir įėjimo zona',
-        'Konceptualus visos erdvės dekoravimas su apšvietimu'
-    ];
+    // Язык берётся из <html lang>: у копий /ru/ и /en/ свои подписи ступеней.
+    const DECOR_TEXT = {
+        lt: [
+            'Žvakės ir gėlių kompozicija',
+            'Platesnė kompozicija, daugiau žvakių',
+            'Dekoras, smulkūs akcentai ir įėjimo zona',
+            'Konceptualus visos erdvės dekoravimas su apšvietimu'
+        ],
+        ru: [
+            'Свечи и цветочная композиция',
+            'Композиция шире, больше свечей',
+            'Декор, мелкие акценты и зона входа',
+            'Концептуальное оформление всего пространства с подсветкой'
+        ],
+        en: [
+            'Candles and a flower arrangement',
+            'A wider arrangement, more candles',
+            'Decor, small accents and the entrance area',
+            'A concept design for the whole space, with lighting'
+        ]
+    };
+    const DECOR_LEVELS = DECOR_TEXT[PAGE_LANG] || DECOR_TEXT.lt;
 
     // Стол стоит 200 € за ступень, два стола — 400 €
     let stepPrice = 200;

@@ -12,7 +12,7 @@
 - Savų patalpų neturime: atvykstame į kliento vietą arba padedame ją surasti
 - Kalbos: lietuvių, rusų, anglų. Galime vesti renginį keliomis kalbomis vienu metu
 - Įvertinimas Google: 5,0 iš 5 (19 atsiliepimų)
-- Svetainė: https://mafiain.lt
+- Svetainė: https://mafiain.lt (lietuviškai), https://mafiain.lt/ru/ (rusiškai), https://mafiain.lt/en/ (angliškai)
 - El. paštas: info@mafiain.lt
 - Telefonai: +370 65 257 838, +370 67 168 072
 
@@ -73,7 +73,7 @@ Prices: **Game hosting 600–3150 €** (one table 600 €, 8–30 guests; two t
 
 Ten people play at one table at a time; one session lasts 40–60 minutes and the full programme about 3 hours. No experience needed — the host explains the rules beforehand. Book at least a week ahead; same-day events have been done.
 
-Contact: info@mafiain.lt, +370 65 257 838, +370 67 168 072, https://mafiain.lt (site in Lithuanian).
+Contact: info@mafiain.lt, +370 65 257 838, +370 67 168 072, https://mafiain.lt/en/ (English version of the site; also in Lithuanian at https://mafiain.lt and Russian at https://mafiain.lt/ru/). Service details and price calculator: https://mafiain.lt/en/paslaugos.html. Rules article: https://mafiain.lt/en/straipsniai/mafija-zaidimas-taisykles.html.
 
 ## Кратко (по-русски)
 
@@ -85,4 +85,4 @@ MafiaInLT — первый клуб игры «Мафия» в Литве, ра�
 
 За одним столом одновременно играют 10 человек; одна сессия длится 40–60 минут, полная программа — около 3 часов. Опыт не нужен: ведущий объясняет правила перед игрой. Бронировать лучше минимум за неделю, но проводили мероприятия и за сутки.
 
-Контакты: info@mafiain.lt, +370 65 257 838, +370 67 168 072, https://mafiain.lt (сайт на литовском).
+Контакты: info@mafiain.lt, +370 65 257 838, +370 67 168 072, https://mafiain.lt/ru/ (русская версия сайта; есть также литовская https://mafiain.lt и английская https://mafiain.lt/en/). Услуги и калькулятор цены: https://mafiain.lt/ru/paslaugos.html. Статья о правилах: https://mafiain.lt/ru/straipsniai/mafija-zaidimas-taisykles.html.

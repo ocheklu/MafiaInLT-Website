@@ -11,6 +11,7 @@
     <meta property="og:description" content="Kokius asmens duomenis renkame, kodėl juos tvarkome ir kokias teises turite.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://mafiain.lt/privatumo-politika.html">
+    <meta property="og:locale" content="lt_LT">
     <meta property="og:image" content="https://mafiain.lt/images/og/og-cover-liveclub.jpg">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
@@ -23,9 +24,10 @@
     <script src="js/tracking.js"></script>
 
     <link rel="icon" type="image/png" href="images/logo.webp">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Alata&display=swap" rel="stylesheet">
+    <!-- Шрифт свой, не с Google: preload догоняет @font-face в styles.css.
+         crossorigin обязателен даже для своего домена — без него файл скачается дважды. -->
+    <link rel="preload" href="fonts/alata-latin.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="fonts/alata-latin-ext.woff2" as="font" type="font/woff2" crossorigin>
 
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="css/premium.css">
@@ -57,13 +59,26 @@
                 </ul>
                 
                 <div class="language-switcher">
-                    <button class="lang-btn active" data-lang="lt">LT</button>
-                    <button class="lang-btn" data-lang="ru">RU</button>
-                    <button class="lang-btn" data-lang="en">EN</button>
+                    <div class="lang-row">
+                        <div class="lang-codes" id="langCodes">
+                            <button class="lang-btn active" data-lang="lt">LT</button>
+                            <button class="lang-btn" data-lang="ru">RU</button>
+                            <button class="lang-btn" data-lang="en">EN</button>
+                        </div>
+                        <button class="lang-trigger" aria-expanded="false" aria-controls="langCodes" aria-label="Kalba">
+                            <svg class="lang-globe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
+                                <circle cx="12" cy="12" r="9" />
+                                <path d="M3 12h18" />
+                                <path d="M12 3c2.5 2.4 3.9 5.6 3.9 9s-1.4 6.6-3.9 9c-2.5-2.4-3.9-5.6-3.9-9s1.4-6.6 3.9-9z" />
+                            </svg>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
     </nav>
+
+<main>
 
     <article class="blog-article" style="padding-top: 140px;">
         <div class="blog-article-header">
@@ -125,7 +140,10 @@
         </div>
     </article>
 
+</main>
+
     <!-- Footer -->
+
 <footer class="footer">
     <div class="container" style="text-align: center; padding: 3rem 0;">
         <div class="footer-social-links">

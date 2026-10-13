@@ -418,7 +418,15 @@ const CALC_L10N = {
         requestFailed: 'Užklausa neišsiųsta. Prašome bandyti dar kartą.',
         selectEndDate: 'Pasirinkite pabaigos datą',
         sending: 'Siunčiama…',
-        sent: 'Išsiųsta'
+        sent: 'Išsiųsta',
+        included: 'įskaičiuota',
+        decorLevels: [
+            'Be dekoro',
+            'Žvakės ir gėlių kompozicija',
+            'Platesnė kompozicija, daugiau žvakių',
+            'Dekoras, smulkūs akcentai ir įėjimo zona',
+            'Konceptualus visos erdvės dekoravimas su apšvietimu'
+        ]
     },
     ru: {
         serviceNames: {
@@ -445,12 +453,20 @@ const CALC_L10N = {
         requestFailed: 'Запрос не отправлен. Пожалуйста, попробуйте ещё раз.',
         selectEndDate: 'Выберите дату окончания',
         sending: 'Отправляем…',
-        sent: 'Отправлено'
+        sent: 'Отправлено',
+        included: 'включено',
+        decorLevels: [
+            'Без оформления',
+            'Свечи и цветочная композиция',
+            'Композиция шире, больше свечей',
+            'Декор, мелкие акценты и зона входа',
+            'Концептуальное оформление всего пространства с подсветкой'
+        ]
     },
     en: {
         serviceNames: {
-            'zaidimo': 'Game organization',
-            'renginio': 'Event organization',
+            'zaidimo': 'Game organisation',
+            'renginio': 'Event organisation',
             'atributika': 'Prop rental'
         },
         service: 'Service',
@@ -472,7 +488,15 @@ const CALC_L10N = {
         requestFailed: 'The request was not sent. Please try again.',
         selectEndDate: 'Select an end date',
         sending: 'Sending…',
-        sent: 'Sent'
+        sent: 'Sent',
+        included: 'included',
+        decorLevels: [
+            'No decoration',
+            'Candles and a flower arrangement',
+            'A wider arrangement, more candles',
+            'Decor, small accents and the entrance area',
+            'A concept design for the whole space, with lighting'
+        ]
     }
 };
 
@@ -482,16 +506,18 @@ const CALC_T = CALC_L10N[CALC_LANG] || CALC_L10N.lt;
 const SVC_NAMES = {
     '3 mafijos sesijos':                      { ru: '3 сессии мафии',                       en: '3 Mafia sessions' },
     '6 mafijos sesijos':                      { ru: '6 сессий мафии',                       en: '6 Mafia sessions' },
-    'Vedėjo paslaugos':                       { ru: 'Услуги ведущего',                      en: 'Host services' },
-    'Vedėjų paslaugos':                       { ru: 'Услуги ведущих',                       en: 'Host services' },
-    'Atributika':                             { ru: 'Реквизит',                             en: 'Props' },
+    'Vedėjo paslaugos':                       { ru: 'Услуги ведущего',                      en: 'Host' },
+    'Vedėjų paslaugos':                       { ru: 'Услуги ведущих',                       en: 'Two hosts' },
+    'Atributika':                             { ru: 'Атрибутика',                         en: 'Game props' },
     'Apvalus stalas su staltiese':            { ru: 'Круглый стол со скатертью',            en: 'Round table with tablecloth' },
-    'Apvalus stalai su staltiese':            { ru: 'Круглые столы со скатертями',          en: 'Round tables with tablecloths' },
+    'Apvalūs stalai su staltiese':            { ru: 'Круглые столы со скатертями',          en: 'Round tables with tablecloths' },
     'Svečių vardų kortelės':                  { ru: 'Именные карточки гостей',              en: 'Guest name cards' },
+  'Dekoravimas':                            { ru: 'Оформление',                        en: 'Decoration' },
+  'Koordinavimo paslauga':                  { ru: 'Координация',                       en: 'Coordination' },
     'Stalo dekoravimas':                      { ru: 'Оформление стола',                     en: 'Table decoration' },
     'Stalų dekoravimas':                      { ru: 'Оформление столов',                    en: 'Table decoration' },
     'Vietos paieška ir rezervacija':          { ru: 'Поиск и бронирование площадки',        en: 'Venue search and booking' },
-    'Programos planavimas':                   { ru: 'Планирование программы',               en: 'Program planning' },
+    'Programos planavimas':                   { ru: 'Планирование программы',               en: 'Programme planning' },
     'Renginio koordinavimas vietoje':         { ru: 'Координация мероприятия на месте',     en: 'On-site event coordination' },
     'Erdvės dekoravimas':                     { ru: 'Оформление пространства',              en: 'Venue decoration' },
     'Foto paslaugos (3 val.)':                { ru: 'Фотосъёмка (3 ч)',                     en: 'Photography (3 h)' },
@@ -726,13 +752,7 @@ function showServicesStep() {
             // Четыре ступени, те же, что в блоке «Kur vyksta» на странице.
             // Ползунок ходит по номеру ступени: цена ступени зависит от
             // числа столов, а описание — нет.
-            const DECOR_LEVELS = [
-                'Be dekoro',
-                'Žvakės ir gėlių kompozicija',
-                'Platesnė kompozicija, daugiau žvakių',
-                'Dekoras, smulkūs akcentai ir įėjimo zona',
-                'Konceptualus visos erdvės dekoravimas su apšvietimu'
-            ];
+            const DECOR_LEVELS = CALC_T.decorLevels;
 
             const saved = calculatorState.additionalServices.find(s => s.name === service.name);
             const startLevel = service.steps.indexOf(service.base);
@@ -769,7 +789,7 @@ function showServicesStep() {
                     // У мероприятия первая ступень — это уже второй уровень
                     // описания: «Be dekoro» там не бывает.
                     note.textContent = DECOR_LEVELS[service.base ? currentLevel + 1 : currentLevel] +
-                        (service.base && current <= service.base ? ' · įskaičiuota' : '');
+                        (service.base && current <= service.base ? ' · ' + CALC_T.included : '');
                 }
                 range.style.backgroundSize =
                     (currentLevel / (service.steps.length - 1)) * 100 + '% 100%';

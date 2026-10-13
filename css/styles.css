@@ -1,4 +1,75 @@
 /* ===========================
+   ШРИФТЫ — СВОИ, НЕ С GOOGLE
+   =========================== */
+
+/* Файлы лежат в fonts/ и отдаются с нашего же домена. До 7 октября они
+   тянулись с fonts.googleapis.com: браузер рисовал страницу системным
+   Arial, а потом подменял шрифт — и вёрстка пересчитывалась уже после
+   того, как человек увидел страницу. На переключении языка это читалось
+   как рывок. Теперь файл приходит со своего домена по уже открытому
+   соединению, а в <head> страниц стоит preload.
+
+   Пути внутри этого файла относительные (../fonts/...) — поэтому они
+   одинаково верны и для корневых страниц, и для /ru/, /en/, и для блога.
+
+   unicode-range взят из CSS Google: по нему браузер сам решает, какой
+   файл качать под конкретную букву. Трогать диапазоны руками не нужно.
+
+   Alata: latin и latin-ext (литовские диакритики — во втором).
+   Jost: cyrillic, latin, latin-ext — им набирается русская копия,
+   в Alata кириллицы нет вовсе. */
+
+/* Alata · latin */
+@font-face {
+    font-family: 'Alata';
+    font-style: normal;
+    font-weight: 400;
+    font-display: block;
+    src: url('../fonts/alata-latin.woff2') format('woff2');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* Alata · latin-ext */
+@font-face {
+    font-family: 'Alata';
+    font-style: normal;
+    font-weight: 400;
+    font-display: block;
+    src: url('../fonts/alata-latin-ext.woff2') format('woff2');
+    unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+/* Jost · latin */
+@font-face {
+    font-family: 'Jost';
+    font-style: normal;
+    font-weight: 400;
+    font-display: block;
+    src: url('../fonts/jost-latin.woff2') format('woff2');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* Jost · latin-ext */
+@font-face {
+    font-family: 'Jost';
+    font-style: normal;
+    font-weight: 400;
+    font-display: block;
+    src: url('../fonts/jost-latin-ext.woff2') format('woff2');
+    unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+/* Jost · cyrillic */
+@font-face {
+    font-family: 'Jost';
+    font-style: normal;
+    font-weight: 400;
+    font-display: block;
+    src: url('../fonts/jost-cyrillic.woff2') format('woff2');
+    unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+
+/* ===========================
    ОБЩИЕ СТИЛИ
    =========================== */
 
@@ -35,6 +106,26 @@ html {
        становится 15px: ленты вылезали за экран на 5px, и главную
        можно было толкнуть вбок. */
     --container-pad: 20px;
+
+    /* Шрифт один на весь сайт и вынесен в токен, потому что русская копия
+       набирается другим: в Alata нет кириллицы. */
+    --font-main: 'Alata', sans-serif;
+}
+
+/* Кириллица. Alata её не содержит — Google Fonts отдаёт только latin,
+   latin-ext и vietnamese, на cyrillic отвечает 400. Без этой подмены
+   русская копия набиралась системным шрифтом.
+
+   Jost закрывает cyrillic, latin и latin-ext одним файлом — латинские
+   вставки внутри русской фразы («MafiaInLT», «Klaipėda») остаются в том
+   же шрифте. Пара «Alata для латиницы + другой шрифт для кириллицы» дала
+   бы шов на каждом смешанном слове, поэтому копия идёт целиком на Jost.
+   До 7 октября пробовали Golos Text — владельцу не подошёл.
+
+   Сам файл шрифта подключает сборщик копий (vertimai/build-copy.js):
+   в литовских и английских страницах остаётся Alata. */
+html[lang="ru"] {
+    --font-main: 'Jost', sans-serif;
 }
 
 /* overflow-x на body, а не на html: на html он ломает position: sticky
@@ -43,7 +134,7 @@ html {
    экрана, страницу хотя бы нельзя будет утащить вбок. */
 body {
     overflow-x: hidden;
-    font-family: 'Alata', sans-serif;
+    font-family: var(--font-main);
     line-height: 1.6;
     color: var(--text-color);
     background-color: var(--bg-color);
@@ -311,28 +402,144 @@ img {
     display: none !important;
 }
 
-/* Переключатель языков скрыт до публикации /ru/ и /en/ —
-   иначе кнопки ведут в 404. Вернуть `display: flex`, когда копии выйдут. */
+/* Уход на другую языковую версию: страница гаснет за 160мс.
+   Переход между языками — это полная перезагрузка (копии физически
+   отдельные страницы), и без затухания смена читается как рывок.
+
+   `transition` объявлен внутри состояния, а не на `body` вообще:
+   глобальный переход по прозрачности мешал бы появлению секций
+   и анимациям героя, которые тоже ездят по opacity. */
+html.lang-leaving body {
+    opacity: 0;
+    transition: opacity 0.16s ease;
+}
+
+/* Переключатель языков — глобус у правого края шапки.
+
+   В покое виден только глобус; по клику три кода выезжают влево прямо
+   в строке шапки. Выпадающей панели нет сознательно: ничего не ложится
+   поверх страницы, и на телефоне не нужно решать, куда её опускать.
+   Цена решения: в покое не видно, какой язык открыт — выбрано владельцем
+   7 октября, прошлый вид (полоса с рамкой и панель) читался как поле формы.
+
+   Виден вместе с копиями: пока /ru/ и /en/ не в проде, кнопки ведут в 404,
+   поэтому эта разметка и копии обязаны уехать одним коммитом. */
 .language-switcher {
-    gap: 0.5rem;
-    display: none !important;
+    flex: none;
+    display: flex;
     align-items: center;
 }
 
-.lang-btn {
-    background: transparent;
-    border: 1px solid var(--border-color);
-    padding: 5px 12px;
-    border-radius: 20px;
-    cursor: pointer;
-    font-weight: 500;
-    transition: var(--transition);
+.lang-row {
+    display: flex;
+    align-items: center;
 }
 
-.lang-btn:hover,
+/* Коды занимают своё место всегда — ширина переключателя не меняется,
+   поэтому меню в центре шапки не сдвигается ни на пиксель при открытии.
+   Скрыты не шириной, а прозрачностью; `visibility` обязателен — без него
+   невидимые кнопки остаются в обходе табом и в озвучке скринридера. */
+.lang-codes {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    margin-right: 0.9rem;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.26s ease, visibility 0.26s;
+}
+
+.language-switcher.open .lang-codes {
+    opacity: 1;
+    visibility: visible;
+}
+
+.lang-btn {
+    padding: 0;
+    background: none;
+    border: none;
+    border-radius: 0;
+    font-family: var(--font-main);
+    font-size: 0.78rem;
+    letter-spacing: 0.12em;
+    color: rgba(0, 0, 0, 0.4);
+    white-space: nowrap;
+    cursor: pointer;
+    /* Каждый код приезжает справа: ширина больше не анимируется,
+       и направление жеста держится только на сдвиге. */
+    transform: translateX(7px);
+    transition: color 0.22s ease,
+                opacity 0.08s ease,
+                transform 0.42s cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+.language-switcher.open .lang-btn {
+    transform: translateX(0);
+}
+
+/* Задержки по порядку — глаз читает, что строка пришла от глобуса. */
+.language-switcher.open .lang-btn:nth-child(2) { transition-delay: 0.05s; }
+.language-switcher.open .lang-btn:nth-child(1) { transition-delay: 0.1s; }
+
+/* Текущий язык держится яркостью, не цветом и не заливкой —
+   как пункты в мобильном меню. */
 .lang-btn.active {
-    background-color: var(--primary-color);
-    color: var(--bg-color);
+    color: var(--primary-color);
+}
+
+@media (hover: hover) {
+    .lang-btn:hover {
+        color: var(--primary-color);
+    }
+}
+
+/* У кода нет своего фона, поэтому на тап отвечает прозрачностью,
+   а не масштабом: масштаб на тексте не читается. */
+@media (hover: none) {
+    .lang-btn:active {
+        opacity: 0.72;
+    }
+}
+
+.lang-trigger {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    flex: none;
+    padding: 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.lang-globe {
+    width: 18px;
+    height: 18px;
+    flex: none;
+    opacity: 0.55;
+    transition: opacity 0.25s ease,
+                transform 0.42s cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+/* Поворот глобуса — единственный признак открытого состояния:
+   рамки и фона у кнопки нет. */
+.lang-trigger[aria-expanded="true"] .lang-globe {
+    opacity: 0.9;
+    transform: rotate(-24deg);
+}
+
+@media (hover: hover) {
+    .lang-trigger:hover .lang-globe {
+        opacity: 0.85;
+    }
+}
+
+@media (hover: none) {
+    .lang-trigger:active .lang-globe {
+        opacity: 0.9;
+    }
 }
 
 .mobile-menu-toggle {
@@ -960,7 +1167,7 @@ section {
     border-radius: 2px;
     background-color: #f7f7f7;
     color: #000;
-    font-family: 'Alata', sans-serif;
+    font-family: var(--font-main);
     font-size: 0.8rem;
     font-weight: 500;
     letter-spacing: 0.14em;
@@ -1015,7 +1222,7 @@ section {
     border-radius: 2px;
     /* 16px: на меньшем размере iOS зумит страницу при фокусе */
     font-size: 1rem;
-    font-family: 'Alata', sans-serif;
+    font-family: var(--font-main);
     color: #000;
     background-color: #fff;
     transition: border-color 0.3s ease;
@@ -1066,7 +1273,7 @@ section {
     justify-content: space-between;
     align-items: center;
     transition: background-color 0.3s ease;
-    font-family: 'Alata', sans-serif;
+    font-family: var(--font-main);
     color: #999;
 }
 
@@ -1895,11 +2102,19 @@ section {
     margin: 4rem 0;
 }
 
+/* Низ карточек в ряду выровнен — это базовое поведение грида, и трогать его не надо.
+   Длинный отзыв (Kornelija) помечен `review-card--tall`: он занимает две строки,
+   а в соседние колонки встают четыре коротких, по два в колонку. Их высота делится
+   поровну, низ совпадает с низом длинной карточки, пустоты внутри рамок не остаётся. */
 .reviews-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 2rem;
     margin-top: 2rem;
+}
+
+.review-card--tall {
+    grid-row: span 2;
 }
 
 .review-card {
@@ -2264,16 +2479,36 @@ section {
         overflow: hidden;
     }
 
-        .language-switcher {
-        gap: 0.25rem;
+    /* Меню уезжает в полноэкранный оверлей и выходит из потока, так что
+       в шапке остаются лого, глобус и гамбургер. Порядком ставим глобус
+       левее гамбургера: гамбургер — у самого края, как было. */
+    /* `margin-left: auto` — иначе `space-between` у `.nav-wrapper` ставит
+       глобус посередине между лого и гамбургером, а не рядом с ним. */
+    .language-switcher {
+        order: 2;
+        margin-left: auto;
     }
-    .lang-btn {
-        padding: 3px 8px;
-        font-size: 0.8rem;
+
+    /* Кнопка-глобус размером с гамбургер — 44×44, сам глобус 22px,
+       как ширина его линий. Зазор между кодами чуть меньше, чтобы
+       выезжающая строка не упиралась в лого. */
+    .lang-trigger {
+        width: 44px;
+        height: 44px;
+    }
+
+    .lang-globe {
+        width: 22px;
+        height: 22px;
+    }
+
+    .lang-codes {
+        gap: 0.8rem;
     }
 
 .mobile-menu-toggle {
         display: flex;
+        order: 3;
         z-index: 1001;
     }
 
@@ -2422,6 +2657,11 @@ section {
     
     .reviews-grid {
         grid-template-columns: 1fr;
+    }
+
+    /* В одну колонку растягивать нечего — высокая карточка перестаёт быть особой. */
+    .review-card--tall {
+        grid-row: auto;
     }
     
     .footer-content {
@@ -2837,7 +3077,7 @@ section {
     border-radius: 2px;
     background-color: #f7f7f7;
     color: #000;
-    font-family: 'Alata', sans-serif;
+    font-family: var(--font-main);
     font-size: 0.8rem;
     font-weight: 500;
     letter-spacing: 0.14em;
@@ -7385,7 +7625,7 @@ section {
        контейнер, snap по левому краю, скрытая полоса прокрутки. */
     .imonems-strip .strip-track {
         gap: 1rem;
-        margin: 0 -20px;
+        margin: 0 calc(-1 * var(--container-pad));
         padding: 0.5rem 26px 1rem;
         scroll-padding-left: 26px;
     }

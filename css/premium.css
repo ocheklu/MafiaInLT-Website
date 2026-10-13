@@ -173,6 +173,12 @@ h1, h2 { letter-spacing: -.015em; }
 
 /* premium = considerate: honour reduced-motion preference */
 @media (prefers-reduced-motion: reduce) {
+    /* Коды языков появляются без сдвига. */
+    .lang-btn,
+    .language-switcher.open .lang-btn {
+        transform: none !important;
+        transition-delay: 0s !important;
+    }
   html { scroll-behavior: auto; }
   .btn:hover,
   .service-preview-card:hover,

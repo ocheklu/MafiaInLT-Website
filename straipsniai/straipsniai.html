@@ -6,12 +6,17 @@
     <meta name="description" content="MafiaInLT Straipsniai - patarimai, idėjos ir įžvalgos apie renginių organizavimą, mafijos žaidimą ir pramogų pasirinkimą Vilniuje, Kaune ir Klaipėdoje.">
     <meta name="keywords" content="mafija straipsniai, renginių idėjos, dovana vyrui, dovana žmonai, gimtadienis Vilnius, pramogos Vilniuje, renginių organizavimas">
     <link rel="canonical" href="https://mafiain.lt/straipsniai/straipsniai.html">
+    <link rel="alternate" hreflang="lt" href="https://mafiain.lt/straipsniai/straipsniai.html">
+    <link rel="alternate" hreflang="ru" href="https://mafiain.lt/ru/straipsniai/straipsniai.html">
+    <link rel="alternate" hreflang="en" href="https://mafiain.lt/en/straipsniai/straipsniai.html">
+    <link rel="alternate" hreflang="x-default" href="https://mafiain.lt/straipsniai/straipsniai.html">
     
     <!-- Open Graph -->
     <meta property="og:title" content="Straipsniai | MafiaInLT">
     <meta property="og:description" content="Straipsniai apie renginių organizavimą, mafijos žaidimą ir pramogų pasirinkimą Vilniuje.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://mafiain.lt/straipsniai/straipsniai.html">
+    <meta property="og:locale" content="lt_LT">
     <meta property="og:image" content="https://mafiain.lt/images/og/og-straipsniai.jpg">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
@@ -120,9 +125,10 @@
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="manifest" href="/site.webmanifest">
     
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Alata&display=swap" rel="stylesheet">
+    <!-- Шрифт свой, не с Google: preload догоняет @font-face в styles.css.
+         crossorigin обязателен даже для своего домена — без него файл скачается дважды. -->
+    <link rel="preload" href="../fonts/alata-latin.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="../fonts/alata-latin-ext.woff2" as="font" type="font/woff2" crossorigin>
     
     <link rel="preload" as="image" href="../images/blog/blog-hero.webp" type="image/webp" fetchpriority="high">
     <link rel="stylesheet" href="../css/styles.css">
@@ -179,13 +185,26 @@
                 </ul>
                 
                 <div class="language-switcher">
-                    <button class="lang-btn active" data-lang="lt">LT</button>
-                    <button class="lang-btn" data-lang="ru">RU</button>
-                    <button class="lang-btn" data-lang="en">EN</button>
+                    <div class="lang-row">
+                        <div class="lang-codes" id="langCodes">
+                            <button class="lang-btn active" data-lang="lt">LT</button>
+                            <button class="lang-btn" data-lang="ru">RU</button>
+                            <button class="lang-btn" data-lang="en">EN</button>
+                        </div>
+                        <button class="lang-trigger" aria-expanded="false" aria-controls="langCodes" aria-label="Kalba">
+                            <svg class="lang-globe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
+                                <circle cx="12" cy="12" r="9" />
+                                <path d="M3 12h18" />
+                                <path d="M12 3c2.5 2.4 3.9 5.6 3.9 9s-1.4 6.6-3.9 9c-2.5-2.4-3.9-5.6-3.9-9s1.4-6.6 3.9-9z" />
+                            </svg>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
     </nav>
+
+<main>
 
     <!-- Hero Section -->
     <section class="blog-hero">
@@ -265,8 +284,11 @@
         </div>
     </section>
 
+</main>
+
     <!-- Footer -->
-    <footer class="footer">
+
+<footer class="footer">
         <div class="container" style="text-align: center; padding: 3rem 0;">
             <div class="footer-social-links">
                 <a href="https://www.facebook.com/MafijaLT/" target="_blank" rel="noopener" aria-label="Facebook">

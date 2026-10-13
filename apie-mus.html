@@ -12,6 +12,7 @@
     <meta property="og:description" content="Pirmasis mafijos klubas Lietuvoje, 500+ įmonių renginių ir gimtadienių. Pagal vedėjo Oleg Čeklu metodiką.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://mafiain.lt/apie-mus.html">
+    <meta property="og:locale" content="lt_LT">
     <meta property="og:image" content="https://mafiain.lt/images/og/og-cover-liveclub.jpg">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
@@ -53,7 +54,7 @@
   "aggregateRating": {
     "@type": "AggregateRating",
     "ratingValue": "5",
-    "reviewCount": "9"
+    "reviewCount": "19"
   }
 }
 </script>
@@ -66,14 +67,19 @@
 
     <!-- Favicon -->
     <link rel="canonical" href="https://mafiain.lt/apie-mus.html">
+    <link rel="alternate" hreflang="lt" href="https://mafiain.lt/apie-mus.html">
+    <link rel="alternate" hreflang="ru" href="https://mafiain.lt/ru/apie-mus.html">
+    <link rel="alternate" hreflang="en" href="https://mafiain.lt/en/apie-mus.html">
+    <link rel="alternate" hreflang="x-default" href="https://mafiain.lt/apie-mus.html">
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="manifest" href="/site.webmanifest">
     
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Alata&display=swap" rel="stylesheet">
+    <!-- Шрифт свой, не с Google: preload догоняет @font-face в styles.css.
+         crossorigin обязателен даже для своего домена — без него файл скачается дважды. -->
+    <link rel="preload" href="fonts/alata-latin.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="fonts/alata-latin-ext.woff2" as="font" type="font/woff2" crossorigin>
     
 <link rel="stylesheet" href="css/styles.css">
 <link rel="stylesheet" href="css/about-final.css">
@@ -128,13 +134,26 @@
                 </ul>
                 
                 <div class="language-switcher">
-                    <button class="lang-btn active" data-lang="lt">LT</button>
-                    <button class="lang-btn" data-lang="ru">RU</button>
-                    <button class="lang-btn" data-lang="en">EN</button>
+                    <div class="lang-row">
+                        <div class="lang-codes" id="langCodes">
+                            <button class="lang-btn active" data-lang="lt">LT</button>
+                            <button class="lang-btn" data-lang="ru">RU</button>
+                            <button class="lang-btn" data-lang="en">EN</button>
+                        </div>
+                        <button class="lang-trigger" aria-expanded="false" aria-controls="langCodes" aria-label="Kalba">
+                            <svg class="lang-globe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
+                                <circle cx="12" cy="12" r="9" />
+                                <path d="M3 12h18" />
+                                <path d="M12 3c2.5 2.4 3.9 5.6 3.9 9s-1.4 6.6-3.9 9c-2.5-2.4-3.9-5.6-3.9-9s1.4-6.6 3.9-9z" />
+                            </svg>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
     </nav>
+
+<main>
 
     <!-- Hero Klubas -->
     <section class="about-section">
@@ -145,7 +164,7 @@
                 </div>
             </div>
             <div class="about-content">
-                <h1>Klubas</h1>
+                <h1>Psichodraminės improvizacijos klubas</h1>
                 <p>Įkurtas 2015 metais. Per šį laikotarpį organizavome 116 atvirų žaidimų ir ne mažiau 400 privačių renginių.</p>
                 <a href="paslaugos.html#calculator" class="about-btn">Rezervuoti datą</a>
             </div>
@@ -235,7 +254,7 @@
             <div class="reviews-grid">
                 <div class="review-card"><div class="review-header"><div class="review-photo"><img loading="lazy" src="images/reviews/review-1.webp" alt="Atsiliepimas"></div><div class="review-author"><h4>Gintarė B.</h4><p class="location">Vilnius</p></div></div><div class="review-rating">★★★★★</div><p class="review-text">Nuoširdžiai rekomenduoju Oleg Čeklu vedamą “Mafiją” žaidimą. Šią pramogą buvome užsisakę per įmonės team building vakarėlį - įspūdžiai 10 balų, su džiaugsmu visas kolektyvas prisimena iki šiol. Profesionalu, autentiška bei viskas išdirbta iki smulkmenų.</p></div>
                 
-                <div class="review-card"><div class="review-header"><div class="review-photo"><img loading="lazy" src="images/reviews/review-2.webp" alt="Atsiliepimas"></div><div class="review-author"><h4>Oleg K.</h4><p class="location">Vilnius</p></div></div><div class="review-rating">★★★★★</div><p class="review-text">Oleg is one of the best Mafia game hosts. I haven't seen a host who is so deeply involved in the process. Oleg knows how to find the perfect balance between entertainment and discipline. In other words, you will have a great time, laugh a lot, but the game will not get out of control and will come to its logical conclusion.</p></div>
+                <div class="review-card"><div class="review-header"><div class="review-photo"><img loading="lazy" src="images/reviews/review-2.webp" alt="Atsiliepimas"></div><div class="review-author"><h4>Oleg K.</h4><p class="location">Vilnius</p></div></div><div class="review-rating">★★★★★</div><p class="review-text">Olegas – vienas geriausių žaidimo „Mafija“ vedėjų. Dar neteko sutikti vedėjo, kuris būtų taip įsitraukęs į žaidimą. Olegas sugeba rasti tobulą balansą tarp pramogos ir disciplinos. Kitaip tariant, puikiai praleisite laiką, daug juoksitės, tačiau žaidimas neišeis iš kontrolės ir baigsis logiškai bei sklandžiai.</p></div>
                 
                 <div class="review-card"><div class="review-header"><div class="review-photo"><img loading="lazy" src="images/reviews/review-3.webp" alt="Atsiliepimas"></div><div class="review-author"><h4>Vaiva A.</h4><p class="location">Vilnius</p></div></div><div class="review-rating">★★★★★</div><p class="review-text">Dalyvauti Olego vedamuose renginiuose ne tik smagu, bet ir naudinga. Olegas puikiai jaučia žmones ir aplinką, pastabus šalia esantiems, o kartu ir veda bei moko kitus stebėti save, kūną ir mąstymą. Daug įsikvėpiau iš jo minčių ir patarimų.</p></div>
                 
@@ -250,6 +269,14 @@
                 <div class="review-card"><div class="review-header"><div class="review-photo"><img loading="lazy" src="images/reviews/review-8.webp" alt="Atsiliepimas"></div><div class="review-author"><h4>Vaiva R.</h4><p class="location">Moletai</p></div></div><div class="review-rating">★★★★★</div><p class="review-text">Mafia žaidimas vedamas Oleg pranoko lūkesčius. Apgalvota kiekviena detalė ir išpildymas! Sukurta puiki atmosfera! Įsitraukimas ir ne prie stalo sėdinčių komandos narių, rodė kad visiems yra įdomu, kuris, kodėl 🙂 ką sako, ir kaip tai sako, ir ką transliuoja! Buvo įdomu pažinti komandos narius kituose vaidmenyse! Dar ir dar norėjosi grįžti prie to tobulai dekoruoti stalo! Visi prisiminimai nugulė puikiose fotografijose!</p></div>
                 
                 <div class="review-card"><div class="review-header"><div class="review-photo"><img loading="lazy" src="images/reviews/review-9.webp" alt="Atsiliepimas"></div><div class="review-author"><h4>Evelina P.</h4><p class="location">Vilnius</p></div></div><div class="review-rating">★★★★★</div><p class="review-text">Intriguojantis ir emocialus mafijos žaidimas su ne mažiau intriguojančiu vedėju Oleg Čeklu:). Žaidžiau kelis kartus, ir dar žaisiu:) Tikrai verta, adrenalino antplūdis kraujyje garantuotas.Net neįsivaizduoju, ar kas galėtų geriau pravęst šį žaidimą nei Olegas. Atmosfera mafiozinė:) Vienareikšmiškai rekomenduoju.Ačiū Olegui ir jo komandai už žaidimą.</p></div>
+                
+                <div class="review-card review-card--tall"><div class="review-header"><div class="review-photo"><img loading="lazy" src="images/reviews/review-13.webp" alt="Atsiliepimas"></div><div class="review-author"><h4>Kornelija</h4><p class="location">Vilnius</p></div></div><div class="review-rating">★★★★★</div><p class="review-text">Įdomus ir išdirbtas žaidimas su dideliu akcentu ne į žodžius, bet jauseną ir intuiciją. Vakaras pralėkė taip greitai, nors prieš jį jaučiausi paauglystėje atsižaidusi šį žaidimą. Vedėjas Olegas užtikrintai ir ramiai veda per žaidimą, vis atkreipdamas dėmesį, kai per daug susitelkiame į žodžius. Taip pat buvo labai miela, kaip jis pasiruošė žaidimui iš anksto - žinojo mūsų vardus, paprašė organizatoriaus kiekvieno dalyvio aprašymų, juos atsispausdino, pasiruošė. Viskas detalėse:) Smagu žaisti su fiziniais rekvizitais bei trečią roundą su dar negirdėta Kupidono role. Tik gaila, kad vienu metu gali žaisti tik 10 žmonių, nors ir įdomu stebėti. Rekomenduoju šią veiklą!</p></div>
+                
+                <div class="review-card"><div class="review-header"><div class="review-photo"><img loading="lazy" src="images/reviews/review-16.webp" alt="Atsiliepimas"></div><div class="review-author"><h4>Vidmantė</h4><p class="location">Vilnius</p></div></div><div class="review-rating">★★★★★</div><p class="review-text">Labai smagiai pravestas Mafia žaidimas! Ačiū! Rekomenduoju ;)</p></div>
+                
+                <div class="review-card"><div class="review-header"><div class="review-photo"><img loading="lazy" src="images/reviews/review-14.webp" alt="Atsiliepimas"></div><div class="review-author"><h4>Milda</h4><p class="location">Vilnius</p></div></div><div class="review-rating">★★★★★</div><p class="review-text">Didžiausios rekomendacijos!</p></div>
+                <div class="review-card"><div class="review-header"><div class="review-photo"><img loading="lazy" src="images/reviews/review-15.webp" alt="Atsiliepimas"></div><div class="review-author"><h4>Rūta</h4><p class="location">Vilnius</p></div></div><div class="review-rating">★★★★★</div><p class="review-text">Tiesiog super! Labai kantriai, ramiai, linksmai. Kupini įspūdžių! Didžiausios rekomendacijos!</p></div>
+                <div class="review-card"><div class="review-header"><div class="review-photo"><img loading="lazy" src="images/reviews/review-17.webp" alt="Atsiliepimas"></div><div class="review-author"><h4>Aistė</h4><p class="location">Vilnius</p></div></div><div class="review-rating">★★★★★</div><p class="review-text">Likome labai patenkinti Mafijos žaidimu. Puiki kominukacija ir kliento lūkesčių atliepimas tiek prieš renginį, tiek ir jo metu.</p></div>
             </div>
             </div>
         </div>
@@ -261,7 +288,10 @@
 </section>
 
 
+</main>
+
     <!-- Footer -->
+
 <footer class="footer">
     <div class="container" style="text-align: center; padding: 3rem 0;">
         <div class="footer-social-links">
