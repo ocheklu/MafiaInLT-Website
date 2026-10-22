@@ -118,6 +118,20 @@ document.addEventListener('DOMContentLoaded', function() {
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') closeLangMenu();
         });
+
+        // Один раз за визит глобус делает оборот и ловит золотой блик — подсказка,
+        // что язык можно сменить. Хранилище недоступно — не крутим вовсе.
+        let seen = true;
+        try {
+            seen = sessionStorage.getItem('globeIntro') === '1';
+            sessionStorage.setItem('globeIntro', '1');
+        } catch (e) {}
+        if (!seen && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            setTimeout(() => langTrigger.classList.add('globe-intro'), 1000);
+            langTrigger.addEventListener('animationend', function(e) {
+                if (e.animationName === 'globeSheen') langTrigger.classList.remove('globe-intro');
+            });
+        }
     }
 });
 
