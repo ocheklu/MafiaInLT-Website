@@ -914,7 +914,7 @@ ul.facts li a.fact-link:hover { color:var(--gold-light); border-color:rgba(212,1
 <header>
   <div class="header-wrap">
     <div class="logo-row">
-      <a href="../../" style="display:flex;align-items:center;gap:12px;text-decoration:none;">
+      <a href="/ru/" class="logo-link" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:12px;text-decoration:none;">
         <img class="logo-img" src="../../images/logo.webp" alt="MafiaInLT">
         <div class="logo-text">
           <b data-i18n="brand.name">Mafia Online</b>
@@ -1263,7 +1263,7 @@ ul.facts li a.fact-link:hover { color:var(--gold-light); border-color:rgba(212,1
   <div class="block">
     <p class="block-label" data-i18n="pl.facts.label">Чем отличается</p>
     <ul class="facts">
-      <li><a class="fact-link" href="https://mafiain.lt/apie-mus.html" target="_blank" rel="noopener" data-i18n="pl.f2">Авторский игровой флоу, отточенный за 11 лет живых игр клуба</a></li>
+      <li><a class="fact-link" href="https://mafiain.lt/ru/apie-mus.html" target="_blank" rel="noopener" data-i18n="pl.f2">Авторский игровой флоу, отточенный за 11 лет живых игр клуба</a></li>
       <li data-i18n="pl.f1">Рейтинговая система ELO</li>
       <li data-i18n="pl.f8">Два режима — управляемый ведущим для стримеров, полностью автоматический для всех остальных</li>
       <li data-i18n="pl.f5">Публичные и приватные комнаты — присоединяйтесь к открытому столу или создайте свой</li>
@@ -1876,6 +1876,10 @@ function applyLang(lang) {
   const pageUrl = 'https://mafiain.lt' + cleanPath;
   document.querySelector('link[rel="canonical"]')?.setAttribute('href', pageUrl);
   document.querySelector('meta[property="og:url"]')?.setAttribute('content', pageUrl);
+
+  // links to the live-game site follow the page language
+  document.querySelector('.logo-link')?.setAttribute('href', lang === 'lt' ? '/' : '/' + lang + '/');
+  document.querySelector('.fact-link[href$="apie-mus.html"]')?.setAttribute('href', 'https://mafiain.lt/' + (lang === 'lt' ? '' : lang + '/') + 'apie-mus.html');
 
   // keep the address bar on the clean per-language path so reload/share preserves the language
   // (wrapped: replaceState throws under the file:// origin during local preview)
