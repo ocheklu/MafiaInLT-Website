@@ -126,7 +126,9 @@ document.addEventListener('DOMContentLoaded', function() {
 function langHref(targetLang) {
     const path = window.location.pathname.replace(/\\/g, '/');
     let file = path.split('/').pop();
-    if (!file || !file.includes('.')) file = 'index.html';
+    // GitHub Pages отдаёт страницу и без хвоста: /paslaugos = /paslaugos.html
+    if (!file) file = 'index.html';
+    else if (!file.includes('.')) file += '.html';
 
     // Где мы находимся: в языковой папке и/или в блоге.
     const inLangDir = /\/(ru|en)\//.test(path);
@@ -262,7 +264,8 @@ document.addEventListener('DOMContentLoaded', function() {
 // ===========================
 
 document.addEventListener('DOMContentLoaded', function() {
-    const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+    let currentPage = window.location.pathname.split('/').pop() || 'index.html';
+    if (!currentPage.includes('.')) currentPage += '.html'; // /paslaugos = /paslaugos.html
     const navLinks = document.querySelectorAll('.nav-menu a');
     
     navLinks.forEach(link => {
