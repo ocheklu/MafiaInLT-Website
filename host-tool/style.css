@@ -362,13 +362,62 @@ body.day .day-overlay{
 .pl-tab.on{border-color:var(--gold);color:var(--gold)}
 
 .player-wrap{
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  padding:24px 20px;
   border:1px solid var(--line);
   border-radius:var(--r);
   background:var(--panel);
   overflow:hidden;
-  min-height:360px;
+  min-height:300px;
 }
-#spotify{display:block;width:100%;height:100%;min-height:360px;border:0}
+
+.sp-login{
+  display:flex;flex-direction:column;align-items:center;gap:16px;
+  text-align:center;color:var(--muted);font-size:.9rem;
+}
+
+.sp-remote{display:flex;flex-direction:column;gap:26px}
+
+.sp-now{display:flex;align-items:center;gap:16px;min-width:0}
+.sp-cover{
+  width:96px;height:96px;flex:0 0 96px;
+  border-radius:var(--r);
+  background:var(--panel-2);
+  object-fit:cover;
+}
+.sp-cover:not([src]){visibility:hidden}
+.sp-meta{min-width:0}
+.sp-track,.sp-artist{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sp-track{font-size:1.1rem}
+.sp-artist{margin-top:4px;color:var(--muted);font-size:.85rem}
+
+.sp-ctrl{display:flex;justify-content:center;gap:14px}
+.sp-btn{
+  display:flex;align-items:center;justify-content:center;
+  width:68px;height:68px;
+  border:1px solid var(--line);
+  border-radius:var(--r);
+  background:var(--panel-2);
+  color:var(--text);
+}
+.sp-btn svg{width:24px;height:24px;fill:currentColor}
+.sp-main{width:88px;border-color:var(--gold);color:var(--gold)}
+.sp-main .i-pause{display:none}
+.sp-main.is-playing .i-play{display:none}
+.sp-main.is-playing .i-pause{display:block}
+
+.sp-vol{display:flex;align-items:center;gap:14px}
+.sp-vol>span{font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.sp-vol input{
+  flex:1 1 auto;min-width:0;
+  padding:0;border:0;background:none;
+  accent-color:var(--gold);
+}
+
+.sp-status{min-height:1.2em;font-size:.8rem;color:var(--muted);text-align:center}
+.sp-status.err{color:#c96a6a}
 
 /* ── Numpad у ячейки ─────────────────────────────────── */
 
@@ -471,7 +520,7 @@ body.day .day-overlay{
 /* ── Отклик на тап ───────────────────────────────────── */
 
 .tool:active,.act:active,.tab:active,.cfg:active,.vote:active,
-.dead:active,.eye:active,.key:active,.pin-key:active,.pl-tab:active,.pool-del:active{
+.dead:active,.eye:active,.key:active,.pin-key:active,.pl-tab:active,.pool-del:active,.sp-btn:active{
   background:#1d1d1d;
   transition:background-color 80ms;
 }
@@ -487,7 +536,6 @@ body.day .day-overlay{
   .layout{grid-template-columns:60fr 40fr}
   .col-right{position:sticky;top:22px;height:calc(100vh - 62px)}
   .player-wrap{flex:1 1 auto;min-height:0}
-  #spotify{height:100%}
 }
 
 /* ── Портретная: вкладки ─────────────────────────────── */
@@ -496,8 +544,7 @@ body.day .day-overlay{
   .tabs{display:flex}
   body[data-tab="sablonas"] .col-right{display:none}
   body[data-tab="muzika"] .col-left{display:none}
-  .player-wrap{min-height:60vh}
-  #spotify{min-height:60vh}
+  .player-wrap{min-height:50vh}
 }
 
 /* ── Печать: чёрным по белому ────────────────────────── */

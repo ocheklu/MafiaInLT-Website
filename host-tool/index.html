@@ -21,6 +21,10 @@
     <path d="M17.9 17.9A10.1 10.1 0 0 1 12 20C5 20 1 12 1 12a18.5 18.5 0 0 1 5.1-5.9m3.8-1.9A9.1 9.1 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.2 3.2m-6.7-1.1a3 3 0 1 1-4.2-4.2"/>
     <line x1="2" y1="2" x2="22" y2="22"/>
   </symbol>
+  <symbol id="ico-prev" viewBox="0 0 24 24"><path d="M6 5h2v14H6zM20 5v14L9 12z"/></symbol>
+  <symbol id="ico-next" viewBox="0 0 24 24"><path d="M16 5h2v14h-2zM4 5v14l11-7z"/></symbol>
+  <symbol id="ico-play" viewBox="0 0 24 24"><path d="M7 4v16l13-8z"/></symbol>
+  <symbol id="ico-pause" viewBox="0 0 24 24"><path d="M6 4h4v16H6zM14 4h4v16h-4z"/></symbol>
 </svg>
 
 <header class="hdr">
@@ -113,10 +117,33 @@
       <div class="pl-row"><input type="text" class="pl-name" data-i="1" placeholder="Pavadinimas" autocomplete="off"><input type="text" class="pl-url" data-i="1" placeholder="Spotify nuoroda" autocomplete="off" spellcheck="false"></div>
       <div class="pl-row"><input type="text" class="pl-name" data-i="2" placeholder="Pavadinimas" autocomplete="off"><input type="text" class="pl-url" data-i="2" placeholder="Spotify nuoroda" autocomplete="off" spellcheck="false"></div>
       <button type="button" id="btnCfgSave" class="act">Išsaugoti</button>
+      <button type="button" id="btnSpOut" class="act" hidden>Atsijungti nuo Spotify</button>
     </div>
     <div class="pl-tabs" id="plTabs"></div>
     <div class="player-wrap">
-      <iframe id="spotify" title="Spotify" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+      <div class="sp-login" id="spLogin">
+        <p>Muzika groja Spotify programėlėje, skydelis ją valdo.</p>
+        <button type="button" id="btnSpLogin" class="act">Prisijungti prie Spotify</button>
+      </div>
+      <div class="sp-remote" id="spRemote" hidden>
+        <div class="sp-now">
+          <img class="sp-cover" id="spCover" alt="">
+          <div class="sp-meta">
+            <div class="sp-track" id="spTrack">—</div>
+            <div class="sp-artist" id="spArtist"></div>
+          </div>
+        </div>
+        <div class="sp-ctrl">
+          <button type="button" id="spPrev" class="sp-btn" aria-label="Atgal"><svg><use href="#ico-prev"></use></svg></button>
+          <button type="button" id="spPlay" class="sp-btn sp-main" aria-label="Groti">
+            <svg class="i-play"><use href="#ico-play"></use></svg>
+            <svg class="i-pause"><use href="#ico-pause"></use></svg>
+          </button>
+          <button type="button" id="spNext" class="sp-btn" aria-label="Toliau"><svg><use href="#ico-next"></use></svg></button>
+        </div>
+        <label class="sp-vol" id="spVolWrap"><span>Garsas</span><input type="range" id="spVol" min="0" max="100" step="1"></label>
+        <div class="sp-status" id="spStatus"></div>
+      </div>
     </div>
   </aside>
 

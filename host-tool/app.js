@@ -510,24 +510,251 @@ $('pinGrid').addEventListener('click', function (e) {
   }, 90);
 });
 
-/* ── Музыка ─────────────────────────────────────────── */
+/* ── Музыка: пульт для приложения Spotify ───────────── */
+/* Звук идёт из приложения Spotify на планшете, страница только шлёт ему
+   команды через Web API. Встроенный плеер (iframe) без входа играл
+   30-секундные отрывки. Вход — PKCE без сервера: Client ID не секрет,
+   токены лежат только в этом браузере. Управлять воспроизведением
+   Spotify позволяет только аккаунту с Premium. */
 
-function embedUrl(raw) {
-  var m = String(raw || '').match(/(playlist|album|track|episode|show)[\/:]([A-Za-z0-9]{16,})/);
-  /* голый ID без ссылки — считаем плейлистом */
-  if (!m && /^[A-Za-z0-9]{16,}$/.test(String(raw || '').trim())) m = [null, 'playlist', String(raw).trim()];
-  if (!m) return '';
-  return 'https://open.spotify.com/embed/' + m[1] + '/' + m[2] + '?utm_source=generator&theme=0';
+var SP_ID       = '9b4b85585f334f40865046968c075264',
+    SP_KEY      = 'mafiaHostTool.spotify',
+    SP_REDIRECT = 'https://mafiain.lt/host-tool/',   // ровно как в Spotify Dashboard
+    SP_SCOPES   = 'user-read-playback-state user-modify-playback-state user-read-currently-playing',
+    SP_POLL_MS  = 4000;
+
+var sp = null,            // { access, refresh, exp }
+    spDevice = null,
+    spPlaying = false,
+    spVolBusy = 0;
+
+function spLoad() {
+  try { sp = JSON.parse(localStorage.getItem(SP_KEY)); } catch (e) { sp = null; }
+  if (!sp || !sp.refresh) sp = null;
+}
+function spSave() {
+  try {
+    if (sp) localStorage.setItem(SP_KEY, JSON.stringify(sp));
+    else localStorage.removeItem(SP_KEY);
+  } catch (e) {}
 }
 
-function applyPlayer() {
-  var want = embedUrl(S.playlists[S.plCur] && S.playlists[S.plCur].url),
-      f = $('spotify');
-  if (f.dataset.src === want) return;      // тот же плейлист — не дёргаем, иначе оборвётся звук
-  f.dataset.src = want;
-  if (want) f.src = want;
-  else f.removeAttribute('src');
+function b64url(buf) {
+  var s = '', b = new Uint8Array(buf);
+  for (var i = 0; i < b.length; i++) s += String.fromCharCode(b[i]);
+  return btoa(s).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
 }
+function randStr(n) {
+  var a = new Uint8Array(n);
+  crypto.getRandomValues(a);
+  return b64url(a).slice(0, n);
+}
+
+function spLogin() {
+  var verifier = randStr(64), state = randStr(16);
+  try { localStorage.setItem(SP_KEY + '.pkce', JSON.stringify({ v: verifier, s: state })); } catch (e) {}
+  crypto.subtle.digest('SHA-256', new TextEncoder().encode(verifier)).then(function (h) {
+    location.href = 'https://accounts.spotify.com/authorize?' + new URLSearchParams({
+      client_id: SP_ID,
+      response_type: 'code',
+      redirect_uri: SP_REDIRECT,
+      scope: SP_SCOPES,
+      code_challenge_method: 'S256',
+      code_challenge: b64url(h),
+      state: state
+    }).toString();
+  });
+}
+
+function spToken(params) {
+  params.client_id = SP_ID;
+  return fetch('https://accounts.spotify.com/api/token', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: new URLSearchParams(params).toString()
+  }).then(function (r) {
+    return r.json().then(function (j) { if (!r.ok) throw j; return j; });
+  }).then(function (j) {
+    sp = {
+      access: j.access_token,
+      refresh: j.refresh_token || (sp && sp.refresh),
+      exp: Date.now() + (j.expires_in - 60) * 1000
+    };
+    spSave();
+  });
+}
+
+/* Возврат со страницы входа Spotify: ?code=…&state=…
+   true — мы только что вернулись, и пульт стоит открыть на вкладке музыки. */
+function spCallback() {
+  var q = new URLSearchParams(location.search);
+  if (!q.has('code') && !q.has('error')) return Promise.resolve(false);
+  var pk = null;
+  try {
+    pk = JSON.parse(localStorage.getItem(SP_KEY + '.pkce'));
+    localStorage.removeItem(SP_KEY + '.pkce');
+  } catch (e) {}
+  history.replaceState(null, '', location.pathname);
+  if (!q.has('code') || !pk || pk.s !== q.get('state')) return Promise.resolve(true);
+  return spToken({
+    grant_type: 'authorization_code',
+    code: q.get('code'),
+    redirect_uri: SP_REDIRECT,
+    code_verifier: pk.v
+  }).then(function () { return true; }, function () { return true; });
+}
+
+/* Токен живёт час. Отозванный вход (invalid_grant) — выходим; сбой сети — нет. */
+function spFresh() {
+  if (!sp) return Promise.reject('auth');
+  if (Date.now() < sp.exp) return Promise.resolve();
+  return spToken({ grant_type: 'refresh_token', refresh_token: sp.refresh }).catch(function (e) {
+    if (e && e.error === 'invalid_grant') { sp = null; spSave(); spRender(); throw 'auth'; }
+    throw e;
+  });
+}
+
+function spApi(method, path, body, retried) {
+  return spFresh().then(function () {
+    return fetch('https://api.spotify.com/v1' + path, {
+      method: method,
+      headers: { Authorization: 'Bearer ' + sp.access, 'Content-Type': 'application/json' },
+      body: body ? JSON.stringify(body) : undefined
+    });
+  }).then(function (r) {
+    if (r.status === 401 && !retried) { sp.exp = 0; return spApi(method, path, body, true); }
+    if (r.status === 204 || r.status === 202) return null;
+    return r.text().then(function (t) {
+      var j = null;
+      try { j = t ? JSON.parse(t) : null; } catch (e) {}
+      if (!r.ok) throw { status: r.status, reason: j && j.error && j.error.reason };
+      return j;
+    });
+  });
+}
+
+/* Активное устройство, иначе планшет или телефон, иначе первое в списке.
+   Устройство в списке есть, только пока приложение Spotify на нём открыто. */
+function spPickDevice() {
+  return spApi('GET', '/me/player/devices').then(function (j) {
+    var list = (j && j.devices) || [],
+        d = list.filter(function (x) { return x.is_active; })[0] ||
+            list.filter(function (x) { return x.type === 'Tablet' || x.type === 'Smartphone'; })[0] ||
+            list[0];
+    if (!d) throw { reason: 'NO_DEVICE' };
+    spDevice = d;
+    return d.id;
+  });
+}
+
+/* Команда воспроизведению. Нет активного устройства (404) — находим его
+   в списке и повторяем команду уже с его id. */
+function spCmd(method, path, body) {
+  if (!sp) { spStatus('Pirmiausia prisijunkite prie Spotify', true); return Promise.resolve(); }
+  return spApi(method, path, body).catch(function (e) {
+    if (!e || e.status !== 404) throw e;
+    return spPickDevice().then(function (id) {
+      return spApi(method, path + (path.indexOf('?') < 0 ? '?' : '&') + 'device_id=' + id, body);
+    });
+  }).then(function () { setTimeout(spRefresh, 600); }, spFail);
+}
+
+function spFail(e) {
+  var r = e && e.reason, msg = 'Nepavyko, bandykite dar kartą';
+  if (r === 'NO_DEVICE' || r === 'NO_ACTIVE_DEVICE') msg = 'Atidarykite Spotify programėlę planšetėje';
+  else if (r === 'PREMIUM_REQUIRED') msg = 'Reikia Spotify Premium';
+  else if (e === 'auth') msg = 'Prisijunkite prie Spotify iš naujo';
+  spStatus(msg, true);
+}
+
+function spStatus(t, err) {
+  var el = $('spStatus');
+  el.textContent = t || '';
+  el.classList.toggle('err', !!err);
+}
+
+/* Ссылка на плейлист (или голый ID) → URI для Spotify */
+function spUri(raw) {
+  var s = String(raw || '').trim(),
+      m = s.match(/(playlist|album|track|episode|show|artist)[\/:]([A-Za-z0-9]{16,})/);
+  if (!m && /^[A-Za-z0-9]{16,}$/.test(s)) m = [null, 'playlist', s];
+  return m ? { type: m[1], uri: 'spotify:' + m[1] + ':' + m[2] } : null;
+}
+
+function spStart(i) {
+  var u = spUri(S.playlists[i] && S.playlists[i].url);
+  if (!u) return;
+  var single = u.type === 'track' || u.type === 'episode';
+  spCmd('PUT', '/me/player/play', single ? { uris: [u.uri] } : { context_uri: u.uri });
+}
+
+function spShow(item) {
+  var imgs = item ? ((item.album && item.album.images) || item.images || []) : [],
+      cover = $('spCover');
+  $('spTrack').textContent = item ? item.name : '—';
+  $('spArtist').textContent = item
+    ? (item.artists || []).map(function (a) { return a.name; }).join(', ') || (item.show && item.show.name) || ''
+    : '';
+  var src = imgs.length ? imgs[Math.min(1, imgs.length - 1)].url : '';
+  if (src) { if (cover.getAttribute('src') !== src) cover.src = src; }
+  else cover.removeAttribute('src');
+}
+
+function spPlayBtn() {
+  var b = $('spPlay');
+  b.classList.toggle('is-playing', spPlaying);
+  b.setAttribute('aria-label', spPlaying ? 'Pauzė' : 'Groti');
+}
+
+function spRefresh() {
+  if (!sp) return;
+  spApi('GET', '/me/player').then(function (j) {
+    if (!j || !j.device) {
+      spPlaying = false; spPlayBtn(); spShow(null);
+      spStatus('Niekas negroja');
+      return;
+    }
+    spDevice = j.device;
+    spPlaying = !!j.is_playing;
+    spPlayBtn();
+    spShow(j.item);
+    spStatus(j.device.name);
+    /* у части телефонов Spotify не даёт менять громкость извне — тогда кнопки планшета */
+    $('spVolWrap').hidden = j.device.supports_volume === false;
+    if (Date.now() > spVolBusy && j.device.volume_percent != null) $('spVol').value = j.device.volume_percent;
+  }, function (e) { if (e === 'auth') spFail(e); });
+}
+
+function spRender() {
+  $('spLogin').hidden = !!sp;
+  $('spRemote').hidden = !sp;
+  $('btnSpOut').hidden = !sp;
+}
+
+$('btnSpLogin').addEventListener('click', spLogin);
+
+$('btnSpOut').addEventListener('click', function () {
+  sp = null; spSave(); spRender();
+});
+
+$('spPlay').addEventListener('click', function () {
+  spPlaying = !spPlaying;            // отвечаем сразу, не дожидаясь Spotify
+  spPlayBtn();
+  spCmd('PUT', spPlaying ? '/me/player/play' : '/me/player/pause');
+});
+$('spPrev').addEventListener('click', function () { spCmd('POST', '/me/player/previous'); });
+$('spNext').addEventListener('click', function () { spCmd('POST', '/me/player/next'); });
+
+var volTimer = null;
+$('spVol').addEventListener('input', function () {
+  var v = this.value;
+  spVolBusy = Date.now() + 2500;     // опрос не перетаскивает ползунок из-под пальца
+  clearTimeout(volTimer);
+  volTimer = setTimeout(function () { spCmd('PUT', '/me/player/volume?volume_percent=' + v); }, 250);
+});
+
+setInterval(function () { if (!document.hidden) spRefresh(); }, SP_POLL_MS);
+document.addEventListener('visibilitychange', function () { if (!document.hidden) spRefresh(); });
 
 /* Кнопка на каждый заполненный плейлист. Пустые не показываем —
    переключать нечего, а ряд пустых кнопок только мешает. */
@@ -547,7 +774,7 @@ $('plTabs').addEventListener('click', function (e) {
   S.plCur = +b.dataset.i;
   save();
   renderPlTabs();
-  applyPlayer();
+  spStart(S.plCur);
 });
 
 $('btnCfg').addEventListener('click', function () {
@@ -570,22 +797,22 @@ $('btnCfgSave').addEventListener('click', function () {
   }
   save();
   renderPlTabs();
-  applyPlayer();
   $('cfgBox').hidden = true;
   $('btnCfg').classList.remove('on');
 });
 
 /* ── Вкладки (портрет) ──────────────────────────────── */
 
-Array.prototype.forEach.call(document.querySelectorAll('.tab'), function (t) {
-  t.addEventListener('click', function () {
-    document.body.dataset.tab = t.dataset.go;
-    Array.prototype.forEach.call(document.querySelectorAll('.tab'), function (x) {
-      x.classList.toggle('on', x === t);
-    });
+function goTab(name) {
+  document.body.dataset.tab = name;
+  Array.prototype.forEach.call(document.querySelectorAll('.tab'), function (x) {
+    x.classList.toggle('on', x.dataset.go === name);
   });
+}
+Array.prototype.forEach.call(document.querySelectorAll('.tab'), function (t) {
+  t.addEventListener('click', function () { goTab(t.dataset.go); });
 });
-document.querySelector('.tab').classList.add('on');
+goTab('sablonas');
 
 /* ── Копия / Įkelti / Spausdinti / Naujas žaidimas ──── */
 
@@ -732,7 +959,6 @@ function renderAll() {
   renderRoles();
   refreshOptions();
   growNotes();
-  applyPlayer();
 }
 
 S = load();
@@ -740,6 +966,13 @@ renderAll();
 setMode('night');
 setNotes(false);
 save();
+
+spLoad();
+spCallback().then(function (back) {
+  spRender();
+  if (back) goTab('muzika');
+  spRefresh();
+});
 
 if (navigator.storage && navigator.storage.persist) navigator.storage.persist();
 
