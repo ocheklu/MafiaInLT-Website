@@ -10,6 +10,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Lora:wght@500;600&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
 <link rel="icon" href="../images/mafia-club-gold.webp">
 <link rel="stylesheet" href="style.css">
+<script>try { if (localStorage.getItem('mafiaHostTool.gate') === 'ok') document.documentElement.classList.add('unlocked'); } catch (e) {}</script>
 </head>
 <body data-tab="sablonas">
 
@@ -170,6 +171,12 @@
     <div class="pin-dots" id="pinDots"></div>
     <div class="pin-grid" id="pinGrid"></div>
   </div>
+</div>
+
+<div class="gate" id="gate">
+  <div class="pin-title">Vedėjo skydelis</div>
+  <div class="pin-dots" id="gateDots"></div>
+  <div class="pin-grid" id="gateGrid"></div>
 </div>
 
 <script src="app.js"></script>

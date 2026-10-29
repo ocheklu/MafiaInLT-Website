@@ -510,6 +510,60 @@ $('pinGrid').addEventListener('click', function (e) {
   }, 90);
 });
 
+/* ── Вход в skydelis ────────────────────────────────── */
+/* Замок от случайных гостей по ссылке, не защита: исходник публичный.
+   В коде хеш, а не цифры; верный код запоминается на устройстве. */
+
+var GATE_KEY  = 'mafiaHostTool.gate',
+    GATE_LEN  = 6,
+    GATE_HASH = '182b93eee32b4d05869180416ee330de3a891e23de038a792373b370677a7b92';
+var gateBuf = '';
+
+function gateDots() {
+  var d = $('gateDots').children;
+  for (var i = 0; i < d.length; i++) d[i].classList.toggle('on', i < gateBuf.length);
+}
+
+function gateCheck(code) {
+  var data = new TextEncoder().encode('mafia-gate:' + code);
+  return crypto.subtle.digest('SHA-256', data).then(function (buf) {
+    return Array.prototype.map.call(new Uint8Array(buf), function (b) {
+      return ('0' + b.toString(16)).slice(-2);
+    }).join('') === GATE_HASH;
+  });
+}
+
+(function () {
+  var h = '';
+  for (var i = 1; i <= 9; i++) h += '<button type="button" class="pin-key" data-k="' + i + '">' + i + '</button>';
+  h += '<span></span><button type="button" class="pin-key" data-k="0">0</button>' +
+       '<button type="button" class="pin-key" data-k="x">⌫</button>';
+  $('gateGrid').innerHTML = h;
+  $('gateDots').innerHTML = new Array(GATE_LEN + 1).join('<i></i>');
+})();
+
+$('gateGrid').addEventListener('click', function (e) {
+  var b = e.target.closest('.pin-key'); if (!b) return;
+  var k = b.dataset.k;
+  if (k === 'x') { gateBuf = gateBuf.slice(0, -1); gateDots(); return; }
+  if (gateBuf.length >= GATE_LEN) return;
+  gateBuf += k;
+  gateDots();
+  if (gateBuf.length < GATE_LEN) return;
+  gateCheck(gateBuf).then(function (ok) {
+    if (ok) {
+      try { localStorage.setItem(GATE_KEY, 'ok'); } catch (err) {}
+      document.documentElement.classList.add('unlocked');
+      gateBuf = ''; gateDots();
+      return;
+    }
+    var box = $('gateDots');
+    box.classList.remove('err'); void box.offsetWidth; box.classList.add('err');
+    setTimeout(function () { box.classList.remove('err'); }, 320);
+    gateBuf = ''; gateDots();
+  });
+});
+
 /* ── Музыка: пульт для приложения Spotify ───────────── */
 /* Звук идёт из приложения Spotify на планшете, страница только шлёт ему
    команды через Web API. Встроенный плеер (iframe) без входа играл
