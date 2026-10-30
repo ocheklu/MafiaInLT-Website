@@ -318,7 +318,7 @@ body.day .day-overlay{
 
 /* ── Музыка ──────────────────────────────────────────── */
 
-.music-bar{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.music-bar{display:flex;align-items:center;justify-content:flex-end;gap:12px}
 .music-bar h2{
   font-size:.78rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);
   font-family:'Poppins',sans-serif;font-weight:400;
@@ -452,7 +452,6 @@ body.day .day-overlay{
 .sp-main{flex:0 0 62px}
 .sp-vol{display:flex;align-items:center;gap:10px;flex:1 1 auto;min-width:0}
 .sp-vol svg{width:18px;height:18px;flex:0 0 18px;fill:var(--muted)}
-.sp-vol.off{opacity:.35}
 
 .sp-status{min-height:1.2em;font-size:.75rem;color:var(--muted);text-align:center}
 .sp-status.err{color:#c96a6a}

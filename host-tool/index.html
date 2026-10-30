@@ -14,7 +14,7 @@
 <meta name="theme-color" content="#0a0a0a">
 <meta name="mobile-web-app-capable" content="yes">
 <!-- ?v= менять при каждой правке style.css или app.js: Pages кэширует их на 10 минут -->
-<link rel="stylesheet" href="style.css?v=20261030-3">
+<link rel="stylesheet" href="style.css?v=20261030-4">
 <script>try { if (localStorage.getItem('mafiaHostTool.gate') === 'ok') document.documentElement.classList.add('unlocked'); } catch (e) {}</script>
 </head>
 <body data-tab="sablonas">
@@ -48,13 +48,9 @@
   </button>
 
   <div class="hdr-tools">
-    <button type="button" id="btnExport" class="tool">💾 Kopija</button>
-    <button type="button" id="btnImport" class="tool">📂 Įkelti</button>
-    <button type="button" id="btnPrint" class="tool">Spausdinti</button>
     <button type="button" id="btnSession" class="tool">Nauja sesija</button>
     <button type="button" id="btnReset" class="tool">Naujas žaidimas</button>
   </div>
-  <input type="file" id="fileInput" accept="application/json,.json" hidden>
 </header>
 
 <nav class="tabs">
@@ -71,7 +67,6 @@
 
         <section class="block">
           <div class="block-head">
-            <h2>ŽAIDĖJAS</h2>
             <div class="block-acts">
               <button type="button" id="btnPool" class="act">Svečiai</button>
               <button type="button" id="btnAddPlayer" class="act">+ Pridėti žaidėją</button>
@@ -89,7 +84,6 @@
         </section>
 
         <section class="block">
-          <h2>VAIDMUO</h2>
           <div class="roles" id="roles"></div>
         </section>
 
@@ -116,7 +110,6 @@
 
   <aside class="col-right">
     <div class="music-bar">
-      <h2>Muzika</h2>
       <button type="button" id="btnCfg" class="cfg">⚙️</button>
     </div>
     <div class="cfg-box" id="cfgBox" hidden>
@@ -129,7 +122,6 @@
     <div class="pl-tabs" id="plTabs"></div>
     <div class="player-wrap">
       <div class="sp-login" id="spLogin">
-        <p>Muzika groja Spotify programėlėje, skydelis ją valdo.</p>
         <button type="button" id="btnSpLogin" class="act">Prisijungti prie Spotify</button>
       </div>
       <div class="sp-remote" id="spRemote" hidden>
@@ -172,7 +164,6 @@
 <div class="modal" id="poolModal" hidden>
   <div class="modal-box pool-box">
     <button type="button" class="pin-close" id="poolClose">✕</button>
-    <div class="pin-title">Svečiai</div>
     <div class="pool-add">
       <input type="text" id="poolInput" autocomplete="off" placeholder="Vardas">
       <button type="button" id="poolAdd" class="act act-min">+</button>
@@ -196,6 +187,6 @@
   <div class="pin-grid" id="gateGrid"></div>
 </div>
 
-<script src="app.js?v=20261030-3"></script>
+<script src="app.js?v=20261030-4"></script>
 </body>
 </html>

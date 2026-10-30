@@ -761,7 +761,7 @@ function spRefresh() {
     if (!j || !j.device) {
       spPlaying = false; spPlayBtn(); spShow(null);
       spDur = spPos = 0; spSeekDraw();
-      spStatus('Niekas negroja');
+      spStatus('');
       return;
     }
     spDevice = j.device;
@@ -774,12 +774,7 @@ function spRefresh() {
     spPos = j.progress_ms || 0;
     spAt = Date.now();
     spSeekDraw();
-    /* у Spotify на Android громкость самого планшета извне обычно не меняется
-       (supports_volume: false) — ползунок остаётся, но гаснет, и об этом сказано */
-    var noVol = j.device.supports_volume === false;
-    $('spVol').disabled = noVol;
-    $('spVolWrap').classList.toggle('off', noVol);
-    spStatus(j.device.name + (noVol ? ' · garsas — planšetės mygtukais' : ''));
+    spStatus('');
     if (Date.now() > spVolBusy && j.device.volume_percent != null) $('spVol').value = j.device.volume_percent;
   }, function (e) { if (e === 'auth') spFail(e); });
 }
@@ -1005,42 +1000,6 @@ Array.prototype.forEach.call(document.querySelectorAll('.tab'), function (t) {
 });
 goTab('sablonas');
 
-/* ── Копия / Įkelti / Spausdinti / Naujas žaidimas ──── */
-
-$('btnExport').addEventListener('click', function () {
-  var blob = new Blob([JSON.stringify(S, null, 2)], { type: 'application/json' }),
-      a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = 'mafia-' + (S.date || new Date().toISOString().slice(0, 10)) + '.json';
-  document.body.appendChild(a);
-  a.click();
-  setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 1000);
-});
-
-$('btnImport').addEventListener('click', function () { $('fileInput').click(); });
-
-$('fileInput').addEventListener('change', function () {
-  var file = this.files && this.files[0];
-  if (!file) return;
-  var fr = new FileReader();
-  fr.onload = function () {
-    try {
-      var st = JSON.parse(fr.result);
-      if (!st || typeof st !== 'object') throw 0;
-      try { localStorage.setItem(KEY, JSON.stringify(st)); } catch (e) {}
-      S = load();
-      renderAll();
-      save();
-    } catch (e) {
-      var b = $('btnImport');
-      b.classList.add('bad');
-      setTimeout(function () { b.classList.remove('bad'); }, 1200);
-    }
-  };
-  fr.readAsText(file);
-  this.value = '';
-});
-
 /* ── Svečiai: пул имён ──────────────────────────────── */
 
 function renderPool() {
@@ -1092,8 +1051,6 @@ $('poolList').addEventListener('click', function (e) {
   refreshNames();
   refreshOptions();
 });
-
-$('btnPrint').addEventListener('click', function () { window.print(); });
 
 /* Партия закончилась, компания та же: имена на местах, всё остальное с нуля. */
 function clearGame() {
