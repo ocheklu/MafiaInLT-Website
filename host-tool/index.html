@@ -14,7 +14,7 @@
 <meta name="theme-color" content="#0a0a0a">
 <meta name="mobile-web-app-capable" content="yes">
 <!-- ?v= менять при каждой правке style.css или app.js: Pages кэширует их на 10 минут -->
-<link rel="stylesheet" href="style.css?v=20261030-7">
+<link rel="stylesheet" href="style.css?v=20261030-8">
 <script>try { if (localStorage.getItem('mafiaHostTool.gate') === 'ok') document.documentElement.classList.add('unlocked'); } catch (e) {}</script>
 </head>
 <body data-tab="sablonas">
@@ -112,6 +112,7 @@
 
   <aside class="col-right">
     <div class="music-bar">
+      <div class="pl-tabs" id="plTabs"></div>
       <button type="button" id="btnCfg" class="cfg">⚙️</button>
     </div>
     <div class="cfg-box" id="cfgBox" hidden>
@@ -121,7 +122,6 @@
       <button type="button" id="btnCfgSave" class="act">Išsaugoti</button>
       <button type="button" id="btnSpOut" class="act" hidden>Atsijungti nuo Spotify</button>
     </div>
-    <div class="pl-tabs" id="plTabs"></div>
     <div class="player-wrap">
       <div class="sp-login" id="spLogin">
         <button type="button" id="btnSpLogin" class="act">Prisijungti prie Spotify</button>
@@ -189,6 +189,6 @@
   <div class="pin-grid" id="gateGrid"></div>
 </div>
 
-<script src="app.js?v=20261030-7"></script>
+<script src="app.js?v=20261030-8"></script>
 </body>
 </html>
