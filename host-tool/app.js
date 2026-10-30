@@ -1075,7 +1075,7 @@ function clearGame() {
 }
 
 /* ── Статистика вечера → Google-таблица ─────────────── */
-var STATS_URL = '';
+var STATS_URL = 'https://script.google.com/macros/s/AKfycbyOc5nOfDSwiaQ95kfzCJx_7MEJg-AU1d9gW54As-K0KpTZuZKj7cS9LQ9R_lvAxYzC/exec';
 
 function nameOf(id) { var p = playerById(id); return p ? p.name : ''; }
 
