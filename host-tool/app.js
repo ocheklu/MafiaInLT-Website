@@ -1075,6 +1075,7 @@ function clearGame() {
 }
 
 /* ── Статистика вечера → Google-таблица ─────────────── */
+var STATS_KEY = 'mafiaHostTool.statsKey';
 var STATS_URL = 'https://script.google.com/macros/s/AKfycbyOc5nOfDSwiaQ95kfzCJx_7MEJg-AU1d9gW54As-K0KpTZuZKj7cS9LQ9R_lvAxYzC/exec';
 
 function nameOf(id) { var p = playerById(id); return p ? p.name : ''; }
@@ -1125,15 +1126,27 @@ $('btnSend').addEventListener('click', function () {
   if (hasGame()) sessions.push(snapshot(sessions.length + 1));
   if (!sessions.length) return;
   if (!STATS_URL) { alert('Nėra adreso'); return; }
+  var key = '';
+  try { key = localStorage.getItem(STATS_KEY) || ''; } catch (e) {}
+  if (!key) {
+    key = (prompt('Slaptažodis') || '').trim();
+    if (!key) return;
+  }
   if (!S.batch) { S.batch = Date.now().toString(36); save(); }
   btn.disabled = true;
   btn.textContent = '…';
   fetch(STATS_URL, {
     method: 'POST',
     headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-    body: JSON.stringify({ id: S.batch, date: S.date, event: S.event, sessions: sessions })
+    body: JSON.stringify({ key: key, id: S.batch, date: S.date, event: S.event, sessions: sessions })
   }).then(function (r) { return r.json(); }).then(function (j) {
+    if (j.error === 'key') {
+      try { localStorage.removeItem(STATS_KEY); } catch (e) {}
+      btn.textContent = 'Neteisingas slaptažodis';
+      return;
+    }
     if (!j.ok) throw new Error(j.error);
+    try { localStorage.setItem(STATS_KEY, key); } catch (e) {}
     btn.textContent = 'Išsiųsta ✓';
   }).catch(function () {
     btn.textContent = 'Nepavyko';
