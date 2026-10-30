@@ -40,6 +40,9 @@ function fresh() {
     doctor:  { kas: '', ka: [] },
     spec:    { role: '', kas: '', ka: [] },
     notes: '',
+    winner: '',
+    archive: [],
+    batch: '',
     pool: [],
     playlists: [],
     plCur: 0,
@@ -99,7 +102,8 @@ function load() {
   var base = fresh();
   base.players = [];
   seq = 1;
-  ['date', 'event', 'notes', 'pin'].forEach(function (k) { if (typeof st[k] === 'string') base[k] = st[k]; });
+  if (Array.isArray(st.archive)) base.archive = st.archive;
+  ['date', 'event', 'notes', 'pin', 'winner', 'batch'].forEach(function (k) { if (typeof st[k] === 'string') base[k] = st[k]; });
   if (st.rounds) base.rounds = st.rounds;
   if (Array.isArray(st.players)) base.players = st.players;
   ['mafia', 'sheriff', 'doctor', 'spec'].forEach(function (k) {
@@ -125,6 +129,7 @@ function load() {
 var saveTimer = null;
 function save() {
   clearTimeout(saveTimer);
+  if (!$('btnSend').disabled) sendLabel();
   saveTimer = setTimeout(function () {
     try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {}
   }, 120);
@@ -416,6 +421,7 @@ $('roles').addEventListener('input', function (e) {
 
 $('fDate').addEventListener('input', function () { S.date = this.value; save(); });
 $('fEvent').addEventListener('input', function () { S.event = this.value; save(); });
+$('fWinner').addEventListener('change', function () { S.winner = this.value; save(); });
 
 var notes = $('fNotes');
 function growNotes() { notes.style.height = 'auto'; notes.style.height = notes.scrollHeight + 'px'; }
@@ -1064,11 +1070,81 @@ function clearGame() {
   S.doctor  = { kas: '', ka: [] };
   S.spec    = { role: '', kas: '', ka: [] };
   S.notes = '';
+  S.winner = '';
   normalize(S);
 }
 
+/* ── Статистика вечера → Google-таблица ─────────────── */
+var STATS_URL = '';
+
+function nameOf(id) { var p = playerById(id); return p ? p.name : ''; }
+
+function hasGame() {
+  return S.players.some(function (p) { return p.name; }) &&
+         (S.winner || S.mafia.kas.some(Boolean) || S.mafia.ka.some(Boolean));
+}
+
+function snapshot(n) {
+  var role = {}, team = {};
+  S.mafia.kas.forEach(function (id) { if (id) { role[id] = 'Mafija'; team[id] = 'Mafija'; } });
+  if (S.sheriff.kas) role[S.sheriff.kas] = 'Šerifas';
+  if (S.doctor.kas) role[S.doctor.kas] = 'Daktaras';
+  if (S.spec.kas && S.spec.role.trim()) role[S.spec.kas] = S.spec.role.trim();
+
+  var players = S.players.filter(function (p) { return p.name; }).map(function (p) {
+    var t = team[p.id] || 'Miestas';
+    return {
+      name: p.name, role: role[p.id] || 'Miestietis', team: t,
+      won: S.winner ? (S.winner === t ? 1 : 0) : '',
+      dead: p.dead,
+      votes: p.votes.map(function (v, r) { return v === '' ? '' : (r + 1) + ':' + v; }).filter(Boolean).join(' ')
+    };
+  });
+
+  var nights = [];
+  function add(round, r, kas, ka) { if (ka) nights.push({ round: round, role: r, kas: kas, ka: nameOf(ka) }); }
+  var mafia = S.mafia.kas.filter(Boolean).map(nameOf).join(', ');
+  for (var i = 0; i < S.rounds; i++) {
+    add(i + 1, 'Mafija', mafia, S.mafia.ka[i]);
+    add(i + 1, 'Daktaras', nameOf(S.doctor.kas), S.doctor.ka[i]);
+    if (S.spec.role.trim()) add(i + 1, S.spec.role.trim(), nameOf(S.spec.kas), S.spec.ka[i]);
+  }
+  add('', 'Šerifas', nameOf(S.sheriff.kas), S.sheriff.ka);
+
+  return { n: n, winner: S.winner, notes: S.notes, players: players, nights: nights };
+}
+
+function sendLabel() {
+  var n = S.archive.length + (hasGame() ? 1 : 0);
+  $('btnSend').textContent = n ? 'Siųsti · ' + n : 'Siųsti';
+}
+
+$('btnSend').addEventListener('click', function () {
+  var btn = this;
+  var sessions = S.archive.slice();
+  if (hasGame()) sessions.push(snapshot(sessions.length + 1));
+  if (!sessions.length) return;
+  if (!STATS_URL) { alert('Nėra adreso'); return; }
+  if (!S.batch) { S.batch = Date.now().toString(36); save(); }
+  btn.disabled = true;
+  btn.textContent = '…';
+  fetch(STATS_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+    body: JSON.stringify({ id: S.batch, date: S.date, event: S.event, sessions: sessions })
+  }).then(function (r) { return r.json(); }).then(function (j) {
+    if (!j.ok) throw new Error(j.error);
+    btn.textContent = 'Išsiųsta ✓';
+  }).catch(function () {
+    btn.textContent = 'Nepavyko';
+  }).then(function () {
+    setTimeout(function () { btn.disabled = false; sendLabel(); }, 2500);
+  });
+});
+
 $('btnSession').addEventListener('click', function () {
   if (!confirm('Nauja sesija?')) return;
+  if (hasGame()) S.archive.push(snapshot(S.archive.length + 1));
   clearGame();
   save();
   renderAll();
@@ -1082,6 +1158,8 @@ $('btnReset').addEventListener('click', function () {
   S.date = '';
   S.event = '';
   S.pool = [];                       // гости прошлого мероприятия — новому не нужны
+  S.archive = [];
+  S.batch = '';
   S.players = [];
   for (var i = 0; i < START_PLAYERS; i++) S.players.push(newPlayer());
   normalize(S);
@@ -1097,6 +1175,8 @@ function renderAll() {
   $('fDate').value  = S.date;
   $('fEvent').value = S.event;
   $('fNotes').value = S.notes;
+  $('fWinner').value = S.winner;
+  sendLabel();
   Array.prototype.forEach.call(document.querySelectorAll('.pl-name'), function (el) {
     el.value = S.playlists[+el.dataset.i].name;
   });

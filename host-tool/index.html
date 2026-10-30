@@ -14,7 +14,7 @@
 <meta name="theme-color" content="#0a0a0a">
 <meta name="mobile-web-app-capable" content="yes">
 <!-- ?v= менять при каждой правке style.css или app.js: Pages кэширует их на 10 минут -->
-<link rel="stylesheet" href="style.css?v=20261030-4">
+<link rel="stylesheet" href="style.css?v=20261030-5">
 <script>try { if (localStorage.getItem('mafiaHostTool.gate') === 'ok') document.documentElement.classList.add('unlocked'); } catch (e) {}</script>
 </head>
 <body data-tab="sablonas">
@@ -40,6 +40,7 @@
   <div class="hdr-fields">
     <label class="f"><span>Žaidimo data</span><input type="date" id="fDate"></label>
     <label class="f f-grow"><span>Renginio pavadinimas</span><input type="text" id="fEvent" autocomplete="off"></label>
+    <label class="f"><span>Laimėjo</span><select id="fWinner"><option value=""></option><option>Miestas</option><option>Mafija</option></select></label>
   </div>
 
   <button type="button" id="modeBtn" class="eye eye-lg" aria-label="">
@@ -50,6 +51,7 @@
   <div class="hdr-tools">
     <button type="button" id="btnSession" class="tool">Nauja sesija</button>
     <button type="button" id="btnReset" class="tool">Naujas žaidimas</button>
+    <button type="button" id="btnSend" class="tool">Siųsti</button>
   </div>
 </header>
 
@@ -187,6 +189,6 @@
   <div class="pin-grid" id="gateGrid"></div>
 </div>
 
-<script src="app.js?v=20261030-4"></script>
+<script src="app.js?v=20261030-5"></script>
 </body>
 </html>
