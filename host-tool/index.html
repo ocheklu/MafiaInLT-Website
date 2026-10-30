@@ -9,8 +9,12 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Lora:wght@500;600&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
 <link rel="icon" href="../images/mafia-club-gold.webp">
+<!-- manifest: «Добавить на главный экран» в Chrome открывает пульт на весь экран, без адресной строки -->
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#0a0a0a">
+<meta name="mobile-web-app-capable" content="yes">
 <!-- ?v= менять при каждой правке style.css или app.js: Pages кэширует их на 10 минут -->
-<link rel="stylesheet" href="style.css?v=20261030-2">
+<link rel="stylesheet" href="style.css?v=20261030-3">
 <script>try { if (localStorage.getItem('mafiaHostTool.gate') === 'ok') document.documentElement.classList.add('unlocked'); } catch (e) {}</script>
 </head>
 <body data-tab="sablonas">
@@ -139,20 +143,23 @@
                 <div class="sp-artist" id="spArtist"></div>
               </div>
             </div>
+            <div class="sp-seek">
+              <span id="spPos">0:00</span>
+              <input type="range" id="spSeek" min="0" max="1000" step="1" value="0" aria-label="Vieta takelyje">
+              <span id="spDur">0:00</span>
+            </div>
             <div class="sp-ctrl">
-              <button type="button" id="spPrev" class="sp-btn" aria-label="Atgal"><svg><use href="#ico-prev"></use></svg></button>
               <button type="button" id="spPlay" class="sp-btn sp-main" aria-label="Groti">
                 <svg class="i-play"><use href="#ico-play"></use></svg>
                 <svg class="i-pause"><use href="#ico-pause"></use></svg>
               </button>
-              <button type="button" id="spNext" class="sp-btn" aria-label="Toliau"><svg><use href="#ico-next"></use></svg></button>
+              <label class="sp-vol" id="spVolWrap">
+                <svg><use href="#ico-vol"></use></svg>
+                <input type="range" id="spVol" min="0" max="100" step="1" aria-label="Garsas">
+              </label>
             </div>
             <div class="sp-status" id="spStatus"></div>
           </div>
-          <label class="sp-vol" id="spVolWrap">
-            <input type="range" id="spVol" min="0" max="100" step="1" aria-label="Garsas">
-            <svg><use href="#ico-vol"></use></svg>
-          </label>
         </div>
       </div>
     </div>
@@ -189,6 +196,6 @@
   <div class="pin-grid" id="gateGrid"></div>
 </div>
 
-<script src="app.js?v=20261030-2"></script>
+<script src="app.js?v=20261030-3"></script>
 </body>
 </html>

@@ -760,6 +760,7 @@ function spRefresh() {
   spApi('GET', '/me/player').then(function (j) {
     if (!j || !j.device) {
       spPlaying = false; spPlayBtn(); spShow(null);
+      spDur = spPos = 0; spSeekDraw();
       spStatus('Niekas negroja');
       return;
     }
@@ -769,9 +770,16 @@ function spRefresh() {
     if (cur !== spCurUri) { spCurUri = cur; spMark(true); }
     spPlayBtn();
     spShow(j.item);
-    spStatus(j.device.name);
-    /* у части телефонов Spotify не даёт менять громкость извне — тогда кнопки планшета */
-    $('spVolWrap').hidden = j.device.supports_volume === false;
+    spDur = (j.item && j.item.duration_ms) || 0;
+    spPos = j.progress_ms || 0;
+    spAt = Date.now();
+    spSeekDraw();
+    /* у Spotify на Android громкость самого планшета извне обычно не меняется
+       (supports_volume: false) — ползунок остаётся, но гаснет, и об этом сказано */
+    var noVol = j.device.supports_volume === false;
+    $('spVol').disabled = noVol;
+    $('spVolWrap').classList.toggle('off', noVol);
+    spStatus(j.device.name + (noVol ? ' · garsas — planšetės mygtukais' : ''));
     if (Date.now() > spVolBusy && j.device.volume_percent != null) $('spVol').value = j.device.volume_percent;
   }, function (e) { if (e === 'auth') spFail(e); });
 }
@@ -887,12 +895,45 @@ $('btnSpOut').addEventListener('click', function () {
 });
 
 $('spPlay').addEventListener('click', function () {
+  spPos = spNowPos(); spAt = Date.now();
   spPlaying = !spPlaying;            // отвечаем сразу, не дожидаясь Spotify
   spPlayBtn();
   spCmd('PUT', spPlaying ? '/me/player/play' : '/me/player/pause');
 });
-$('spPrev').addEventListener('click', function () { spCmd('POST', '/me/player/previous'); });
-$('spNext').addEventListener('click', function () { spCmd('POST', '/me/player/next'); });
+/* ── Позиция в треке ─────────────────────────────────── */
+/* Spotify опрашивается раз в 4 с, между опросами позиция досчитывается
+   по часам — полоска едет плавно, а не скачками. */
+var spDur = 0, spPos = 0, spAt = 0, spSeeking = false;
+
+function mmss(ms) {
+  var s = Math.max(0, Math.floor(ms / 1000));
+  return Math.floor(s / 60) + ':' + ('0' + s % 60).slice(-2);
+}
+function spNowPos() {
+  var p = spPos + (spPlaying ? Date.now() - spAt : 0);
+  return spDur ? Math.min(p, spDur) : 0;
+}
+function spSeekDraw() {
+  if (spSeeking) return;
+  var p = spNowPos();
+  $('spSeek').value = spDur ? Math.round(p / spDur * 1000) : 0;
+  $('spSeek').disabled = !spDur;
+  $('spPos').textContent = mmss(p);
+  $('spDur').textContent = mmss(spDur);
+}
+setInterval(function () { if (!document.hidden && spPlaying) spSeekDraw(); }, 500);
+
+$('spSeek').addEventListener('input', function () {
+  spSeeking = true;                  // пока палец на полоске, опрос её не двигает
+  $('spPos').textContent = mmss(this.value / 1000 * spDur);
+});
+$('spSeek').addEventListener('change', function () {
+  var ms = Math.round(this.value / 1000 * spDur);
+  spSeeking = false;
+  spPos = ms; spAt = Date.now();
+  spSeekDraw();
+  spCmd('PUT', '/me/player/seek?position_ms=' + ms);
+});
 
 var volTimer = null;
 $('spVol').addEventListener('input', function () {
@@ -1083,6 +1124,7 @@ $('btnReset').addEventListener('click', function () {
   clearGame();
   S.date = '';
   S.event = '';
+  S.pool = [];                       // гости прошлого мероприятия — новому не нужны
   S.players = [];
   for (var i = 0; i < START_PLAYERS; i++) S.players.push(newPlayer());
   normalize(S);

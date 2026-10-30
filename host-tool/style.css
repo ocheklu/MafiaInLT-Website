@@ -424,8 +424,18 @@ body.day .day-overlay{
 .sp-track{font-size:1rem}
 .sp-artist{margin-top:3px;color:var(--muted);font-size:.8rem}
 
-/* Без плашек: соседние кнопки — просто знак, play — тонкое золотое кольцо */
-.sp-ctrl{display:flex;align-items:center;justify-content:center;gap:30px}
+/* Позиция в треке: время слева и справа, полоска тянется пальцем */
+.sp-seek{display:flex;align-items:center;gap:12px}
+.sp-seek span{flex:0 0 auto;min-width:36px;font-size:.72rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.sp-seek span:last-child{text-align:right}
+.sp-seek input,.sp-vol input{
+  flex:1 1 auto;min-width:0;height:32px;
+  margin:0;padding:0;border:0;background:none;
+  accent-color:var(--gold);
+}
+
+/* play — тонкое золотое кольцо, громкость рядом горизонтально */
+.sp-ctrl{display:flex;align-items:center;gap:22px}
 .sp-btn{
   display:flex;align-items:center;justify-content:center;
   width:48px;height:48px;
@@ -439,22 +449,10 @@ body.day .day-overlay{
 .sp-main.is-playing .i-play{display:none}
 .sp-main.is-playing .i-pause{display:block}
 
-/* Вертикальная громкость: верх — громче */
-.sp-vol{
-  display:flex;flex-direction:column;align-items:center;gap:10px;
-  flex:0 0 auto;
-  padding-left:18px;
-  border-left:1px solid var(--line-soft);
-}
-.sp-vol[hidden]{display:none}
-.sp-vol input{
-  writing-mode:vertical-lr;direction:rtl;
-  flex:1 1 auto;
-  width:28px;min-height:110px;
-  margin:0;padding:0;border:0;background:none;
-  accent-color:var(--gold);
-}
-.sp-vol svg{width:16px;height:16px;flex:0 0 16px;fill:var(--muted)}
+.sp-main{flex:0 0 62px}
+.sp-vol{display:flex;align-items:center;gap:10px;flex:1 1 auto;min-width:0}
+.sp-vol svg{width:18px;height:18px;flex:0 0 18px;fill:var(--muted)}
+.sp-vol.off{opacity:.35}
 
 .sp-status{min-height:1.2em;font-size:.75rem;color:var(--muted);text-align:center}
 .sp-status.err{color:#c96a6a}
