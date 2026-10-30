@@ -591,7 +591,9 @@ html.unlocked .gate{display:none}
 
 @media (orientation:landscape){
   .layout{grid-template-columns:60fr 40fr}
-  .col-right{position:sticky;top:22px;height:calc(100vh - 62px)}
+  /* высота с учётом шапки (~93px): иначе на открытой странице дека
+     плеера уходит под нижний край экрана */
+  .col-right{position:sticky;top:22px;height:calc(100vh - 137px)}
   .player-wrap{flex:1 1 auto;min-height:0}
 }
 
