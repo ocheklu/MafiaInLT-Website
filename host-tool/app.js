@@ -737,13 +737,6 @@ function spUri(raw) {
   return m ? { type: m[1], uri: 'spotify:' + m[1] + ':' + m[2] } : null;
 }
 
-function spStart(i) {
-  var u = spUri(S.playlists[i] && S.playlists[i].url);
-  if (!u) return;
-  var single = u.type === 'track' || u.type === 'episode';
-  spCmd('PUT', '/me/player/play', single ? { uris: [u.uri] } : { context_uri: u.uri });
-}
-
 function spShow(item) {
   var imgs = item ? ((item.album && item.album.images) || item.images || []) : [],
       cover = $('spCover');
@@ -930,8 +923,7 @@ $('plTabs').addEventListener('click', function (e) {
   S.plCur = +b.dataset.i;
   save();
   renderPlTabs();
-  spShowList();
-  spStart(S.plCur);
+  spShowList();      // только показать треки: играющее не прерываем, пока не выбран трек
 });
 
 $('btnCfg').addEventListener('click', function () {
