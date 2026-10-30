@@ -574,7 +574,8 @@ $('gateGrid').addEventListener('click', function (e) {
 var SP_ID       = '9b4b85585f334f40865046968c075264',
     SP_KEY      = 'mafiaHostTool.spotify',
     SP_REDIRECT = 'https://mafiain.lt/host-tool/',   // ровно как в Spotify Dashboard
-    SP_SCOPES   = 'user-read-playback-state user-modify-playback-state user-read-currently-playing',
+    SP_SCOPES   = 'user-read-playback-state user-modify-playback-state user-read-currently-playing ' +
+                  'playlist-read-private playlist-read-collaborative',
     SP_POLL_MS  = 4000;
 
 var sp = null,            // { access, refresh, exp }
@@ -632,6 +633,7 @@ function spToken(params) {
     sp = {
       access: j.access_token,
       refresh: j.refresh_token || (sp && sp.refresh),
+      scope: j.scope || (sp && sp.scope) || '',
       exp: Date.now() + (j.expires_in - 60) * 1000
     };
     spSave();
@@ -770,6 +772,8 @@ function spRefresh() {
     }
     spDevice = j.device;
     spPlaying = !!j.is_playing;
+    var cur = (j.item && j.item.uri) || '';
+    if (cur !== spCurUri) { spCurUri = cur; spMark(true); }
     spPlayBtn();
     spShow(j.item);
     spStatus(j.device.name);
@@ -783,7 +787,105 @@ function spRender() {
   $('spLogin').hidden = !!sp;
   $('spRemote').hidden = !sp;
   $('btnSpOut').hidden = !sp;
+  spShowList();
 }
+
+/* ── Список треков выбранного плейлиста ─────────────── */
+/* Тап по треку — играть плейлист с этого места. Читать плейлисты
+   нужен отдельный scope: вход до 30 октября его не просил. */
+
+var spLists = {},      // url → { uri, tracks } | { err } | { none }
+    spPending = {},
+    spCurUri = '';
+
+function spHasScope() { return !!(sp && sp.scope && sp.scope.indexOf('playlist-read-private') >= 0); }
+function spCurUrl() { return (S.playlists[S.plCur] && S.playlists[S.plCur].url) || ''; }
+
+function spFetchAll(path, out) {
+  return spApi('GET', path).then(function (j) {
+    ((j && j.items) || []).forEach(function (x) { out.push(x); });
+    return j && j.next ? spFetchAll(j.next.replace('https://api.spotify.com/v1', ''), out) : out;
+  });
+}
+
+function spLoadList(url) {
+  var u = spUri(url);
+  if (!u || (u.type !== 'playlist' && u.type !== 'album')) return Promise.resolve({ none: true });
+  var id = u.uri.split(':')[2], get;
+  if (u.type === 'album') get = spFetchAll('/albums/' + id + '/tracks?limit=50', []);
+  /* /items — новое имя метода, /tracks — прежнее; пробуем оба */
+  else get = spFetchAll('/playlists/' + id + '/items?limit=100', []).catch(function (e) {
+    if (e === 'auth') throw e;
+    return spFetchAll('/playlists/' + id + '/tracks?limit=100', []);
+  });
+  return get.then(function (items) {
+    return { uri: u.uri, tracks: items.map(function (x, i) {
+      var t = x.item || x.track || x;          // в плейлисте трек вложен, в альбоме — нет
+      if (!t || !t.name) return null;
+      return {
+        uri: t.uri || '', name: t.name, pos: i,
+        artist: (t.artists || []).map(function (a) { return a.name; }).join(', ') || (t.show && t.show.name) || ''
+      };
+    }).filter(Boolean) };
+  }, function (e) { return { err: (e && e.status) || 1 }; });
+}
+
+function spRenderList() {
+  var box = $('spList'), url = spCurUrl(), L = spLists[url], h = '';
+  if (!sp || !url) { box.innerHTML = ''; return; }
+  if (!spHasScope()) {
+    box.innerHTML = '<div class="sp-list-note">Kad matytumėte dainų sąrašą, prisijunkite iš naujo' +
+                    '<button type="button" class="act" data-relogin>Prisijungti</button></div>';
+    return;
+  }
+  if (!L) { box.innerHTML = '<div class="sp-list-note">Kraunama…</div>'; return; }
+  if (L.none) { box.innerHTML = ''; return; }
+  if (L.err) {
+    box.innerHTML = '<div class="sp-list-note">' + (L.err === 403 || L.err === 404
+      ? 'Spotify neleidžia parodyti šio sąrašo dainų' : 'Nepavyko įkelti dainų sąrašo') + '</div>';
+    return;
+  }
+  L.tracks.forEach(function (t) {
+    h += '<button type="button" class="sp-row" data-pos="' + t.pos + '" data-uri="' + esc(t.uri) + '">' +
+         '<span class="sp-row-name">' + esc(t.name) + '</span>' +
+         '<span class="sp-row-artist">' + esc(t.artist) + '</span></button>';
+  });
+  box.innerHTML = h || '<div class="sp-list-note">Sąrašas tuščias</div>';
+  spMark(true);
+}
+
+/* Подсветка играющего трека; scroll — подвести его в видимую часть списка */
+function spMark(scroll) {
+  var box = $('spList'), on = null;
+  Array.prototype.forEach.call(box.querySelectorAll('.sp-row'), function (r) {
+    var m = !!spCurUri && r.dataset.uri === spCurUri;
+    r.classList.toggle('on', m);
+    if (m) on = r;
+  });
+  if (scroll && on && (on.offsetTop < box.scrollTop ||
+      on.offsetTop + on.offsetHeight > box.scrollTop + box.clientHeight)) {
+    box.scrollTop = on.offsetTop - box.clientHeight / 3;
+  }
+}
+
+function spShowList() {
+  var url = spCurUrl();
+  spRenderList();
+  if (!sp || !url || spLists[url] || spPending[url] || !spHasScope()) return;
+  spPending[url] = true;
+  spLoadList(url).then(function (L) {
+    delete spPending[url];
+    spLists[url] = L;
+    if (url === spCurUrl()) spRenderList();
+  });
+}
+
+$('spList').addEventListener('click', function (e) {
+  if (e.target.closest('[data-relogin]')) { spLogin(); return; }
+  var b = e.target.closest('.sp-row'), L = spLists[spCurUrl()];
+  if (!b || !L || !L.uri) return;
+  spCmd('PUT', '/me/player/play', { context_uri: L.uri, offset: { position: +b.dataset.pos } });
+});
 
 $('btnSpLogin').addEventListener('click', spLogin);
 
@@ -828,6 +930,7 @@ $('plTabs').addEventListener('click', function (e) {
   S.plCur = +b.dataset.i;
   save();
   renderPlTabs();
+  spShowList();
   spStart(S.plCur);
 });
 
@@ -851,6 +954,7 @@ $('btnCfgSave').addEventListener('click', function () {
   }
   save();
   renderPlTabs();
+  spShowList();
   $('cfgBox').hidden = true;
   $('btnCfg').classList.remove('on');
 });

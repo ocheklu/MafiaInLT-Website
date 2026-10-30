@@ -378,7 +378,34 @@ body.day .day-overlay{
   text-align:center;color:var(--muted);font-size:.9rem;
 }
 
-.sp-remote{display:flex;flex-direction:column;gap:26px}
+.sp-remote{display:flex;flex-direction:column;gap:26px;flex:1 1 auto;min-height:0}
+
+/* Треки плейлиста: прокручиваются внутри колонки, страница стоит */
+.sp-list{
+  position:relative;
+  flex:1 1 auto;
+  min-height:0;
+  overflow-y:auto;
+  margin:0 -8px;
+  padding-top:10px;
+  border-top:1px solid var(--line-soft);
+}
+.sp-list:empty{display:none}
+.sp-row{
+  display:flex;flex-direction:column;align-items:flex-start;
+  width:100%;
+  padding:10px 8px;
+  border-radius:var(--r);
+  text-align:left;
+}
+.sp-row-name,.sp-row-artist{max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sp-row-artist{margin-top:2px;color:var(--muted);font-size:.78rem}
+.sp-row.on .sp-row-name{color:var(--gold)}
+.sp-list-note{
+  display:flex;flex-direction:column;align-items:center;gap:12px;
+  padding:16px 0;
+  color:var(--muted);font-size:.85rem;text-align:center;
+}
 
 .sp-now{display:flex;align-items:center;gap:16px;min-width:0}
 .sp-cover{
@@ -535,7 +562,7 @@ html.unlocked .gate{display:none}
 /* ── Отклик на тап ───────────────────────────────────── */
 
 .tool:active,.act:active,.tab:active,.cfg:active,.vote:active,
-.dead:active,.eye:active,.key:active,.pin-key:active,.pl-tab:active,.pool-del:active,.sp-btn:active{
+.dead:active,.eye:active,.key:active,.pin-key:active,.pl-tab:active,.pool-del:active,.sp-btn:active,.sp-row:active{
   background:#1d1d1d;
   transition:background-color 80ms;
 }
@@ -560,6 +587,7 @@ html.unlocked .gate{display:none}
   body[data-tab="sablonas"] .col-right{display:none}
   body[data-tab="muzika"] .col-left{display:none}
   .player-wrap{min-height:50vh}
+  .sp-list{max-height:55vh}
 }
 
 /* ── Печать: чёрным по белому ────────────────────────── */
