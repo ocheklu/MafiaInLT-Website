@@ -586,8 +586,7 @@ var SP_ID       = '9b4b85585f334f40865046968c075264',
 
 var sp = null,            // { access, refresh, exp }
     spDevice = null,
-    spPlaying = false,
-    spVolBusy = 0;
+    spPlaying = false;
 
 function spLoad() {
   try { sp = JSON.parse(localStorage.getItem(SP_KEY)); } catch (e) { sp = null; }
@@ -781,7 +780,6 @@ function spRefresh() {
     spAt = Date.now();
     spSeekDraw();
     spStatus('');
-    if (Date.now() > spVolBusy && j.device.volume_percent != null) $('spVol').value = j.device.volume_percent;
   }, function (e) { if (e === 'auth') spFail(e); });
 }
 
@@ -934,14 +932,6 @@ $('spSeek').addEventListener('change', function () {
   spPos = ms; spAt = Date.now();
   spSeekDraw();
   spCmd('PUT', '/me/player/seek?position_ms=' + ms);
-});
-
-var volTimer = null;
-$('spVol').addEventListener('input', function () {
-  var v = this.value;
-  spVolBusy = Date.now() + 2500;     // опрос не перетаскивает ползунок из-под пальца
-  clearTimeout(volTimer);
-  volTimer = setTimeout(function () { spCmd('PUT', '/me/player/volume?volume_percent=' + v); }, 250);
 });
 
 setInterval(function () { if (!document.hidden) spRefresh(); }, SP_POLL_MS);

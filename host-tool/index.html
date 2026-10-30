@@ -14,7 +14,7 @@
 <meta name="theme-color" content="#0a0a0a">
 <meta name="mobile-web-app-capable" content="yes">
 <!-- ?v= менять при каждой правке style.css или app.js: Pages кэширует их на 10 минут -->
-<link rel="stylesheet" href="style.css?v=20261030-8">
+<link rel="stylesheet" href="style.css?v=20261030-9">
 <script>try { if (localStorage.getItem('mafiaHostTool.gate') === 'ok') document.documentElement.classList.add('unlocked'); } catch (e) {}</script>
 </head>
 <body data-tab="sablonas">
@@ -31,7 +31,6 @@
   <symbol id="ico-next" viewBox="0 0 24 24"><path d="M16 5h2v14h-2zM4 5v14l11-7z"/></symbol>
   <symbol id="ico-play" viewBox="0 0 24 24"><path d="M7 4v16l13-8z"/></symbol>
   <symbol id="ico-pause" viewBox="0 0 24 24"><path d="M6 4h4v16H6zM14 4h4v16h-4z"/></symbol>
-  <symbol id="ico-vol" viewBox="0 0 24 24"><path d="M4 9v6h4l5 4V5L8 9H4zM16.5 12A4.5 4.5 0 0 0 14 8v8a4.5 4.5 0 0 0 2.5-4z"/></symbol>
 </svg>
 
 <header class="hdr">
@@ -147,10 +146,6 @@
                 <svg class="i-play"><use href="#ico-play"></use></svg>
                 <svg class="i-pause"><use href="#ico-pause"></use></svg>
               </button>
-              <label class="sp-vol" id="spVolWrap">
-                <svg><use href="#ico-vol"></use></svg>
-                <input type="range" id="spVol" min="0" max="100" step="1" aria-label="Garsas">
-              </label>
             </div>
             <div class="sp-status" id="spStatus"></div>
           </div>
@@ -189,6 +184,6 @@
   <div class="pin-grid" id="gateGrid"></div>
 </div>
 
-<script src="app.js?v=20261030-8"></script>
+<script src="app.js?v=20261030-9"></script>
 </body>
 </html>

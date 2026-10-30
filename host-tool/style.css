@@ -429,14 +429,14 @@ body.day .day-overlay{
 .sp-seek{display:flex;align-items:center;gap:12px}
 .sp-seek span{flex:0 0 auto;min-width:36px;font-size:.72rem;color:var(--muted);font-variant-numeric:tabular-nums}
 .sp-seek span:last-child{text-align:right}
-.sp-seek input,.sp-vol input{
+.sp-seek input{
   flex:1 1 auto;min-width:0;height:32px;
   margin:0;padding:0;border:0;background:none;
   accent-color:var(--gold);
 }
 
-/* play — тонкое золотое кольцо, громкость рядом горизонтально */
-.sp-ctrl{display:flex;align-items:center;gap:22px}
+/* play — тонкое золотое кольцо по центру */
+.sp-ctrl{display:flex;align-items:center;justify-content:center}
 .sp-btn{
   display:flex;align-items:center;justify-content:center;
   width:48px;height:48px;
@@ -451,8 +451,6 @@ body.day .day-overlay{
 .sp-main.is-playing .i-pause{display:block}
 
 .sp-main{flex:0 0 62px}
-.sp-vol{display:flex;align-items:center;gap:10px;flex:1 1 auto;min-width:0}
-.sp-vol svg{width:18px;height:18px;flex:0 0 18px;fill:var(--muted)}
 
 .sp-status{min-height:1.2em;font-size:.75rem;color:var(--muted);text-align:center}
 .sp-status.err{color:#c96a6a}
