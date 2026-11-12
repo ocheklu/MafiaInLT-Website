@@ -8,8 +8,9 @@ const calculatorState = {
     dateEnd: null,
     tables: null,
     days: null,
-    location: 'vilnius',
+    location: 'own',
     distance: 0,
+    venues: [],
     additionalServices: [],
     currentStep: 1,
     completedSteps: [1]
@@ -39,7 +40,7 @@ function updateProgressBar(currentStep) {
     const progressLine = document.querySelector('.progress-line');
     const progressLineBg = document.querySelector('.progress-line-bg');
     const progressBullet = document.querySelector('.progress-bullet');
-    
+
     steps.forEach((step, index) => {
         const stepNum = index + 1;
         if (stepNum < currentStep) {
@@ -52,32 +53,32 @@ function updateProgressBar(currentStep) {
             step.classList.remove('active', 'completed');
         }
     });
-    
+
     // Calculate width of progress line from center to center
     const progressBar = document.querySelector('.progress-bar');
     const firstStep = steps[0];
     const targetStep = steps[currentStep - 1];
-    
+
     if (progressBar && firstStep && targetStep) {
         const firstRect = firstStep.getBoundingClientRect();
         const targetRect = targetStep.getBoundingClientRect();
         const barRect = progressBar.getBoundingClientRect();
-        
+
         // Calculate centers
         const firstCenter = firstRect.left + (firstRect.width / 2) - barRect.left;
         const targetCenter = targetRect.left + (targetRect.width / 2) - barRect.left;
-        
+
         // Width from first center to target center
         const lineWidth = targetCenter - firstCenter;
         progressLine.style.width = lineWidth + 'px';
         progressLine.style.left = firstCenter + 'px';
-        
+
         // Position background line from first to last step
         if (progressLineBg) {
             const lastStep = steps[steps.length - 1];
             const lastRect = lastStep.getBoundingClientRect();
             const lastCenter = lastRect.left + (lastRect.width / 2) - barRect.left;
-            
+
             progressLineBg.style.left = firstCenter + 'px';
             progressLineBg.style.width = (lastCenter - firstCenter) + 'px';
         }
@@ -92,26 +93,29 @@ function resetStepsAfter(stepNumber) {
         calculatorState.dateEnd = null;
         calculatorState.tables = null;
         calculatorState.days = null;
-        calculatorState.location = 'vilnius';
+        calculatorState.location = 'own';
         calculatorState.distance = 0;
+        calculatorState.venues = [];
         calculatorState.additionalServices = [];
     }
     if (stepNumber < 3) {
         calculatorState.tables = null;
         calculatorState.days = null;
-        calculatorState.location = 'vilnius';
+        calculatorState.location = 'own';
         calculatorState.distance = 0;
+        calculatorState.venues = [];
         calculatorState.additionalServices = [];
     }
     if (stepNumber < 4) {
-        calculatorState.location = 'vilnius';
+        calculatorState.location = 'own';
         calculatorState.distance = 0;
+        calculatorState.venues = [];
         calculatorState.additionalServices = [];
     }
     if (stepNumber < 5) {
         calculatorState.additionalServices = [];
     }
-    
+
     // Update completed steps
     calculatorState.completedSteps = calculatorState.completedSteps.filter(s => s <= stepNumber);
 
@@ -196,6 +200,10 @@ function updateBackButton() {
     btn.style.display = previousAvailableStep() ? 'inline-block' : 'none';
 }
 
+// Подбор и бронирование зала — это услуга «Vietos paieška ir rezervacija» шага 5.
+// Выбрал наши залы — она отмечена сама и не снимается (у мероприятия она и так включена).
+const VENUE_SERVICE = 'Vietos paieška ir rezervacija';
+
 // Единый расчёт цены — используется и в липкой полосе, и в сводке
 function calculateTotal() {
     if (!calculatorState.service) return 0;
@@ -235,7 +243,7 @@ function goToStep(stepNumber) {
     if (!calculatorState.completedSteps.includes(stepNumber)) {
         return;
     }
-    
+
     // Map step numbers to IDs based on service type
     let targetStepId;
     if (stepNumber === 1) targetStepId = 'step-service';
@@ -250,26 +258,26 @@ function goToStep(stepNumber) {
     }
     else if (stepNumber === 5) targetStepId = 'step-services';
     else if (stepNumber === 6) targetStepId = 'step-summary';
-    
+
     const currentStepId = document.querySelector('.calculator-step.active')?.id;
-    
+
     if (!targetStepId || !currentStepId || targetStepId === currentStepId) {
         return;
     }
-    
+
     // Hide current step
     const currentStep = document.getElementById(currentStepId);
     currentStep.classList.remove('active');
     currentStep.style.display = 'none';
-    
+
     // Show target step
     const targetStep = document.getElementById(targetStepId);
     targetStep.style.display = 'block';
     targetStep.classList.add('active');
-    
+
     calculatorState.currentStep = stepNumber;
     updateProgressBar(stepNumber);
-    
+
     // Hide/show "Toliau" button based on step
     const nextButton = document.getElementById('next-to-summary-btn');
     if (nextButton) {
@@ -279,12 +287,12 @@ function goToStep(stepNumber) {
             nextButton.style.display = 'none';
         }
     }
-    
+
     // Re-initialize calendar if going back to step 2
     if (stepNumber === 2 && targetStepId === 'step-calendar') {
         setTimeout(() => initCalculatorCalendar(), 100);
     }
-    
+
     // Re-show services if going to step 5
     if (stepNumber === 5 && targetStepId === 'step-services') {
         setTimeout(() => showServicesStep(), 100);
@@ -306,7 +314,7 @@ document.getElementById('back-btn')?.addEventListener('click', function() {
 function transitionToStep(currentStepId, nextStepId, progressStep) {
     const currentStep = document.getElementById(currentStepId);
     const nextStep = document.getElementById(nextStepId);
-    
+
     if (!currentStep || !nextStep) return;
 
     isTransitioning = true;
@@ -335,27 +343,27 @@ function transitionToStep(currentStepId, nextStepId, progressStep) {
         }
     }
     calculatorState.currentStep = progressStep;
-    
+
     // Hide "Toliau" button on all steps except step 5
     const nextButton = document.getElementById('next-to-summary-btn');
     if (nextButton && progressStep !== 5) {
         nextButton.style.display = 'none';
     }
-    
+
     // Exit current step
     currentStep.classList.add('exit-left');
     currentStep.classList.remove('active');
-    
+
     setTimeout(() => {
         currentStep.style.display = 'none';
-        
+
         // Show and animate next step
         nextStep.style.display = 'block';
         nextStep.classList.remove('exit-left');
-        
+
         // Force reflow
         nextStep.offsetHeight;
-        
+
         // Add active class to trigger CSS animation
         nextStep.classList.add('active');
         updateProgressBar(progressStep);
@@ -409,6 +417,10 @@ const CALC_L10N = {
         additionalServices: 'Papildomos paslaugos',
         vilnius: 'Vilnius',
         outsideVilnius: 'Už Vilniaus ribų',
+        ownPlace: 'Turime savo',
+        ourVenues: 'MafiaInLT erdvės',
+        venuesPicked: 'Salė',
+        venueHelp: 'Padėkite parinkti',
         error: 'Klaida',
         invalidName: 'Prašome įvesti savo vardą',
         invalidPhone: 'Prašome įvesti telefono numerį',
@@ -444,6 +456,10 @@ const CALC_L10N = {
         additionalServices: 'Дополнительные услуги',
         vilnius: 'Вильнюс',
         outsideVilnius: 'За пределами Вильнюса',
+        ownPlace: 'У нас есть собственные',
+        ourVenues: 'Площадки MafiaInLT',
+        venuesPicked: 'Зал',
+        venueHelp: 'Помогите подобрать',
         error: 'Ошибка',
         invalidName: 'Пожалуйста, укажите ваше имя',
         invalidPhone: 'Пожалуйста, укажите номер телефона',
@@ -479,6 +495,10 @@ const CALC_L10N = {
         additionalServices: 'Additional services',
         vilnius: 'Vilnius',
         outsideVilnius: 'Outside Vilnius',
+        ownPlace: 'We have our own',
+        ourVenues: 'MafiaInLT Venues',
+        venuesPicked: 'Venue',
+        venueHelp: 'Help me choose',
         error: 'Error',
         invalidName: 'Please enter your name',
         invalidPhone: 'Please enter your phone number',
@@ -552,17 +572,17 @@ document.querySelector('#step-service').querySelectorAll('.service-option').forE
         if (calculatorState.service !== null && calculatorState.service !== newService) {
             resetStepsAfter(1);
         }
-        
+
         // Remove selected class from all
         document.querySelectorAll('#step-service .service-option').forEach(opt => {
             opt.classList.remove('selected');
         });
-        
+
         // Add selected to clicked
         this.classList.add('selected');
-        
+
         calculatorState.service = newService;
-        
+
         // Animate step transition
         transitionToStep('step-service', 'step-calendar', 2);
         setTimeout(() => initCalculatorCalendar(), 600);
@@ -580,15 +600,19 @@ document.querySelectorAll('.table-option').forEach(option => {
         if (calculatorState.tables !== null && calculatorState.tables !== newTables) {
             resetStepsAfter(3);
         }
-        
+
         document.querySelectorAll('.table-option').forEach(opt => {
             opt.classList.remove('selected');
         });
-        
+
         this.classList.add('selected');
-        
+
         calculatorState.tables = newTables;
-        
+        // Плитки залов всегда под текущее число столов. Если столы сменились, выбор
+        // локации сброшен (resetStepsAfter) — снимаем и его видимую отметку.
+        resetLocationUI();
+        renderVenues();
+
         // Transition to next step (both zaidimo and renginio go to location)
         transitionToStep('step-tables', 'step-location', 4);
     });
@@ -604,33 +628,160 @@ document.querySelector('#step-location .location-options').querySelectorAll('.se
 
         // Check the radio
         radio.checked = true;
-        
+
         // Reset if location changed and already made progress
         if (calculatorState.completedSteps.some(s => s > 4) && calculatorState.location !== newLocation) {
             resetStepsAfter(4);
         }
-        
+
         calculatorState.location = newLocation;
-        
+
         // Update selected class
         document.querySelectorAll('#step-location .location-options .service-option').forEach(opt => {
             opt.classList.remove('selected');
         });
         this.classList.add('selected');
-        
-        if (newLocation === 'outside') {
-            // Show distance options, don't transition yet
-            document.getElementById('distance-options').style.display = 'block';
+
+        // Оба варианта раскрывают свою панель под карточками, шаг не закрывается:
+        // «Turime savo» — ползунок дороги (0 км = Вильнюс), «MafiaInLT erdvės» — залы.
+        const own = newLocation === 'own';
+        document.getElementById('distance-options').style.display = own ? 'block' : 'none';
+        document.getElementById('venue-options').style.display = own ? 'none' : 'block';
+        if (own) {
+            calculatorState.venues = [];
+            if (calcDistance) calcDistance.dispatchEvent(new Event('input'));
         } else {
-            // Vilnius selected - transition to services
-            document.getElementById('distance-options').style.display = 'none';
-            calculatorState.distance = 0;
-            
-            transitionToStep('step-location', 'step-services', 5);
-            setTimeout(() => showServicesStep(), 600);
+            renderVenues();
         }
+        updatePriceBar();
     });
 });
+
+// --- Наши залы (вариант «MafiaInLT erdvės») ---
+// Список и номера — из js/venues.js, тот же, что на vietos.html.
+// При двух столах остаются залы, вмещающие от 20 гостей (столу нужно 10 мест).
+// Выбирается один зал или «Padėkite parinkti» (несколько залов ломали бы расчёт дороги).
+const VENUE_HELP = 'help';
+
+function availableVenues() {
+    const all = window.MAFIA_VENUES || [];
+    const need = calculatorState.tables === 2 ? 20 : 0;
+    return all.map((v, i) => Object.assign({ num: i + 1 }, v))
+              .filter(v => v.guests[1] >= need);
+}
+
+function venueKm() {
+    const all = window.MAFIA_VENUES || [];
+    return calculatorState.venues.reduce((km, id) => {
+        const v = all.find(x => x.id === id);
+        return v ? Math.max(km, v.km || 0) : km;
+    }, 0);
+}
+
+function renderVenues() {
+    const box = document.getElementById('calc-venues');
+    if (!box) return;
+    const list = availableVenues();
+    // Выбор, который после смены числа столов стал недоступен, снимаем
+    calculatorState.venues = calculatorState.venues.filter(id => id === VENUE_HELP || list.some(v => v.id === id));
+
+    const base = (document.querySelector('script[src*="venues.js"]').getAttribute('src') || '').replace(/js\/venues\.js.*$/, '');
+    // Плитка — не <button>: внутри неё точки, а кнопка в кнопке недопустима.
+    // Фото листаются свайпом (лента со снапом) или тапом по точке; тап по фото — выбор зала.
+    box.innerHTML = list.map(v => {
+        const photos = v.photos || [];
+        const level = '€'.repeat(v.price || 0);
+        return '<div class="calc-venue" role="button" tabindex="0" aria-pressed="false" data-id="' + v.id + '" aria-label="#' + v.num + (level ? ' · ' + level : '') + '">' +
+            '<div class="calc-venue-photos">' +
+                photos.map(p => '<img src="' + base + 'images/vietos/' + p + '" alt="" loading="lazy" draggable="false">').join('') +
+            '</div>' +
+            '<span class="calc-venue-num">#' + v.num + '</span>' +
+            (level ? '<span class="calc-venue-level">' + level + '</span>' : '') +
+            (photos.length > 1
+                ? '<span class="calc-venue-dots">' + photos.map((p, i) => '<span class="calc-venue-dot' + (i ? '' : ' is-on') + '" data-i="' + i + '"></span>').join('') + '</span>'
+                : '') +
+        '</div>';
+    }).join('') +
+        '<div class="calc-venue calc-venue-help" role="button" tabindex="0" aria-pressed="false" data-id="' + VENUE_HELP + '">' + CALC_T.venueHelp + '</div>';
+
+    box.querySelectorAll('.calc-venue').forEach(tile => {
+        const id = tile.getAttribute('data-id');
+        const strip = tile.querySelector('.calc-venue-photos');
+        const dots = tile.querySelectorAll('.calc-venue-dot');
+
+        tile.addEventListener('click', e => {
+            const dot = e.target.closest('.calc-venue-dot');
+            if (dot && strip) {
+                strip.scrollTo({ left: Number(dot.getAttribute('data-i')) * strip.clientWidth, behavior: 'smooth' });
+                return;
+            }
+            toggleVenue(id);
+        });
+        tile.addEventListener('keydown', e => {
+            if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleVenue(id); }
+        });
+        if (strip && dots.length) {
+            strip.addEventListener('scroll', () => {
+                const i = Math.round(strip.scrollLeft / strip.clientWidth);
+                dots.forEach((d, k) => d.classList.toggle('is-on', k === i));
+            }, { passive: true });
+        }
+    });
+    syncVenues();
+}
+
+function resetLocationUI() {
+    if (calculatorState.location === 'ours' && calculatorState.venues.length) return;
+    const step = document.getElementById('step-location');
+    if (!step) return;
+    step.querySelectorAll('.location-options .service-option').forEach(opt => {
+        const on = opt.querySelector('input[name="location"]').value === calculatorState.location
+                   && calculatorState.location === 'ours';
+        opt.classList.toggle('selected', on);
+        opt.querySelector('input[name="location"]').checked = on;
+    });
+    if (calculatorState.location !== 'ours') {
+        document.getElementById('venue-options').style.display = 'none';
+        document.getElementById('distance-options').style.display = 'none';
+    }
+}
+
+function toggleVenue(id) {
+    calculatorState.venues = calculatorState.venues[0] === id ? [] : [id];
+    syncVenues();
+}
+
+function syncVenues() {
+    const box = document.getElementById('calc-venues');
+    const picked = calculatorState.venues;
+    box.querySelectorAll('.calc-venue').forEach(btn => {
+        const on = picked.includes(btn.getAttribute('data-id'));
+        btn.classList.toggle('is-picked', on);
+        btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+    calculatorState.distance = venueKm();
+    document.getElementById('venue-next').disabled = picked.length === 0;
+    updatePriceBar();
+}
+
+const venueNext = document.getElementById('venue-next');
+if (venueNext) {
+    venueNext.addEventListener('click', function () {
+        if (isTransitioning || !calculatorState.venues.length) return;
+        transitionToStep('step-location', 'step-services', 5);
+        setTimeout(function () { showServicesStep(); }, 600);
+    });
+}
+
+// Номера залов для сводки и письма: «#1, #4» или «Padėkite parinkti»
+function venuesLabel() {
+    const all = window.MAFIA_VENUES || [];
+    return calculatorState.venues.map(id => {
+        if (id === VENUE_HELP) return CALC_T.venueHelp;
+        const i = all.findIndex(v => v.id === id);
+        return i >= 0 ? '#' + (i + 1) : id;
+    }).join(', ');
+}
 
 // Расстояние тянется ползунком: километр к евро, как и в блоке «Kur vyksta»
 // выше по странице. Раньше здесь были четыре готовых диапазона (50-100 км =
@@ -673,9 +824,9 @@ if (calcDistance) {
 function showServicesStep() {
     const servicesList = document.getElementById('services-list');
     servicesList.innerHTML = '';
-    
+
     let services = [];
-    
+
     if (calculatorState.service === 'zaidimo') {
         if (calculatorState.tables === 1) {
             services = [
@@ -741,11 +892,19 @@ function showServicesStep() {
             { name: 'Video paslaugos (3 val.)', price: 600 }
         ];
     }
-    
+
+    // Наши залы: подбор и бронирование уже выбраны на шаге «Lokacija»
+    const venueLocked = calculatorState.location === 'ours';
+    // (смена локации и так сбрасывает услуги, поэтому снимать её при «Turime savo» не нужно)
+    if (venueLocked && services.some(s => s.name === VENUE_SERVICE && s.price) &&
+        !calculatorState.additionalServices.some(s => s.name === VENUE_SERVICE)) {
+        calculatorState.additionalServices.push({ name: VENUE_SERVICE, price: window.MAFIA_VENUE_FEE || 50 });
+    }
+
     services.forEach(service => {
         const serviceDiv = document.createElement('div');
         serviceDiv.className = 'service-item choice-card';
-        
+
         if (service.dial) {
             // Декор тянется шкалой, а не галочкой: вариантов несколько,
             // и человеку проще двигать ползунок, чем читать список сумм.
@@ -818,26 +977,28 @@ function showServicesStep() {
         } else {
             // Check if service already selected
             const isSelected = calculatorState.additionalServices.some(s => s.name === service.name);
-            
+            const locked = venueLocked && service.name === VENUE_SERVICE;
+
             serviceDiv.innerHTML = `
                 <div class="choice-indicator service-checkbox">
-                    <input type="checkbox" class="additional-service" data-service="${service.name}" data-price="${service.price}" ${isSelected ? 'checked' : ''}>
+                    <input type="checkbox" class="additional-service" data-service="${service.name}" data-price="${service.price}" ${isSelected ? 'checked' : ''} ${locked ? 'disabled' : ''}>
                 </div>
                 <div class="service-content">
                     <span class="service-name">${svcName(service.name)}</span>
                     <span class="service-price">+${service.price} €</span>
                 </div>
             `;
-            
+
             if (isSelected) {
                 serviceDiv.classList.add('selected');
             }
+            if (locked) serviceDiv.classList.add('is-locked');
         }
-        
+
         servicesList.appendChild(serviceDiv);
 
         // Сделать весь контейнер кликабельным для дополнительных услуг
-        if (!service.included) {
+        if (!service.included && !(venueLocked && service.name === VENUE_SERVICE)) {
             serviceDiv.addEventListener('click', function(e) {
                 if (e.target.tagName !== 'INPUT') {
                     const checkbox = this.querySelector('input[type="checkbox"]');
@@ -846,19 +1007,19 @@ function showServicesStep() {
             });
         }
     });
-    
+
     // Show next button
     document.getElementById('next-to-summary-btn').style.display = 'inline-block';
-    
+
     // Add event listeners to checkboxes
     document.querySelectorAll('.additional-service').forEach(checkbox => {
         checkbox.addEventListener('change', function() {
             // Save old state before change
             const oldServicesCount = calculatorState.additionalServices.length;
-            
+
             // Get parent service-item element
             const serviceItem = this.closest('.service-item');
-            
+
             if (this.checked) {
                 calculatorState.additionalServices.push({
                     name: this.dataset.service,
@@ -877,7 +1038,7 @@ function showServicesStep() {
                     serviceItem.classList.remove('selected');
                 }
             }
-            
+
             // Reset step 6 if services changed and we were already there
             const newServicesCount = calculatorState.additionalServices.length;
             if (calculatorState.completedSteps.some(s => s > 5) && oldServicesCount !== newServicesCount) {
@@ -900,7 +1061,7 @@ document.getElementById('next-to-summary-btn')?.addEventListener('click', functi
 function showSummary(totalPrice) {
     const summaryCard = document.getElementById('summary-card');
     let summaryHTML = '<div style="font-size: 0.95rem; line-height: 1.8;">';
-    
+
     // Service type
     summaryHTML += `<p><strong>${CALC_T.service}:</strong> ${CALC_T.serviceNames[calculatorState.service]}</p>`;
 
@@ -922,7 +1083,12 @@ function showSummary(totalPrice) {
 
     // Location
     if (calculatorState.service !== 'atributika') {
-        summaryHTML += `<p><strong>${CALC_T.location}:</strong> ${calculatorState.location === 'vilnius' ? CALC_T.vilnius : CALC_T.outsideVilnius}</p>`;
+        if (calculatorState.location === 'ours') {
+            summaryHTML += `<p><strong>${CALC_T.location}:</strong> ${CALC_T.ourVenues}</p>`;
+            summaryHTML += `<p><strong>${CALC_T.venuesPicked}:</strong> ${venuesLabel()}</p>`;
+        } else {
+            summaryHTML += `<p><strong>${CALC_T.location}:</strong> ${calculatorState.distance > 0 ? CALC_T.outsideVilnius : CALC_T.vilnius}</p>`;
+        }
         if (calculatorState.distance > 0) {
             summaryHTML += `<p><strong>${CALC_T.distance}:</strong> +${calculatorState.distance} €</p>`;
         }
@@ -936,15 +1102,15 @@ function showSummary(totalPrice) {
         });
         summaryHTML += '</ul>';
     }
-    
+
     summaryHTML += '</div>';
     summaryCard.innerHTML = summaryHTML;
-    
+
     document.getElementById('total-price').textContent = totalPrice;
-    
+
     // Hide next button on summary step
     document.getElementById('next-to-summary-btn').style.display = 'none';
-    
+
     // Transition to summary step
     transitionToStep('step-services', 'step-summary', 6);
 }
@@ -993,7 +1159,8 @@ document.getElementById('reserve-btn')?.addEventListener('click', async function
         dateEnd: calculatorState.dateEnd,
         tables: calculatorState.tables,
         days: calculatorState.days,
-        location: calculatorState.location,
+        location: calculatorState.location === 'ours' ? 'MafiaInLT erdvės' : 'Turime savo',
+        venues: calculatorState.location === 'ours' ? venuesLabel() : '',
         distance: calculatorState.distance,
         additionalServices: calculatorState.additionalServices,
         totalPrice: document.getElementById('total-price').textContent
@@ -1001,7 +1168,7 @@ document.getElementById('reserve-btn')?.addEventListener('click', async function
 
     // Откуда человек пришёл — уезжает вместе с заявкой в письмо
     if (window.MafiaTracking) Object.assign(formData, window.MafiaTracking.attribution());
-    
+
     // Кнопка блокируется на время отправки, иначе несколько тапов
     // отправляют одну и ту же заявку по нескольку раз
     const originalLabel = this.textContent;
@@ -1076,11 +1243,11 @@ function initCalculatorCalendar() {
         console.error('Calendar class not found');
         return;
     }
-    
+
     const isAtributika = calculatorState.service === 'atributika';
-    
+
     const calendarOptions = isAtributika ? { rangeMode: true } : {};
-    
+
     calculatorCalendar = new Calendar('calculator-calendar', function(date) {
         if (isTransitioning) return;
 
@@ -1095,7 +1262,7 @@ function initCalculatorCalendar() {
             // First date selected for atributika (or resetting range)
             calculatorState.dateStart = newDate;
             calculatorState.dateEnd = null; // Reset end date
-            
+
             // Show tooltip under calendar
             let tooltip = document.getElementById('calendar-tooltip');
             if (!tooltip) {
@@ -1108,16 +1275,16 @@ function initCalculatorCalendar() {
             tooltip.style.display = 'block';
         } else if (isAtributika && calculatorState.dateStart && !calculatorState.dateEnd) {
             // Second date selected for atributika
-            
+
             // Hide tooltip
             const tooltip = document.getElementById('calendar-tooltip');
             if (tooltip) tooltip.style.display = 'none';
-            
+
             // Reset if date changed and already made progress
             if (calculatorState.dateEnd !== null && calculatorState.dateEnd !== newDate) {
                 resetStepsAfter(2);
             }
-            
+
             // Дату раньше начала календарь выбрать не даёт (см. calendar.js),
             // поэтому порядок здесь заведомо правильный
             calculatorState.dateEnd = newDate;
@@ -1126,23 +1293,23 @@ function initCalculatorCalendar() {
             const diffTime = parseCalcDate(newDate) - parseCalcDate(calculatorState.dateStart);
             const diffDays = Math.round(diffTime / (1000 * 60 * 60 * 24));
             calculatorState.days = diffDays === 0 ? 1 : diffDays;
-            
+
             // Go directly to services step (step 5)
             transitionToStep('step-calendar', 'step-services', 5);
             setTimeout(() => showServicesStep(), 600);
         } else {
             // Single date for zaidimo/renginio
-            
+
             // Reset if date changed and already made progress
             if (calculatorState.dateStart !== null && calculatorState.dateStart !== newDate) {
                 resetStepsAfter(2);
             }
-            
+
             calculatorState.dateStart = newDate;
             transitionToStep('step-calendar', 'step-tables', 3);
         }
     }, calendarOptions);
-    
+
     // Restore previously selected date if exists
     if (calculatorState.dateStart) {
         if (isAtributika && calculatorState.dateEnd) {

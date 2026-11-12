@@ -200,7 +200,17 @@
                 <ul class="nav-menu">
                     <li class="nav-menu-logo"><a href="index.html" aria-label="MafiaInLT"><img src="../images/mafia-club-gold.webp" alt="MafiaInLT" width="72" height="72"></a></li>
                     <li><a href="index.html">Главная</a></li>
-                    <li><a href="paslaugos.html" class="active">Услуги</a></li>
+                    <li class="nav-sub">
+                        <a href="paslaugos.html" class="nav-sub-toggle active" aria-haspopup="true" aria-expanded="false">Услуги<svg class="nav-sub-chev" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 10l5 5 5-5"/></svg></a>
+                        <ul class="nav-submenu">
+                            <li><a href="paslaugos.html#kaina">Цены</a></li>
+                            <li><a href="vietos.html">Локации</a></li>
+                            <li><a href="paslaugos.html#kaip-vyksta">Как проходит</a></li>
+                            <li><a href="paslaugos.html#trukme">Продолжительность</a></li>
+                            <li><a href="paslaugos.html#vedejai">Ведущие</a></li>
+                            <li><a href="paslaugos.html#calculator">Бронирование</a></li>
+                        </ul>
+                    </li>
                     <li><a href="galerija.html">Галерея</a></li>
                     <li><a href="apie-mus.html">О нас</a></li>
                     <li><a href="straipsniai/straipsniai.html">Статьи</a></li>
@@ -428,6 +438,8 @@
             <div class="place-info scroll-reveal">
                 <h2>Где проходит</h2>
                 <p>Приедем в выбранное вами место — ресторан, усадьбу, офис или домой. Также можем взять на себя организацию: подберём подходящую площадку с учётом количества гостей и вашего бюджета.</p>
+                <!-- ссылка на страницу залов -->
+                <a class="more-bar place-more" href="vietos.html">Посмотреть залы</a>
 
                 <div class="dial">
                     <div class="dial-cities" aria-hidden="true">
@@ -838,20 +850,27 @@
         <div class="service-option choice-card">
             <div class="choice-indicator"></div>
             <label style="display: flex; align-items: center; cursor: pointer; margin: 0;">
-                <input type="radio" name="location" value="vilnius" style="display: none;">
-                <h4>Вильнюс</h4>
+                <input type="radio" name="location" value="own" style="display: none;">
+                <h4>У нас есть собственные</h4>
             </label>
         </div>
         <div class="service-option choice-card">
             <div class="choice-indicator"></div>
             <label style="display: flex; align-items: center; cursor: pointer; margin: 0;">
-                <input type="radio" name="location" value="outside" style="display: none;">
-                <h4>За пределами Вильнюса</h4>
+                <input type="radio" name="location" value="ours" style="display: none;">
+                <h4>Площадки MafiaInLT</h4>
             </label>
         </div>
     </div>
     
-    <!-- Distance options (shown when "Už Vilniaus ribų" selected) -->
+    <!-- Наши залы (вариант «MafiaInLT erdvės»): миниатюры строит calculator-v2.js из js/venues.js.
+         При двух столах остаются только залы, вмещающие от 20 гостей. До трёх залов на выбор. -->
+    <div id="venue-options" style="display: none; margin-top: 2rem;">
+        <div class="calc-venues" id="calc-venues"></div>
+        <button type="button" id="venue-next" class="calc-next" disabled>Далее →</button>
+    </div>
+
+    <!-- Своё место (вариант «Turime savo»): ползунок дороги от 0 — ноль значит Вильнюс -->
     <!-- Расстояние: километр к евро, как в блоке «Kur vyksta» выше.
          Четыре готовых диапазона убраны — они считали иначе, чем страница,
          и человек видел две разные цены за одну дорогу. -->
@@ -1055,6 +1074,7 @@
     <script src="../js/main.js"></script>
     <script src="../js/blocked-dates.js"></script>
     <script src="../js/calendar.js"></script>
+    <script src="../js/venues.js"></script>
     <script src="../js/calculator-v2.js"></script>
 
 <!-- Success Modal -->

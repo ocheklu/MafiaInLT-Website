@@ -1233,3 +1233,48 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 })();
+
+// ===========================
+// ПОДМЕНЮ «PASLAUGOS»
+// ===========================
+// На телефоне тап по «Paslaugos» раскрывает подпункты, а не уводит на страницу.
+// Перехват в фазе захвата на .nav-menu: иначе обработчик выше закрыл бы оверлей
+// по клику на ссылку. На десктопе пункт — обычная ссылка, список по наведению.
+document.addEventListener('DOMContentLoaded', function () {
+    var sub = document.querySelector('.nav-sub');
+    var menu = document.querySelector('.nav-menu');
+    if (!sub || !menu) return;
+    var tg = sub.querySelector('.nav-sub-toggle');
+    var burger = document.querySelector('.mobile-menu-toggle');
+    var mq = window.matchMedia('(max-width: 768px)');
+    menu.addEventListener('click', function (e) {
+        if (!mq.matches || !e.target.closest('.nav-sub-toggle')) return;
+        e.preventDefault();
+        e.stopPropagation();
+        var open = sub.classList.toggle('open');
+        tg.setAttribute('aria-expanded', open ? 'true' : 'false');
+    }, true);
+    if (burger) burger.addEventListener('click', function () {
+        sub.classList.remove('open');
+        tg.setAttribute('aria-expanded', 'false');
+    });
+});
+
+// Ссылка вида «paslaugos.html#vedejai», когда мы уже на paslaugos.html:
+// браузер прыгнул бы рывком (и scroll-behavior его ломает) — едем своей анимацией.
+document.addEventListener('DOMContentLoaded', function () {
+    var here = location.pathname.replace(/.html$/, '');
+    document.querySelectorAll('a[href*="#"]:not([href^="#"])').forEach(function (link) {
+        link.addEventListener('click', function (e) {
+            var url;
+            try { url = new URL(link.href); } catch (err) { return; }
+            if (url.origin !== location.origin || !url.hash) return;
+            if (url.pathname.replace(/.html$/, '') !== here) return;
+            var target = document.getElementById(url.hash.slice(1));
+            if (!target) return;
+            e.preventDefault();
+            history.replaceState(null, '', url.hash);
+            glideTo(function () { return anchorOffsetTop(target); }, 620);
+        });
+    });
+});

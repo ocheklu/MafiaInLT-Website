@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Jaukios vietos su kokybišku maistu. Nuo 8 iki 60 svečių – vietą parenkame ir rezervuojame.">
+    <title>Salės mafijos žaidimui Vilniuje: įmonėms ir gimtadieniams</title>
+    <link rel="canonical" href="https://mafiain.lt/vietos.html">
+    <link rel="alternate" hreflang="lt" href="https://mafiain.lt/vietos.html">
+    <link rel="alternate" hreflang="ru" href="https://mafiain.lt/ru/vietos.html">
+    <link rel="alternate" hreflang="en" href="https://mafiain.lt/en/vietos.html">
+    <link rel="alternate" hreflang="x-default" href="https://mafiain.lt/vietos.html">
+
+    <meta property="og:title" content="Salės mafijos žaidimui Vilniuje: įmonėms ir gimtadieniams">
+    <meta property="og:description" content="Jaukios vietos su kokybišku maistu. Nuo 8 iki 60 svečių – vietą parenkame ir rezervuojame.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://mafiain.lt/vietos.html">
+    <meta property="og:locale" content="lt_LT">
+    <meta property="og:image" content="https://mafiain.lt/images/og/og-vietos.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Apvalus stalas su mafijos žaidimo kaukėmis vyno rūsyje">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Salės mafijos žaidimui Vilniuje: įmonėms ir gimtadieniams">
+    <meta name="twitter:description" content="Jaukios vietos su kokybišku maistu. Nuo 8 iki 60 svečių – vietą parenkame ir rezervuojame.">
+    <meta name="twitter:image" content="https://mafiain.lt/images/og/og-vietos.jpg">
+    <meta name="twitter:image:alt" content="Apvalus stalas su mafijos žaidimo kaukėmis vyno rūsyje">
+
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Service",
+      "name": "Salės parinkimas ir rezervacija renginiui",
+      "serviceType": "Renginio vietos paieška",
+      "description": "Parenkame ir rezervuojame salę mafijos žaidimui, įmonės renginiui ar gimtadieniui Vilniuje. Nuo 8 iki 60 svečių.",
+      "url": "https://mafiain.lt/vietos.html",
+      "image": "https://mafiain.lt/images/vietos/sale-1-1.webp",
+      "areaServed": { "@type": "City", "name": "Vilnius" },
+      "provider": { "@type": "Organization", "name": "MafiaInLT", "url": "https://mafiain.lt" }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Pagrindinis", "item": "https://mafiain.lt/" },
+        { "@type": "ListItem", "position": 2, "name": "Paslaugos", "item": "https://mafiain.lt/paslaugos.html" },
+        { "@type": "ListItem", "position": 3, "name": "Vietos mafijos žaidimui", "item": "https://mafiain.lt/vietos.html" }
+      ]
+    }
+  ]
+}
+    </script>
+
+    <script src="js/tracking.js"></script>
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+
+    <link rel="preload" href="fonts/alata-latin.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="fonts/alata-latin-ext.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/premium.css">
+
+    <!-- Стили только этой страницы. Если страница останется — переедут в styles.css. -->
+    <style>
+        .venues-intro { padding: 4rem 0 2rem; }
+        .venues-intro h1 { font-weight: 400; margin-bottom: 1rem; }
+        .venues-intro p { max-width: 640px; color: #444; line-height: 1.7; }
+        .venues-intro .venues-note { margin-top: .4rem; font-size: .9rem; color: #777; }
+
+        /* Сетка карточек: 1 колонка на телефоне, 2 на планшете, 3 на десктопе */
+        .venues-list {
+            display: grid; grid-template-columns: minmax(0, 1fr);
+            gap: 0 2rem; padding-top: 1rem; padding-bottom: 0;
+        }
+        @media (min-width: 640px) { .venues-list { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+        @media (min-width: 1024px) { .venues-list { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+
+        /* Фото: лента со снапом, миниатюры прокручивают её к кадру. Миниатюры строит скрипт внизу. */
+        .venue-photos {
+            display: flex;
+            overflow-x: auto; scroll-snap-type: x mandatory;
+            overscroll-behavior-x: contain; scrollbar-width: none;
+        }
+        .venue-photos::-webkit-scrollbar { display: none; }
+        .venue-photos img {
+            flex: 0 0 100%; min-width: 0; aspect-ratio: 4 / 3; object-fit: cover;
+            scroll-snap-align: start; display: block; background: #eee;
+        }
+        .venue-thumbs { display: flex; gap: 6px; margin-top: 6px; }
+        .venue-thumbs button {
+            flex: 0 0 auto; width: 48px; aspect-ratio: 4 / 3; padding: 0; border: 0;
+            background: #eee; cursor: pointer; opacity: .45; transition: opacity .2s ease;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .venue-thumbs button img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .venue-thumbs button.active { opacity: 1; }
+        @media (hover: hover) { .venue-thumbs button:hover { opacity: 1; } }
+
+        /* Строки карточек выровнены между собой: subgrid делит высоту ряда на общие полосы —
+           описание, цена, кухня стоят на одной линии во всех карточках ряда */
+        .venue { display: grid; grid-row: span 3; grid-template-rows: subgrid; row-gap: 0; }
+        .venue-body { display: contents; }
+        .venue-gallery { position: relative; margin-bottom: 1.1rem; }
+        .venue-badge {
+            position: absolute; top: 10px; left: 10px; z-index: 1;
+            background: rgba(0,0,0,.55); color: #fff;
+            -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+            font-size: .78rem; letter-spacing: .06em; line-height: 1; padding: .4rem .55rem; border-radius: 2px;
+        }
+        .venue-badge-meta { left: auto; right: 10px; display: flex; align-items: center; gap: .35rem; }
+        .venue-badge .venue-icon { width: 1.2em; height: 1.2em; color: #fff; }
+        .venue-badge:not(.venue-badge-meta) { width: 2.4rem; padding-left: 0; padding-right: 0; text-align: center; }
+        .venue-badge .venue-sep { color: rgba(255,255,255,.5); }
+
+        /* Пояснение систем оплаты и фильтр */
+        .venues-outside { margin-top: .9rem; }
+        .venues-outside .venue-icon-car { width: 1.5em; height: 1.5em; vertical-align: -.4em; margin-left: .15em; }
+        .venues-terms { margin-top: 1.5rem; margin-bottom: .6rem; }
+        .venues-legend { display: grid; gap: .45rem; max-width: 640px; }
+        .venues-legend p { display: flex; gap: .7rem; align-items: flex-start; margin: 0; color: #444; line-height: 1.6; max-width: none; }
+        .venues-legend .venue-icon { width: 1.4em; height: 1.4em; margin-top: .1em; }
+        .venues-legend b { font-weight: 400; color: #000; }
+
+        /* Фильтр: три выпадающих списка в одну строку */
+        .venues-filter { margin-top: 2.25rem; display: flex; flex-wrap: wrap; align-items: center; gap: .5rem; }
+        .vf { position: relative; }
+        .vf summary {
+            list-style: none; cursor: pointer; user-select: none;
+            display: inline-flex; align-items: center; gap: .4rem;
+            font-size: .85rem; color: #000; background: #fff;
+            border: 1px solid #e3e3e3; border-radius: 2px; padding: .5rem .8rem;
+            -webkit-tap-highlight-color: transparent; transition: border-color .2s ease;
+        }
+        .vf summary::-webkit-details-marker { display: none; }
+        .vf summary::after {
+            content: ''; width: .4rem; height: .4rem; margin-left: .2rem;
+            border-right: 1.3px solid currentColor; border-bottom: 1.3px solid currentColor;
+            transform: translateY(-25%) rotate(45deg); transition: transform .2s ease;
+        }
+        .vf.is-open summary::after { transform: translateY(15%) rotate(-135deg); }
+        .vf.is-open summary, .vf.is-set summary { border-color: #000; }
+        .vf-value:not(:empty)::before { content: '·'; color: #bbb; margin-right: .4rem; }
+        .vf-value .venue-icon { display: none; }
+        .vf-menu {
+            position: absolute; top: calc(100% + 4px); left: 0; z-index: 20; min-width: 100%;
+            background: #fff; border: 1px solid #e3e3e3; border-radius: 2px;
+            box-shadow: 0 10px 30px rgba(0,0,0,.07); padding: .35rem 0;
+            opacity: 0; visibility: hidden; transform: translateY(-6px); transform-origin: top left;
+            transition: opacity .22s ease, transform .32s cubic-bezier(.22,1,.36,1), visibility 0s linear .32s;
+        }
+        .vf.is-open .vf-menu { opacity: 1; visibility: visible; transform: none; transition: opacity .22s ease, transform .32s cubic-bezier(.22,1,.36,1), visibility 0s; }
+        .vf-menu button { opacity: 0; transform: translateY(-3px); transition: opacity .2s ease, transform .3s cubic-bezier(.22,1,.36,1), background-color .15s ease, color .15s ease; }
+        .vf.is-open .vf-menu button { opacity: 1; transform: none; }
+        .vf.is-open .vf-menu button:nth-child(2) { transition-delay: .03s; }
+        .vf.is-open .vf-menu button:nth-child(3) { transition-delay: .06s; }
+        .vf.is-open .vf-menu button:nth-child(4) { transition-delay: .09s; }
+        .vf.is-open .vf-menu button:nth-child(5) { transition-delay: .12s; }
+        .vf.is-open .vf-menu button:nth-child(n+6) { transition-delay: .15s; }
+        @media (prefers-reduced-motion: reduce) { .vf-menu, .vf-menu button { transition: none !important; } }
+        .vf-menu button {
+            display: flex; align-items: center; gap: .45rem; width: 100%; white-space: nowrap;
+            font: inherit; font-size: .88rem; color: #555; background: none; border: 0;
+            padding: .5rem .9rem; text-align: left; cursor: pointer; -webkit-tap-highlight-color: transparent;
+        }
+        .vf-menu button .venue-icon { width: 1.15em; height: 1.15em; }
+        .vf-menu button.active { color: #000; }
+        .vf-menu button.active::after { content: ''; margin-left: auto; width: .3rem; height: .55rem; border-right: 1.3px solid #000; border-bottom: 1.3px solid #000; transform: rotate(45deg); }
+        @media (hover: hover) { .vf summary:hover { border-color: #000; } .vf-menu button:hover { background: #f5f5f5; color: #000; } }
+        @media (hover: none) { .vf-menu button:active { background: #eee; } }
+        .vf-clear, .vf-reset {
+            font: inherit; font-size: .85rem; color: #777; background: none; border: 0;
+            padding: .5rem .3rem; cursor: pointer; -webkit-tap-highlight-color: transparent;
+        }
+        @media (hover: hover) { .vf-clear:hover, .vf-reset:hover { color: #000; } }
+        .venues-empty { padding: 1rem 0 4rem; color: #555; }
+        .venue[hidden] { display: none; }
+        .venue-desc { color: #444; line-height: 1.65; margin: 0 0 .9rem; }
+        .venue-sep { color: #bbb; }
+        .venue-level { letter-spacing: .04em; }
+        /* Кухня: иконка слева, направление и блюда — двумя строками в одной колонке, выровнены по левому краю */
+        /* Кухня: тихая серая плашка во всю высоту ряда — у соседних карточек одинаковые */
+        .venue-cuisine {
+            margin: 0 0 3rem; padding: .85rem 1rem; background: #f6f6f6; align-self: stretch;
+            font-size: .9rem; color: #777; line-height: 1.55;
+        }
+        .venue-cuisine-type { display: flex; align-items: center; gap: .45rem; color: #000; margin-bottom: .3rem; }
+        .venue-cuisine-dishes { display: block; }
+        .venue-icon { width: 1.5em; height: 1.5em; flex: 0 0 auto; color: #000; }
+        .venue-cuisine .venue-icon { width: 1.3em; height: 1.3em; }
+
+        .venues-section { padding-bottom: 0; }
+        .venues-cta { padding: 1.5rem 0 5rem; text-align: center; }
+        .venues-cta p { color: #444; margin-bottom: 1.5rem; }
+        .venues-cta .more-bar { margin: 0 auto; }
+
+        /* Вступление на телефоне: компактнее, чтобы первые карточки начинались раньше */
+        @media (max-width: 768px) {
+            .venues-intro { padding: 2rem 0 1rem; }
+            .venues-intro h1 { font-size: 1.85rem; margin-bottom: .75rem; }
+            .venues-intro p, .venues-legend p { font-size: .93rem; line-height: 1.6; }
+            .venues-terms { margin-top: 1.1rem; margin-bottom: .45rem; }
+            .venues-legend { gap: .35rem; }
+            .venues-legend .venue-icon { width: 1.3em; height: 1.3em; }
+            .venues-outside { margin-top: .7rem; }
+            /* условия оплаты — светлой плашкой, чтобы не сливались с абзацами выше и ниже */
+            .venues-terms { background: #f6f6f6; margin: 1.25rem 0 0; padding: .9rem 1rem .5rem; }
+            .venues-legend { background: #f6f6f6; padding: 0 1rem .9rem; }
+            .venues-outside { margin-top: 1.1rem; }
+            .venues-filter { margin-top: 1.5rem; display: grid; grid-template-columns: 1fr 1fr; gap: .5rem; }
+            .vf summary { display: flex; justify-content: space-between; width: 100%; box-sizing: border-box; padding: .65rem .8rem; }
+            .vf-clear { grid-column: 1 / -1; justify-self: start; }
+        }
+
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-wrapper">
+                <a href="index.html" class="logo">
+    <img src="images/logo.webp" alt="MafiaInLT - pirmasis mafija klubas Lietuvoje" style="height: 80px;">
+</a>
+
+                <button class="mobile-menu-toggle" aria-label="Menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+
+                <ul class="nav-menu">
+                    <li class="nav-menu-logo"><a href="index.html" aria-label="MafiaInLT"><img src="images/mafia-club-gold.webp" alt="MafiaInLT" width="72" height="72"></a></li>
+                    <li><a href="index.html">Pagrindinis</a></li>
+                    <li class="nav-sub">
+                        <a href="paslaugos.html" class="nav-sub-toggle" aria-haspopup="true" aria-expanded="false">Paslaugos<svg class="nav-sub-chev" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 10l5 5 5-5"/></svg></a>
+                        <ul class="nav-submenu">
+                            <li><a href="paslaugos.html#kaina">Kainos</a></li>
+                            <li><a href="vietos.html">Vietos</a></li>
+                            <li><a href="paslaugos.html#kaip-vyksta">Kaip vyksta</a></li>
+                            <li><a href="paslaugos.html#trukme">Trukmė</a></li>
+                            <li><a href="paslaugos.html#vedejai">Vedėjai</a></li>
+                            <li><a href="paslaugos.html#calculator">Rezervacija</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="galerija.html">Galerija</a></li>
+                    <li><a href="apie-mus.html">Apie mus</a></li>
+                    <li><a href="straipsniai/straipsniai.html">Straipsniai</a></li>
+                    <li><a href="kontaktai.html">Kontaktai</a></li>
+                    <li><a href="/online/" target="_blank" rel="noopener">Mafia Online</a></li>
+                </ul>
+                <div class="language-switcher">
+                    <div class="lang-row">
+                        <div class="lang-codes" id="langCodes">
+                            <button class="lang-btn active" data-lang="lt">LT</button>
+                            <button class="lang-btn" data-lang="ru">RU</button>
+                            <button class="lang-btn" data-lang="en">EN</button>
+                        </div>
+                        <button class="lang-trigger" aria-expanded="false" aria-controls="langCodes" aria-label="Kalba">
+                            <svg class="lang-globe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
+                                <circle cx="12" cy="12" r="9" />
+                                <path d="M3 12h18" />
+                                <path d="M12 3c2.5 2.4 3.9 5.6 3.9 9s-1.4 6.6-3.9 9c-2.5-2.4-3.9-5.6-3.9-9s1.4-6.6 3.9-9z" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+<main>
+    <!-- Вступление: черновые формулировки, заменить текстом владельца -->
+    <section class="venues-intro">
+        <div class="container">
+            <h1>Vietos mafijos žaidimui</h1>
+            <p>Restoranų pavadinimais ir kontaktais pasidalijame pasirašius sutartį ir gavus avansinį mokėjimą. Papildomą informaciją apie depozito dydį ir meniu teikiame privačiai.</p>
+            <p class="venues-terms">Erdvėms taikomos dvi atsiskaitymo sąlygos:</p>
+            <div class="venues-legend">
+                <p><svg class="venue-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="2.2" fill="currentColor" stroke="none"/></svg><span><b>Depozitas</b> – nurodytą sumą reikia išleisti maistui ir gėrimams.</span></p>
+                <p><svg class="venue-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.6"/><path d="M12 7.5V12l3 2"/></svg><span><b>Nuoma</b> – mokamas nustatytas patalpų nuomos mokestis.</span></p>
+            </div>
+            <p class="venues-outside">Vietos, esančios už Vilniaus miesto centro ribų, pažymėtos <svg class="venue-icon venue-icon-car" viewBox="0 0 24 24" role="img" aria-label="Už centro ribų" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0C18.5 15.4 12 21 12 21z"/><circle cx="12" cy="10" r="2.3"/></svg></p>
+
+            <div class="venues-filter">
+                <details class="vf" data-key="cat">
+                    <summary><span class="vf-label">Atsiskaitymas</span><span class="vf-value"></span></summary>
+                    <div class="vf-menu">
+                        <button type="button" data-v="" class="active">Visos</button>
+                        <button type="button" data-v="dep"><svg class="venue-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="2.2" fill="currentColor" stroke="none"/></svg>Depozitas</button>
+                        <button type="button" data-v="rent"><svg class="venue-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.6"/><path d="M12 7.5V12l3 2"/></svg>Nuoma</button>
+                    </div>
+                </details>
+                <details class="vf" data-key="guests">
+                    <summary><span class="vf-label">Svečiai</span><span class="vf-value"></span></summary>
+                    <div class="vf-menu">
+                        <button type="button" data-v="" class="active">Visi</button>
+                        <button type="button" data-v="10-20">10–20</button>
+                        <button type="button" data-v="20-30">20–30</button>
+                        <button type="button" data-v="30-60">30–60</button>
+                    </div>
+                </details>
+                <details class="vf" data-key="price">
+                    <summary><span class="vf-label">Kaina</span><span class="vf-value"></span></summary>
+                    <div class="vf-menu">
+                        <button type="button" data-v="" class="active">Visos</button>
+                        <button type="button" data-v="2">€€</button>
+                        <button type="button" data-v="3">€€€</button>
+                        <button type="button" data-v="4">€€€€</button>
+                        <button type="button" data-v="5">€€€€€</button>
+                    </div>
+                </details>
+                <details class="vf" data-key="cuisine">
+                    <summary><span class="vf-label">Virtuvė</span><span class="vf-value"></span></summary>
+                    <div class="vf-menu">
+                        <button type="button" data-v="" class="active">Visos</button>
+                        <button type="button" data-v="europ">Europietiška</button>
+                        <button type="button" data-v="pranc">Prancūziška</button>
+                        <button type="button" data-v="ital">Itališka</button>
+                        <button type="button" data-v="grilis">Grilis</button>
+                        <button type="button" data-v="vidur">Viduržemio jūros</button>
+                        <button type="button" data-v="istor">Istorinė lietuvių</button>
+                    </div>
+                </details>
+                <button type="button" class="vf-clear" hidden>Išvalyti</button>
+            </div>
+        </div>
+    </section>
+
+    <section class="venues-section">
+    <div class="container venues-list">
+
+        <article class="venue" data-id="sale-1" data-price="4" data-cat="dep" data-cuisine="europ" data-guests="10-26">
+            <div class="venue-gallery">
+            <span class="venue-badge">#1</span>
+            <span class="venue-badge venue-badge-meta"><svg class="venue-icon" viewBox="0 0 24 24" aria-label="Svečiai" role="img" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3 19.5c0-3.3 2.7-5.5 6-5.5s6 2.2 6 5.5"/><path d="M15.5 4.9a3.2 3.2 0 0 1 0 6.2"/><path d="M17.5 14.3c2.1.6 3.5 2.6 3.5 5.2"/></svg><span class="venue-cap">10–26</span><span class="venue-sep">·</span><span class="venue-level">€€€€</span></span>
+            <div class="venue-photos">
+                <img src="images/vietos/sale-1-1.webp" alt="Vyno rūsys mafijos žaidimui Vilniuje, 10–26 svečių" width="1600" height="901" loading="lazy">
+                <img src="images/vietos/sale-1-2.webp" alt="Vyno rūsys mafijos žaidimui Vilniuje, 10–26 svečių" width="1600" height="1027" loading="lazy">
+            </div>
+            </div>
+            <div class="venue-body">
+                <p class="venue-desc">Vyno rūsyje vyktų žaidimas ir svečių pasitikimas, o restorane – vakarienė.</p>
+                <p class="venue-cuisine"><span class="venue-cuisine-type"><svg class="venue-icon" viewBox="0 0 24 24" aria-label="Virtuvė" role="img" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5.2" r=".9"/><path d="M5.5 12.5a6.5 6.5 0 0 1 13 0"/><path d="M3.5 12.5h17"/><path d="M7.5 15.5h8"/><path d="M15.5 15.5c1.5 0 2.5.8 3.2 2l1.3 2.5"/></svg>Europietiška</span><span class="venue-cuisine-dishes">anties krūtinėlė, keptas otas, lašišos filė, Pavlova</span></p>
+            </div>
+        </article>
+
+        <article class="venue" data-id="sale-2" data-price="3" data-cat="dep" data-cuisine="pranc" data-guests="10-22">
+            <div class="venue-gallery">
+            <span class="venue-badge">#2</span>
+            <span class="venue-badge venue-badge-meta"><svg class="venue-icon" viewBox="0 0 24 24" aria-label="Svečiai" role="img" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3 19.5c0-3.3 2.7-5.5 6-5.5s6 2.2 6 5.5"/><path d="M15.5 4.9a3.2 3.2 0 0 1 0 6.2"/><path d="M17.5 14.3c2.1.6 3.5 2.6 3.5 5.2"/></svg><span class="venue-cap">10–22</span><span class="venue-sep">·</span><span class="venue-level">€€€</span></span>
+            <div class="venue-photos">
+                <img src="images/vietos/sale-2-1.webp" alt="Jauki salė su sofa privačiam vakarui, 10–22 svečių" width="1600" height="1067" loading="lazy">
+                <img src="images/vietos/sale-2-2.webp" alt="Jauki salė su sofa privačiam vakarui, 10–22 svečių" width="1600" height="1067" loading="lazy">
+            </div>
+            </div>
+            <div class="venue-body">
+                <p class="venue-desc">Žaidimas vyktų prie sofos, o vakarienė – prie atskiro stalo.</p>
+                <p class="venue-cuisine"><span class="venue-cuisine-type"><svg class="venue-icon" viewBox="0 0 24 24" aria-label="Virtuvė" role="img" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5.2" r=".9"/><path d="M5.5 12.5a6.5 6.5 0 0 1 13 0"/><path d="M3.5 12.5h17"/><path d="M7.5 15.5h8"/><path d="M15.5 15.5c1.5 0 2.5.8 3.2 2l1.3 2.5"/></svg>Prancūziška</span><span class="venue-cuisine-dishes">filet mignon, confit de canard, keptas aštuonkojis, crème brûlée</span></p>
+            </div>
+        </article>
+
+        <article class="venue" data-id="sale-3" data-price="3" data-cat="dep" data-cuisine="pranc" data-guests="20-60">
+            <div class="venue-gallery">
+            <span class="venue-badge">#3</span>
+            <span class="venue-badge venue-badge-meta"><svg class="venue-icon" viewBox="0 0 24 24" aria-label="Svečiai" role="img" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3 19.5c0-3.3 2.7-5.5 6-5.5s6 2.2 6 5.5"/><path d="M15.5 4.9a3.2 3.2 0 0 1 0 6.2"/><path d="M17.5 14.3c2.1.6 3.5 2.6 3.5 5.2"/></svg><span class="venue-cap">20–60</span><span class="venue-sep">·</span><span class="venue-level">€€€</span></span>
+            <div class="venue-photos">
+                <img src="images/vietos/sale-3-1.webp" alt="Erdvi salė įmonės renginiui ar gimtadieniui, 20–60 svečių" width="1600" height="2134" loading="lazy">
+                <img src="images/vietos/sale-3-2.webp" alt="Erdvi salė įmonės renginiui ar gimtadieniui, 20–60 svečių" width="1600" height="1067" loading="lazy">
+            </div>
+            </div>
+            <div class="venue-body">
+                <p class="venue-desc">Pasitikimas, vakarienė ir žaidimas vyktų vienoje erdvėje. Svečiai susirinktų prie vientiso stalo arba furšeto.</p>
+                <p class="venue-cuisine"><span class="venue-cuisine-type"><svg class="venue-icon" viewBox="0 0 24 24" aria-label="Virtuvė" role="img" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5.2" r=".9"/><path d="M5.5 12.5a6.5 6.5 0 0 1 13 0"/><path d="M3.5 12.5h17"/><path d="M7.5 15.5h8"/><path d="M15.5 15.5c1.5 0 2.5.8 3.2 2l1.3 2.5"/></svg>Prancūziška</span><span class="venue-cuisine-dishes">filet mignon, confit de canard, keptas aštuonkojis, crème brûlée</span></p>
+            </div>
+        </article>
+
+        <article class="venue" data-id="sale-7" data-price="2" data-cat="dep" data-cuisine="vidur pranc" data-guests="8-14">
+            <div class="venue-gallery">
+            <span class="venue-badge">#4</span>
+            <span class="venue-badge venue-badge-meta"><svg class="venue-icon" viewBox="0 0 24 24" aria-label="Svečiai" role="img" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3 19.5c0-3.3 2.7-5.5 6-5.5s6 2.2 6 5.5"/><path d="M15.5 4.9a3.2 3.2 0 0 1 0 6.2"/><path d="M17.5 14.3c2.1.6 3.5 2.6 3.5 5.2"/></svg><span class="venue-cap">8–14</span><span class="venue-sep">·</span><span class="venue-level">€€</span></span>
+            <div class="venue-photos">
+                <img src="images/vietos/sale-7-1.webp" alt="Senamiesčio vyno restoranas, 8–14 svečių" width="1600" height="1068" loading="lazy">
+                <img src="images/vietos/sale-7-2.webp" alt="Senamiesčio vyno restoranas, 8–14 svečių" width="1600" height="1068" loading="lazy">
+            </div>
+            </div>
+            <div class="venue-body">
+                <p class="venue-desc">Jauki senamiesčio atmosfera ir kokybiškas vyno pasirinkimas.</p>
+                <p class="venue-cuisine"><span class="venue-cuisine-type"><svg class="venue-icon" viewBox="0 0 24 24" aria-label="Virtuvė" role="img" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5.2" r=".9"/><path d="M5.5 12.5a6.5 6.5 0 0 1 13 0"/><path d="M3.5 12.5h17"/><path d="M7.5 15.5h8"/><path d="M15.5 15.5c1.5 0 2.5.8 3.2 2l1.3 2.5"/></svg>Viduržemio jūros</span><span class="venue-cuisine-dishes">keptas aštuonkojis, dorada, jautiena bourguignon, labneh</span></p>
+            </div>
+        </article>
+
+        <article class="venue" data-id="sale-8" data-price="5" data-cat="dep" data-cuisine="istor" data-guests="10-40">
+            <div class="venue-gallery">
+            <span class="venue-badge">#5</span>
+            <span class="venue-badge venue-badge-meta"><svg class="venue-icon" viewBox="0 0 24 24" aria-label="Svečiai" role="img" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3 19.5c0-3.3 2.7-5.5 6-5.5s6 2.2 6 5.5"/><path d="M15.5 4.9a3.2 3.2 0 0 1 0 6.2"/><path d="M17.5 14.3c2.1.6 3.5 2.6 3.5 5.2"/></svg><span class="venue-cap">10–40</span><span class="venue-sep">·</span><span class="venue-level">€€€€€</span></span>
+            <div class="venue-photos">
+                <img src="images/vietos/sale-8-1.webp" alt="Du sujungti kambariai restorane, 10–40 svečių" width="1600" height="996" loading="lazy">
+                <img src="images/vietos/sale-8-2.webp" alt="Du sujungti kambariai restorane, 10–40 svečių" width="747" height="498" loading="lazy">
+                <img src="images/vietos/sale-8-3.webp" alt="Du sujungti kambariai restorane, 10–40 svečių" width="1600" height="992" loading="lazy">
+                <img src="images/vietos/sale-8-4.webp" alt="Du sujungti kambariai restorane, 10–40 svečių" width="1600" height="1204" loading="lazy">
+            </div>
+            </div>
+            <div class="venue-body">
+                <p class="venue-desc">Du tarpusavyje sujungti kambariai „Michelin“ restorane.</p>
+                <p class="venue-cuisine"><span class="venue-cuisine-type"><svg class="venue-icon" viewBox="0 0 24 24" aria-label="Virtuvė" role="img" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5.2" r=".9"/><path d="M5.5 12.5a6.5 6.5 0 0 1 13 0"/><path d="M3.5 12.5h17"/><path d="M7.5 15.5h8"/><path d="M15.5 15.5c1.5 0 2.5.8 3.2 2l1.3 2.5"/></svg>Istorinė lietuvių</span><span class="venue-cuisine-dishes">fazanas su slyvų uogiene, alaus sriuba su jautiena, stirniena, pampuška</span></p>
+            </div>
+        </article>
+
+        <article class="venue" data-id="sale-5" data-price="3" data-cat="dep" data-cuisine="ital" data-guests="10-18">
+            <div class="venue-gallery">
+            <span class="venue-badge">#6</span>
+            <span class="venue-badge venue-badge-meta"><svg class="venue-icon" viewBox="0 0 24 24" aria-label="Svečiai" role="img" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3 19.5c0-3.3 2.7-5.5 6-5.5s6 2.2 6 5.5"/><path d="M15.5 4.9a3.2 3.2 0 0 1 0 6.2"/><path d="M17.5 14.3c2.1.6 3.5 2.6 3.5 5.2"/></svg><span class="venue-cap">10–18</span><span class="venue-sep">·</span><span class="venue-level">€€€</span></span>
+            <div class="venue-photos">
+                <img src="images/vietos/sale-5-1.webp" alt="Spalvingo interjero restoranas, 10–18 svečių" width="1600" height="1055" loading="lazy">
+                <img src="images/vietos/sale-5-2.webp" alt="Spalvingo interjero restoranas, 10–18 svečių" width="1600" height="1044" loading="lazy">
+                <img src="images/vietos/sale-5-3.webp" alt="Spalvingo interjero restoranas, 10–18 svečių" width="1600" height="1062" loading="lazy">
+            </div>
+            </div>
+            <div class="venue-body">
+                <p class="venue-desc">Erdvė su spalvingu interjeru. Vakarieniauti galima bendroje salėje arba jūsų privačiame kambaryje.</p>
+                <p class="venue-cuisine"><span class="venue-cuisine-type"><svg class="venue-icon" viewBox="0 0 24 24" aria-label="Virtuvė" role="img" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5.2" r=".9"/><path d="M5.5 12.5a6.5 6.5 0 0 1 13 0"/><path d="M3.5 12.5h17"/><path d="M7.5 15.5h8"/><path d="M15.5 15.5c1.5 0 2.5.8 3.2 2l1.3 2.5"/></svg>Itališka ir kepsniai</span><span class="venue-cuisine-dishes">osso buco, parmigiana di melanzane, jautienos išpjova, antrekotas</span></p>
+            </div>
+        </article>
+
+        <article class="venue" data-id="sale-6" data-price="3" data-cat="dep" data-cuisine="grilis" data-guests="10-60">
+            <div class="venue-gallery">
+            <span class="venue-badge">#7</span>
+            <span class="venue-badge venue-badge-meta"><svg class="venue-icon" viewBox="0 0 24 24" aria-label="Svečiai" role="img" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3 19.5c0-3.3 2.7-5.5 6-5.5s6 2.2 6 5.5"/><path d="M15.5 4.9a3.2 3.2 0 0 1 0 6.2"/><path d="M17.5 14.3c2.1.6 3.5 2.6 3.5 5.2"/></svg><span class="venue-cap">10–60</span><span class="venue-sep">·</span><span class="venue-level">€€€</span></span>
+            <div class="venue-photos">
+                <img src="images/vietos/sale-6-1.webp" alt="Salė su aukštomis lubomis didesniam renginiui, 10–60 svečių" width="1600" height="1102" loading="lazy">
+                <img src="images/vietos/sale-6-2.webp" alt="Salė su aukštomis lubomis didesniam renginiui, 10–60 svečių" width="1600" height="1188" loading="lazy">
+                <img src="images/vietos/sale-6-3.webp" alt="Salė su aukštomis lubomis didesniam renginiui, 10–60 svečių" width="1600" height="1045" loading="lazy">
+            </div>
+            </div>
+            <div class="venue-body">
+                <p class="venue-desc">Salė su aukštomis lubomis. Galima rezervuoti pusę patalpos, atskiriant ją užuolaida, arba išsinuomoti visą erdvę.</p>
+                <p class="venue-cuisine"><span class="venue-cuisine-type"><svg class="venue-icon" viewBox="0 0 24 24" aria-label="Virtuvė" role="img" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5.2" r=".9"/><path d="M5.5 12.5a6.5 6.5 0 0 1 13 0"/><path d="M3.5 12.5h17"/><path d="M7.5 15.5h8"/><path d="M15.5 15.5c1.5 0 2.5.8 3.2 2l1.3 2.5"/></svg>Grilis</span><span class="venue-cuisine-dishes">jautienos steikai, anties krūtinėlė, midijos, lava cake</span></p>
+            </div>
+        </article>
+
+        <article class="venue" data-id="sale-9" data-price="3" data-cat="rent" data-cuisine="europ" data-guests="10-50" data-outside="1">
+            <div class="venue-gallery">
+            <span class="venue-badge">#8</span>
+            <span class="venue-badge venue-badge-meta"><svg class="venue-icon" viewBox="0 0 24 24" aria-label="Svečiai" role="img" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3 19.5c0-3.3 2.7-5.5 6-5.5s6 2.2 6 5.5"/><path d="M15.5 4.9a3.2 3.2 0 0 1 0 6.2"/><path d="M17.5 14.3c2.1.6 3.5 2.6 3.5 5.2"/></svg><span class="venue-cap">10–50</span><span class="venue-sep">·</span><span class="venue-level">€€€</span><span class="venue-sep">·</span><svg class="venue-icon" viewBox="0 0 24 24" aria-label="Nuoma" role="img" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.6"/><path d="M12 7.5V12l3 2"/></svg><svg class="venue-icon" viewBox="0 0 24 24" aria-label="Už centro ribų" role="img" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0C18.5 15.4 12 21 12 21z"/><circle cx="12" cy="10" r="2.3"/></svg></span>
+            <div class="venue-photos">
+                <img src="images/vietos/sale-9-2.webp" alt="Namų estetikos erdvė su nakvyne renginiui netoli Vilniaus, 10–50 svečių" width="1600" height="1052" loading="lazy">
+                <img src="images/vietos/sale-9-1.webp" alt="Namų estetikos erdvė su nakvyne renginiui netoli Vilniaus, 10–50 svečių" width="1600" height="1065" loading="lazy">
+            </div>
+            </div>
+            <div class="venue-body">
+                <p class="venue-desc">Namų estetikos erdvė su nakvynės galimybe, 20 km nuo Vilniaus centro.</p>
+                <p class="venue-cuisine"><span class="venue-cuisine-type"><svg class="venue-icon" viewBox="0 0 24 24" aria-label="Virtuvė" role="img" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5.2" r=".9"/><path d="M5.5 12.5a6.5 6.5 0 0 1 13 0"/><path d="M3.5 12.5h17"/><path d="M7.5 15.5h8"/><path d="M15.5 15.5c1.5 0 2.5.8 3.2 2l1.3 2.5"/></svg>Europietiška</span><span class="venue-cuisine-dishes">brandinto jautienos didkepsnis, antienos confit, kukurūzinio viščiuko krūtinėlė, griliuotas aštuonkojis</span></p>
+            </div>
+        </article>
+
+    </div>
+    <div class="container venues-empty" hidden>
+        <p>Pagal pasirinktus filtrus salių nėra.</p>
+        <button type="button" class="vf-reset">Rodyti visas</button>
+    </div>
+    </section>
+
+    <section class="venues-cta">
+        <div class="container">
+            <p>Pasirinkite datą, norimas paslaugas ir nurodykite dominančios salės numerį – atsiųsime pasiūlymą.</p>
+            <a class="more-bar" href="paslaugos.html#calculator">Siųsti užklausą</a>
+        </div>
+    </section>
+</main>
+
+<footer class="footer">
+    <div class="container" style="text-align: center; padding: 3rem 0;">
+        <p style="margin: 0 auto;">&copy; 2026 MafiaInLT ® <span class="footer-sep">·</span> <a class="footer-legal" href="privatumo-politika.html">Privatumo politika</a></p>
+    </div>
+</footer>
+
+    <script src="js/venues.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+    // Порядок, номера и вместимость залов берутся из js/venues.js — одного списка
+    // для этой страницы и калькулятора. Описания, кухня и цена остаются в разметке.
+    (function () {
+        var list = document.querySelector('.venues-list');
+        if (!list || !window.MAFIA_VENUES) return;
+        var ids = window.MAFIA_VENUES.map(function (v) { return v.id; });
+        // всё, что идёт после последней карточки (пустое состояние), остаётся на месте
+        var cards = list.querySelectorAll('.venue');
+        var tail = cards.length ? cards[cards.length - 1].nextSibling : null;
+        window.MAFIA_VENUES.forEach(function (v, i) {
+            var card = list.querySelector('.venue[data-id="' + v.id + '"]');
+            if (!card) return;
+            var badge = card.querySelector('.venue-badge:not(.venue-badge-meta)');
+            if (badge) badge.textContent = '#' + (i + 1);
+            var cap = card.querySelector('.venue-cap');
+            if (cap) cap.textContent = v.guests[0] + '–' + v.guests[1];
+            card.setAttribute('data-guests', v.guests[0] + '-' + v.guests[1]);
+            if (v.price) {
+                card.setAttribute('data-price', String(v.price));
+                var level = card.querySelector('.venue-level');
+                if (level) level.textContent = new Array(v.price + 1).join('€');
+            }
+            list.insertBefore(card, tail);
+        });
+        // карточка без строки в venues.js скрыта: на странице не должно быть зала без номера
+        list.querySelectorAll('.venue').forEach(function (card) {
+            if (ids.indexOf(card.getAttribute('data-id')) < 0) card.remove();
+        });
+    })();
+    </script>
+    <script>
+    </script>
+    <script>
+    // Фильтр залов: четыре выпадающих списка, по одному значению в каждом, пустое = все
+    (function () {
+        var drops = document.querySelectorAll('.vf');
+        var venues = document.querySelectorAll('.venue');
+        var empty = document.querySelector('.venues-empty');
+        var clear = document.querySelector('.vf-clear');
+        var sel = {};
+        // гости — пересечение диапазонов, кухня — одно из слов, остальное — точное совпадение
+        function match(k, have, want) {
+            if (k === 'guests') {
+                var h = have.split('-').map(Number), w = want.split('-').map(Number);
+                return h[0] <= w[1] && h[1] >= w[0];
+            }
+            if (k === 'cuisine') return have.split(' ').indexOf(want) > -1;
+            return have === want;
+        }
+        function apply() {
+            var shown = 0;
+            venues.forEach(function (v) {
+                var ok = Object.keys(sel).every(function (k) { return !sel[k] || match(k, v.dataset[k], sel[k]); });
+                v.hidden = !ok;
+                if (ok) shown++;
+            });
+            empty.hidden = shown > 0;
+            clear.hidden = !Object.keys(sel).some(function (k) { return sel[k]; });
+        }
+        function choose(d, b) {
+            d.querySelectorAll('.vf-menu button').forEach(function (x) { x.classList.toggle('active', x === b); });
+            sel[d.dataset.key] = b.dataset.v;
+            d.querySelector('.vf-value').innerHTML = b.dataset.v ? b.innerHTML : '';
+            d.classList.toggle('is-set', !!b.dataset.v);
+            setOpen(d, false);
+            apply();
+        }
+        // details держим открытым всегда, а показ меню ведём классом: так закрытие тоже плавное
+        function setOpen(d, on) {
+            d.classList.toggle('is-open', on);
+            d.querySelector('summary').setAttribute('aria-expanded', on ? 'true' : 'false');
+        }
+        function closeAll(except) { drops.forEach(function (o) { if (o !== except) setOpen(o, false); }); }
+        drops.forEach(function (d) {
+            d.open = true;
+            setOpen(d, false);
+            d.querySelector('summary').addEventListener('click', function (e) {
+                e.preventDefault();
+                var on = !d.classList.contains('is-open');
+                closeAll(d);
+                setOpen(d, on);
+            });
+            d.querySelector('.vf-menu').addEventListener('click', function (e) {
+                var b = e.target.closest('button');
+                if (b) choose(d, b);
+            });
+        });
+        document.addEventListener('click', function (e) {
+            if (!e.target.closest('.vf')) closeAll();
+        });
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape') closeAll();
+        });
+        function reset() { drops.forEach(function (d) { choose(d, d.querySelector('.vf-menu button')); }); }
+        clear.addEventListener('click', reset);
+        document.querySelector('.vf-reset').addEventListener('click', reset);
+    })();
+
+    // Миниатюры под большим фото зала
+    document.querySelectorAll('.venue-photos').forEach(function (strip) {
+        var imgs = strip.querySelectorAll('img');
+        if (imgs.length < 2) return;
+        var bar = document.createElement('div');
+        bar.className = 'venue-thumbs';
+        var btns = [].map.call(imgs, function (img, i) {
+            var b = document.createElement('button');
+            b.type = 'button';
+            b.setAttribute('aria-label', 'Nuotrauka ' + (i + 1));
+            b.innerHTML = '<img src="' + img.getAttribute('src') + '" alt="" loading="lazy">';
+            b.addEventListener('click', function () {
+                strip.scrollTo({ left: i * strip.clientWidth, behavior: 'smooth' });
+                btns.forEach(function (x) { x.classList.toggle('active', x === b); });
+            });
+            bar.appendChild(b);
+            return b;
+        });
+        strip.after(bar);
+        function mark() {
+            var i = Math.round(strip.scrollLeft / strip.clientWidth);
+            btns.forEach(function (b, k) { b.classList.toggle('active', k === i); });
+        }
+        strip.addEventListener('scroll', mark, { passive: true });
+        mark();
+    });
+    </script>
+</body>
+</html>

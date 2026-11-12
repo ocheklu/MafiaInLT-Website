@@ -307,4 +307,34 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://mafiain.lt/en/straipsniai/kaip-vyksta-renginys.html"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://mafiain.lt/straipsniai/kaip-vyksta-renginys.html"/>
   </url>
+  <url>
+    <loc>https://mafiain.lt/vietos.html</loc>
+    <lastmod>2026-11-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="lt" href="https://mafiain.lt/vietos.html"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://mafiain.lt/ru/vietos.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mafiain.lt/en/vietos.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mafiain.lt/vietos.html"/>
+  </url>
+  <url>
+    <loc>https://mafiain.lt/ru/vietos.html</loc>
+    <lastmod>2026-11-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="lt" href="https://mafiain.lt/vietos.html"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://mafiain.lt/ru/vietos.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mafiain.lt/en/vietos.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mafiain.lt/vietos.html"/>
+  </url>
+  <url>
+    <loc>https://mafiain.lt/en/vietos.html</loc>
+    <lastmod>2026-11-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="lt" href="https://mafiain.lt/vietos.html"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://mafiain.lt/ru/vietos.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mafiain.lt/en/vietos.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mafiain.lt/vietos.html"/>
+  </url>
 </urlset>
