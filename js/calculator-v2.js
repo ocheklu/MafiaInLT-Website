@@ -417,8 +417,8 @@ const CALC_L10N = {
         additionalServices: 'Papildomos paslaugos',
         vilnius: 'Vilnius',
         outsideVilnius: 'Už Vilniaus ribų',
-        ownPlace: 'Turime savo',
-        ourVenues: 'MafiaInLT erdvės',
+        ownPlace: 'Turime savo lokaciją',
+        ourVenues: 'Norime planavimo paslaugos',
         venuesPicked: 'Salė',
         venueHelp: 'Padėkite parinkti',
         error: 'Klaida',
@@ -456,8 +456,8 @@ const CALC_L10N = {
         additionalServices: 'Дополнительные услуги',
         vilnius: 'Вильнюс',
         outsideVilnius: 'За пределами Вильнюса',
-        ownPlace: 'У нас есть собственные',
-        ourVenues: 'Площадки MafiaInLT',
+        ownPlace: 'У нас есть своя локация',
+        ourVenues: 'Нужна услуга планирования',
         venuesPicked: 'Зал',
         venueHelp: 'Помогите подобрать',
         error: 'Ошибка',
@@ -495,8 +495,8 @@ const CALC_L10N = {
         additionalServices: 'Additional services',
         vilnius: 'Vilnius',
         outsideVilnius: 'Outside Vilnius',
-        ownPlace: 'We have our own',
-        ourVenues: 'MafiaInLT Venues',
+        ownPlace: 'We have our own venue',
+        ourVenues: 'We need venue planning',
         venuesPicked: 'Venue',
         venueHelp: 'Help me choose',
         error: 'Error',
@@ -1087,7 +1087,7 @@ function showSummary(totalPrice) {
             summaryHTML += `<p><strong>${CALC_T.location}:</strong> ${CALC_T.ourVenues}</p>`;
             summaryHTML += `<p><strong>${CALC_T.venuesPicked}:</strong> ${venuesLabel()}</p>`;
         } else {
-            summaryHTML += `<p><strong>${CALC_T.location}:</strong> ${calculatorState.distance > 0 ? CALC_T.outsideVilnius : CALC_T.vilnius}</p>`;
+            summaryHTML += `<p><strong>${CALC_T.location}:</strong> ${CALC_T.ownPlace}</p>`;
         }
         if (calculatorState.distance > 0) {
             summaryHTML += `<p><strong>${CALC_T.distance}:</strong> +${calculatorState.distance} €</p>`;
