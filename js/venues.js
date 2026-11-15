@@ -19,7 +19,7 @@ window.MAFIA_VENUES = [
     { id: 'sale-8', photos: ['sale-8-1.webp', 'sale-8-2.webp', 'sale-8-3.webp', 'sale-8-4.webp'], guests: [10, 40], price: 5, km: 0 },
     { id: 'sale-5', photos: ['sale-5-1.webp', 'sale-5-2.webp', 'sale-5-3.webp'],                  guests: [10, 18], price: 3, km: 0 },
     { id: 'sale-6', photos: ['sale-6-1.webp', 'sale-6-2.webp', 'sale-6-3.webp'],                  guests: [10, 60], price: 3, km: 0 },
-    { id: 'sale-9', photos: ['sale-9-2.webp', 'sale-9-1.webp'],                                   guests: [10, 50], price: 3, km: 20 }
+    { id: 'sale-9', photos: ['sale-9-2.webp', 'sale-9-3.webp', 'sale-9-1.webp'],                   guests: [10, 50], price: 3, km: 20 }
 ];
 
 // Цена услуги «подбор и бронирование зала», если клиент выбирает наше место
