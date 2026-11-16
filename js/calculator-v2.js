@@ -693,7 +693,7 @@ function renderVenues() {
         const level = '€'.repeat(v.price || 0);
         return '<div class="calc-venue" role="button" tabindex="0" aria-pressed="false" data-id="' + v.id + '" aria-label="#' + v.num + (level ? ' · ' + level : '') + '">' +
             '<div class="calc-venue-photos">' +
-                photos.map(p => '<img src="' + base + 'images/vietos/' + p + '" alt="" loading="lazy" draggable="false">').join('') +
+                photos.map(p => '<img src="' + base + 'images/vietos/' + p + '" alt="" loading="lazy" draggable="false"' + (v.focus === 'bottom' ? ' style="object-position: 50% 100%"' : '') + '>').join('') +
             '</div>' +
             '<span class="calc-venue-num">#' + v.num + '</span>' +
             (level ? '<span class="calc-venue-level">' + level + '</span>' : '') +
